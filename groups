@@ -1,3 +1,5 @@
-# UUID                                  	Group Name
-#
-94fc326f31a07566ca38cacea150f7e430f5a164	python-dciclient-ptl
+# UUID          Group Name
+9562193e1f1647ee1c2004b4fb7996e84ae7e717 	Non-Interactive Users
+eb8ff6d076c230bed1fade622009fe54a624d130       	python-dciclient-core
+94fc326f31a07566ca38cacea150f7e430f5a164        	python-dciclient-ptl
+global:Registered-Users		Registered Users
