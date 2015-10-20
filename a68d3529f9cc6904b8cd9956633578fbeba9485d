@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_9b0273b3",
+        "filename": ".gitignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-10-20T19:48:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a7ca5a3_1b0f43e3",
+      "revId": "a68d3529f9cc6904b8cd9956633578fbeba9485d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_3b147ff4",
         "filename": "dciclient/v1/utils.py",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2015-10-20T19:23:53Z",
       "side": 1,
       "message": "This has been remove in http://softwarefactory-project.io/r/#/c/1749/2/dci/client/utils.py,cm",
+      "revId": "a68d3529f9cc6904b8cd9956633578fbeba9485d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_bbff2faa",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-10-20T19:48:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a7ca5a3_3b147ff4",
       "revId": "a68d3529f9cc6904b8cd9956633578fbeba9485d",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5a7ca5a3_5b2cdb4a",
+        "filename": "requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-10-20T19:48:06Z",
+      "side": 1,
+      "message": "It actually used in dciclient/shell.py",
+      "parentUuid": "5a7ca5a3_7b0af7d3",
+      "revId": "a68d3529f9cc6904b8cd9956633578fbeba9485d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a7ca5a3_dbf8ebc6",
         "filename": "tox.ini",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2015-10-20T19:23:53Z",
       "side": 1,
       "message": "pip can accept a git repository as argument.",
+      "revId": "a68d3529f9cc6904b8cd9956633578fbeba9485d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_7b3197a1",
+        "filename": "tox.ini",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-10-20T19:48:06Z",
+      "side": 1,
+      "message": "for some reasons it doesn\u0027t work, we can do it in another patch",
+      "parentUuid": "5a7ca5a3_dbf8ebc6",
       "revId": "a68d3529f9cc6904b8cd9956633578fbeba9485d",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
