@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_1b0f43e3",
+        "filename": ".gitignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2015-10-20T19:23:53Z",
+      "side": 1,
+      "message": "We don\u0027t need these 3 lines.",
+      "revId": "a68d3529f9cc6904b8cd9956633578fbeba9485d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_3b147ff4",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2015-10-20T19:23:53Z",
+      "side": 1,
+      "message": "This has been remove in http://softwarefactory-project.io/r/#/c/1749/2/dci/client/utils.py,cm",
+      "revId": "a68d3529f9cc6904b8cd9956633578fbeba9485d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_7b0af7d3",
+        "filename": "requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2015-10-20T19:23:53Z",
+      "side": 1,
+      "message": "This is a server-side dep.",
+      "revId": "a68d3529f9cc6904b8cd9956633578fbeba9485d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a7ca5a3_dbf8ebc6",
+        "filename": "tox.ini",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2015-10-20T19:23:53Z",
+      "side": 1,
+      "message": "pip can accept a git repository as argument.",
+      "revId": "a68d3529f9cc6904b8cd9956633578fbeba9485d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
