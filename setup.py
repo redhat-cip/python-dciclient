@@ -28,6 +28,9 @@ def _get_requirements():
         requirements = f.read()
         return requirements.split("\n")
 
+_README_CONTENT = open("%s/%s" % (os.path.dirname(os.path.abspath(__file__)),
+                                  "README.md")).read()
+
 setuptools.setup(
     name='dciclient',
     version=version.__version__,
@@ -35,7 +38,7 @@ setuptools.setup(
     author="Red Hat distributed ci team.",
     author_email="distributed-ci@redhat.com",
     description="Python client for DCI Control Server",
-    long_description=open('README.md').read(),
+    long_description=_README_CONTENT,
     install_requires=_get_requirements(),
     url="https://github.com/redhat-cip/dci-control-server",
     licence="Apache v2.0",
