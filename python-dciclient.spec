@@ -15,21 +15,17 @@ Summary:        Python client for DCI control server
 
 License:        ASL 2.0
 URL:            https://github.com/redhat-cip/python-dciclient
-Source0:        python-dciclient-%{version}.tar.gz
+Source0:        python-dciclient-%{version}.tgz
 BuildArch:      noarch
 
-BuildRequires:  python-flake8
-BuildRequires:  python-pep8
-BuildRequires:  python-hacking
-BuildRequires:  python-mock
-BuildRequires:  pytest
+BuildRequires:  python2-devel
 
-Requires:       py-bcrypt
 Requires:       python-prettytable
-Requires:       python-six
-Requires:       python-requests
+Requires:       py-bcrypt
 Requires:       PyYAML
+Requires:       python-requests
 Requires:       python-simplejson
+Requires:       python-six
 
 %description
 Python client for DCI control server and also the agents
@@ -38,38 +34,28 @@ for the remote CIs including tox agent and khaleesi agent.
 %if %{with python3}
 %package -n python3-dciclient
 Summary:        Python client for DCI control server
-BuildRequires:  python3-flake8
-BuildRequires:  python3-pep8
-BuildRequires:  python3-hacking
-BuildRequires:  python3-mock
-BuildRequires:  pytest
+BuildRequires:  python3-devel
 
-Requires:       python3-py-bcrypt
 Requires:       python3-prettytable
-Requires:       python3-six
-Requires:       python3-requests
+Requires:       python3-py-bcrypt
 Requires:       python3-PyYAML
+Requires:       python3-requests
 Requires:       python3-simplejson
+Requires:       python3-six
 
 %description -n python3-dciclient
 Python client for DCI control server and also the agents
 for the remote CIs including tox agent and khaleesi agent.
 %endif # with python3
 
-%prep
+%prep -a
 %setup -qc
-rm python-dciclient-%{version}/requirements.txt %{name}-%{version}/test-requirements.txt
 
 %build
-pushd python2
 CFLAGS="$RPM_OPT_FLAGS" %{__python2} setup.py build
-popd
 
 %if %{with python3}
-pushd python3
-# Remove CFLAGS=... for noarch packages (unneeded)
 CFLAGS="$RPM_OPT_FLAGS" %{__python3} setup.py build
-popd
 %endif # with python3
 
 
@@ -79,31 +65,15 @@ rm -rf $RPM_BUILD_ROOT
 # overwritten with every setup.py install (and we want the python2 version
 # to be the default for now).
 %if %{with python3}
-pushd python3
 %{__python3} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT/%{python3_sitelib}/*.egg-info
-popd
 %endif # with python3
 
-pushd python2
 %{__python2} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT/%{python2_sitelib}/*.egg-info
-popd
 
 
-%check
-pushd python2
-%{__python2} setup.py test
-popd
-
-%if %{with python3}
-pushd python3
-%{__python2} setup.py test
-popd
-%endif
-
-
-%files -n python-dciclient
+%files
 %doc
 # For noarch packages: sitelib
 %{python2_sitelib}/dciclient
