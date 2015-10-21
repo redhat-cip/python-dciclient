@@ -23,12 +23,12 @@ import pytest
 
 @pytest.fixture(scope='session')
 def init_db_and_return_engine(request):
-    return server_conftest.init_db_and_return_engine(request)
+    return server_conftest.engine(request)
 
 
 @pytest.fixture
-def server(init_db_and_return_engine):
-    return server_conftest.app(init_db_and_return_engine)
+def server(engine):
+    return server_conftest.app(engine)
 
 
 @pytest.fixture
