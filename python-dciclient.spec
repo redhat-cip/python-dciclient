@@ -40,7 +40,7 @@ for the remote CIs including tox agent and khaleesi agent.
 Summary:        Python client for DCI control server
 BuildRequires:  python3-flake8
 BuildRequires:  python3-pep8
-BuildRequires:  python3-hacking
+BuildRequires:  python-hacking
 BuildRequires:  python3-mock
 BuildRequires:  pytest
 
@@ -56,20 +56,14 @@ Python client for DCI control server and also the agents
 for the remote CIs including tox agent and khaleesi agent.
 %endif # with python3
 
-%prep
+%prep -a
 %setup -qc
-rm python-dciclient-%{version}/requirements.txt %{name}-%{version}/test-requirements.txt
 
 %build
-pushd python2
 CFLAGS="$RPM_OPT_FLAGS" %{__python2} setup.py build
-popd
 
 %if %{with python3}
-pushd python3
-# Remove CFLAGS=... for noarch packages (unneeded)
 CFLAGS="$RPM_OPT_FLAGS" %{__python3} setup.py build
-popd
 %endif # with python3
 
 
@@ -79,31 +73,15 @@ rm -rf $RPM_BUILD_ROOT
 # overwritten with every setup.py install (and we want the python2 version
 # to be the default for now).
 %if %{with python3}
-pushd python3
 %{__python3} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT/%{python3_sitelib}/*.egg-info
-popd
 %endif # with python3
 
-pushd python2
 %{__python2} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT/%{python2_sitelib}/*.egg-info
-popd
 
 
-%check
-pushd python2
-%{__python2} setup.py test
-popd
-
-%if %{with python3}
-pushd python3
-%{__python2} setup.py test
-popd
-%endif
-
-
-%files -n python-dciclient
+%files
 %doc
 # For noarch packages: sitelib
 %{python2_sitelib}/dciclient
