@@ -14,9 +14,9 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from dci.server.tests import conftest as server_conftest
 from dciclient import v1 as dci_client
 from dciclient.v1.tests import utils
-import dci.server.tests.conftest as server_conftest
 
 import pytest
 
