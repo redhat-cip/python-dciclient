@@ -89,8 +89,7 @@ def generate_job(client):
     }).json()
 
     remoteci = client.post('/remotecis', {
-        'team_id': team['id'],
-        'test_id': test['id']
+        'team_id': team['id']
     }).json()
 
     job = client.post('/jobs', {
