@@ -26,61 +26,10 @@ import copy
 import os
 import sys
 
-import json
-import subprocess
 import yaml
 
+from agents.utils import gerritlib
 from dciclient import v1 as client_v1
-
-
-class Gerrit(object):
-    def __init__(self, gerrit_server, vote=False):
-        self.user = os.environ.get("GERRIT_USER") or os.getlogin()
-        self.server = gerrit_server
-        self.vote = vote
-
-    def get_open_reviews(self, gerrit_project, gerrit_filter):
-        """Get open reviews from Gerrit."""
-        gerrit_filter = (
-            'project:%s status:open %s' % (gerrit_project, gerrit_filter))
-        reviews = subprocess.check_output(['ssh', '-xp29418', self.server,
-                                           '-l', self.user, 'gerrit', 'query',
-                                           '--format=json',
-                                           gerrit_filter])
-        reviews = reviews.decode('utf-8').rstrip().split('\n')[:-1]
-        return [json.loads(review) for review in reviews]
-
-    def get_last_patchset(self, review_number):
-        """Get the last patchset of a review."""
-        lpatchset = subprocess.check_output([
-            'ssh', '-xp29418', '-l', self.user,
-            self.server, 'gerrit', 'query',
-            '--format=JSON',
-            '--current-patch-set change:%d' %
-            review_number])
-        lpatchset = lpatchset.decode('utf-8').rstrip().split('\n')[0]
-        return json.loads(lpatchset)
-
-    def review(self, patch_sha, status):
-        """Push a score (e.g: -1) on a review."""
-        if self.vote:
-            subprocess.check_output([
-                'ssh', '-xp29418', '-l',
-                self.user, self.server,
-                'gerrit', 'review', '--verified', status,
-                patch_sha])
-        else:
-            print("[Voting disabled] should put %s to review %s" % (
-                status, patch_sha))
-
-    def list_open_patchsets(self, project, gerrit_filter=''):
-        """Generator that returns the last patchsets of all the reviews of
-        a given project.
-        """
-
-        reviews = self.get_open_reviews(project, gerrit_filter)
-        for review in reviews:
-            yield self.get_last_patchset(int(review['number']))
 
 
 def create_jobdefinition(dci_client, test, name, components):
@@ -190,7 +139,7 @@ def main():
     for project in projects:
         # NOTE(Gonéri): ensure the associated test and product exist and are
         # up to date
-        gerrit = Gerrit(
+        gerrit = gerritlib.Gerrit(
             project['gerrit']['server'],
             project['gerrit'].get('vote', False))
         test = dci_client.find_or_create_or_refresh(
