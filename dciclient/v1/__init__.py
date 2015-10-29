@@ -231,6 +231,51 @@ class DCIClient(object):
             item = self.post(path, data).json()
         return item
 
+    def create_jobdefinition(self, test, name, components):
+        jobdefinition = self.find_or_create_or_refresh(
+            '/jobdefinitions',
+            {
+                "name": name,
+                "test_id": test['id']
+            },
+            unicity_key=['test_id', 'name']
+        )
+        # NOTE(Gonéri): associate the jobdefinition with its components
+        for component in components:
+            self.find_or_create_or_refresh(
+                '/jobdefinition_components',
+                {
+                    "component_id": component['id'],
+                    "jobdefinition_id": jobdefinition['id']
+                },
+                unicity_key=['component_id', 'jobdefinition_id']
+            )
+        # TODO(Gonéri): our jobdefinition is ready, we should turn it on.
+        return jobdefinition
+
+    def get_jobdefinition_score(dci_client, jobdefinition):
+        """Update the review in Gerrit from the status of a version in DCI-CS.
+        """
+        jobdefinition = dci_client.get(
+            '/jobdefinitions/' + jobdefinition['id'],
+            projection={'jobs': 1}).json()
+        status = '0'
+        for job_id in jobdefinition['jobs']:
+            jobs = dci_client.get(
+                "/jobs",
+                where={'id': job_id},
+                embedded={'jobstates': 1}).json()
+            for job in jobs['_items']:
+                if len(job['jobstates']) == 0:
+                    continue
+                last_job_status = job['jobstates'][-1]['status']
+                if last_job_status == 'failure':
+                    status = '-1'
+                    break
+                elif last_job_status == 'success':
+                    status = '1'
+        return status
+
 
 class DCIServerError(Exception):
     def __init__(self, r):
