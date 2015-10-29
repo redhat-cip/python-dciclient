@@ -52,21 +52,12 @@ if subprocess.call([
     print('Cannot connect to hypervisor %s as root' % settings['hypervisor'])
     sys.exit(1)
 
-test_name = "khaleesi-tempest"
-
-r = dci_client.get("/tests/%s" % test_name)
-if r.status_code == 404:
-    print("Test '%s' doesn't exist." % test_name)
-    sys.exit(1)
-else:
-    test_id = r.json()['id']
 try:
     r = dci_client.get("/remotecis/%s" % settings['name'])
 except client_v1.DCIServerError as e:
     if e.status_code == 404:
         r = dci_client.post("/remotecis", {
-            'name': settings['name'],
-            'test_id': test_id})
+            'name': settings['name']})
 remoteci_id = r.json()['id']
 try:
     r = dci_client.post("/jobs", {"remoteci_id": remoteci_id})
@@ -112,6 +103,8 @@ cmds = [
     {'args': [ansible_playbook_bin, '--version']}]
 
 for component in components:
+    if component['componenttype']['name'] != 'git_commit':
+        continue
     project_canonical_name = component['canonical_project_name']
     component_dir = workspace_dir + '/' + project_canonical_name
     if component.get('ref'):
