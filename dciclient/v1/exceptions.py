@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 #
 # Copyright 2015 Red Hat, Inc.
@@ -15,10 +14,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from dciclient.v1 import shell_commands
 
-def main():
-    shell_commands.cli()
-
-if __name__ == '__main__':
-    main()
+class ClientError(Exception):
+    """DCI client error."""
