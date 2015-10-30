@@ -16,6 +16,7 @@
 
 from dci.server.tests import conftest as server_conftest
 from dciclient import v1 as dci_client
+from dciclient.v1 import dciclientlib as dci_clientlib
 from dciclient.v1.tests import utils
 
 import pytest
@@ -49,4 +50,15 @@ def client(server, db_provisioning):
     )
     flask_adapter = utils.FlaskHTTPAdapter(server.test_client())
     client.s.mount('http://dci_server.com', flask_adapter)
+    return client
+
+
+@pytest.fixture
+def client_v1(server, db_provisioning):
+    client = dci_clientlib.DCIClient(
+        end_point='http://dci_server.com/api/v1',
+        login='admin', password='admin'
+    )
+    flask_adapter = utils.FlaskHTTPAdapter(server.test_client())
+    client._s.mount('http://dci_server.com/api/v1', flask_adapter)
     return client
