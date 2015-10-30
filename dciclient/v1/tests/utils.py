@@ -15,6 +15,8 @@
 # under the License.
 
 import io
+import json
+
 import requests.adapters
 import requests.models
 import requests.utils
@@ -57,6 +59,35 @@ class FlaskHTTPAdapter(requests.adapters.HTTPAdapter):
                                     headers=dict(request.headers),
                                     content_type=content_type,
                                     content_length=content_length)
+        return self.build_response(request, response)
+
+
+class FlaskAdapter(requests.adapters.HTTPAdapter):
+
+    def __init__(self, flask_client):
+        super(FlaskAdapter, self).__init__()
+        self.client = flask_client
+
+    def build_response(self, req, resp):
+        response = requests.models.Response()
+        response.status_code = resp.status_code
+        response.headers = resp.headers
+        response.encoding = (
+            requests.utils.get_encoding_from_headers(resp.headers) or
+            'utf-8'
+        )
+        response._content = resp.data
+        return response
+
+    def send(self, request, stream=False, timeout=None, verify=True,
+             cert=None, proxies=None):
+
+        method = request.method.lower()
+        url = request.path_url
+        data = None
+        if request.body:
+            data = json.loads(request.body)
+        response = getattr(self.client, method)(url, data=data)
         return self.build_response(request, response)
 
 
