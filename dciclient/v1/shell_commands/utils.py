@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 #
 # Copyright 2015 Red Hat, Inc.
@@ -15,12 +14,11 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from dciclient.v1 import shell_commands
+import click
+
+import json
 
 
-def main():
-    shell_commands.cli()
-
-
-if __name__ == '__main__':
-    main()
+def print_json(result_json):
+    formatted_result = json.dumps(result_json, indent=4)
+    click.echo(formatted_result)

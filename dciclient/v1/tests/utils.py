@@ -15,6 +15,7 @@
 # under the License.
 
 import io
+
 import requests.adapters
 import requests.models
 import requests.utils
