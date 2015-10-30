@@ -14,6 +14,9 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import click
+import json
+
 
 def flatten(d, prefix=''):
     ret = []
@@ -24,3 +27,8 @@ def flatten(d, prefix=''):
         else:
             ret.append("%s=%s" % (p, v))
     return ret
+
+
+def print_json(result_json):
+    formatted_result = json.dumps(result_json, indent=4)
+    click.echo(formatted_result)
