@@ -77,6 +77,7 @@ rm -rf $RPM_BUILD_ROOT/%{python2_sitelib}/*.egg-info
 %doc
 # For noarch packages: sitelib
 %{python2_sitelib}/dciclient
+%{python2_sitelib}/agents
 %{_bindir}/dcictl
 
 %if %{with python3}
@@ -84,6 +85,7 @@ rm -rf $RPM_BUILD_ROOT/%{python2_sitelib}/*.egg-info
 %doc
 # For noarch packages: sitelib
 %{python3_sitelib}/dciclient
+%{python3_sitelib}/agents
 %{_bindir}/dcictl
 %endif # with python3
 

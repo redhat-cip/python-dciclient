@@ -3,7 +3,7 @@ set -eux
 
 RPMBUILD_DIR="rpmbuild"
 
-RPMBUILD_DIR="$(cd $(dirname "$0") && pwd)/${RPMBUILD_DIR}"
+RPMBUILD_DIR="$(cd ${HOME} && pwd)/${RPMBUILD_DIR}"
 
 # Create rpmbuild directory
 rm -rf ${RPMBUILD_DIR}
@@ -20,7 +20,7 @@ git archive master --format=tgz --output=${RPMBUILD_DIR}/SOURCES/python-dciclien
 cp python-dciclient.spec ${RPMBUILD_DIR}/SPECS/
 
 # Build RPM sources
-SRPM=$(rpmbuild -bs /home/builder/python-dciclient/rpmbuild/SPECS/python-dciclient.spec | cut -d' ' -f2)
+SRPM=$(rpmbuild -bs ${RPMBUILD_DIR}/SPECS/python-dciclient.spec | cut -d' ' -f2)
 
 # Build RPM
 mock --rebuild --resultdir=./ ${SRPM}
