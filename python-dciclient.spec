@@ -19,6 +19,7 @@ Source0:        python-dciclient-%{version}.tgz
 BuildArch:      noarch
 
 BuildRequires:  python2-devel
+BuildRequires:  python2-setuptools
 
 Requires:       python-prettytable
 Requires:       py-bcrypt
@@ -35,6 +36,7 @@ for the remote CIs including tox agent and khaleesi agent.
 %package -n python3-dciclient
 Summary:        Python client for DCI control server
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 
 Requires:       python3-prettytable
 Requires:       python3-py-bcrypt
