@@ -15,6 +15,7 @@
 # under the License.
 
 from __future__ import unicode_literals
+from dciclient.v1.exception import ClientError
 
 import json
 import requests
@@ -32,45 +33,3 @@ class DCIClient(object):
         self._s = requests.Session()
         self._s.headers.setdefault('Content-Type', 'application/json')
         self._s.auth = (login, password)
-
-    def create_componenttype(self, name):
-        if not name:
-            raise ClientError('name parameter required.')
-
-        return self._s.post("%s/componenttypes" % self._end_point,
-                            data=json.dumps({'name': name}))
-
-    # TODO(yass): add a test for the pagination
-    def get_all_componenttypes(self):
-        return self._s.get("%s/componenttypes" % self._end_point)
-
-    def get_componenttype(self, componenttype_id):
-        if not componenttype_id:
-            raise ClientError('componenttype id parameter required.')
-
-        return self._s.get("%s/componenttypes/%s" % (self._end_point,
-                                                     componenttype_id))
-
-    def put_componenttype(self, componenttype_id=None, etag=None, name=None):
-        if not componenttype_id or not etag or not name:
-            raise ClientError("parameters missing: componenttype_id='%s', "
-                              "etag='%s', name='%s'" %
-                              (componenttype_id, etag, name))
-
-        return self._s.put("%s/componenttypes/%s" %
-                           (self._end_point, componenttype_id),
-                           headers={'If-match': etag},
-                           data=json.dumps({'name': name}))
-
-    def delete_componenttype(self, componenttype_id, etag):
-        if not componenttype_id or not etag:
-            raise ClientError("parameters missing: componenttype_id='%s', "
-                              "etag='%s'" % (componenttype_id, etag))
-
-        return self._s.delete("%s/componenttypes/%s" %
-                              (self._end_point, componenttype_id),
-                              headers={'If-match': etag})
-
-
-class ClientError(Exception):
-    """DCI client error."""
