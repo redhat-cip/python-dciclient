@@ -19,53 +19,53 @@ import click
 from dciclient.v1.shell_commands import cli
 from dciclient.v1.shell_commands import utils
 
+from dciclient.v1.handlers.component import Component
 
-@cli.command("componenttypes-list", help="List all component types.")
+@cli.command("component-list", help="List all components.")
 @click.pass_obj
 def ct_list(dci_client):
-    utils.print_json(dci_client.get_all_componenttypes().json())
+    utils.print_json(Component(dci_client).list().json())
 
 
-@cli.command("componenttypes-create", help="Create a component type.")
+@cli.command("component-create", help="Create a component.")
 @click.option("--name", required=True)
 @click.pass_obj
 def ct_create(dci_client, name):
-    utils.print_json(dci_client.create_componenttype(name=name).json())
+    utils.print_json(Component(dci_client).create(name=name).json())
 
 
-@cli.command("componenttypes-update", help="Update a component type.")
+@cli.command("component-update", help="Update a component.")
 @click.option("--id", required=True)
 @click.option("--etag", required=True)
 @click.option("--name", required=True)
 @click.pass_obj
 def ct_update(dci_client, id, etag, name):
-    result = dci_client.put_componenttype(componenttype_id=id,
-                                          etag=etag, name=name)
+    result = Component(dci_client).update(_id=id, etag=etag, name=name)
     if result.status_code == 204:
         utils.print_json({"id": id,
                           "etag": etag,
                           "name": name,
-                          "message": "Component type updated."})
+                          "message": "Component updated."})
     else:
         utils.print_json(result.json())
 
 
-@cli.command("componenttypes-delete", help="Delete a component type.")
+@cli.command("component-delete", help="Delete a component.")
 @click.option("--id", required=True)
 @click.option("--etag", required=True)
 @click.pass_obj
 def ct_delete(dci_client, id, etag):
-    result = dci_client.delete_componenttype(componenttype_id=id, etag=etag)
+    result = Component(dci_client).delete(_id=id, etag=etag)
     if result.status_code == 204:
         utils.print_json({"id": id,
-                          "message": "Component type deleted."})
+                          "message": "Component deleted."})
     else:
         utils.print_json(result.json())
 
 
-@cli.command("componenttypes-show", help="Show a component type.")
+@cli.command("component-show", help="Show a component.")
 @click.option("--id", required=True)
 @click.pass_obj
 def ct_show(dci_client, id):
-    result = dci_client.get_componenttype(componenttype_id=id)
+    result = Component(dci_client).get(_id=id)
     utils.print_json(result.json())
