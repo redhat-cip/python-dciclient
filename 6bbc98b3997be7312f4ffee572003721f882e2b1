@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fad0f9df_bbbabb08",
+        "filename": "dciclient/v1/dciclientlib.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-11-16T15:39:18Z",
+      "side": 1,
+      "message": "import modules not classes",
+      "revId": "6bbc98b3997be7312f4ffee572003721f882e2b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_5b370fb1",
+        "filename": "dciclient/v1/exception.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-11-16T15:39:18Z",
+      "side": 1,
+      "message": "exceptionS.py ?",
+      "revId": "6bbc98b3997be7312f4ffee572003721f882e2b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_9b5497cb",
+        "filename": "dciclient/v1/handlers/component.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-11-16T15:39:18Z",
+      "side": 1,
+      "message": "create(name\u003dname)\n\nalso, there is the other attribute of the component resource, see dci.png",
+      "revId": "6bbc98b3997be7312f4ffee572003721f882e2b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_bb515bda",
+        "filename": "dciclient/v1/handlers/component.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-11-16T15:39:18Z",
+      "side": 1,
+      "message": "other attribute could be updated too",
+      "revId": "6bbc98b3997be7312f4ffee572003721f882e2b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_7b3c5394",
+        "filename": "dciclient/v1/handlers/dcibasecomponent.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-11-16T15:39:18Z",
+      "side": 1,
+      "message": "Why not directly using DCIClient as the base class so that you will directly access _dci_client._s attribute.",
+      "revId": "6bbc98b3997be7312f4ffee572003721f882e2b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_1b41870b",
+        "filename": "dciclient/v1/handlers/dcibasecomponent.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-11-16T15:39:18Z",
+      "side": 1,
+      "message": "def create(self, **kwargs):\n...",
+      "revId": "6bbc98b3997be7312f4ffee572003721f882e2b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_fb47e31b",
+        "filename": "dciclient/v1/handlers/dcibasecomponent.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-11-16T15:39:18Z",
+      "side": 1,
+      "message": "with kwargs this will be\n\njson.dumps(kwargs)",
+      "revId": "6bbc98b3997be7312f4ffee572003721f882e2b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_db4a1f27",
+        "filename": "dciclient/v1/handlers/dcibasecomponent.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-11-16T15:39:18Z",
+      "side": 1,
+      "message": "docstring should be updated",
+      "revId": "6bbc98b3997be7312f4ffee572003721f882e2b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_5b5e2feb",
+        "filename": "dciclient/v1/handlers/jobdefinition.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-11-16T15:39:18Z",
+      "side": 1,
+      "message": "same as components",
+      "revId": "6bbc98b3997be7312f4ffee572003721f882e2b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_1b58a7f9",
+        "filename": "dciclient/v1/shell_commands/component.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-11-16T15:39:18Z",
+      "side": 1,
+      "message": "see dci.png for the other attribute",
+      "revId": "6bbc98b3997be7312f4ffee572003721f882e2b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_7b63f3b1",
+        "filename": "dciclient/v1/shell_commands/componenttype.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-11-16T15:39:18Z",
+      "side": 1,
+      "message": "import module not class",
+      "revId": "6bbc98b3997be7312f4ffee572003721f882e2b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
