@@ -1,26 +1,26 @@
-#!/bin/sh
+#!/bin/bash
 set -eux
+PROJ_NAME=python-dciclient
 
-RPMBUILD_DIR="rpmbuild"
+# Create the proper filesystem hierarchy to proceed with srpm creatioon
+#
+rpmdev-setuptree
+cp ${PROJ_NAME}.spec ${HOME}/rpmbuild/SPECS/
+git archive master --format=tgz --output=${HOME}/rpmbuild/SOURCES/${PROJ_NAME}-0.1.tgz
+rpmbuild -bs ${HOME}/rpmbuild/SPECS/${PROJ_NAME}.spec
 
-RPMBUILD_DIR="$(cd ${HOME} && pwd)/${RPMBUILD_DIR}"
+# Build the RPMs in a clean chroot environment with mock to detect missing
+# BuildRequires lines.
+for arch in fedora-22-x86_64 fedora-23-x86_64 epel-7-x86_64; do
 
-# Create rpmbuild directory
-rm -rf ${RPMBUILD_DIR}
-mkdir -p ${RPMBUILD_DIR}/BUILD
-mkdir ${RPMBUILD_DIR}/RPMS
-mkdir ${RPMBUILD_DIR}/SOURCES
-mkdir ${RPMBUILD_DIR}/SPECS
-mkdir ${RPMBUILD_DIR}/SRPMS
+    if [[ "$arch" == "fedora-23-x86_64" ]]; then
+        RPATH='fedora/23/x86_64'
+    elif [[ "$arch" == "fedora-22-x86_64" ]]; then
+        RPATH='fedora/22/x86_64'
+    else
+        RPATH='el/7/x86_64'
+    fi
 
-# Create tar ball in ${RPMBUILD_DIR}/SOURCES
-git archive master --format=tgz --output=${RPMBUILD_DIR}/SOURCES/python-dciclient-0.1.tgz
-
-# Add spec file into ${RPMBUILD_DIR}/SPECS
-cp python-dciclient.spec ${RPMBUILD_DIR}/SPECS/
-
-# Build RPM sources
-SRPM=$(rpmbuild -bs ${RPMBUILD_DIR}/SPECS/python-dciclient.spec | cut -d' ' -f2)
-
-# Build RPM
-mock --rebuild --resultdir=./ ${SRPM}
+    mkdir -p development
+    mock -r $arch rebuild --resultdir=development/${RPATH} ${HOME}/rpmbuild/SRPMS/${PROJ_NAME}*
+done
