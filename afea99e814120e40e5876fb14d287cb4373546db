@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fad0f9df_5bee2f8d",
+        "filename": "dciclient/shell.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-17T11:10:33Z",
+      "side": 1,
+      "message": "do we really need to keep this function ? it is one line long, I don\u0027t think that it bootstrap anything for some tests",
+      "revId": "afea99e814120e40e5876fb14d287cb4373546db",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_fbfe0338",
+        "filename": "dciclient/v1/dciclientlib.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-17T11:10:33Z",
+      "side": 1,
+      "message": "not sure that the value must be displayed, especially if it is the password",
+      "revId": "afea99e814120e40e5876fb14d287cb4373546db",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_db88dfc8",
+        "filename": "dciclient/v1/dciclientlib.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-17T11:10:33Z",
+      "side": 1,
+      "message": "if we request\u003e\u003d2.4.2 use json\u003d{\u0027name\u0027: name} request will take care of the dumps",
+      "revId": "afea99e814120e40e5876fb14d287cb4373546db",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_fb85a3ad",
+        "filename": "dciclient/v1/dciclientlib.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-17T11:10:33Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "afea99e814120e40e5876fb14d287cb4373546db",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_7bc1b3e3",
+        "filename": "tox.ini",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-17T11:10:33Z",
+      "side": 1,
+      "message": "maybe another patch for this",
+      "revId": "afea99e814120e40e5876fb14d287cb4373546db",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
