@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fad0f9df_acda7f15",
+        "filename": "dciclient/v1/handlers/component.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-19T16:03:46Z",
+      "side": 1,
+      "message": "As long as you do not override anything at all I don\u0027t think that this class is needed. Furthermore, you seem to instantiate the class each time you want to access the function. Use a simple variable like this:\n\n    components \u003d dcibasecomponent.DCIBaseComponent(dci_client, \u0027components\u0027)",
+      "revId": "ae2dc02a2a54ead03da02d304f266e53a456afbe",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_4c3af337",
+        "filename": "dciclient/v1/shell_commands/__init__.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-19T16:03:46Z",
+      "side": 1,
+      "message": "maybe here for the instantiation of the components",
+      "revId": "ae2dc02a2a54ead03da02d304f266e53a456afbe",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_8c30db57",
+        "filename": "dciclient/v1/shell_commands/component.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-19T16:03:46Z",
+      "side": 1,
+      "message": "do not instantiate the component on each call just create a variable somewhere (maybe in the handlers file) like this\n\n    components \u003d dcibasecomponent.DCIBaseComponent(dci_client, \u0027components\u0027)",
+      "revId": "ae2dc02a2a54ead03da02d304f266e53a456afbe",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
