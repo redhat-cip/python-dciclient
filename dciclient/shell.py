@@ -25,7 +25,6 @@ import sys
 import tempfile
 import time
 
-import bcrypt
 import prettytable
 
 from dciclient import v1 as dciclient_v1
@@ -166,11 +165,7 @@ def main(args=None):
                 table_result.add_row([user["id"], user["name"]])
             print(table_result)
         elif args.command == 'create_user':
-            password_hash = bcrypt.hashpw(args.password, bcrypt.gensalt())
-
-            dci_client.post("/api/users", {"name": args.username,
-                                           "password": password_hash})
-            print("User '%s' created." % args.username)
+            print("create_user: Operation not supported at the moment")
         elif args.command == 'delete_user':
             dci_user = dci_client.get("/api/users/%s" % args.username)
             if dci_user.status_code != 200:
