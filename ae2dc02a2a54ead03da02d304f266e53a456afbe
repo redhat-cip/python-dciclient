@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fad0f9df_4ced138b",
+        "filename": "dciclient/v1/handlers/component.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-11-19T16:41:23Z",
+      "side": 1,
+      "message": "I simplified it in the next pathset. However this is just the first version, hence every methods are the same, but as we add more feature component will need to add individual methods (ie. not share amongst all component)",
+      "parentUuid": "fad0f9df_acda7f15",
+      "revId": "ae2dc02a2a54ead03da02d304f266e53a456afbe",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fad0f9df_4c3af337",
         "filename": "dciclient/v1/shell_commands/__init__.py",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2015-11-19T16:03:46Z",
       "side": 1,
       "message": "do not instantiate the component on each call just create a variable somewhere (maybe in the handlers file) like this\n\n    components \u003d dcibasecomponent.DCIBaseComponent(dci_client, \u0027components\u0027)",
+      "revId": "ae2dc02a2a54ead03da02d304f266e53a456afbe",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_2ce8cf7b",
+        "filename": "dciclient/v1/shell_commands/component.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-11-19T16:41:23Z",
+      "side": 1,
+      "message": "It is a CLI, so an DCIBaseComponent instance will be instantiated for each call to it.",
+      "parentUuid": "fad0f9df_8c30db57",
       "revId": "ae2dc02a2a54ead03da02d304f266e53a456afbe",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
