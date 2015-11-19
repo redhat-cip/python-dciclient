@@ -24,7 +24,7 @@ class DCIBaseResource(object):
     def create(self, **kwargs):
         """Create a resource"""
         # NOTE(spredzy): Keep only non-None value items
-        data = dict((k, kwargs[k]) for k, v in kwargs.iteritems() if v)
+        data = dict((k, kwargs[k]) for k, v in kwargs.items() if v)
         return self._s.post(self._end_point_with_uri, json=data)
 
     def list(self):
@@ -43,7 +43,7 @@ class DCIBaseResource(object):
         data_clean = dict((k, kwargs[k]) for k in data_keys)
 
         # NOTE(spredzy): Keep only non-None value items
-        data = dict((k, data_clean[k]) for k, v in data_clean.iteritems() if v)
+        data = dict((k, data_clean[k]) for k, v in data_clean.items() if v)
 
         return self._s.put('%s/%s' % (self._end_point_with_uri, kwargs['id']),
                            headers={'If-match': kwargs['etag']}, json=data)
