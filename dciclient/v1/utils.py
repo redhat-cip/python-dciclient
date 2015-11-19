@@ -32,3 +32,13 @@ def flatten(d, prefix=''):
 def print_json(result_json):
     formatted_result = json.dumps(result_json, indent=4)
     click.echo(formatted_result)
+
+def sanitize_kwargs(**kwargs):
+    kwargs = dict((k, kwargs[k]) for k, v in kwargs.items() if v)
+
+    try:
+        kwargs['data'] = json.loads(kwargs['data'])
+    except KeyError:
+        pass
+
+    return kwargs
