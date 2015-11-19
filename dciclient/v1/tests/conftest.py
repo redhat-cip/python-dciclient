@@ -16,20 +16,13 @@
 
 from dci.server.tests import conftest as server_conftest
 from dciclient import v1 as dci_client
-from dciclient.v1.shell_commands import _get_http_session
-from dciclient.v1.shell_commands import cli
-from dciclient.v1.tests import utils
 
-import click
+import click.testing
+import dciclient.shell as shell
+import dciclient.v1.shell_commands as commands
+import dciclient.v1.tests.utils as utils
+import functools
 import pytest
-
-
-@pytest.fixture(autouse=True, scope='module')
-def remove_decorators():
-    noop = lambda f: f
-    cli.command = lambda *args, **kwargs: noop
-    click.option = lambda *args, **kwargs: noop
-    click.pass_obj = noop
 
 
 @pytest.fixture(scope='session')
@@ -65,15 +58,16 @@ def client(server, db_provisioning):
 
 @pytest.fixture
 def http_session(server, db_provisioning):
-    session = _get_http_session('http://dci_server.com', 'admin', 'admin')
+    session = commands._get_http_session('http://dci_server.com',
+                                         'admin', 'admin')
     flask_adapter = utils.FlaskHTTPAdapter(server.test_client())
     session.mount('http://dci_server.com', flask_adapter)
     return session
 
 
 @pytest.fixture
-def print_json_calls(monkeypatch):
-    calls = []
-    monkeypatch.setattr('dciclient.v1.utils.print_json',
-                        lambda json: calls.append(json))
-    return calls
+def runner(monkeypatch, http_session):
+    monkeypatch.setattr(commands, '_get_http_session', lambda *_: http_session)
+    runner = click.testing.CliRunner(env={'DCI_LOGIN': '', 'DCI_PASSWORD': ''})
+    runner.invoke = functools.partial(runner.invoke, shell.main)
+    return runner
