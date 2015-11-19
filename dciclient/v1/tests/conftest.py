@@ -18,6 +18,7 @@ from dci.server.tests import conftest as server_conftest
 from dciclient import v1 as dci_client
 from dciclient.v1.shell_commands import _get_http_session
 from dciclient.v1.shell_commands import cli
+from dciclient.v1.shell_commands import componenttype
 from dciclient.v1.shell_commands import team
 from dciclient.v1.shell_commands import test
 from dciclient.v1.tests import utils
@@ -34,6 +35,7 @@ def remove_decorators():
     click.option = lambda *args, **kwargs: noop
     click.pass_obj = noop
 
+    imp.reload(componenttype)
     imp.reload(team)
     imp.reload(test)
 
