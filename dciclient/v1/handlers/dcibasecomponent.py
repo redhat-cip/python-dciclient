@@ -28,7 +28,7 @@ class DCIBaseComponent(object):
             raise exceptions.ClientError('name parameter required.')
 
         return self._dci_client._s.post(self._end_point_with_uri,
-                                        data={'name': name})
+                                        json={'name': name})
 
     def list(self):
         """List all Components Type"""

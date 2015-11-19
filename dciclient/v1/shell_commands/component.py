@@ -17,7 +17,7 @@
 import click
 
 from dciclient.v1.shell_commands import cli
-from dciclient.v1.shell_commands import utils
+from dciclient.v1 import utils
 
 from dciclient.v1.handlers import component
 

@@ -19,7 +19,21 @@ from dciclient import v1 as dci_client
 from dciclient.v1 import dciclientlib as dci_clientlib
 from dciclient.v1.tests import utils
 
+import click
+import contextlib
+import imp
 import pytest
+from dciclient.v1.shell_commands import cli
+from dciclient.v1.shell_commands import componenttype
+
+
+@pytest.fixture(autouse=True, scope='module')
+def remove_decorators():
+    noop = lambda f: f
+    cli.command = lambda *args, **kwargs: noop
+    click.option = lambda *args, **kwargs: noop
+    click.pass_obj = noop
+    imp.reload(componenttype)
 
 
 @pytest.fixture(scope='session')
