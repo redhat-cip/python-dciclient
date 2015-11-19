@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fad0f9df_acc35f37",
+        "filename": "dciclient/shell.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-11-19T14:28:51Z",
+      "side": 1,
+      "message": "@Max :\n\nIf we remove that and replace it by \n\nif __name__ \u003d\u003d \"__main__\"\n    shell_commands.cli()\n\nit will fail with : module object has no attribute name.\n\nWas it the fix you wanted to see ? Or did I misundertand it ?",
+      "parentUuid": "fad0f9df_5bee2f8d",
+      "revId": "afea99e814120e40e5876fb14d287cb4373546db",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fad0f9df_fbfe0338",
         "filename": "dciclient/v1/dciclientlib.py",
         "patchSetId": 3
