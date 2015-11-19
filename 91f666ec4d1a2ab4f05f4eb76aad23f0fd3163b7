@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "fad0f9df_4c03d373",
+        "filename": "dciclient/v1/dciclientlib.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-11-19T15:59:18Z",
+      "side": 1,
+      "message": "remove this file.\n\nsee comment on dciclient/v1/shell_commands/__init__.py",
+      "revId": "91f666ec4d1a2ab4f05f4eb76aad23f0fd3163b7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fad0f9df_ecf7278b",
         "filename": "dciclient/v1/handlers/dcibasecomponent.py",
         "patchSetId": 6
@@ -13,6 +30,40 @@
       "writtenOn": "2015-11-19T15:57:58Z",
       "side": 1,
       "message": "maybe endpoint instead of end_point ?",
+      "revId": "91f666ec4d1a2ab4f05f4eb76aad23f0fd3163b7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_0cf5cb82",
+        "filename": "dciclient/v1/shell_commands/__init__.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-11-19T15:59:18Z",
+      "side": 1,
+      "message": "The DCIClient object is not needed anymore with your class inheritance logic.\n\nYou can create a function which initialize the request session.\n\ndef _get_http_session(dci_cs_url, login, password):\n    session \u003d requests.Session()\n    session.headers.setdefault(\u0027Content-Type\u0027, \u0027application/json\u0027)\n    session.auth \u003d (login, password)\n    session.dci_cs_url \u003d dci_cs_url\n    return session",
+      "revId": "91f666ec4d1a2ab4f05f4eb76aad23f0fd3163b7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_acf11f97",
+        "filename": "dciclient/v1/shell_commands/__init__.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-11-19T15:59:18Z",
+      "side": 1,
+      "message": "ctx.obj \u003d _get_http_session(dci_cs_url, login, password)",
       "revId": "91f666ec4d1a2ab4f05f4eb76aad23f0fd3163b7",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
