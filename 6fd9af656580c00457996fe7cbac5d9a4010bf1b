@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fad0f9df_a74a9853",
+        "filename": "dciclient/v1/handlers/dcibasecomponent.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-19T22:38:33Z",
+      "side": 1,
+      "message": "if you don\u0027t use the json attr, request will infer that data contains url params, and the request will return error 400",
+      "revId": "6fd9af656580c00457996fe7cbac5d9a4010bf1b",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_c7479c4a",
+        "filename": "dciclient/v1/shell_commands/component.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-19T22:38:33Z",
+      "side": 1,
+      "message": "fix import",
+      "revId": "6fd9af656580c00457996fe7cbac5d9a4010bf1b",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_6774b09c",
+        "filename": "dciclient/v1/shell_commands/componenttype.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-19T22:38:33Z",
+      "side": 1,
+      "message": "fix import",
+      "revId": "6fd9af656580c00457996fe7cbac5d9a4010bf1b",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_87799495",
+        "filename": "dciclient/v1/tests/conftest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-19T22:38:33Z",
+      "side": 1,
+      "message": "this method will be called every time a test under that directory is called",
+      "revId": "6fd9af656580c00457996fe7cbac5d9a4010bf1b",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_276ea8ca",
+        "filename": "dciclient/v1/tests/conftest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-19T22:38:33Z",
+      "side": 1,
+      "message": "monkeypatch click decorators in order to directly return the decorated function, avoiding lot of initialisation we cannot handle in test",
+      "revId": "6fd9af656580c00457996fe7cbac5d9a4010bf1b",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_4773acb1",
+        "filename": "dciclient/v1/tests/conftest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-19T22:38:33Z",
+      "side": 1,
+      "message": "after monkeypatching regenerate the python bytecode",
+      "revId": "6fd9af656580c00457996fe7cbac5d9a4010bf1b",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_e76740e9",
+        "filename": "dciclient/v1/tests/test_handlers.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-19T22:38:33Z",
+      "side": 1,
+      "message": "arguments here are fixture, see doc: http://pytest.org/latest/fixture.html\n\nclient_v1 will provide a client to directly call the dci API server and clean DB between each test\n\ncapsys provide the sysout captured by pytest: http://pytest.org/latest/builtin.html#builtin-fixtures-function-arguments",
+      "revId": "6fd9af656580c00457996fe7cbac5d9a4010bf1b",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_a76138d5",
+        "filename": "dciclient/v1/tests/test_handlers.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-19T22:38:33Z",
+      "side": 1,
+      "message": "run the API call",
+      "revId": "6fd9af656580c00457996fe7cbac5d9a4010bf1b",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_c75ebc12",
+        "filename": "dciclient/v1/tests/test_handlers.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-19T22:38:33Z",
+      "side": 1,
+      "message": "create a python object from the string",
+      "revId": "6fd9af656580c00457996fe7cbac5d9a4010bf1b",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fad0f9df_679b50ca",
+        "filename": "dciclient/v1/tests/test_handlers.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-19T22:38:33Z",
+      "side": 1,
+      "message": "test result",
+      "revId": "6fd9af656580c00457996fe7cbac5d9a4010bf1b",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
