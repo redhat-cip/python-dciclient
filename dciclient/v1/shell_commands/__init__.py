@@ -41,4 +41,5 @@ def _get_http_session(dci_cs_url, login, password):
 def cli(ctx, dci_login, dci_password, dci_cs_url):
     ctx.obj = _get_http_session(dci_cs_url, dci_login, dci_password)
 
+import dciclient.v1.shell_commands.team  # noqa
 import dciclient.v1.shell_commands.test  # noqa
