@@ -37,7 +37,7 @@ class DCIBaseResource(object):
         """Update a specific resource"""
         # NOTE(spredzy): Extract the data from the kwargs. Are considered data
         # any dictionnary member that is not id or etag.
-        data_keys = list(set(kwargs.keys() - set(['id', 'etag'])))
+        data_keys = list(set(kwargs.keys()) - set(['id', 'etag']))
         data = dict(filter(lambda i: i[0] in data_keys, kwargs.iteritems()))
 
         return self._s.put('%s/%s' % (self._end_point_with_uri, kwargs['id']),
