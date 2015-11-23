@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_3014a8f4",
+        "filename": "dciclient/shell.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-23T09:27:53Z",
+      "side": 1,
+      "message": "seems that this function is not really needed, I think that\n\n    if __name__ \u003d\u003d \u0027__main__\u0027:\n        shell_commands.cli()\n\nwill be enough",
+      "revId": "4eb7cdf817dd6ed3a8ff81dd75c962821a52a8b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_900234b3",
+        "filename": "dciclient/v1/dciclientlib.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-23T09:27:53Z",
+      "side": 1,
+      "message": "this class does not seem to be used in the code, you can remove it",
+      "revId": "4eb7cdf817dd6ed3a8ff81dd75c962821a52a8b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_7031d0a1",
+        "filename": "dciclient/v1/handlers/dcibasecomponent.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-23T09:27:53Z",
+      "side": 1,
+      "message": "can we check which parameter is missing instead of displaying values ? \nI find it a bit confusing.\n\nMoreover the exception for a missing parameter is always the same, so an utility function can be a good idea\n\nsomething like this will be more comprehensible\n\n    def raise_missing_parameter(param):\n        raise exceptions.ClientError(\u0027%s parameter required\u0027 % param)\n\n    if _id is None:\n        raise_missing_parameter(\u0027_id\u0027)\n    if etag is None:\n        raise_missing_parameter(\u0027etag\u0027)\n    ... and so on",
+      "revId": "4eb7cdf817dd6ed3a8ff81dd75c962821a52a8b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_10264469",
+        "filename": "dciclient/v1/handlers/dcibasecomponent.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-23T09:27:53Z",
+      "side": 1,
+      "message": "same comment as above",
+      "revId": "4eb7cdf817dd6ed3a8ff81dd75c962821a52a8b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_502ccc4a",
+        "filename": "dciclient/v1/tests/conftest.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-23T09:27:53Z",
+      "side": 1,
+      "message": "client_v1 is not used in tests and will not be used (http_session will do the job) this fixture is not needed",
+      "revId": "4eb7cdf817dd6ed3a8ff81dd75c962821a52a8b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_b0ff38aa",
+        "filename": "dciclient/v1/tests/utils.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-23T09:27:53Z",
+      "side": 1,
+      "message": "is this really needed ?",
+      "revId": "4eb7cdf817dd6ed3a8ff81dd75c962821a52a8b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
