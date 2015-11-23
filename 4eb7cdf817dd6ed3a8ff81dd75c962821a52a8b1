@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bada0100_70a6b0c3",
+        "filename": "dciclient/shell.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-11-23T11:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bada0100_3014a8f4",
+      "revId": "4eb7cdf817dd6ed3a8ff81dd75c962821a52a8b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_900234b3",
         "filename": "dciclient/v1/dciclientlib.py",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2015-11-23T09:27:53Z",
       "side": 1,
       "message": "this class does not seem to be used in the code, you can remove it",
+      "revId": "4eb7cdf817dd6ed3a8ff81dd75c962821a52a8b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_10aba48a",
+        "filename": "dciclient/v1/dciclientlib.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-11-23T11:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bada0100_900234b3",
       "revId": "4eb7cdf817dd6ed3a8ff81dd75c962821a52a8b1",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "bada0100_30b028f4",
+        "filename": "dciclient/v1/handlers/dcibasecomponent.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-11-23T11:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bada0100_7031d0a1",
+      "revId": "4eb7cdf817dd6ed3a8ff81dd75c962821a52a8b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_10264469",
         "filename": "dciclient/v1/handlers/dcibasecomponent.py",
         "patchSetId": 11
@@ -64,6 +118,24 @@
       "writtenOn": "2015-11-23T09:27:53Z",
       "side": 1,
       "message": "same comment as above",
+      "revId": "4eb7cdf817dd6ed3a8ff81dd75c962821a52a8b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_d0943c46",
+        "filename": "dciclient/v1/handlers/dcibasecomponent.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-11-23T11:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bada0100_10264469",
       "revId": "4eb7cdf817dd6ed3a8ff81dd75c962821a52a8b1",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "bada0100_f0914053",
+        "filename": "dciclient/v1/tests/conftest.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-11-23T11:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bada0100_502ccc4a",
+      "revId": "4eb7cdf817dd6ed3a8ff81dd75c962821a52a8b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_b0ff38aa",
         "filename": "dciclient/v1/tests/utils.py",
         "patchSetId": 11
@@ -98,6 +188,24 @@
       "writtenOn": "2015-11-23T09:27:53Z",
       "side": 1,
       "message": "is this really needed ?",
+      "revId": "4eb7cdf817dd6ed3a8ff81dd75c962821a52a8b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_909eb462",
+        "filename": "dciclient/v1/tests/utils.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-11-23T11:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bada0100_b0ff38aa",
       "revId": "4eb7cdf817dd6ed3a8ff81dd75c962821a52a8b1",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
