@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bada0100_f3914a53",
+        "filename": "dciclient/v1/handlers/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-11-24T14:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bada0100_93bd5e05",
+      "revId": "5f14e3a3e06eca397b767bac01317fc8cfc81685",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_d340c637",
         "filename": "dciclient/v1/shell_commands/test.py",
         "patchSetId": 9
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "bada0100_f3c62a49",
+        "filename": "dciclient/v1/shell_commands/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-11-24T14:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bada0100_b3e3c232",
+      "revId": "5f14e3a3e06eca397b767bac01317fc8cfc81685",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_93e6be43",
         "filename": "dciclient/v1/shell_commands/test.py",
         "patchSetId": 9
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "bada0100_93c31e38",
+        "filename": "dciclient/v1/shell_commands/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-11-24T14:44:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bada0100_93e6be43",
+      "revId": "5f14e3a3e06eca397b767bac01317fc8cfc81685",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_13cacea1",
         "filename": "dciclient/v1/shell_commands/test.py",
         "patchSetId": 9
@@ -81,6 +135,24 @@
       "writtenOn": "2015-11-24T11:05:46Z",
       "side": 1,
       "message": "you can update the help for the id to say that the name is valid too",
+      "revId": "5f14e3a3e06eca397b767bac01317fc8cfc81685",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_b3c0a22b",
+        "filename": "dciclient/v1/shell_commands/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-11-24T14:44:04Z",
+      "side": 1,
+      "message": "name is not deterministic, ie. I can have several tests with the same name, hence should it be filterable by name also ?",
+      "parentUuid": "bada0100_13cacea1",
       "revId": "5f14e3a3e06eca397b767bac01317fc8cfc81685",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
