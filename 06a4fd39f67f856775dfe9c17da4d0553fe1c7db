@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_f364eae6",
+        "filename": "dciclient/v1/handlers/remoteci.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-24T09:01:39Z",
+      "side": 1,
+      "message": "here put a default parameter to data\u003d{}",
+      "revId": "06a4fd39f67f856775dfe9c17da4d0553fe1c7db",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_9361ded5",
+        "filename": "dciclient/v1/handlers/remoteci.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-24T09:01:39Z",
+      "side": 1,
+      "message": "not sure of the behaviour of the API if you send a none value, check here if the value of attributes is None then build the kwargs dict, ie:\n\n    def update(self, id, etag, name\u003dNone, team_id\u003dNone, data\u003dNone):\n        kwargs \u003d {\u0027name\u0027: name, \u0027team_id\u0027: team_id, \u0027data\u0027: data}\n        # http://stackoverflow.com/questions/1334020/delete-none-values-from-python-dict\n        kwargs \u003d {k: v for k, v in six.iteritems(kwargs) if v is not None}\n        return ....",
+      "revId": "06a4fd39f67f856775dfe9c17da4d0553fe1c7db",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_b35e6211",
+        "filename": "dciclient/v1/shell_commands/remoteci.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-24T09:01:39Z",
+      "side": 1,
+      "message": "break line on .create, it will be more readable\n\n    utils.print_json(\n        remoteci.RemoteCI(session)\n        .create(name\u003dname, team_id\u003dteam_id, data\u003djson.loads(data))\n        .json()\n    )",
+      "revId": "06a4fd39f67f856775dfe9c17da4d0553fe1c7db",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
