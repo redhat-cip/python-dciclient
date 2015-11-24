@@ -16,6 +16,7 @@
 
 import click
 import json
+import six
 
 
 def flatten(d, prefix=''):
@@ -32,3 +33,14 @@ def flatten(d, prefix=''):
 def print_json(result_json):
     formatted_result = json.dumps(result_json, indent=4)
     click.echo(formatted_result)
+
+
+def sanitize_kwargs(**kwargs):
+    kwargs = dict((k, v) for k, v in six.iteritems(kwargs) if v)
+
+    try:
+        kwargs['data'] = json.loads(kwargs['data'])
+    except KeyError:
+        pass
+
+    return kwargs
