@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_13fe4e6c",
+        "filename": "dciclient/v1/handlers/test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-24T15:13:41Z",
+      "side": 1,
+      "message": "you can replace with \n\n    data \u003d data or \u0027{}\u0027",
+      "revId": "ee7714a8b59ee5922a09e5e2fecda3cef6bc279a",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_33035275",
+        "filename": "dciclient/v1/handlers/test.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-24T15:13:41Z",
+      "side": 1,
+      "message": "we can create a util function which will remove the None values as discuted before it can you like :\n\n    def parse_kwargs(**kwargs):\n        kwargs \u003d dict((k, v) for (k, v) in six.iteritems(kwargs) if v is not None)\n        try:\n            kwargs[\u0027data\u0027] \u003d json.loads(kwargs[\u0027data\u0027])\n        except KeyError:\n            pass\n    return kwargs",
+      "revId": "ee7714a8b59ee5922a09e5e2fecda3cef6bc279a",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
