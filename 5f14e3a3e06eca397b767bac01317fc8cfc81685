@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_d340c637",
+        "filename": "dciclient/v1/shell_commands/test.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-24T08:44:09Z",
+      "side": 1,
+      "message": "missing data attribute, this one has a default to empty dict:\n\n    data\u003d{} # by default",
+      "revId": "5f14e3a3e06eca397b767bac01317fc8cfc81685",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
