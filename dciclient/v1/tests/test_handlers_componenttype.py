@@ -37,11 +37,10 @@ def test_create(runner):
 
 def test_update(runner):
     result = runner.invoke(['componenttype-create', '--name', 'foo'])
-    componenttype = json.loads(result.output)['componenttype']
+    remoteci = json.loads(result.output)['componenttype']
 
-    result = runner.invoke(['componenttype-update', '--id',
-                            componenttype['id'],
-                            '--etag', componenttype['etag'], '--name', 'bar'])
+    result = runner.invoke(['componenttype-update', '--id', remoteci['id'],
+                            '--etag', remoteci['etag'], '--name', 'bar'])
     result = json.loads(result.output)
 
     assert result['message'] == 'Component Type updated.'
