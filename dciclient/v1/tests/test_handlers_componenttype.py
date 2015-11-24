@@ -35,19 +35,6 @@ def test_create(runner):
     assert componenttype['name'] == 'foo'
 
 
-def test_update(runner):
-    result = runner.invoke(['componenttype-create', '--name', 'foo'])
-    componenttype = json.loads(result.output)['componenttype']
-
-    result = runner.invoke(['componenttype-update', '--id',
-                            componenttype['id'],
-                            '--etag', componenttype['etag'], '--name', 'bar'])
-    result = json.loads(result.output)
-
-    assert result['message'] == 'Component Type updated.'
-    assert result['name'] == 'bar'
-
-
 def test_delete(runner):
     result = runner.invoke(['componenttype-create', '--name', 'foo'])
     componenttype = json.loads(result.output)['componenttype']
