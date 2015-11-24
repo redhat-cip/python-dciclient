@@ -12,6 +12,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from dciclient.v1 import utils
+
 
 class DCIBaseResource(object):
     API_URI = 'api/v1'
@@ -23,7 +25,8 @@ class DCIBaseResource(object):
 
     def create(self, **kwargs):
         """Create a resource"""
-        return self._s.post(self._end_point_with_uri, json=kwargs)
+        data = utils.sanitize_kwargs(**kwargs)
+        return self._s.post(self._end_point_with_uri, json=data)
 
     def list(self):
         """List all resources"""
@@ -35,13 +38,12 @@ class DCIBaseResource(object):
 
     def update(self, **kwargs):
         """Update a specific resource"""
-        # NOTE(spredzy): Extract the data from the kwargs. Are considered data
-        # any dictionnary member that is not id or etag.
-        data_keys = list(set(kwargs.keys()) - set(['id', 'etag']))
-        data = dict((k, kwargs[k]) for k in data_keys)
+        id = kwargs.pop('id')
+        etag = kwargs.pop('etag')
+        data = utils.sanitize_kwargs(**kwargs)
 
-        return self._s.put('%s/%s' % (self._end_point_with_uri, kwargs['id']),
-                           headers={'If-match': kwargs['etag']}, json=data)
+        return self._s.put('%s/%s' % (self._end_point_with_uri, id),
+                           headers={'If-match': etag}, json=data)
 
     def delete(self, **kwargs):
         """Delete a specific resource"""
