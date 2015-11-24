@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_13b64e8b",
+        "filename": "dciclient/v1/handlers/dcibaseresource.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-24T16:37:33Z",
+      "side": 1,
+      "message": "this is more readable\n    \n    id \u003d kwargs.pop(\u0027id\u0027)  \n    etag \u003d kwargs.pop(\u0027etag\u0027)\n    data \u003d utils.sanitize_kwargs(**kwargs)",
+      "revId": "bc00bef27561c66700c738042bac3445cdf69c30",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
