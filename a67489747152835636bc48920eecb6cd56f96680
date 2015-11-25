@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_d6f8b4c6",
+        "filename": "dciclient/v1/shell_commands/test.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-25T08:18:38Z",
+      "side": 1,
+      "message": "no need to name parameters here, python will take care of that for you, simply write\n\ntest.Test(session).create(name, data).json())",
+      "revId": "a67489747152835636bc48920eecb6cd56f96680",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_f6f5b8cb",
+        "filename": "dciclient/v1/shell_commands/test.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-25T08:18:38Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "a67489747152835636bc48920eecb6cd56f96680",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_96022cb3",
+        "filename": "dciclient/v1/shell_commands/test.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-25T08:18:38Z",
+      "side": 1,
+      "message": "same",
+      "revId": "a67489747152835636bc48920eecb6cd56f96680",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_b6ff30aa",
+        "filename": "dciclient/v1/shell_commands/test.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-25T08:18:38Z",
+      "side": 1,
+      "message": "same",
+      "revId": "a67489747152835636bc48920eecb6cd56f96680",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_5605a4c0",
+        "filename": "dciclient/v1/tests/test_handlers_test.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-25T08:18:38Z",
+      "side": 1,
+      "message": "no need to name parameters here, you can directly write\n\n    test.create(http_session, \u0027foo\u0027, None)",
+      "revId": "a67489747152835636bc48920eecb6cd56f96680",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_760a28d4",
+        "filename": "dciclient/v1/tests/test_handlers_test.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-25T08:18:38Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "a67489747152835636bc48920eecb6cd56f96680",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_160f1ce3",
+        "filename": "dciclient/v1/tests/test_handlers_test.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-25T08:18:38Z",
+      "side": 1,
+      "message": "same",
+      "revId": "a67489747152835636bc48920eecb6cd56f96680",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_3614a0f4",
+        "filename": "dciclient/v1/tests/test_handlers_test.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-25T08:18:38Z",
+      "side": 1,
+      "message": "etc...",
+      "revId": "a67489747152835636bc48920eecb6cd56f96680",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
