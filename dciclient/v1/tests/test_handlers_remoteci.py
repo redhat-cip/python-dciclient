@@ -18,6 +18,27 @@ from __future__ import unicode_literals
 import json
 
 
+def test_prettytable_output(runner):
+    result = runner.invoke(['team-create', '--name', 'foo'])
+    team = json.loads(result.output)['team']
+    result = runner.invoke(['remoteci-create', '--name', 'foo', '--team_id',
+                            team['id']])
+    remoteci = json.loads(result.output)['remoteci']
+
+    result = runner.invoke(['--format', 'table', 'remoteci-show', '--id',
+                            remoteci['id']])
+
+    output = result.output.split('\n')
+    header = ' '.join(output[1].split())
+    data = ' '.join(output[3].split())
+
+    assert header == "| id | name | data | team_id | etag | created_at " \
+                     "| updated_at |"
+    assert data == "| %s | %s | {} | %s | %s | %s | %s |" % (
+        remoteci['id'], remoteci['name'], remoteci['team_id'],
+        remoteci['etag'], remoteci['created_at'], remoteci['updated_at'])
+
+
 def test_list(runner):
     result = runner.invoke(['team-create', '--name', 'foo'])
     team = json.loads(result.output)['team']

@@ -14,6 +14,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from prettytable import PrettyTable
+
 import click
 import json
 import six
@@ -35,6 +37,24 @@ def print_json(result_json):
     click.echo(formatted_result)
 
 
+def print_prettytable(data, headers):
+    DEFAULT_HEADERS = ['Property', 'Value']
+    headers = headers or DEFAULT_HEADERS
+    table = PrettyTable(headers)
+
+    if headers == DEFAULT_HEADERS:
+        for item in sorted(six.iteritems(data)):
+            table.add_row(item)
+    else:
+        if not isinstance(data, list):
+            data = [data]
+
+        for record in data:
+            table.add_row([record[item] for item in headers])
+
+    click.echo(table)
+
+
 def sanitize_kwargs(**kwargs):
     kwargs = dict((k, v) for k, v in six.iteritems(kwargs) if v)
 
@@ -44,3 +64,12 @@ def sanitize_kwargs(**kwargs):
         pass
 
     return kwargs
+
+
+def format_output(output, format, item=None, headers=None):
+
+    if format == 'json':
+        print_json(output)
+    else:
+        to_display = output[item] if item else output
+        print_prettytable(to_display, headers)

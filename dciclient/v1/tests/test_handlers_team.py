@@ -18,6 +18,23 @@ from __future__ import unicode_literals
 import json
 
 
+def test_prettytable_output(runner):
+    result = runner.invoke(['team-create', '--name', 'foo'])
+    team = json.loads(result.output)['team']
+
+    result = runner.invoke(['--format', 'table', 'team-show', '--id',
+                            team['id']])
+
+    output = result.output.split('\n')
+    header = ' '.join(output[1].split())
+    data = ' '.join(output[3].split())
+
+    assert header == "| id | name | etag | created_at | updated_at |"
+    assert data == "| %s | %s | %s | %s | %s |" % (
+        team['id'], team['name'], team['etag'], team['created_at'],
+        team['updated_at'])
+
+
 def test_list(runner):
     runner.invoke(['team-create', '--name', 'foo'])
     runner.invoke(['team-create', '--name', 'bar'])

@@ -19,6 +19,8 @@ from dciclient.v1.handlers import dcibaseresource
 
 class JobState(dcibaseresource.DCIBaseResource):
     ENDPOINT_URI = 'jobstates'
+    TABLE_HEADERS = ['id', 'status', 'comment', 'job_id', 'team_id', 'etag',
+                     'created_at', 'updated_at']
 
     def __init__(self, dci_client):
         super(JobState, self).__init__(dci_client, self.ENDPOINT_URI)

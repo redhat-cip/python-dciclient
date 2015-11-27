@@ -18,6 +18,35 @@ from __future__ import unicode_literals
 import json
 
 
+def test_prettytable_output(runner):
+    result = runner.invoke(['componenttype-create', '--name', 'foo'])
+    componenttype = json.loads(result.output)['componenttype']
+    result = runner.invoke(['component-create', '--name', 'foo',
+                            '--componenttype_id', componenttype['id']])
+    component = json.loads(result.output)['component']
+
+    result = runner.invoke(['--format', 'table', 'component-show', '--id',
+                            component['id']])
+
+    output = result.output.split('\n')
+    header = ' '.join(output[1].split())
+    data = ' '.join(output[3].split())
+
+    assert header == "| id | name | canonical_project_name | componenttype_id " \
+                     "| sha | title | message | url | git | ref | data | etag " \
+                     "| created_at | updated_at |"
+    assert data == "| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | {} " \
+                   "| %s | %s | %s |" % (component['id'], component['name'],
+                                         component['canonical_project_name'],
+                                         component['componenttype_id'],
+                                         component['sha'], component['title'],
+                                         component['message'],
+                                         component['url'], component['git'],
+                                         component['ref'], component['etag'],
+                                         component['created_at'],
+                                         component['updated_at'])
+
+
 def test_list(runner):
     result = runner.invoke(['componenttype-create', '--name', 'foo'])
     componenttype = json.loads(result.output)['componenttype']

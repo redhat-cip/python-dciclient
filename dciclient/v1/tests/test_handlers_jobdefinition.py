@@ -18,6 +18,28 @@ from __future__ import unicode_literals
 import json
 
 
+def test_prettytable_output(runner):
+    result = runner.invoke(['test-create', '--name', 'foo'])
+    test = json.loads(result.output)['test']
+    result = runner.invoke(['jobdefinition-create', '--name', 'foo',
+                            '--test_id', test['id']])
+    jobdefinition = json.loads(result.output)['jobdefinition']
+
+    result = runner.invoke(['--format', 'table', 'jobdefinition-show', '--id',
+                            jobdefinition['id']])
+
+    output = result.output.split('\n')
+    header = ' '.join(output[1].split())
+    data = ' '.join(output[3].split())
+
+    assert header == "| id | name | priority | test_id | etag | created_at " \
+                     "| updated_at |"
+    assert data == "| %s | %s | %s | %s | %s | %s | %s |" % (
+        jobdefinition['id'], jobdefinition['name'], jobdefinition['priority'],
+        jobdefinition['test_id'], jobdefinition['etag'],
+        jobdefinition['created_at'], jobdefinition['updated_at'])
+
+
 def test_list(runner):
     result = runner.invoke(['test-create', '--name', 'foo'])
     test = json.loads(result.output)['test']

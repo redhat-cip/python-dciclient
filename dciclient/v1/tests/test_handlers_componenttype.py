@@ -18,6 +18,23 @@ from __future__ import unicode_literals
 import json
 
 
+def test_prettytable_output(runner):
+    result = runner.invoke(['componenttype-create', '--name', 'foo'])
+    componenttype = json.loads(result.output)['componenttype']
+
+    result = runner.invoke(['--format', 'table', 'componenttype-show', '--id',
+                            componenttype['id']])
+
+    output = result.output.split('\n')
+    header = ' '.join(output[1].split())
+    data = ' '.join(output[3].split())
+
+    assert header == "| id | name | etag | created_at | updated_at |"
+    assert data == "| %s | %s | %s | %s | %s |" % (
+        componenttype['id'], componenttype['name'], componenttype['etag'],
+        componenttype['created_at'], componenttype['updated_at'])
+
+
 def test_list(runner):
     runner.invoke(['componenttype-create', '--name', 'foo'])
     runner.invoke(['componenttype-create', '--name', 'bar'])
