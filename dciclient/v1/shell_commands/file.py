@@ -24,13 +24,16 @@ from dciclient.v1.handlers import file
 
 @cli.command("file-list", help="List all files.")
 @click.pass_obj
-def list(session):
-    utils.print_json(file.File(session).list().json())
+def list(context):
+    l_file = file.File(context['session'])
+    utils.format_output(l_file.list().json(), context['format'],
+                        l_file.endpoint_uri, l_file.table_headers)
 
 
 @cli.command("file-show", help="Show a file.")
 @click.option("--id", required=True)
 @click.pass_obj
-def show(session, id):
-    result = file.File(session).get(id=id)
-    utils.print_json(result.json())
+def show(context, id):
+    l_file = file.File(context['session'])
+    utils.format_output(l_file.get(id=id).json(), context['format'],
+                        l_file.endpoint_uri[:-1], l_file.table_headers)

@@ -37,9 +37,15 @@ def _get_http_session(dci_cs_url, login, password):
 @click.option('--dci-cs-url', envvar='DCI_CS_URL', default=_default_dci_cs_url,
               help="DCI control server url, default to '%s'." %
                    _default_dci_cs_url)
+@click.option('--format', envvar='DCI_CLI_OUTPUT_FORMAT', required=False,
+              default='table', help="DCI CLI output format.")
 @click.pass_context
-def cli(ctx, dci_login, dci_password, dci_cs_url):
-    ctx.obj = _get_http_session(dci_cs_url, dci_login, dci_password)
+def cli(ctx, dci_login, dci_password, dci_cs_url, format):
+    context_object = {
+        'session': _get_http_session(dci_cs_url, dci_login, dci_password),
+        'format': format,
+    }
+    ctx.obj = context_object
 
 import dciclient.v1.shell_commands.component  # noqa
 import dciclient.v1.shell_commands.componenttype  # noqa

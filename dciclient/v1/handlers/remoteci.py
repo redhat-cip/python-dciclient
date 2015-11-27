@@ -22,6 +22,8 @@ import json
 
 class RemoteCI(dcibaseresource.DCIBaseResource):
     ENDPOINT_URI = 'remotecis'
+    TABLE_HEADERS = ['id', 'name', 'data', 'team_id', 'etag', 'created_at',
+                     'updated_at']
 
     def __init__(self, session):
         super(RemoteCI, self).__init__(session, self.ENDPOINT_URI)

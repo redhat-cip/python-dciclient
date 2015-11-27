@@ -24,20 +24,20 @@ from dciclient.v1.handlers import test
 
 @cli.command("test-list", help="List all tests.")
 @click.pass_obj
-def list(session):
-    utils.print_json(test.Test(session).list().json())
+def list(context):
+    l_test = test.Test(context['session'])
+    utils.format_output(l_test.list().json(), context['format'],
+                        l_test.endpoint_uri, l_test.table_headers)
 
 
 @cli.command("test-create", help="Create a test.")
 @click.option("--name", required=True)
 @click.option("--data")
 @click.pass_obj
-def create(session, name, data):
-    utils.print_json(
-        test.Test(session)
-        .create(name=name, data=data)
-        .json()
-    )
+def create(context, name, data):
+    l_test = test.Test(context['session'])
+    utils.format_output(l_test.create(name=name, data=data).json(),
+                        context['format'], l_test.endpoint_uri[:-1])
 
 
 @cli.command("test-update", help="Update a test.")
@@ -46,33 +46,38 @@ def create(session, name, data):
 @click.option("--name")
 @click.option("--data")
 @click.pass_obj
-def update(session, id, etag, name, data):
-    result = test.Test(session).update(id=id, etag=etag, name=name, data=data)
+def update(context, id, etag, name, data):
+    l_test = test.Test(context['session'])
+    result = l_test.update(id=id, etag=etag, name=name, data=data)
+
     if result.status_code == 204:
-        utils.print_json({"id": id,
-                          "etag": etag,
-                          "name": name,
-                          "message": "Test updated."})
+        utils.format_output({'id': id,
+                             'etag': etag,
+                             'name': name,
+                             'message': 'Test updated.'}, context['format'])
     else:
-        utils.print_json(result.json())
+        utils.format_output(result.json(), context['format'])
 
 
 @cli.command("test-delete", help="Delete a test.")
 @click.option("--id", required=True)
 @click.option("--etag", required=True)
 @click.pass_obj
-def delete(session, id, etag):
-    result = test.Test(session).delete(id=id, etag=etag)
+def delete(context, id, etag):
+    l_test = test.Test(context['session'])
+    result = l_test.delete(id=id, etag=etag)
+
     if result.status_code == 204:
-        utils.print_json({"id": id,
-                          "message": "Test deleted."})
+        utils.format_output({'id': id,
+                             'message': 'Test deleted.'}, context['format'])
     else:
-        utils.print_json(result.json())
+        utils.format_output(result.json(), context['format'])
 
 
 @cli.command("test-show", help="Show a test.")
 @click.option("--id", required=True)
 @click.pass_obj
-def show(session, id):
-    result = test.Test(session).get(id=id)
-    utils.print_json(result.json())
+def show(context, id):
+    l_test = test.Test(context['session'])
+    utils.format_output(l_test.get(id=id).json(), context['format'],
+                        l_test.endpoint_uri[:-1], l_test.table_headers)
