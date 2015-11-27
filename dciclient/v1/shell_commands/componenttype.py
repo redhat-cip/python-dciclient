@@ -24,16 +24,20 @@ from dciclient.v1.handlers import componenttype
 
 @cli.command("componenttype-list", help="List all componenttypes.")
 @click.pass_obj
-def list(session):
-    utils.print_json(componenttype.ComponentType(session).list().json())
+def list(context):
+    l_componenttype = componenttype.ComponentType(context['session'])
+    utils.format_output(l_componenttype.list().json(), context['format'],
+                        l_componenttype.ENDPOINT_URI,
+                        l_componenttype.TABLE_HEADERS)
 
 
 @cli.command("componenttype-create", help="Create a componenttype.")
 @click.option("--name", required=True)
 @click.pass_obj
-def create(session, name):
-    utils.print_json(componenttype.ComponentType(session).create(name=name)
-                     .json())
+def create(context, name):
+    l_componenttype = componenttype.ComponentType(context['session'])
+    utils.format_output(l_componenttype.create(name=name).json(),
+                        context['format'], l_componenttype.ENDPOINT_URI[:-1])
 
 
 @cli.command("componenttype-update", help="Update a componenttype.")
@@ -41,34 +45,41 @@ def create(session, name):
 @click.option("--etag", required=True)
 @click.option("--name", required=True)
 @click.pass_obj
-def update(session, id, etag, name):
-    result = componenttype.ComponentType(session).update(id=id, etag=etag,
-                                                         name=name)
+def update(context, id, etag, name):
+    l_componenttype = componenttype.ComponentType(context['session'])
+    result = l_componenttype.update(id=id, etag=etag, name=name)
+
     if result.status_code == 204:
-        utils.print_json({"id": id,
-                          "etag": etag,
-                          "name": name,
-                          "message": "Component Type updated."})
+        utils.format_output({'id': id,
+                             'etag': etag,
+                             'name': name,
+                             'message': 'Component Type updated.'},
+                            context['format'])
     else:
-        utils.print_json(result.json())
+        utils.format_output(result.json(), context['format'])
 
 
 @cli.command("componenttype-delete", help="Delete a componenttype.")
 @click.option("--id", required=True)
 @click.option("--etag", required=True)
 @click.pass_obj
-def delete(session, id, etag):
-    result = componenttype.ComponentType(session).delete(id=id, etag=etag)
+def delete(context, id, etag):
+    l_componenttype = componenttype.ComponentType(context['session'])
+    result = l_componenttype.delete(id=id, etag=etag)
+
     if result.status_code == 204:
-        utils.print_json({"id": id,
-                          "message": "Component Type deleted."})
+        utils.format_output({'id': id,
+                             'message': 'Component Type deleted.'},
+                            context['format'])
     else:
-        utils.print_json(result.json())
+        utils.format_output(result.json(), context['format'])
 
 
 @cli.command("componenttype-show", help="Show a componenttype.")
 @click.option("--id", required=True)
 @click.pass_obj
-def show(session, id):
-    result = componenttype.ComponentType(session).get(id=id)
-    utils.print_json(result.json())
+def show(context, id):
+    l_componenttype = componenttype.ComponentType(context['session'])
+    utils.format_output(l_componenttype.get(id=id).json(), context['format'],
+                        l_componenttype.ENDPOINT_URI[:-1],
+                        l_componenttype.TABLE_HEADERS)

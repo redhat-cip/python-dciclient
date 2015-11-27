@@ -19,6 +19,8 @@ from dciclient.v1.handlers import dcibaseresource
 
 class File(dcibaseresource.DCIBaseResource):
     ENDPOINT_URI = 'files'
+    TABLE_HEADERS = ['id', 'name', 'content', 'mime', 'md5', 'jobstate_id',
+                     'team_id', 'etag', 'created_at', 'updated_at']
 
     def __init__(self, dci_client):
         super(File, self).__init__(dci_client, self.ENDPOINT_URI)
