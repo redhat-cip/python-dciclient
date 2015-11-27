@@ -19,6 +19,7 @@ from dciclient.v1.handlers import dcibaseresource
 
 class ComponentType(dcibaseresource.DCIBaseResource):
     ENDPOINT_URI = 'componenttypes'
+    TABLE_HEADERS = ['id', 'name', 'data', 'etag', 'created_at', 'updated_at']
 
     def __init__(self, dci_client):
         super(ComponentType, self).__init__(dci_client, self.ENDPOINT_URI)
