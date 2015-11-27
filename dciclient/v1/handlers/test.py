@@ -22,6 +22,7 @@ import json
 
 class Test(dcibaseresource.DCIBaseResource):
     ENDPOINT_URI = 'tests'
+    TABLE_HEADERS = ['id', 'name', 'data', 'etag', 'created_at', 'updated_at']
 
     def __init__(self, session):
         super(Test, self).__init__(session, self.ENDPOINT_URI)

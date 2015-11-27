@@ -25,7 +25,9 @@ from dciclient.v1.handlers import jobdefinition
 @cli.command("jobdefinition-list", help="List all jobdefinitions.")
 @click.pass_obj
 def list(session):
-    utils.print_json(jobdefinition.JobDefinition(session).list().json())
+    l_jobdefinition = jobdefinition.JobDefinition(context['session'])
+    utils.format_output(l_jobdefinition.list().json(), context['format'],
+                        l_jobdefinition.endpoint_uri, l_jobdefinition.table_headers)
 
 
 @cli.command("jobdefinition-create", help="Create a jobdefinition.")
@@ -34,11 +36,11 @@ def list(session):
 @click.option("--priority")
 @click.pass_obj
 def create(session, name, test_id, priority):
-    utils.print_json(
-        jobdefinition.JobDefinition(session)
-        .create(name=name, test_id=test_id, priority=priority)
-        .json()
-    )
+    l_jobdefinition = jobdefinition.JobDefinition(context['session'])
+    utils.format_output(l_jobdefinition.create(name=name,
+                                      test_id=test_id,
+                                      priority=priority).json(),
+                        context['format'], l_jobdefinition.endpoint_uri[:-1])
 
 
 @cli.command("jobdefinition-delete", help="Delete a jobdefinition.")
@@ -46,17 +48,21 @@ def create(session, name, test_id, priority):
 @click.option("--etag", required=True)
 @click.pass_obj
 def delete(session, id, etag):
-    result = jobdefinition.JobDefinition(session).delete(id=id, etag=etag)
+    l_jobdefinition = jobdefinition.JobDefinition(context['session'])
+    result = l_jobdefinition.delete(id=id, etag=etag)
+
     if result.status_code == 204:
-        utils.print_json({"id": id,
-                          "message": "Job Definition deleted."})
+        utils.format_output({'id': id,
+                             'message': 'Job Definition deleted.'}, context['format'])
     else:
-        utils.print_json(result.json())
+        utils.format_output(result.json(), context['format'])
 
 
 @cli.command("jobdefinition-show", help="Show a jobdefinition.")
 @click.option("--id", required=True)
 @click.pass_obj
 def show(session, id):
-    result = jobdefinition.JobDefinition(session).get(id=id)
-    utils.print_json(result.json())
+    l_jobdefinition = jobdefinition.JobDefinition(context['session'])
+    utils.format_output(l_jobdefinition.get(id=id).json(), context['format'],
+                        l_jobdefinition.endpoint_uri[:-1],
+                        l_jobdefinition.table_headers)

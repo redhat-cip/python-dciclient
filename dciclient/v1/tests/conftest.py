@@ -68,6 +68,7 @@ def http_session(server, db_provisioning):
 @pytest.fixture
 def runner(monkeypatch, http_session):
     monkeypatch.setattr(commands, '_get_http_session', lambda *_: http_session)
-    runner = click.testing.CliRunner(env={'DCI_LOGIN': '', 'DCI_PASSWORD': ''})
+    runner = click.testing.CliRunner(env={'DCI_LOGIN': '', 'DCI_PASSWORD': '',
+                                          'DCI_CLI_OUTPUT_FORMAT': 'json'})
     runner.invoke = functools.partial(runner.invoke, shell.main)
     return runner

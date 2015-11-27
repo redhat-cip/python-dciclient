@@ -23,6 +23,14 @@ class DCIBaseResource(object):
         self._end_point_with_uri = '%s/%s/%s' % (self._s.dci_cs_url,
                                                  self.API_URI, endpoint_uri)
 
+    @property
+    def table_headers(self):
+        return self.TABLE_HEADERS
+
+    @property
+    def endpoint_uri(self):
+        return self.ENDPOINT_URI
+
     def create(self, **kwargs):
         """Create a resource"""
         data = utils.sanitize_kwargs(**kwargs)

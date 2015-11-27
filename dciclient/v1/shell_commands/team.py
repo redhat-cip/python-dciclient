@@ -25,14 +25,18 @@ from dciclient.v1.handlers import team
 @cli.command("team-list", help="List all teams.")
 @click.pass_obj
 def list(session):
-    utils.print_json(team.Team(session).list().json())
+    l_team = team.Team(context['session'])
+    utils.format_output(l_team.list().json(), context['format'],
+                        l_team.endpoint_uri, l_team.table_headers)
 
 
 @cli.command("team-create", help="Create a team.")
 @click.option("--name", required=True)
 @click.pass_obj
 def create(session, name):
-    utils.print_json(team.Team(session).create(name=name).json())
+    l_team = team.Team(context['session'])
+    utils.format_output(l_team.create(name=name).json(),
+                        context['format'], l_team.endpoint_uri[:-1])
 
 
 @cli.command("team-update", help="Update a team.")
@@ -41,14 +45,16 @@ def create(session, name):
 @click.option("--name", required=True)
 @click.pass_obj
 def update(session, id, etag, name):
-    result = team.Team(session).update(id=id, etag=etag, name=name)
+    l_team = team.Team(context['session'])
+    result = l_team.update(id=id, etag=etag, name=name)
+
     if result.status_code == 204:
-        utils.print_json({"id": id,
-                          "etag": etag,
-                          "name": name,
-                          "message": "Team updated."})
+        utils.format_output({'id': id,
+                             'etag': etag,
+                             'name': name,
+                             'message': 'Team updated.'}, context['format'])
     else:
-        utils.print_json(result.json())
+        utils.format_output(result.json(), context['format'])
 
 
 @cli.command("team-delete", help="Delete a team.")
@@ -56,17 +62,20 @@ def update(session, id, etag, name):
 @click.option("--etag", required=True)
 @click.pass_obj
 def delete(session, id, etag):
-    result = team.Team(session).delete(id=id, etag=etag)
+    l_team = team.Team(context['session'])
+    result = l_team.delete(id=id, etag=etag)
+
     if result.status_code == 204:
-        utils.print_json({"id": id,
-                          "message": "Team deleted."})
+        utils.format_output({'id': id,
+                             'message': 'Team deleted.'}, context['format'])
     else:
-        utils.print_json(result.json())
+        utils.format_output(result.json(), context['format'])
 
 
 @cli.command("team-show", help="Show a team.")
 @click.option("--id", required=True)
 @click.pass_obj
 def show(session, id):
-    result = team.Team(session).get(id=id)
-    utils.print_json(result.json())
+    l_team = team.Team(context['session'])
+    utils.format_output(l_team.get(id=id).json(), context['format'],
+                        l_team.endpoint_uri[:-1], l_team.table_headers)
