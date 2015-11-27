@@ -42,5 +42,7 @@ def sanitize_kwargs(**kwargs):
         kwargs['data'] = json.loads(kwargs['data'])
     except KeyError:
         pass
+    except TypeError:
+        pass
 
     return kwargs
