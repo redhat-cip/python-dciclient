@@ -19,6 +19,8 @@ from dciclient.v1.handlers import dcibaseresource
 
 class JobDefinition(dcibaseresource.DCIBaseResource):
     ENDPOINT_URI = 'jobdefinitions'
+    TABLE_HEADERS = ['id', 'name', 'priority', 'test_id', 'etag', 'created_at',
+                     'updated_at']
 
     def __init__(self, session):
         super(JobDefinition, self).__init__(session, self.ENDPOINT_URI)

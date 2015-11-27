@@ -18,6 +18,54 @@ from __future__ import unicode_literals
 import json
 
 
+def test_prettytable_output(runner):
+    result = runner.invoke(['componenttype-create', '--name', 'foo'])
+    componenttype = json.loads(result.output)['componenttype']
+    result = runner.invoke(['component-create', '--name', 'foo',
+                            '--componenttype_id', componenttype['id']])
+    component = json.loads(result.output)['component']
+
+    result = runner.invoke(['--format', 'table', 'component-show', '--id',
+                            component['id']])
+
+    output = result.output.split('\n')
+    # NOTE(spredzy) : The expected output for a table format looks like the
+    #                 following :
+    #
+    # +------------
+    # |  id | name
+    # +------------
+    # | id1 | name1
+    # | id2 | name2
+    # | id3 | name3
+    # +------------
+    #
+    # The header variable below represents the header data, when more than one
+    # space is located between the string and the '|' space number is shrink to
+    # one ( this is what ' '.join(string.split()) does
+    #
+    # The data variable below represents the actual data, when more than one
+    # space is located between the string and the '|' space number is shrink to
+    # one ( this is what ' '.join(string.split()) does
+    header = ' '.join(output[1].split())
+    data = ' '.join(output[3].split())
+
+    expected_data = (component['id'], component['name'],
+                     component['canonical_project_name'],
+                     component['componenttype_id'], component['sha'],
+                     component['title'], component['message'],
+                     component['url'], component['git'], component['ref'],
+                     component['etag'], component['created_at'],
+                     component['updated_at'])
+
+    assert header == ('| id | name | canonical_project_name '
+                      '| componenttype_id | sha | title | message | url | git '
+                      '| ref | data | etag | created_at | updated_at |')
+
+    assert data == ('| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | {} '
+                    '| %s | %s | %s |' % expected_data)
+
+
 def test_list(runner):
     result = runner.invoke(['componenttype-create', '--name', 'foo'])
     componenttype = json.loads(result.output)['componenttype']

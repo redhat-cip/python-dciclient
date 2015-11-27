@@ -24,8 +24,10 @@ from dciclient.v1.handlers import component
 
 @cli.command("component-list", help="List all components.")
 @click.pass_obj
-def list(session):
-    utils.print_json(component.Component(session).list().json())
+def list(context):
+    l_component = component.Component(context['session'])
+    utils.format_output(l_component.list().json(), context['format'],
+                        l_component.ENDPOINT_URI, l_component.TABLE_HEADERS)
 
 
 @cli.command("component-create", help="Create a component.")
@@ -40,15 +42,16 @@ def list(session):
 @click.option("--git")
 @click.option("--ref")
 @click.pass_obj
-def create(session, name, componenttype_id, canonical_project_name, data, sha,
+def create(context, name, componenttype_id, canonical_project_name, data, sha,
            title, message, url, git, ref):
-    utils.print_json(
-        component.Component(session)
+    l_component = component.Component(context['session'])
+    utils.format_output(
+        l_component
         .create(name=name, componenttype_id=componenttype_id,
                 canonical_project_name=canonical_project_name, data=data,
                 sha=sha, title=title, message=message, url=url, git=git,
                 ref=ref)
-        .json()
+        .json(), context['format'], l_component.ENDPOINT_URI[:-1]
     )
 
 
@@ -56,18 +59,23 @@ def create(session, name, componenttype_id, canonical_project_name, data, sha,
 @click.option("--id", required=True)
 @click.option("--etag", required=True)
 @click.pass_obj
-def delete(session, id, etag):
-    result = component.Component(session).delete(id=id, etag=etag)
+def delete(context, id, etag):
+    l_component = component.Component(context['session'])
+    result = l_component.delete(id=id, etag=etag)
     if result.status_code == 204:
-        utils.print_json({"id": id,
-                          "message": "Component deleted."})
+        utils.format_output({'id': id,
+                             'message': 'Component deleted.'},
+                            context['format'])
     else:
-        utils.print_json(result.json())
+        utils.format_output(result.json(), context['format'])
 
 
 @cli.command("component-show", help="Show a component.")
 @click.option("--id", required=True)
 @click.pass_obj
-def show(session, id):
-    result = component.Component(session).get(id=id)
-    utils.print_json(result.json())
+def show(context, id):
+    l_component = component.Component(context['session'])
+    utils.format_output(l_component.get(id=id).json(),
+                        context['format'],
+                        l_component.ENDPOINT_URI[:-1],
+                        l_component.TABLE_HEADERS)

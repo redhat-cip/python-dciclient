@@ -18,6 +18,44 @@ from __future__ import unicode_literals
 import json
 
 
+def test_prettytable_output(runner):
+    result = runner.invoke(['componenttype-create', '--name', 'foo'])
+    componenttype = json.loads(result.output)['componenttype']
+
+    result = runner.invoke(['--format', 'table', 'componenttype-show', '--id',
+                            componenttype['id']])
+
+    output = result.output.split('\n')
+    # NOTE(spredzy) : The expected output for a table format looks like the
+    #                 following :
+    #
+    # +------------
+    # |  id | name
+    # +------------
+    # | id1 | name1
+    # | id2 | name2
+    # | id3 | name3
+    # +------------
+    #
+    # The header variable below represents the header data, when more than one
+    # space is located between the string and the '|' space number is shrink to
+    # one ( this is what ' '.join(string.split()) does
+    #
+    # The data variable below represents the actual data, when more than one
+    # space is located between the string and the '|' space number is shrink to
+    # one ( this is what ' '.join(string.split()) does
+    header = ' '.join(output[1].split())
+    data = ' '.join(output[3].split())
+
+    expected_data = (componenttype['id'], componenttype['name'],
+                     componenttype['etag'], componenttype['created_at'],
+                     componenttype['updated_at'])
+
+    assert header == '| id | name | etag | created_at | updated_at |'
+
+    assert data == '| %s | %s | %s | %s | %s |' % expected_data
+
+
 def test_list(runner):
     runner.invoke(['componenttype-create', '--name', 'foo'])
     runner.invoke(['componenttype-create', '--name', 'bar'])

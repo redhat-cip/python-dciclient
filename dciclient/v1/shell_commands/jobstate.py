@@ -24,13 +24,16 @@ from dciclient.v1.handlers import jobstate
 
 @cli.command("jobstate-list", help="List all jobstates.")
 @click.pass_obj
-def list(session):
-    utils.print_json(jobstate.JobState(session).list().json())
+def list(context):
+    l_jobstate = jobstate.JobState(context['session'])
+    utils.format_output(l_jobstate.list().json(), context['format'],
+                        l_jobstate.ENDPOINT_URI, l_jobstate.TABLE_HEADERS)
 
 
 @cli.command("jobstate-show", help="Show a jobstate.")
 @click.option("--id", required=True)
 @click.pass_obj
-def show(session, id):
-    result = jobstate.JobState(session).get(id=id)
-    utils.print_json(result.json())
+def show(context, id):
+    l_jobstate = jobstate.JobState(context['session'])
+    utils.format_output(l_jobstate.get(id=id).json(), context['format'],
+                        l_jobstate.ENDPOINT_URI[:-1], l_jobstate.TABLE_HEADERS)
