@@ -22,9 +22,18 @@ import json
 
 class Test(dcibaseresource.DCIBaseResource):
     ENDPOINT_URI = 'tests'
+    TABLE_HEADERS = ['id', 'name', 'data', 'etag', 'created_at', 'updated_at']
 
     def __init__(self, session):
         super(Test, self).__init__(session, self.ENDPOINT_URI)
+
+    @property
+    def table_headers(self):
+        return self.TABLE_HEADERS
+
+    @property
+    def endpoint_uri(self):
+        return self.ENDPOINT_URI
 
     def create(self, name, data=None):
         data = data or '{}'
