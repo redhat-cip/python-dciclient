@@ -28,8 +28,9 @@ class Component(dcibaseresource.DCIBaseResource):
     def __init__(self, session):
         super(Component, self).__init__(session, self.ENDPOINT_URI)
 
-    def create(self, name, componenttype_id, canonical_project_name, data, sha,
-               title, message, url, git, ref):
+    def create(self, name, componenttype_id, canonical_project_name=None,
+               data=None, sha=None, title=None, message=None, url=None,
+               git=None, ref=None):
         data = data or '{}'
         return super(Component, self).create(
             name=name, componenttype_id=componenttype_id,
