@@ -40,7 +40,7 @@ def sanitize_kwargs(**kwargs):
 
     try:
         kwargs['data'] = json.loads(kwargs['data'])
-    except KeyError:
+    except KeyError, TypeError:
         pass
 
     return kwargs
