@@ -31,6 +31,7 @@ class Component(dcibaseresource.DCIBaseResource):
     def create(self, name, componenttype_id, canonical_project_name=None,
                data=None, sha=None, title=None, message=None, url=None,
                git=None, ref=None):
+>>>>>>> Introduce a common library feeders and agents can use
         data = data or '{}'
         return super(Component, self).create(
             name=name, componenttype_id=componenttype_id,
