@@ -15,6 +15,7 @@
 # under the License.
 
 from dciclient.v1.handlers import dcibaseresource
+from dciclient.v1 import utils
 
 
 class Job(dcibaseresource.DCIBaseResource):
@@ -33,3 +34,11 @@ class Job(dcibaseresource.DCIBaseResource):
 
     def get(self, id, where=None, embed=None):
         return super(Job, self).get(id=id, where=where, embed=embed)
+
+    def schedule(self, remoteci_id):
+        kwargs = utils.sanitize_kwargs(remoteci_id=remoteci_id)
+        result = self._s.post('%s/schedule' % self._end_point_with_uri, json=kwargs)
+
+        print result
+        print result.json()
+        return result
