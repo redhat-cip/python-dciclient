@@ -14,6 +14,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from dciclient.v1 import exceptions
 from prettytable import PrettyTable
 
 import click
@@ -73,3 +74,13 @@ def format_output(output, format, item=None, headers=None):
     else:
         to_display = output[item] if item else output
         print_prettytable(to_display, headers)
+
+# TODO(spredzy): Write a clean exception management class
+def verify_return_code(result):
+    result = result.json()
+    if 'status_code' in result:
+        if result['status_code'] == 400:
+            if 'duplicate key' in result['message']:
+                raise exceptions.DuplicateResource
+            #else:
+            #    raise exceptions.ServerError
