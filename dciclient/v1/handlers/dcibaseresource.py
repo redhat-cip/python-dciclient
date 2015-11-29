@@ -26,7 +26,9 @@ class DCIBaseResource(object):
     def create(self, **kwargs):
         """Create a resource"""
         data = utils.sanitize_kwargs(**kwargs)
-        return self._s.post(self._end_point_with_uri, json=data)
+        result = self._s.post(self._end_point_with_uri, json=data)
+        utils.verify_return_code(result)
+        return result
 
     def list(self):
         """List all resources"""
