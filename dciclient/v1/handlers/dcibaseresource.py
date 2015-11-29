@@ -45,9 +45,9 @@ class DCIBaseResource(object):
         base_url = "%s/%s?" % (self._end_point_with_uri, kwargs['id'])
 
         if kwargs['embed']:
-            base_url += '&embed=%s' % kwargs['embed']
-        if kwargs['where']:
-            base_url += '&where=%s' % kwargs['where']
+            base_url += 'embed=%s' % kwargs['embed']
+        #if kwargs['where']:
+        #    base_url += 'where=%s' % kwargs['where']
 
         return self._s.get(base_url)
 
