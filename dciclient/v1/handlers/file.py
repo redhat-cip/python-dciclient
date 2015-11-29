@@ -25,7 +25,7 @@ class File(dcibaseresource.DCIBaseResource):
     def __init__(self, dci_client):
         super(File, self).__init__(dci_client, self.ENDPOINT_URI)
 
-    def create(self, name, content, mime, md5, jobstate_id, team_id):
+    def create(self, name, content, mime, jobstate_id, team_id, md5=None):
         return super(File, self).create(name=name, content=content, mime=mime,
                                         md5=md5, jobstate_id=jobstate_id,
                                         team_id=team_id)
