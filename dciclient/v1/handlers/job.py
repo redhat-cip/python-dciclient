@@ -16,6 +16,7 @@
 
 from dciclient.v1.handlers import dcibaseresource
 from dciclient.v1.handlers import jobdefinition
+from dciclient.v1 import utils
 
 
 class Job(dcibaseresource.DCIBaseResource):
