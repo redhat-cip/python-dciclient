@@ -15,6 +15,7 @@
 # under the License.
 
 from dciclient.v1.handlers import dcibaseresource
+import json
 
 
 class Team(dcibaseresource.DCIBaseResource):
@@ -35,3 +36,12 @@ class Team(dcibaseresource.DCIBaseResource):
 
     def get(self, id, where=None, embed=None):
         return super(Team, self).get(id=id, where=where, embed=embed)
+
+    def get_id_by_name(self, name):
+        componenttypes = super(ComponentType, self).list().json()['componenttypes']
+        for componenttype in componenttypes:
+            if componenttype['name'] == name:
+                id = componenttype['id']
+                break
+
+        return id
