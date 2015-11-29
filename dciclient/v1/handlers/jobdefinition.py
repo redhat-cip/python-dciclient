@@ -25,7 +25,7 @@ class JobDefinition(dcibaseresource.DCIBaseResource):
     def __init__(self, session):
         super(JobDefinition, self).__init__(session, self.ENDPOINT_URI)
 
-    def create(self, name, test_id, priority):
+    def create(self, name, test_id, priority=None):
         return super(JobDefinition, self).create(name=name, test_id=test_id,
                                                  priority=priority)
 
