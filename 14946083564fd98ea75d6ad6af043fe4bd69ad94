@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_1f264f69",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-30T15:37:34Z",
+      "side": 1,
+      "message": "you can handle multiple exceptions at once, \n\n    except KeyError, TypeError:\n        pass",
+      "revId": "14946083564fd98ea75d6ad6af043fe4bd69ad94",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
