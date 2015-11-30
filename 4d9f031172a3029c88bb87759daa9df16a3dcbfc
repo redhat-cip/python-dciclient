@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_df4a0727",
+        "filename": "dciclient/v1/handlers/dcibaseresource.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-30T15:09:22Z",
+      "side": 1,
+      "message": "this is not needed, property are here to add some processing when getting a variable, not to rename, maybe an upercase name is not what we want",
+      "revId": "4d9f031172a3029c88bb87759daa9df16a3dcbfc",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_7f63dbb1",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-30T15:09:22Z",
+      "side": 1,
+      "message": "no need for this initialization, look line 52",
+      "revId": "4d9f031172a3029c88bb87759daa9df16a3dcbfc",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_5f5e17eb",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-30T15:09:22Z",
+      "side": 1,
+      "message": "not a huge fan of this, can we do type conversion at a higher level ? If functions accept multiple argument type it can quickly become messy",
+      "revId": "4d9f031172a3029c88bb87759daa9df16a3dcbfc",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_1f588ff9",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-30T15:09:22Z",
+      "side": 1,
+      "message": "replace the rows below with this\n\n    for record in data:\n        table.add_row([record[item] for item in headers])",
+      "revId": "4d9f031172a3029c88bb87759daa9df16a3dcbfc",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_9f547fcb",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-30T15:09:22Z",
+      "side": 1,
+      "message": "you can use python ternary operator here:\n\n    to_display \u003d output[item] if item else output",
+      "revId": "4d9f031172a3029c88bb87759daa9df16a3dcbfc",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
