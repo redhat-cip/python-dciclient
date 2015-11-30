@@ -32,8 +32,8 @@ class JobDefinition(dcibaseresource.DCIBaseResource):
     def delete(self, id, etag):
         return super(JobDefinition, self).delete(id=id, etag=etag)
 
-    def show(self, id):
-        return super(JobDefinition, self).show(id=id)
+    def get(self, id, where=None, embed=None):
+        return super(JobDefinition, self).get(id=id, where=where, embed=embed)
 
     def add_component(self, id, component_id):
         url = '%s/%s/components' % (self._end_point_with_uri, id)

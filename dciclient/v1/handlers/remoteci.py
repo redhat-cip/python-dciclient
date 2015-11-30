@@ -41,5 +41,5 @@ class RemoteCI(dcibaseresource.DCIBaseResource):
     def delete(self, id, etag):
         return super(RemoteCI, self).delete(id=id, etag=etag)
 
-    def show(self, id):
-        return super(RemoteCI, self).show(id=id)
+    def get(self, id, where=None, embed=None):
+        return super(RemoteCI, self).get(id=id, where=where, embed=embed)
