@@ -29,5 +29,5 @@ class JobState(dcibaseresource.DCIBaseResource):
         return super(JobState, self).create(status=status, comment=comment,
                                             job_id=job_id, team_id=team_id)
 
-    def show(self, id):
-        return super(JobState, self).show(id=id)
+    def get(self, id, where=None, embed=None):
+        return super(JobState, self).get(id=id, where=where, embed=embed)

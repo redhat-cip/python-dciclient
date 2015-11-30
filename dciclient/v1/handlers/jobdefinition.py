@@ -25,12 +25,12 @@ class JobDefinition(dcibaseresource.DCIBaseResource):
     def __init__(self, session):
         super(JobDefinition, self).__init__(session, self.ENDPOINT_URI)
 
-    def create(self, name, test_id, priority):
+    def create(self, name, test_id, priority=None):
         return super(JobDefinition, self).create(name=name, test_id=test_id,
                                                  priority=priority)
 
     def delete(self, id, etag):
         return super(JobDefinition, self).delete(id=id, etag=etag)
 
-    def show(self, id):
-        return super(JobDefinition, self).show(id=id)
+    def get(self, id, where=None, embed=None):
+        return super(JobDefinition, self).get(id=id, where=where, embed=embed)

@@ -34,7 +34,8 @@ class DCIBaseResource(object):
 
     def get(self, **kwargs):
         """List a specific resource"""
-        return self._s.get("%s/%s" % (self._end_point_with_uri, kwargs['id']))
+        base_url = "%s/%s" % (self._end_point_with_uri, kwargs.pop('id'))
+        return self._s.get(base_url, params=kwargs)
 
     def update(self, **kwargs):
         """Update a specific resource"""
