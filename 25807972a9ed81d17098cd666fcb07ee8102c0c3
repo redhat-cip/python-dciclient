@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_5f05b7c0",
+        "filename": "dciclient/v1/handlers/jobdefinition.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-30T15:14:32Z",
+      "side": 1,
+      "message": "isn\u0027t it self.endpoint_uri ?",
+      "revId": "25807972a9ed81d17098cd666fcb07ee8102c0c3",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
