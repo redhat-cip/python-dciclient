@@ -38,5 +38,5 @@ class Test(dcibaseresource.DCIBaseResource):
     def delete(self, id, etag):
         return super(Test, self).delete(id=id, etag=etag)
 
-    def show(self, id):
-        return super(Test, self).show(id=id)
+    def show(self, id, where=None, embed=None):
+        return super(Test, self).get(id=id, where=where, embed=embed)

@@ -33,5 +33,5 @@ class ComponentType(dcibaseresource.DCIBaseResource):
     def delete(self, id, etag):
         return super(ComponentType, self).delete(id=id, etag=etag)
 
-    def show(self, id):
-        return super(ComponentType, self).show(id=id)
+    def show(self, id, where=None, embed=None):
+        return super(ComponentType, self).get(id=id, where=where, embed=embed)

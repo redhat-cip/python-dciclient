@@ -33,5 +33,5 @@ class Team(dcibaseresource.DCIBaseResource):
     def delete(self, id, etag):
         return super(Team, self).delete(id=id, etag=etag)
 
-    def show(self, id):
-        return super(Team, self).show(id=id)
+    def show(self, id, where=None, embed=None):
+        return super(Team, self).get(id=id, where=where, embed=embed)

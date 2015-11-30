@@ -30,5 +30,5 @@ class File(dcibaseresource.DCIBaseResource):
                                         md5=md5, jobstate_id=jobstate_id,
                                         team_id=team_id)
 
-    def show(self, id):
-        return super(File, self).show(id=id)
+    def show(self, id, where=None, embed=None):
+        return super(File, self).get(id=id, where=where, embed=embed)
