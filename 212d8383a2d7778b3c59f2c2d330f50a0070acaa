@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_9f023fb3",
+        "filename": "dciclient/v1/handlers/dcibaseresource.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-11-30T15:31:53Z",
+      "side": 1,
+      "message": "according to the documentation: http://docs.python-requests.org/en/latest/user/quickstart/#passing-parameters-in-urls\n\nYou don\u0027t need to build the url yourself I suggest the following code:\n\n    base_url \u003d \"%s/%s?\" % (self._end_point_with_uri, kwargs.pop(\u0027id\u0027))\n    return self._s.get(base_url, params\u003dkwargs)",
+      "revId": "212d8383a2d7778b3c59f2c2d330f50a0070acaa",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
