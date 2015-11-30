@@ -31,5 +31,5 @@ class Job(dcibaseresource.DCIBaseResource):
                                        team_id=team_id,
                                        jobdefinition_id=jobdefinition_id)
 
-    def show(self, id):
-        return super(Job, self).show(id=id)
+    def get(self, id, where=None, embed=None):
+        return super(Job, self).get(id=id, where=where, embed=embed)
