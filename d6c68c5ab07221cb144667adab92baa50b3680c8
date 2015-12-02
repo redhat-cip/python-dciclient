@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_6a379bb1",
+        "filename": "dciclient/v1/tests/test_jobdefinitions.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-12-02T09:49:47Z",
+      "side": 1,
+      "message": "use intermediary variables here in order to break this long line",
+      "revId": "d6c68c5ab07221cb144667adab92baa50b3680c8",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_8a3c3f95",
+        "filename": "dciclient/v1/tests/test_jobdefinitions.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2015-12-02T09:49:47Z",
+      "side": 1,
+      "message": "test must use \u003d\u003d",
+      "range": {
+        "startLine": 46,
+        "startChar": 18,
+        "endLine": 46,
+        "endChar": 28
+      },
+      "revId": "d6c68c5ab07221cb144667adab92baa50b3680c8",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
