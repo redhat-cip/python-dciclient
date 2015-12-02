@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bada0100_6a747b9c",
+        "filename": "dciclient/v1/handlers/dcibaseresource.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-12-02T08:13:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bada0100_df4a0727",
+      "revId": "4d9f031172a3029c88bb87759daa9df16a3dcbfc",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_7f63dbb1",
         "filename": "dciclient/v1/utils.py",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2015-11-30T15:09:22Z",
       "side": 1,
       "message": "no need for this initialization, look line 52",
+      "revId": "4d9f031172a3029c88bb87759daa9df16a3dcbfc",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_ea406b37",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-12-02T08:13:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bada0100_7f63dbb1",
       "revId": "4d9f031172a3029c88bb87759daa9df16a3dcbfc",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "bada0100_aa4a6353",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-12-02T08:13:04Z",
+      "side": 1,
+      "message": "This will be the only case.\n\nEither we use component-list and then data is already a list, either we use component-show and we make it a list.\n\nNo other argument type is to be expected here.",
+      "parentUuid": "bada0100_5f5e17eb",
+      "revId": "4d9f031172a3029c88bb87759daa9df16a3dcbfc",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_1f588ff9",
         "filename": "dciclient/v1/utils.py",
         "patchSetId": 5
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "bada0100_0a3e0fb9",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-12-02T08:13:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bada0100_1f588ff9",
+      "revId": "4d9f031172a3029c88bb87759daa9df16a3dcbfc",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_9f547fcb",
         "filename": "dciclient/v1/utils.py",
         "patchSetId": 5
@@ -81,6 +153,24 @@
       "writtenOn": "2015-11-30T15:09:22Z",
       "side": 1,
       "message": "you can use python ternary operator here:\n\n    to_display \u003d output[item] if item else output",
+      "revId": "4d9f031172a3029c88bb87759daa9df16a3dcbfc",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_ca47a74a",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-12-02T08:13:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bada0100_9f547fcb",
       "revId": "4d9f031172a3029c88bb87759daa9df16a3dcbfc",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
