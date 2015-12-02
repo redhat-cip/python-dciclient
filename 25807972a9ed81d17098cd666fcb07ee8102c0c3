@@ -16,6 +16,24 @@
       "revId": "25807972a9ed81d17098cd666fcb07ee8102c0c3",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_0a65afe0",
+        "filename": "dciclient/v1/handlers/jobdefinition.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-12-02T08:14:51Z",
+      "side": 1,
+      "message": "Nop, self._end_point_with_uri is the correct variable here",
+      "parentUuid": "bada0100_5f05b7c0",
+      "revId": "25807972a9ed81d17098cd666fcb07ee8102c0c3",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
