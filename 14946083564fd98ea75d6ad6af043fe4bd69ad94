@@ -16,6 +16,24 @@
       "revId": "14946083564fd98ea75d6ad6af043fe4bd69ad94",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_2a575304",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-12-02T08:10:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bada0100_1f264f69",
+      "revId": "14946083564fd98ea75d6ad6af043fe4bd69ad94",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
