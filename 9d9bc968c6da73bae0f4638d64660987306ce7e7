@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_7760df35",
+        "filename": "dciclient/v1/consumers/agent.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-12-07T17:08:56Z",
+      "side": 1,
+      "message": "where self.jobinformation is used ?",
+      "revId": "9d9bc968c6da73bae0f4638d64660987306ce7e7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_977ea3e3",
+        "filename": "dciclient/v1/consumers/agent.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-12-07T17:08:56Z",
+      "side": 1,
+      "message": "We should really use the id and not the name.",
+      "revId": "9d9bc968c6da73bae0f4638d64660987306ce7e7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_378337ce",
+        "filename": "dciclient/v1/consumers/agent.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-12-07T17:08:56Z",
+      "side": 1,
+      "message": "you can get the remoteci by id",
+      "revId": "9d9bc968c6da73bae0f4638d64660987306ce7e7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_57883be7",
+        "filename": "dciclient/v1/consumers/agent.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-12-07T17:08:56Z",
+      "side": 1,
+      "message": "so that you don\u0027t need this loop",
+      "revId": "9d9bc968c6da73bae0f4638d64660987306ce7e7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_375a5784",
+        "filename": "dciclient/v1/consumers/agent.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-12-07T17:08:56Z",
+      "side": 1,
+      "message": "where component_embed is used ?",
+      "revId": "9d9bc968c6da73bae0f4638d64660987306ce7e7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_f76ccf38",
+        "filename": "dciclient/v1/consumers/agent.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-12-07T17:08:56Z",
+      "side": 1,
+      "message": "this call will fail, jobdefinition_id is mandatory to create a job",
+      "revId": "9d9bc968c6da73bae0f4638d64660987306ce7e7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_17515362",
+        "filename": "dciclient/v1/consumers/agent.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-12-07T17:08:56Z",
+      "side": 1,
+      "message": "with the embed, job already contains the jobdefinition\n\njob_data[\u0027jobdefinition\u0027]",
+      "revId": "9d9bc968c6da73bae0f4638d64660987306ce7e7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_d773cb13",
+        "filename": "dciclient/v1/consumers/agent.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-12-07T17:08:56Z",
+      "side": 1,
+      "message": "s/hash/args",
+      "revId": "9d9bc968c6da73bae0f4638d64660987306ce7e7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_7779bffb",
+        "filename": "dciclient/v1/consumers/agent.py",
+        "patchSetId": 16
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-12-07T17:08:56Z",
+      "side": 1,
+      "message": "We can add the methods\n\ndef pre_run(self):\n    pass\n\ndef run(self):\n    pass\n\ndef post_run(self):\n    pass\n\n\nAnd let the agent inherit from the Agent class in order to implement these methods. And then run_agent() will call successively self.pre_run(), self.run(), self.post_run()",
+      "revId": "9d9bc968c6da73bae0f4638d64660987306ce7e7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
