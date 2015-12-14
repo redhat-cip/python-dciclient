@@ -32,7 +32,7 @@ def list(context):
 
 @cli.command("component-create", help="Create a component.")
 @click.option("--name", required=True)
-@click.option("--componenttype_id", required=True)
+@click.option("--type", required=True)
 @click.option("--canonical_project_name")
 @click.option("--data")
 @click.option("--sha")
@@ -42,12 +42,12 @@ def list(context):
 @click.option("--git")
 @click.option("--ref")
 @click.pass_obj
-def create(context, name, componenttype_id, canonical_project_name, data, sha,
+def create(context, name, type, canonical_project_name, data, sha,
            title, message, url, git, ref):
     l_component = component.Component(context['session'])
     utils.format_output(
         l_component
-        .create(name=name, componenttype_id=componenttype_id,
+        .create(name=name, type=type,
                 canonical_project_name=canonical_project_name, data=data,
                 sha=sha, title=title, message=message, url=url, git=git,
                 ref=ref)

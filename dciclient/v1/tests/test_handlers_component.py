@@ -19,10 +19,8 @@ import json
 
 
 def test_prettytable_output(runner):
-    result = runner.invoke(['componenttype-create', '--name', 'foo'])
-    componenttype = json.loads(result.output)['componenttype']
     result = runner.invoke(['component-create', '--name', 'foo',
-                            '--componenttype_id', componenttype['id']])
+                            '--type', 'bar'])
     component = json.loads(result.output)['component']
 
     result = runner.invoke(['--format', 'table', 'component-show', '--id',
@@ -52,14 +50,14 @@ def test_prettytable_output(runner):
 
     expected_data = (component['id'], component['name'],
                      component['canonical_project_name'],
-                     component['componenttype_id'], component['sha'],
+                     component['type'], component['sha'],
                      component['title'], component['message'],
                      component['url'], component['git'], component['ref'],
                      component['etag'], component['created_at'],
                      component['updated_at'])
 
     assert header == ('| id | name | canonical_project_name '
-                      '| componenttype_id | sha | title | message | url | git '
+                      '| type | sha | title | message | url | git '
                       '| ref | data | etag | created_at | updated_at |')
 
     assert data == ('| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | {} '
@@ -67,13 +65,8 @@ def test_prettytable_output(runner):
 
 
 def test_list(runner):
-    result = runner.invoke(['componenttype-create', '--name', 'foo'])
-    componenttype = json.loads(result.output)['componenttype']
-
-    runner.invoke(['component-create', '--name', 'foo', '--componenttype_id',
-                   componenttype['id']])
-    runner.invoke(['component-create', '--name', 'bar', '--componenttype_id',
-                   componenttype['id']])
+    runner.invoke(['component-create', '--name', 'foo', '--type', 'bar'])
+    runner.invoke(['component-create', '--name', 'bar', '--type', 'bar2'])
     result = runner.invoke(['component-list'])
     components = json.loads(result.output)['components']
 
@@ -83,20 +76,15 @@ def test_list(runner):
 
 
 def test_create(runner):
-    result = runner.invoke(['componenttype-create', '--name', 'foo'])
-    componenttype = json.loads(result.output)['componenttype']
     result = runner.invoke(['component-create', '--name', 'foo',
-                            '--componenttype_id', componenttype['id']])
+                            '--type', 'foobar'])
     component = json.loads(result.output)['component']
     assert component['name'] == 'foo'
 
 
 def test_delete(runner):
-    result = runner.invoke(['componenttype-create', '--name', 'foo'])
-    componenttype = json.loads(result.output)['componenttype']
-
     result = runner.invoke(['component-create', '--name', 'foo',
-                            '--componenttype_id', componenttype['id']])
+                            '--type', 'bar'])
     component = json.loads(result.output)['component']
 
     result = runner.invoke(['component-delete', '--id',
@@ -108,10 +96,8 @@ def test_delete(runner):
 
 
 def test_show(runner):
-    result = runner.invoke(['componenttype-create', '--name', 'foo'])
-    componenttype = json.loads(result.output)['componenttype']
     result = runner.invoke(['component-create', '--name', 'foo',
-                            '--componenttype_id', componenttype['id']])
+                            '--type', 'bar'])
     component = json.loads(result.output)['component']
 
     result = runner.invoke(['component-show', '--id', component['id']])

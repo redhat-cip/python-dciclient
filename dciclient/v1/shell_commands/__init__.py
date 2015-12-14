@@ -48,7 +48,6 @@ def cli(ctx, dci_login, dci_password, dci_cs_url, format):
     ctx.obj = context_object
 
 import dciclient.v1.shell_commands.component  # noqa
-import dciclient.v1.shell_commands.componenttype  # noqa
 import dciclient.v1.shell_commands.file  # noqa
 import dciclient.v1.shell_commands.job  # noqa
 import dciclient.v1.shell_commands.jobdefinition  # noqa

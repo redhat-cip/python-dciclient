@@ -22,17 +22,17 @@ import json
 class Component(dcibaseresource.DCIBaseResource):
     ENDPOINT_URI = 'components'
     TABLE_HEADERS = ['id', 'name', 'canonical_project_name',
-                     'componenttype_id', 'sha', 'title', 'message', 'url',
+                     'type', 'sha', 'title', 'message', 'url',
                      'git', 'ref', 'data', 'etag', 'created_at', 'updated_at']
 
     def __init__(self, session):
         super(Component, self).__init__(session, self.ENDPOINT_URI)
 
-    def create(self, name, componenttype_id, canonical_project_name, data, sha,
+    def create(self, name, type, canonical_project_name, data, sha,
                title, message, url, git, ref):
         data = data or '{}'
         return super(Component, self).create(
-            name=name, componenttype_id=componenttype_id,
+            name=name, type=type,
             canonical_project_name=canonical_project_name,
             data=json.loads(data), sha=sha, title=title, message=message,
             url=url, git=git, ref=ref

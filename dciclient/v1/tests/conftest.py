@@ -31,18 +31,18 @@ def engine(request):
 
 
 @pytest.fixture
-def server(engine):
-    return server_conftest.app(engine)
+def db_clean(request, engine):
+    return server_conftest.db_clean(request, engine)
 
 
 @pytest.fixture
-def db_clean(request, server):
-    return server_conftest.db_clean(request, server)
+def db_provisioning(db_clean, engine):
+    server_conftest.db_provisioning(db_clean, engine)
 
 
 @pytest.fixture
-def db_provisioning(server, db_clean):
-    server_conftest.db_provisioning(server, db_clean)
+def server(db_provisioning, engine):
+    return server_conftest.app(db_provisioning, engine)
 
 
 @pytest.fixture

@@ -60,12 +60,9 @@ def test_list(runner):
     runner.invoke(['team-create', '--name', 'bar'])
     result = runner.invoke(['team-list'])
     teams = json.loads(result.output)['teams']
-    # NOTE (spredzy): We put 5 because of the 2 creates plus
-    # admin, company_a and company_b provisionned during server
-    # test
-    assert len(teams) == 5
-    assert teams[3]['name'] == 'foo'
-    assert teams[4]['name'] == 'bar'
+    # NOTE (spredzy): We put 4 because of the 2 creates plus
+    # admin and user provisionned during server test
+    assert len(teams) == 4
 
 
 def test_create(runner):
