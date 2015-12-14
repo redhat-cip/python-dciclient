@@ -34,3 +34,7 @@ class JobDefinition(dcibaseresource.DCIBaseResource):
 
     def get(self, id, where=None, embed=None):
         return super(JobDefinition, self).get(id=id, where=where, embed=embed)
+
+    def get_components(self, id):
+        url = '%s/%s/components' % (self._end_point_with_uri, id)
+        return self._s.get(url)

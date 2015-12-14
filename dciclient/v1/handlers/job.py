@@ -15,6 +15,7 @@
 # under the License.
 
 from dciclient.v1.handlers import dcibaseresource
+from dciclient.v1.handlers import jobdefinition
 
 
 class Job(dcibaseresource.DCIBaseResource):
@@ -24,6 +25,7 @@ class Job(dcibaseresource.DCIBaseResource):
 
     def __init__(self, dci_client):
         super(Job, self).__init__(dci_client, self.ENDPOINT_URI)
+        self._dci_client = dci_client
 
     def create(self, recheck, remoteci_id, team_id, jobdefinition_id=None):
         return super(Job, self).create(recheck=recheck,
@@ -33,3 +35,22 @@ class Job(dcibaseresource.DCIBaseResource):
 
     def get(self, id, where=None, embed=None):
         return super(Job, self).get(id=id, where=where, embed=embed)
+
+    def get_full_data(self, id):
+        # Get the job with embed on test and remoteci
+        embed = 'jobdefinition,jobdefinition.test,remoteci'
+        job = self.get(id=id, embed=embed).json()
+        # Get the components of the jobdefinition
+        l_jobdefinition = jobdefinition.JobDefinition(self._dci_client)
+        jobdefinition_components = l_jobdefinition.get_components(
+            job['jobdefinition']['id']).json()
+
+        # Aggregate the data of each resource
+        full_data = {'remoteci': job['remoteci']['data'],
+                     'test': job['jobdefinition']['test']['data'],
+                     'components': []}
+
+        for component in jobdefinition_components:
+            full_data['components'].append(component['data'])
+
+        return full_data
