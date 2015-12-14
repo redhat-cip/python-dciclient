@@ -15,7 +15,12 @@
 # under the License.
 
 from dci.server.tests import conftest as server_conftest
+from dciclient.v1.handlers import component
+from dciclient.v1.handlers import job
+from dciclient.v1.handlers import jobdefinition
+from dciclient.v1.handlers import remoteci
 from dciclient.v1.handlers import team
+from dciclient.v1.handlers import test
 
 
 from dciclient import v1 as dci_client
@@ -80,3 +85,25 @@ def runner(monkeypatch, http_session):
 @pytest.fixture
 def team_id(http_session):
     return team.Team(http_session).create(name='tname').json()['team']['id']
+
+
+@pytest.fixture
+def job_id(http_session):
+    my_team = team.Team(http_session).create(name='tname').json()['team']
+    my_remoteci = remoteci.RemoteCI(http_session).create(
+        name='tname', team_id=my_team['id'],
+        data={'remoteci': 'remoteci'}).json()
+    my_remoteci_id = my_remoteci['remoteci']['id']
+    my_test = test.Test(http_session).create(
+        name='tname', data={'test': 'test'}).json()
+    my_test_id = my_test['test']['id']
+    l_jobdefinition = jobdefinition.JobDefinition(http_session)
+    my_jobdefinition = l_jobdefinition.create(
+        name='tname', test_id=my_test_id).json()
+    my_component = component.Component(http_session).create(
+        name='hihi', type='git_review', data={'component': 'component'}).json()
+    my_component_id = my_component['component']['id']
+    l_jobdefinition.add_component(my_jobdefinition['jobdefinition']['id'],
+                                  my_component_id)
+    my_job = job.Job(http_session).schedule(my_remoteci_id).json()
+    return my_job['job']['id']
