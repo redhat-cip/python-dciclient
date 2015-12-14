@@ -28,10 +28,9 @@ class RemoteCI(dcibaseresource.DCIBaseResource):
     def __init__(self, session):
         super(RemoteCI, self).__init__(session, self.ENDPOINT_URI)
 
-    def create(self, name, team_id, data=None):
-        data = data or '{}'
+    def create(self, name, team_id, data={}):
         return super(RemoteCI, self).create(name=name, team_id=team_id,
-                                            data=json.loads(data))
+                                            data=json.dumps(data))
 
     def update(self, id, etag, name, team_id=None, data=None):
         kwargs = utils.sanitize_kwargs(id=id, etag=etag, name=name,

@@ -28,13 +28,13 @@ class Component(dcibaseresource.DCIBaseResource):
     def __init__(self, session):
         super(Component, self).__init__(session, self.ENDPOINT_URI)
 
-    def create(self, name, type, canonical_project_name, data, sha,
-               title, message, url, git, ref):
-        data = data or '{}'
+    def create(self, name, type, canonical_project_name=None, data={},
+               sha=None, title=None, message=None, url=None, git=None,
+               ref=None):
         return super(Component, self).create(
             name=name, type=type,
             canonical_project_name=canonical_project_name,
-            data=json.loads(data), sha=sha, title=title, message=message,
+            data=json.dumps(data), sha=sha, title=title, message=message,
             url=url, git=git, ref=ref
         )
 

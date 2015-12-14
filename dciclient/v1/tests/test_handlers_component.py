@@ -76,9 +76,9 @@ def test_list(runner):
 
 
 def test_create(runner):
-    result = runner.invoke(['component-create', '--name', 'foo',
-                            '--type', 'foobar'])
-    component = json.loads(result.output)['component']
+    component = runner.invoke(['component-create', '--name', 'foo',
+                               '--type', 'foobar'])
+    component = json.loads(component.output)['component']
     assert component['name'] == 'foo'
 
 

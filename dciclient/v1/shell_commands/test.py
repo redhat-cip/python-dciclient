@@ -21,6 +21,8 @@ from dciclient.v1 import utils
 
 from dciclient.v1.handlers import test
 
+import json
+
 
 @cli.command("test-list", help="List all tests.")
 @click.pass_obj
@@ -32,10 +34,11 @@ def list(context):
 
 @cli.command("test-create", help="Create a test.")
 @click.option("--name", required=True)
-@click.option("--data")
+@click.option("--data", default='{}')
 @click.pass_obj
 def create(context, name, data):
     l_test = test.Test(context['session'])
+    data = json.loads(data)
     utils.format_output(l_test.create(name=name, data=data).json(),
                         context['format'], l_test.ENDPOINT_URI[:-1])
 

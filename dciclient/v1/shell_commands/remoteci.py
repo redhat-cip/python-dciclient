@@ -21,6 +21,8 @@ from dciclient.v1 import utils
 
 from dciclient.v1.handlers import remoteci
 
+import json
+
 
 @cli.command("remoteci-list", help="List all remotecis.")
 @click.pass_obj
@@ -33,10 +35,11 @@ def list(context):
 @cli.command("remoteci-create", help="Create a remoteci.")
 @click.option("--name", required=True)
 @click.option("--team_id", required=True)
-@click.option("--data")
+@click.option("--data", default='{}')
 @click.pass_obj
 def create(context, name, team_id, data):
     l_remoteci = remoteci.RemoteCI(context['session'])
+    data = json.loads(data)
     utils.format_output(l_remoteci.create(name=name,
                                           team_id=team_id,
                                           data=data).json(),

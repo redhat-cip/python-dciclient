@@ -17,8 +17,6 @@
 from dciclient.v1.handlers import dcibaseresource
 from dciclient.v1 import utils
 
-import json
-
 
 class Test(dcibaseresource.DCIBaseResource):
     ENDPOINT_URI = 'tests'
@@ -27,9 +25,8 @@ class Test(dcibaseresource.DCIBaseResource):
     def __init__(self, session):
         super(Test, self).__init__(session, self.ENDPOINT_URI)
 
-    def create(self, name, data=None):
-        data = data or '{}'
-        return super(Test, self).create(name=name, data=json.loads(data))
+    def create(self, name, data={}):
+        return super(Test, self).create(name=name, data=data)
 
     def update(self, id, etag, name, data=None):
         kwargs = utils.sanitize_kwargs(id=id, etag=etag, name=name, data=data)
