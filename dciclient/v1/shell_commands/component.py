@@ -21,6 +21,8 @@ from dciclient.v1 import utils
 
 from dciclient.v1.handlers import component
 
+import json
+
 
 @cli.command("component-list", help="List all components.")
 @click.pass_obj
@@ -34,7 +36,7 @@ def list(context):
 @click.option("--name", required=True)
 @click.option("--type", required=True)
 @click.option("--canonical_project_name")
-@click.option("--data")
+@click.option("--data", default='{}')
 @click.option("--sha")
 @click.option("--title")
 @click.option("--message")
@@ -45,6 +47,7 @@ def list(context):
 def create(context, name, type, canonical_project_name, data, sha,
            title, message, url, git, ref):
     l_component = component.Component(context['session'])
+    data = json.loads(data)
     utils.format_output(
         l_component
         .create(name=name, type=type,
