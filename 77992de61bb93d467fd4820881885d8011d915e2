@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_d2a2029a",
+        "filename": "dciclient/v1/handlers/user.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-12-15T16:16:19Z",
+      "side": 1,
+      "message": "created_at and update_at should be at the end as the other resource",
+      "revId": "77992de61bb93d467fd4820881885d8011d915e2",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_f29f064f",
+        "filename": "dciclient/v1/handlers/user.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-12-15T16:16:19Z",
+      "side": 1,
+      "message": "Is role mandatory ? Does the backend set one by default if not specified ?",
+      "revId": "77992de61bb93d467fd4820881885d8011d915e2",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
