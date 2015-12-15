@@ -15,6 +15,9 @@
 # under the License.
 
 from dci.server.tests import conftest as server_conftest
+from dciclient.v1.handlers import team
+
+
 from dciclient import v1 as dci_client
 
 import click.testing
@@ -72,3 +75,8 @@ def runner(monkeypatch, http_session):
                                           'DCI_CLI_OUTPUT_FORMAT': 'json'})
     runner.invoke = functools.partial(runner.invoke, shell.main)
     return runner
+
+
+@pytest.fixture
+def team_id(http_session):
+    return team.Team(http_session).create(name='tname').json()['team']['id']
