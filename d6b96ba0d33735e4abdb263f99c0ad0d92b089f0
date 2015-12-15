@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_726316b2",
+        "filename": "dciclient/v1/handlers/component.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-12-15T14:20:53Z",
+      "side": 1,
+      "message": "done in commonlib",
+      "revId": "d6b96ba0d33735e4abdb263f99c0ad0d92b089f0",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_525e12eb",
+        "filename": "dciclient/v1/handlers/job.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-12-15T14:20:53Z",
+      "side": 1,
+      "message": "done in commonlib",
+      "revId": "d6b96ba0d33735e4abdb263f99c0ad0d92b089f0",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_b2517eda",
+        "filename": "dciclient/v1/handlers/jobdefinition.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2015-12-15T14:20:53Z",
+      "side": 1,
+      "message": "done in commonlib",
+      "revId": "d6b96ba0d33735e4abdb263f99c0ad0d92b089f0",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
