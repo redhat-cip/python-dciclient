@@ -83,10 +83,14 @@ def runner(monkeypatch, http_session):
 
 
 @pytest.fixture
-def job_id(http_session):
-    my_team = team.Team(http_session).create(name='tname').json()['team']
+def team_id(http_session):
+    return team.Team(http_session).create(name='tname').json()['team']['id']
+
+
+@pytest.fixture
+def job_id(http_session, team_id):
     my_remoteci = remoteci.RemoteCI(http_session).create(
-        name='tname', team_id=my_team['id'],
+        name='tname', team_id=team_id['id'],
         data={'remoteci': 'remoteci'}).json()
     my_remoteci_id = my_remoteci['remoteci']['id']
     my_test = test.Test(http_session).create(
