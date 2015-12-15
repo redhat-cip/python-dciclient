@@ -14,155 +14,129 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from dciclient.v1.consumers import dciconsumer
 from dciclient.v1.handlers import file
 from dciclient.v1.handlers import job
-from dciclient.v1.handlers import jobdefinition
 from dciclient.v1.handlers import jobstate
 from dciclient.v1.handlers import remoteci
 
+import fcntl
+import os
+import pprint
+import select
+import StringIO
 import subprocess
+import sys
 
 
-class Agent(dciconsumer.DCIConsumer):
-    """A DCI agent class"""
+class Agent(object):
+    """DCI base agent class"""
 
-    def __init__(self, dci_cs_url, login, password, remoteci_name):
-        super(Agent, self).__init__(dci_cs_url, login, password)
-        self.remoteci_id, self.team_id = self._retrieve_context(remoteci_name)
-        self.job_id, self.jobinformation = self._retrieve_jobinformation()
+    # The different possible states for a job
+    PRE_RUN = 'pre-run'
+    RUNNING = 'running'
+    POST_RUN = 'post-run'
+    SUCCESS = 'success'
+    FAILURE = 'failure'
 
-    def _retrieve_context(self, remoteci_name):
-        """Retrieve a remoteci id and team_id by the remote_ci name"""
-        l_remoteci = remoteci.RemoteCI(self._s)
+    def __init__(self, session, remoteci_id):
+        self._session = session
+        self._l_jobstate = jobstate.JobState(self._session)
+        self._l_file = file.File(self._session)
+        self.remoteci_id = remoteci_id
+        self.team_id = self._get_team_id_of_remoteci(remoteci_id)
+        self.job_id = None
 
-        remoteci_data = l_remoteci.get(remoteci_name).json()['remoteci']
+    def _get_team_id_of_remoteci(self, remoteci_id):
+        l_remoteci = remoteci.RemoteCI(self._session)
+        registered_remoteci = l_remoteci.get(id=remoteci_id).json()
+        return registered_remoteci['remoteci']['team_id']
 
-        return remoteci_data['id'], remoteci_data['team_id']
+    def schedule_job(self):
+        l_job = job.Job(self._session)
+        scheduled_job = l_job.schedule(self.remoteci_id).json()
+        self.job_id = scheduled_job['job']['id']
+        job_full_data = l_job.get_full_data(self.job_id)
+        print('* Job id: %s\n' % self.job_id)
+        print('* Job data:\n')
+        pprint.pprint(job_full_data)
+        print('\n')
+        return self.job_id, job_full_data
 
-    def _retrieve_jobinformation(self):
-        """Retrieve job informations"""
-        job_embed = ['jobdefinition']
+    def send_state(self, status, comment=None):
+        l_jobstate = jobstate.JobState(self._session)
+        job_state = l_jobstate.create(status=status, comment=comment,
+                                      job_id=self.job_id, team_id=self.team_id)
+        return job_state.json()['jobstate']['id']
 
-        l_job = job.Job(self._s)
-        l_jobdefinition = jobdefinition.JobDefinition(self._s)
+    def run_command(self, cmd, cwd, jobstate_id):
+        output = StringIO.StringIO()
+        pipe_process = subprocess.Popen(cmd, cwd=cwd,
+                                        stdout=subprocess.PIPE,
+                                        stderr=subprocess.PIPE)
 
-        job_data = l_job.schedule(remoteci_id=self.remoteci_id).json()['job']
-        jobdefinition_data = (
-            l_job .get(id=job_data['id'], embed=','.join(job_embed))
-            .json()['job']['jobdefinition']
-        )
-        component_data = (
-            l_jobdefinition.get_components(jobdefinition_data['id'])
-            .json()['components']
-        )
+        fcntl.fcntl(pipe_process.stdout.fileno(), fcntl.F_SETFL, os.O_NONBLOCK)
+        inputs = [pipe_process.stdout]
+        outputs = []
 
-        jobinformation = {
-            'job': job_data,
-            'jobdefinition': jobdefinition_data,
-            'components': component_data,
-            'data': l_job.get_full_data(job_data['id']),
-        }
+        while True:
+            readable, writable, exceptional = select.select(inputs, outputs,
+                                                            inputs, 1)
+            if not readable:
+                break
+            read = pipe_process.stdout.read().decode('UTF-8', 'ignore')
+            if len(read) == 0:
+                break
+            print(read)
+            output.write(read)
 
-        return job_data['id'], jobinformation
+        # equivalent to pipe_process.wait(), avoid deadlock, see Popen doc.
+        pipe_process.communicate()
 
-    def _get_state_hash(self, status, comment):
-        return {'job_id': self.job_id,
-                'status': status,
-                'comment': comment,
-                'team_id': self.team_id}
+        self._l_file.create(name='_'.join(cmd), content=output.getvalue(),
+                            mime='text/plain', jobstate_id=jobstate_id,
+                            team_id=self.team_id)
+        output.close()
+        return pipe_process.returncode
 
-    def _run_command(self, cmd, cwd, jobstate_id):
-        """Run the actual command and upload the output """
-        l_file = file.File(self._s)
-        ret_value = 0
+    def run_commands(self, cmds, cwd, jobstate_id):
+        for cmd in cmds:
+            rc = self.run_command(cmd, cwd, jobstate_id)
+            if rc != 0:
+                self.send_state(Agent.FAILURE)
+                return
 
-        cwd = cmd[0]['cwd'] if 'cwd' in cmd[0] else cwd
-        if 'cwd' in cmd[0]:
-            cmd = cmd[1:]
+    def pre_run(self):
+        return None
 
-        try:
-            flat_cmd = ' '.join(cmd)
-            output = subprocess.check_output(flat_cmd, shell=True, cwd=cwd)
-            l_file.create(name='_'.join(cmd),
-                          content=output,
-                          mime='text/plain',
-                          jobstate_id=jobstate_id,
-                          team_id=self.team_id)
-        except subprocess.CalledProcessError as e:
-            l_file.create(name=e.cmd,
-                          content=e.output,
-                          mime='text/plain',
-                          jobstate_id=jobstate_id,
-                          team_id=self.team_id)
-            ret_value = -1
-        except (OSError, IOError, TypeError):
-            ret_value = -1
+    def run(self):
+        return None
 
-        return ret_value
+    def post_run(self):
+        return None
 
-    def run_agent(self, run, pre_run=None, post_run=None):
+    def run_agent(self):
         """Run the agent business logic"""
-        failure = False
-        l_jobstate = jobstate.JobState(self._s)
-        kwargs = self._get_state_hash('new', 'Starting run agent')
-        l_jobstate.create(**kwargs)
+        if not self.job_id:
+            print('Schedule a job before running the agent logic.')
+            sys.exit(1)
 
-        if pre_run:
-            kwargs = (
-                self
-                ._get_state_hash('pre-run', 'Starting pre_run setup')
-            )
-            pre_run_jobstate_id = (
-                l_jobstate
-                .create(**kwargs).json()['jobstate']['id']
-            )
-            for cmd in pre_run['cmds']:
-                rc = (
-                    self
-                    ._run_command(cmd, pre_run['cwd'], pre_run_jobstate_id)
-                )
-                if rc != 0:
-                    kwargs = (
-                        self
-                        ._get_state_hash('failure', 'Failure in pre_run setup')
-                    )
-                    l_jobstate.create(**kwargs)
-                    failure = True
+        pre_run_cmds = self.pre_run()
+        if pre_run_cmds:
+            pre_run_jobstate_id = self.send_state(Agent.PRE_RUN,
+                                                  'Starting pre-run setup.')
+            self.run_commands(pre_run_cmds['cmds'], pre_run_cmds['cwd'],
+                              pre_run_jobstate_id)
 
-        if not failure:
-            kwargs = self._get_state_hash('running', 'Starting run setup')
-            run_jobstate_id = (
-                l_jobstate.create(**kwargs)
-                .json()['jobstate']['id']
-            )
-            for cmd in run['cmds']:
-                rc = self._run_command(cmd, run['cwd'], run_jobstate_id)
-                if rc != 0:
-                    kwargs = (
-                        self
-                        ._get_state_hash('failure', 'Failure in run setup')
-                    )
-                    l_jobstate.create(**kwargs)
-                    failure = True
+        run_cmds = self.run()
+        if run_cmds:
+            run_jobstate_id = self.send_state(Agent.RUNNING,
+                                              'Starting running setup.')
+            self.run_commands(run_cmds['cmds'], run_cmds['cwd'],
+                              run_jobstate_id)
 
-        if not failure and post_run:
-            kwargs = (self
-                      ._get_state_hash('post-run', 'Starting post_run setup'))
-            post_run_jobstate_id = (
-                l_jobstate
-                .create(**kwargs).json()['jobstate']['id']
-            )
-            for cmd in post_run['cmds']:
-                self._run_command(cmd, post_run['cwd'], post_run_jobstate_id)
-                if rc != 0:
-                    kwargs = (
-                        self
-                        ._get_state_hash('failure', 'Fail in post_run setup')
-                    )
-                    l_jobstate.create(**kwargs)
-                    failure = True
-
-        if not failure:
-            kwargs = self._get_state_hash('success', 'Finished running agent')
-            l_jobstate.create(**kwargs)
+        post_run_cmds = self.post_run()
+        if post_run_cmds:
+            post_run_jobstate_id = self.send_state(Agent.POST_RUN,
+                                                   'Starting post-run setup.')
+            self.run_commands(post_run_cmds['cmds'], post_run_cmds['cwd'],
+                              post_run_jobstate_id)

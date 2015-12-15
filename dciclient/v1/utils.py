@@ -18,6 +18,7 @@ from prettytable import PrettyTable
 
 import click
 import json
+import requests
 import six
 
 
@@ -75,3 +76,11 @@ def format_output(output, format, item=None, headers=None):
     else:
         to_display = output[item] if item else output
         print_prettytable(to_display, headers)
+
+
+def build_http_session(dci_cs_url=None, login=None, password=None):
+    session = requests.Session()
+    session.headers.setdefault('Content-Type', 'application/json')
+    session.auth = (login, password)
+    session.dci_cs_url = dci_cs_url
+    return session
