@@ -26,28 +26,37 @@ class DCIBaseResource(object):
     def create(self, **kwargs):
         """Create a resource"""
         data = utils.sanitize_kwargs(**kwargs)
-        return self._s.post(self._end_point_with_uri, json=data)
+        r = self._s.post(self._end_point_with_uri, json=data)
+        r.raise_for_status()
+        return r
 
     def list(self):
         """List all resources"""
-        return self._s.get(self._end_point_with_uri)
+        r = self._s.get(self._end_point_with_uri)
+        r.raise_for_status()
+        return r
 
     def get(self, **kwargs):
         """List a specific resource"""
         base_url = "%s/%s" % (self._end_point_with_uri, kwargs.pop('id'))
-        return self._s.get(base_url, params=kwargs)
+        r = self._s.get(base_url, params=kwargs)
+        r.raise_for_status()
+        return r
 
     def update(self, **kwargs):
         """Update a specific resource"""
         id = kwargs.pop('id')
         etag = kwargs.pop('etag')
         data = utils.sanitize_kwargs(**kwargs)
-
-        return self._s.put('%s/%s' % (self._end_point_with_uri, id),
-                           headers={'If-match': etag}, json=data)
+        r = self._s.put('%s/%s' % (self._end_point_with_uri, id),
+                        headers={'If-match': etag}, json=data)
+        r.raise_for_status()
+        return r
 
     def delete(self, **kwargs):
         """Delete a specific resource"""
-        return self._s.delete('%s/%s' % (self._end_point_with_uri,
-                                         kwargs['id']),
-                              headers={'If-match': kwargs['etag']})
+        r = self._s.delete('%s/%s' % (self._end_point_with_uri,
+                                      kwargs['id']),
+                           headers={'If-match': kwargs['etag']})
+        r.raise_for_status()
+        return r
