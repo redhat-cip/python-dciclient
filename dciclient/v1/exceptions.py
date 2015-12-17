@@ -17,3 +17,11 @@
 
 class ClientError(Exception):
     """DCI client error."""
+
+
+class ServerError(Exception):
+    """DCI server error"""
+
+
+class DuplicateResource(ServerError):
+    """The resource already exist"""
