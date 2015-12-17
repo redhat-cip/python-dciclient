@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_b8b5dd32",
+        "filename": "dciclient/v1/consumers/agent.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-12-17T13:01:02Z",
+      "side": 1,
+      "message": "you can instantiate:\nself._l_file \u003d file.File(self._s)\n\nsame for jobstate",
+      "revId": "23a48592b3bd15bf27160f8c2a086f6a0616f237",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_38aa4dd5",
+        "filename": "dciclient/v1/consumers/agent.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-12-17T13:01:02Z",
+      "side": 1,
+      "message": "use get remote ci by name",
+      "revId": "23a48592b3bd15bf27160f8c2a086f6a0616f237",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_d8aea1e7",
+        "filename": "dciclient/v1/consumers/agent.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-12-17T13:01:02Z",
+      "side": 1,
+      "message": ".json()[\u0027jobstate\u0027][\u0027id\u0027]   not needed",
+      "revId": "23a48592b3bd15bf27160f8c2a086f6a0616f237",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_5882b153",
+        "filename": "dciclient/v1/consumers/agent.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-12-17T13:01:02Z",
+      "side": 1,
+      "message": "s/initializing/pre-run",
+      "revId": "23a48592b3bd15bf27160f8c2a086f6a0616f237",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_187c2972",
+        "filename": "dciclient/v1/consumers/agent.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-12-17T13:01:02Z",
+      "side": 1,
+      "message": "s/ongoing/running",
+      "revId": "23a48592b3bd15bf27160f8c2a086f6a0616f237",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_78877562",
+        "filename": "dciclient/v1/consumers/agent.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-12-17T13:01:02Z",
+      "side": 1,
+      "message": ".json()[\u0027jobstate\u0027][\u0027id\u0027]  not needed",
+      "revId": "23a48592b3bd15bf27160f8c2a086f6a0616f237",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_3881ed4a",
+        "filename": "dciclient/v1/consumers/agent.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-12-17T13:01:02Z",
+      "side": 1,
+      "message": "s/ongoing/post-run",
+      "revId": "23a48592b3bd15bf27160f8c2a086f6a0616f237",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_d8954189",
+        "filename": "dciclient/v1/consumers/agent.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-12-17T13:01:02Z",
+      "side": 1,
+      "message": ".json()[\u0027jobstate\u0027][\u0027id\u0027] not needed",
+      "revId": "23a48592b3bd15bf27160f8c2a086f6a0616f237",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_f892859e",
+        "filename": "dciclient/v1/consumers/agent.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-12-17T13:01:02Z",
+      "side": 1,
+      "message": ".json()[\u0027jobstate\u0027][\u0027id\u0027]  not needed",
+      "revId": "23a48592b3bd15bf27160f8c2a086f6a0616f237",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_988fb975",
+        "filename": "dciclient/v1/consumers/dciconsumer.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-12-17T13:01:02Z",
+      "side": 1,
+      "message": "DCIConsumer could be replace by a utils method\n\ndef get_http_session(self, dci_cs_url, login, password):\n\t\t\t        session \u003d requests.Session()\n\t\t\t        session.headers.setdefault(\u0027Content-Type\u0027, \u0027application/json\u0027)\n\t\t\t        session.auth \u003d (login, password)\n\t\t\t        session.dci_cs_url \u003d dci_cs_url\n\t\t\t        return session\n\nthis will be used on the __init__ method of Agent and Feeder",
+      "revId": "23a48592b3bd15bf27160f8c2a086f6a0616f237",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_58e95119",
+        "filename": "dciclient/v1/handlers/team.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-12-17T13:01:02Z",
+      "side": 1,
+      "message": "this is not needed.\n\nget(id\u003d\u0027aname\u0027)  will work",
+      "revId": "23a48592b3bd15bf27160f8c2a086f6a0616f237",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_b88cfd80",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2015-12-17T13:01:02Z",
+      "side": 1,
+      "message": "this is not needed since gonéri\u0027s patch with raise_on_status()",
+      "revId": "23a48592b3bd15bf27160f8c2a086f6a0616f237",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
