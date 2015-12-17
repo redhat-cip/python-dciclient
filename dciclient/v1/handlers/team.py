@@ -35,3 +35,12 @@ class Team(dcibaseresource.DCIBaseResource):
 
     def get(self, id, where=None, embed=None):
         return super(Team, self).get(id=id, where=where, embed=embed)
+
+    def get_id_by_name(self, name):
+        teams = super(Team, self).list().json()['teams']
+        for team in teams:
+            if team['name'] == name:
+                id = team['id']
+                break
+
+        return id
