@@ -105,13 +105,13 @@ class Agent(dciconsumer.DCIConsumer):
         """Run the agent business logic"""
         failure = False
         l_jobstate = jobstate.JobState(self._s)
-        kwargs = self._get_state_hash('initializing', 'Starting run agent')
+        kwargs = self._get_state_hash('new', 'Starting run agent')
         l_jobstate.create(**kwargs)
 
         if pre_run:
             kwargs = (
                 self
-                ._get_state_hash('initializing', 'Starting pre_run setup')
+                ._get_state_hash('pre-run', 'Starting pre_run setup')
             )
             pre_run_jobstate_id = (
                 l_jobstate
@@ -131,7 +131,7 @@ class Agent(dciconsumer.DCIConsumer):
                     failure = True
 
         if not failure:
-            kwargs = self._get_state_hash('ongoing', 'Starting run setup')
+            kwargs = self._get_state_hash('running', 'Starting run setup')
             run_jobstate_id = (
                 l_jobstate.create(**kwargs)
                 .json()['jobstate']['id']
@@ -147,7 +147,7 @@ class Agent(dciconsumer.DCIConsumer):
                     failure = True
 
         if not failure and post_run:
-            kwargs = self._get_state_hash('ongoing', 'Starting post_run setup')
+            kwargs = self._get_state_hash('post-run', 'Starting post_run setup')
             post_run_jobstate_id = (
                 l_jobstate
                 .create(**kwargs).json()['jobstate']['id']
