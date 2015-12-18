@@ -36,13 +36,15 @@ def list(context):
 @click.option("--name", required=True)
 @click.option("--team_id", required=True)
 @click.option("--data", default='{}')
+@click.option("--active/--no-active", default=True)
 @click.pass_obj
-def create(context, name, team_id, data):
+def create(context, name, team_id, data, active):
     l_remoteci = remoteci.RemoteCI(context['session'])
     data = json.loads(data)
     utils.format_output(l_remoteci.create(name=name,
                                           team_id=team_id,
-                                          data=data).json(),
+                                          data=data,
+                                          active=active).json(),
                         context['format'], l_remoteci.ENDPOINT_URI[:-1])
 
 
@@ -52,16 +54,18 @@ def create(context, name, team_id, data):
 @click.option("--name")
 @click.option("--team_id")
 @click.option("--data")
+@click.option("--active/--no-active")
 @click.pass_obj
-def update(context, id, etag, name, team_id, data):
+def update(context, id, etag, name, team_id, data, active):
     l_remoteci = remoteci.RemoteCI(context['session'])
     result = l_remoteci.update(id=id, etag=etag, name=name, team_id=team_id,
-                               data=data)
+                               data=data, active=active)
 
     if result.status_code == 204:
         utils.format_output({'id': id,
                              'etag': etag,
                              'name': name,
+                             'active': active,
                              'message': 'Remote CI updated.'},
                             context['format'])
     else:

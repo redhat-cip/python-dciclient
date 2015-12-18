@@ -22,19 +22,21 @@ import json
 
 class RemoteCI(dcibaseresource.DCIBaseResource):
     ENDPOINT_URI = 'remotecis'
-    TABLE_HEADERS = ['id', 'name', 'data', 'team_id', 'etag', 'created_at',
-                     'updated_at']
+    TABLE_HEADERS = ['id', 'name', 'data', 'active', 'team_id', 'etag',
+                     'created_at', 'updated_at']
 
     def __init__(self, session):
         super(RemoteCI, self).__init__(session, self.ENDPOINT_URI)
 
-    def create(self, name, team_id, data={}):
+    def create(self, name, team_id, data={}, active=True):
         return super(RemoteCI, self).create(name=name, team_id=team_id,
-                                            data=json.dumps(data))
+                                            data=json.dumps(data),
+                                            active=active)
 
-    def update(self, id, etag, name, team_id=None, data=None):
+    def update(self, id, etag, name, team_id=None, data=None, active=None):
         kwargs = utils.sanitize_kwargs(id=id, etag=etag, name=name,
-                                       team_id=team_id, data=data)
+                                       team_id=team_id, data=data,
+                                       active=active)
         return super(RemoteCI, self).update(**kwargs)
 
     def delete(self, id, etag):

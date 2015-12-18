@@ -50,14 +50,15 @@ def test_prettytable_output(runner):
     header = ' '.join(output[1].split())
     data = ' '.join(output[3].split())
 
-    expected_data = (remoteci['id'], remoteci['name'], remoteci['team_id'],
+    expected_data = (remoteci['id'], remoteci['name'], remoteci['data'],
+                     remoteci['active'], remoteci['team_id'],
                      remoteci['etag'], remoteci['created_at'],
                      remoteci['updated_at'])
 
-    assert header == ('| id | name | data | team_id | etag | created_at '
-                      '| updated_at |')
+    assert header == ('| id | name | data | active | team_id | etag '
+                      '| created_at | updated_at |')
 
-    assert data == '| %s | %s | {} | %s | %s | %s | %s |' % expected_data
+    assert data == '| %s | %s | %s | %s | %s | %s | %s | %s |' % expected_data
 
 
 def test_list(runner):
@@ -80,9 +81,10 @@ def test_create(runner):
     result = runner.invoke(['team-create', '--name', 'foo'])
     team = json.loads(result.output)['team']
     result = runner.invoke(['remoteci-create', '--name', 'foo', '--team_id',
-                            team['id']])
+                            team['id'], '--active'])
     remoteci = json.loads(result.output)['remoteci']
     assert remoteci['name'] == 'foo'
+    assert remoteci['active'] is True
 
 
 def test_update(runner):
@@ -93,11 +95,13 @@ def test_update(runner):
     remoteci = json.loads(result.output)['remoteci']
 
     result = runner.invoke(['remoteci-update', '--id', remoteci['id'],
-                            '--etag', remoteci['etag'], '--name', 'bar'])
+                            '--etag', remoteci['etag'], '--name', 'bar',
+                            '--no-active'])
     result = json.loads(result.output)
 
     assert result['message'] == 'Remote CI updated.'
     assert result['name'] == 'bar'
+    assert result['active'] is False
 
 
 def test_delete(runner):
