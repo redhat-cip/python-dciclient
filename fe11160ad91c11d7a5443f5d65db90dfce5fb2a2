@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_fe782d2d",
+        "filename": "agents/helloworld.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2015-12-21T15:55:43Z",
+      "side": 1,
+      "message": "I\u0027m still not sure it\u0027s a flexible enough. We will need to be able to send batch of command. Sometime the operation will depend on the result of a previous evaluation. Like, if git checkout has failed, then do that.\n\nI\u0027m tempted to say: Anonymous function, but a little voice also say it\u0027s a bad idea.\n\nthought?",
+      "revId": "fe11160ad91c11d7a5443f5d65db90dfce5fb2a2",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_9e756134",
+        "filename": "dciclient/v1/consumers/agent.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2015-12-21T15:55:43Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this call be done in the loop above?",
+      "revId": "fe11160ad91c11d7a5443f5d65db90dfce5fb2a2",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
