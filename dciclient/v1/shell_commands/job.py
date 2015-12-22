@@ -19,21 +19,21 @@ import click
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
-from dciclient.v1.handlers import job
+from dciclient.v1.api import job
 
 
 @cli.command("job-list", help="List all jobs.")
 @click.pass_obj
 def list(context):
-    l_job = job.Job(context['session'])
-    utils.format_output(l_job.list().json(), context['format'],
-                        l_job.ENDPOINT_URI, l_job.TABLE_HEADERS)
+    result = job.list(context)
+    utils.format_output(result.json(), context.format,
+                        job.RESOURCE, job.TABLE_HEADERS)
 
 
 @cli.command("job-show", help="Show a job.")
 @click.option("--id", required=True)
 @click.pass_obj
 def show(context, id):
-    l_job = job.Job(context['session'])
-    utils.format_output(l_job.get(id=id).json(), context['format'],
-                        l_job.ENDPOINT_URI[:-1], l_job.TABLE_HEADERS)
+    result = job.get(context, id=id)
+    utils.format_output(result.json(), context.format,
+                        job.RESOURCE[:-1], job.TABLE_HEADERS)

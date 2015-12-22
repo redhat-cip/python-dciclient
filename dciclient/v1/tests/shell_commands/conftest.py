@@ -15,19 +15,19 @@
 # under the License.
 
 from dci.server.tests import conftest as server_conftest
-from dciclient.v1.handlers import component
-from dciclient.v1.handlers import job
-from dciclient.v1.handlers import jobdefinition
-from dciclient.v1.handlers import remoteci
-from dciclient.v1.handlers import team
-from dciclient.v1.handlers import test
+from dciclient.v1.api import component
+from dciclient.v1.api import context
+from dciclient.v1.api import job
+from dciclient.v1.api import jobdefinition
+from dciclient.v1.api import remoteci
+from dciclient.v1.api import team
+from dciclient.v1.api import test
 
 
 from dciclient import v1 as dci_client
 
 import click.testing
 import dciclient.shell as shell
-import dciclient.v1.shell_commands as commands
 import dciclient.v1.tests.utils as utils
 import functools
 import pytest
@@ -65,17 +65,17 @@ def client(server, db_provisioning):
 
 
 @pytest.fixture
-def http_session(server, db_provisioning):
-    session = commands._get_http_session('http://dci_server.com',
-                                         'admin', 'admin')
+def dci_context(server, db_provisioning):
+    test_context = context.DciContext('http://dci_server.com',
+                                      'admin', 'admin')
     flask_adapter = utils.FlaskHTTPAdapter(server.test_client())
-    session.mount('http://dci_server.com', flask_adapter)
-    return session
+    test_context.session.mount('http://dci_server.com', flask_adapter)
+    return test_context
 
 
 @pytest.fixture
-def runner(monkeypatch, http_session):
-    monkeypatch.setattr(commands, '_get_http_session', lambda *_: http_session)
+def runner(dci_context):
+    context.build_dci_context = lambda **kwargs: dci_context
     runner = click.testing.CliRunner(env={'DCI_LOGIN': '', 'DCI_PASSWORD': '',
                                           'DCI_CLI_OUTPUT_FORMAT': 'json'})
     runner.invoke = functools.partial(runner.invoke, shell.main)
@@ -83,27 +83,28 @@ def runner(monkeypatch, http_session):
 
 
 @pytest.fixture
-def team_id(http_session):
-    return team.Team(http_session).create(name='tname').json()['team']['id']
+def team_id(dci_context):
+    return team.create(dci_context, name='tname').json()['team']['id']
 
 
 @pytest.fixture
-def job_id(http_session):
-    my_team = team.Team(http_session).create(name='tname').json()['team']
-    my_remoteci = remoteci.RemoteCI(http_session).create(
-        name='tname', team_id=my_team['id'],
-        data={'remoteci': 'remoteci'}).json()
+def job_id(dci_context):
+    my_team = team.create(dci_context, name='tname').json()['team']
+    my_remoteci = remoteci.create(dci_context,
+                                  name='tname', team_id=my_team['id'],
+                                  data={'remoteci': 'remoteci'}).json()
     my_remoteci_id = my_remoteci['remoteci']['id']
-    my_test = test.Test(http_session).create(
-        name='tname', data={'test': 'test'}).json()
+    my_test = test.create(
+        dci_context, name='tname', data={'test': 'test'}).json()
     my_test_id = my_test['test']['id']
-    l_jobdefinition = jobdefinition.JobDefinition(http_session)
-    my_jobdefinition = l_jobdefinition.create(
-        name='tname', test_id=my_test_id).json()
-    my_component = component.Component(http_session).create(
-        name='hihi', type='git_review', data={'component': 'component'}).json()
+    my_jobdefinition = jobdefinition.create(
+        dci_context, name='tname', test_id=my_test_id).json()
+    my_component = component.create(
+        dci_context, name='hihi', type='git_review',
+        data={'component': 'component'}).json()
     my_component_id = my_component['component']['id']
-    l_jobdefinition.add_component(my_jobdefinition['jobdefinition']['id'],
-                                  my_component_id)
-    my_job = job.Job(http_session).schedule(my_remoteci_id).json()
+    jobdefinition.add_component(dci_context,
+                                my_jobdefinition['jobdefinition']['id'],
+                                my_component_id)
+    my_job = job.schedule(dci_context, my_remoteci_id).json()
     return my_job['job']['id']

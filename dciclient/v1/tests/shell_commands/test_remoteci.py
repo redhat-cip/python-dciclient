@@ -17,6 +17,9 @@
 from __future__ import unicode_literals
 import json
 
+from dciclient.v1.api import remoteci
+from dciclient.v1.api import team
+
 
 def test_prettytable_output(runner):
     result = runner.invoke(['team-create', '--name', 'foo'])
@@ -130,3 +133,16 @@ def test_show(runner):
     remoteci = json.loads(result.output)['remoteci']
 
     assert remoteci['name'] == 'foo'
+
+
+def test_embed(dci_context):
+    team_id = team.create(dci_context, name='teama').json()['team']['id']
+
+    rci = remoteci.create(dci_context, name='boa', team_id=team_id).json()
+    rci_id = rci['remoteci']['id']
+
+    rci_with_embed = remoteci.get(dci_context,
+                                  id=rci_id, embed=['team']).json()
+    embed_team_id = rci_with_embed['remoteci']['team']['id']
+
+    assert team_id == embed_team_id

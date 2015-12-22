@@ -15,18 +15,11 @@
 # under the License.
 
 import click
-import requests
+
+from dciclient.v1.api import context as dci_context
 
 
 _default_dci_cs_url = 'http://127.0.0.1:5000'
-
-
-def _get_http_session(dci_cs_url, login, password):
-    session = requests.Session()
-    session.headers.setdefault('Content-Type', 'application/json')
-    session.auth = (login, password)
-    session.dci_cs_url = dci_cs_url
-    return session
 
 
 @click.group()
@@ -41,11 +34,11 @@ def _get_http_session(dci_cs_url, login, password):
               default='table', help="DCI CLI output format.")
 @click.pass_context
 def cli(ctx, dci_login, dci_password, dci_cs_url, format):
-    context_object = {
-        'session': _get_http_session(dci_cs_url, dci_login, dci_password),
-        'format': format,
-    }
-    ctx.obj = context_object
+    context = dci_context.build_dci_context(dci_login=dci_login,
+                                            dci_password=dci_password,
+                                            dci_cs_url=dci_cs_url)
+    context.format = format
+    ctx.obj = context
 
 import dciclient.v1.shell_commands.component  # noqa
 import dciclient.v1.shell_commands.file  # noqa
