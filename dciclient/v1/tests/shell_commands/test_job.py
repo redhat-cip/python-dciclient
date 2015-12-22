@@ -14,20 +14,11 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from dciclient.v1.handlers import remoteci
-from dciclient.v1.handlers import team
+from dciclient.v1.api import job
 
 
-def test_embed(http_session):
-    l_team = team.Team(http_session)
-    l_remoteci = remoteci.RemoteCI(http_session)
-
-    team_id = l_team.create(name='teama').json()['team']['id']
-
-    rci = l_remoteci.create(name='boa', team_id=team_id).json()
-    rci_id = rci['remoteci']['id']
-
-    rci_with_embed = l_remoteci.get(id=rci_id, embed=['team']).json()
-    embed_team_id = rci_with_embed['remoteci']['team']['id']
-
-    assert team_id == embed_team_id
+def test_get_full_data(job_id, dci_context):
+    full_data_job = job.get_full_data(dci_context, job_id)
+    assert full_data_job['remoteci'] == {'remoteci': 'remoteci'}
+    assert full_data_job['test'] == {'test': 'test'}
+    assert full_data_job['components'] == [{'component': 'component'}]
