@@ -19,24 +19,23 @@ import click
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
-from dciclient.v1.handlers import team
+from dciclient.v1.api import team
 
 
 @cli.command("team-list", help="List all teams.")
 @click.pass_obj
 def list(context):
-    l_team = team.Team(context['session'])
-    utils.format_output(l_team.list().json(), context['format'],
-                        l_team.ENDPOINT_URI, l_team.TABLE_HEADERS)
+    result = team.list(context)
+    utils.format_output(result.json(), context.format,
+                        team.RESOURCE, team.TABLE_HEADERS)
 
 
 @cli.command("team-create", help="Create a team.")
 @click.option("--name", required=True)
 @click.pass_obj
 def create(context, name):
-    l_team = team.Team(context['session'])
-    utils.format_output(l_team.create(name=name).json(),
-                        context['format'], l_team.ENDPOINT_URI[:-1])
+    result = team.create(context, name=name)
+    utils.format_output(result.json(), context.format, team.RESOURCE[:-1])
 
 
 @cli.command("team-update", help="Update a team.")
@@ -45,16 +44,15 @@ def create(context, name):
 @click.option("--name", required=True)
 @click.pass_obj
 def update(context, id, etag, name):
-    l_team = team.Team(context['session'])
-    result = l_team.update(id=id, etag=etag, name=name)
+    result = team.update(context, id=id, etag=etag, name=name)
 
     if result.status_code == 204:
         utils.format_output({'id': id,
                              'etag': etag,
                              'name': name,
-                             'message': 'Team updated.'}, context['format'])
+                             'message': 'Team updated.'}, context.format)
     else:
-        utils.format_output(result.json(), context['format'])
+        utils.format_output(result.json(), context.format)
 
 
 @cli.command("team-delete", help="Delete a team.")
@@ -62,20 +60,19 @@ def update(context, id, etag, name):
 @click.option("--etag", required=True)
 @click.pass_obj
 def delete(context, id, etag):
-    l_team = team.Team(context['session'])
-    result = l_team.delete(id=id, etag=etag)
+    result = team.delete(context, id=id, etag=etag)
 
     if result.status_code == 204:
         utils.format_output({'id': id,
-                             'message': 'Team deleted.'}, context['format'])
+                             'message': 'Team deleted.'}, context.format)
     else:
-        utils.format_output(result.json(), context['format'])
+        utils.format_output(result.json(), context.format)
 
 
 @cli.command("team-show", help="Show a team.")
 @click.option("--id", required=True)
 @click.pass_obj
 def show(context, id):
-    l_team = team.Team(context['session'])
-    utils.format_output(l_team.get(id=id).json(), context['format'],
-                        l_team.ENDPOINT_URI[:-1], l_team.TABLE_HEADERS)
+    result = team.get(context, id=id)
+    utils.format_output(result.json(), context.format,
+                        team.RESOURCE[:-1], team.TABLE_HEADERS)

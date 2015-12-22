@@ -14,12 +14,11 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from dciclient.v1.handlers import job
+from dciclient.v1.api import job
 
 
-def test_get_full_data(job_id, http_session):
-    l_job = job.Job(http_session)
-    full_data_job = l_job.get_full_data(job_id)
+def test_get_full_data(job_id, dci_context):
+    full_data_job = job.get_full_data(dci_context, job_id)
     assert full_data_job['remoteci'] == {'remoteci': 'remoteci'}
     assert full_data_job['test'] == {'test': 'test'}
     assert full_data_job['components'] == [{'component': 'component'}]

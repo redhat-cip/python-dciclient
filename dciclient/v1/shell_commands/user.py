@@ -19,15 +19,15 @@ import click
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
-from dciclient.v1.handlers import user
+from dciclient.v1.api import user
 
 
 @cli.command("user-list", help="List all users.")
 @click.pass_obj
 def list(context):
-    l_user = user.User(context['session'])
-    utils.format_output(l_user.list().json(), context['format'],
-                        l_user.ENDPOINT_URI, l_user.TABLE_HEADERS)
+    result = user.list(context)
+    utils.format_output(result.json(), context.format,
+                        user.RESOURCE, user.TABLE_HEADERS)
 
 
 @cli.command("user-create", help="Create a user.")
@@ -37,10 +37,9 @@ def list(context):
 @click.option("--team_id", required=True)
 @click.pass_obj
 def create(context, name, password, role, team_id):
-    l_user = user.User(context['session'])
-    utils.format_output(l_user.create(name=name, password=password,
-                                      role=role, team_id=team_id).json(),
-                        context['format'], l_user.ENDPOINT_URI[:-1])
+    result = user.create(context, name=name, password=password,
+                         role=role, team_id=team_id)
+    utils.format_output(result.json(), context.format, user.RESOURCE[:-1])
 
 
 @cli.command("user-update", help="Update a user.")
@@ -51,16 +50,15 @@ def create(context, name, password, role, team_id):
 @click.option("--role", help="'admin' or 'user'")
 @click.pass_obj
 def update(context, id, etag, name, password, role):
-    l_user = user.User(context['session'])
-    result = l_user.update(id=id, etag=etag, name=name, password=password,
-                           role=role)
+    result = user.update(context, id=id, etag=etag, name=name,
+                         password=password, role=role)
 
     if result.status_code == 204:
         utils.format_output({'id': id,
                              'etag': etag,
-                             'message': 'User updated.'}, context['format'])
+                             'message': 'User updated.'}, context.format)
     else:
-        utils.format_output(result.json(), context['format'])
+        utils.format_output(result.json(), context.format)
 
 
 @cli.command("user-delete", help="Delete a user.")
@@ -68,20 +66,19 @@ def update(context, id, etag, name, password, role):
 @click.option("--etag", required=True)
 @click.pass_obj
 def delete(context, id, etag):
-    l_user = user.User(context['session'])
-    result = l_user.delete(id=id, etag=etag)
+    result = user.delete(context, id=id, etag=etag)
 
     if result.status_code == 204:
         utils.format_output({'id': id,
-                             'message': 'User deleted.'}, context['format'])
+                             'message': 'User deleted.'}, context.format)
     else:
-        utils.format_output(result.json(), context['format'])
+        utils.format_output(result.json(), context.format)
 
 
 @cli.command("user-show", help="Show a user.")
 @click.option("--id", required=True)
 @click.pass_obj
 def show(context, id):
-    l_user = user.User(context['session'])
-    utils.format_output(l_user.get(id=id).json(), context['format'],
-                        l_user.ENDPOINT_URI[:-1], l_user.TABLE_HEADERS)
+    result = user.get(context, id=id)
+    utils.format_output(result.json(), context.format,
+                        user.RESOURCE[:-1], user.TABLE_HEADERS)
