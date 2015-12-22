@@ -19,7 +19,7 @@ import click
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
-from dciclient.v1.handlers import test
+from dciclient.v1.api import test
 
 import json
 
@@ -27,9 +27,9 @@ import json
 @cli.command("test-list", help="List all tests.")
 @click.pass_obj
 def list(context):
-    l_test = test.Test(context['session'])
-    utils.format_output(l_test.list().json(), context['format'],
-                        l_test.ENDPOINT_URI, l_test.TABLE_HEADERS)
+    result = test.list(context)
+    utils.format_output(result.json(), context.format,
+                        test.RESOURCE, test.TABLE_HEADERS)
 
 
 @cli.command("test-create", help="Create a test.")
@@ -37,10 +37,9 @@ def list(context):
 @click.option("--data", default='{}')
 @click.pass_obj
 def create(context, name, data):
-    l_test = test.Test(context['session'])
     data = json.loads(data)
-    utils.format_output(l_test.create(name=name, data=data).json(),
-                        context['format'], l_test.ENDPOINT_URI[:-1])
+    result = test.create(context, name=name, data=data)
+    utils.format_output(result.json(), context.format, test.RESOURCE[:-1])
 
 
 @cli.command("test-update", help="Update a test.")
@@ -50,16 +49,15 @@ def create(context, name, data):
 @click.option("--data")
 @click.pass_obj
 def update(context, id, etag, name, data):
-    l_test = test.Test(context['session'])
-    result = l_test.update(id=id, etag=etag, name=name, data=data)
+    result = test.update(context, id=id, etag=etag, name=name, data=data)
 
     if result.status_code == 204:
         utils.format_output({'id': id,
                              'etag': etag,
                              'name': name,
-                             'message': 'Test updated.'}, context['format'])
+                             'message': 'Test updated.'}, context.format)
     else:
-        utils.format_output(result.json(), context['format'])
+        utils.format_output(result.json(), context.format)
 
 
 @cli.command("test-delete", help="Delete a test.")
@@ -67,20 +65,19 @@ def update(context, id, etag, name, data):
 @click.option("--etag", required=True)
 @click.pass_obj
 def delete(context, id, etag):
-    l_test = test.Test(context['session'])
-    result = l_test.delete(id=id, etag=etag)
+    result = test.delete(context, id=id, etag=etag)
 
     if result.status_code == 204:
         utils.format_output({'id': id,
-                             'message': 'Test deleted.'}, context['format'])
+                             'message': 'Test deleted.'}, context.format)
     else:
-        utils.format_output(result.json(), context['format'])
+        utils.format_output(result.json(), context.format)
 
 
 @cli.command("test-show", help="Show a test.")
 @click.option("--id", required=True)
 @click.pass_obj
 def show(context, id):
-    l_test = test.Test(context['session'])
-    utils.format_output(l_test.get(id=id).json(), context['format'],
-                        l_test.ENDPOINT_URI[:-1], l_test.TABLE_HEADERS)
+    result = test.get(context, id=id)
+    utils.format_output(result.json(), context.format,
+                        test.RESOURCE[:-1], test.TABLE_HEADERS)

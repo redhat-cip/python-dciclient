@@ -19,7 +19,7 @@ import click
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
-from dciclient.v1.handlers import remoteci
+from dciclient.v1.api import remoteci
 
 import json
 
@@ -27,9 +27,9 @@ import json
 @cli.command("remoteci-list", help="List all remotecis.")
 @click.pass_obj
 def list(context):
-    l_remoteci = remoteci.RemoteCI(context['session'])
-    utils.format_output(l_remoteci.list().json(), context['format'],
-                        l_remoteci.ENDPOINT_URI, l_remoteci.TABLE_HEADERS)
+    result = remoteci.list(context)
+    utils.format_output(result.json(), context.format,
+                        remoteci.RESOURCE, remoteci.TABLE_HEADERS)
 
 
 @cli.command("remoteci-create", help="Create a remoteci.")
@@ -39,13 +39,10 @@ def list(context):
 @click.option("--active/--no-active", default=True)
 @click.pass_obj
 def create(context, name, team_id, data, active):
-    l_remoteci = remoteci.RemoteCI(context['session'])
     data = json.loads(data)
-    utils.format_output(l_remoteci.create(name=name,
-                                          team_id=team_id,
-                                          data=data,
-                                          active=active).json(),
-                        context['format'], l_remoteci.ENDPOINT_URI[:-1])
+    result = remoteci.create(context, name=name, team_id=team_id, data=data,
+                             active=active)
+    utils.format_output(result.json(), context.format, remoteci.RESOURCE[:-1])
 
 
 @cli.command("remoteci-update", help="Update a remoteci.")
@@ -57,19 +54,18 @@ def create(context, name, team_id, data, active):
 @click.option("--active/--no-active")
 @click.pass_obj
 def update(context, id, etag, name, team_id, data, active):
-    l_remoteci = remoteci.RemoteCI(context['session'])
-    result = l_remoteci.update(id=id, etag=etag, name=name, team_id=team_id,
-                               data=data, active=active)
-
+    result = remoteci.update(context, id=id, etag=etag, name=name,
+                             team_id=team_id, data=data, active=active)
+    utils.format_output(result.json(), context.format)
     if result.status_code == 204:
         utils.format_output({'id': id,
                              'etag': etag,
                              'name': name,
                              'active': active,
                              'message': 'Remote CI updated.'},
-                            context['format'])
+                            context.format)
     else:
-        utils.format_output(result.json(), context['format'])
+        utils.format_output(result.json(), context.format)
 
 
 @cli.command("remoteci-delete", help="Delete a remoteci.")
@@ -77,21 +73,20 @@ def update(context, id, etag, name, team_id, data, active):
 @click.option("--etag", required=True)
 @click.pass_obj
 def delete(context, id, etag):
-    l_remoteci = remoteci.RemoteCI(context['session'])
-    result = l_remoteci.delete(id=id, etag=etag)
+    result = remoteci.delete(context, id=id, etag=etag)
 
     if result.status_code == 204:
         utils.format_output({'id': id,
                              'message': 'Remote CI deleted.'},
-                            context['format'])
+                            context.format)
     else:
-        utils.format_output(result.json(), context['format'])
+        utils.format_output(result.json(), context.format)
 
 
 @cli.command("remoteci-show", help="Show a remoteci.")
 @click.option("--id", required=True)
 @click.pass_obj
 def show(context, id):
-    l_remoteci = remoteci.RemoteCI(context['session'])
-    utils.format_output(l_remoteci.get(id=id).json(), context['format'],
-                        l_remoteci.ENDPOINT_URI[:-1], l_remoteci.TABLE_HEADERS)
+    result = remoteci.get(context, id=id)
+    utils.format_output(result.json(), context.format,
+                        remoteci.RESOURCE[:-1], remoteci.TABLE_HEADERS)
