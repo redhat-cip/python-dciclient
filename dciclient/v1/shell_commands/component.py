@@ -19,7 +19,7 @@ import click
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
-from dciclient.v1.handlers import component
+from dciclient.v1.api import component
 
 import json
 
@@ -27,9 +27,9 @@ import json
 @cli.command("component-list", help="List all components.")
 @click.pass_obj
 def list(context):
-    l_component = component.Component(context['session'])
-    utils.format_output(l_component.list().json(), context['format'],
-                        l_component.ENDPOINT_URI, l_component.TABLE_HEADERS)
+    components = component.list(context).json()
+    utils.format_output(components, context.format,
+                        component.RESOURCE, component.TABLE_HEADERS)
 
 
 @cli.command("component-create", help="Create a component.")
@@ -46,16 +46,13 @@ def list(context):
 @click.pass_obj
 def create(context, name, type, canonical_project_name, data, sha,
            title, message, url, git, ref):
-    l_component = component.Component(context['session'])
     data = json.loads(data)
-    utils.format_output(
-        l_component
-        .create(name=name, type=type,
-                canonical_project_name=canonical_project_name, data=data,
-                sha=sha, title=title, message=message, url=url, git=git,
-                ref=ref)
-        .json(), context['format'], l_component.ENDPOINT_URI[:-1]
-    )
+    result = component.create(
+        context, name=name, type=type,
+        canonical_project_name=canonical_project_name, data=data, sha=sha,
+        title=title, message=message, url=url, git=git, ref=ref
+    ).json()
+    utils.format_output(result, context.format, component.RESOURCE[:-1])
 
 
 @cli.command("component-delete", help="Delete a component.")
@@ -63,22 +60,18 @@ def create(context, name, type, canonical_project_name, data, sha,
 @click.option("--etag", required=True)
 @click.pass_obj
 def delete(context, id, etag):
-    l_component = component.Component(context['session'])
-    result = l_component.delete(id=id, etag=etag)
+    result = component.delete(context, id=id, etag=etag)
     if result.status_code == 204:
-        utils.format_output({'id': id,
-                             'message': 'Component deleted.'},
-                            context['format'])
+        utils.format_output({'id': id, 'message': 'Component deleted.'},
+                            context.format)
     else:
-        utils.format_output(result.json(), context['format'])
+        utils.format_output(result.json(), context.format)
 
 
 @cli.command("component-show", help="Show a component.")
 @click.option("--id", required=True)
 @click.pass_obj
 def show(context, id):
-    l_component = component.Component(context['session'])
-    utils.format_output(l_component.get(id=id).json(),
-                        context['format'],
-                        l_component.ENDPOINT_URI[:-1],
-                        l_component.TABLE_HEADERS)
+    result = component.get(context, id=id).json()
+    utils.format_output(result, context.format, component.RESOURCE[:-1],
+                        component.TABLE_HEADERS)
