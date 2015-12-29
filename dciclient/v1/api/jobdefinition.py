@@ -22,7 +22,7 @@ TABLE_HEADERS = ['id', 'name', 'priority', 'test_id', 'etag', 'created_at',
                  'updated_at']
 
 
-def create(context, name, test_id, priority=None):
+def create(context, name, test_id=None, priority=None):
     return base.create(context, RESOURCE, name=name, test_id=test_id,
                        priority=priority)
 

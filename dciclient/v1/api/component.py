@@ -23,6 +23,10 @@ TABLE_HEADERS = ['id', 'name', 'canonical_project_name',
                  'type', 'sha', 'title', 'message', 'url',
                  'git', 'ref', 'data', 'etag', 'created_at', 'updated_at']
 
+GIT_COMMIT = 'git_commit'
+KH_INSTALLER = 'kh_installer'
+PUDDLE = 'puddle'
+
 
 def create(context, name, type, canonical_project_name=None, data={}, sha=None,
            title=None, message=None, url=None, git=None, ref=None):
