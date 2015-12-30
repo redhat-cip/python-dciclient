@@ -1,12 +1,16 @@
 #!/bin/bash
 set -eux
 PROJ_NAME=python-dciclient
+DATE=$(date +%Y%m%d%H%M)
+SHA=$(git rev-parse HEAD | cut -c1-8)
 
 # Create the proper filesystem hierarchy to proceed with srpm creatioon
 #
+rm -rf ${HOME}/rpmbuild
 rpmdev-setuptree
 cp ${PROJ_NAME}.spec ${HOME}/rpmbuild/SPECS/
-git archive master --format=tgz --output=${HOME}/rpmbuild/SOURCES/${PROJ_NAME}-0.1.tgz
+git archive master --format=tgz --output=${HOME}/rpmbuild/SOURCES/${PROJ_NAME}-0.1.${DATE}git${SHA}.tgz
+sed -i "s/VERS/${DATE}git${SHA}/g" ${HOME}/rpmbuild/SPECS/${PROJ_NAME}.spec
 rpmbuild -bs ${HOME}/rpmbuild/SPECS/${PROJ_NAME}.spec
 
 # Build the RPMs in a clean chroot environment with mock to detect missing
