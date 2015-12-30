@@ -3,7 +3,7 @@
 %endif
 
 Name:           python-dciclient
-Version:        0.1
+Version:        0.0.VERS
 Release:        1%{?dist}
 
 Summary:        Python client for DCI control server
@@ -27,6 +27,7 @@ BuildRequires:  python-setuptools
 
 Requires:       python-prettytable
 Requires:       py-bcrypt
+Requires:       python-click
 Requires:       PyYAML
 Requires:       python-requests
 Requires:       python-simplejson
@@ -46,6 +47,7 @@ BuildRequires:  python3-setuptools
 
 Requires:       python3-prettytable
 Requires:       python3-py-bcrypt
+Requires:       python3-click
 Requires:       python3-PyYAML
 Requires:       python3-requests
 Requires:       python3-simplejson
@@ -67,6 +69,9 @@ agents for the remote CIs including tox agent and khaleesi agent.
 
 %install
 %py2_install
+find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '1s/bcrypt.*//'
+find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '4s/2.7.0/2.6.0/'
+find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '8s/setuptools.*/setuptools/'
 %if 0%{?with_python3}
 %py3_install
 %endif
