@@ -3,7 +3,7 @@
 %endif
 
 Name:           python-dciclient
-Version:        0.1
+Version:        0.1.RELEASE
 Release:        1%{?dist}
 
 Summary:        Python client for DCI control server
