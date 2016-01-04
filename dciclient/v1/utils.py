@@ -14,12 +14,14 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from dciclient.v1 import api
+from dciclient.v1.api import file
+from dciclient.v1.api import jobstate
 
 import fcntl
 import os
 import select
 import subprocess
+import sys
 
 import click
 import json
@@ -61,19 +63,6 @@ def print_prettytable(data, headers):
     click.echo(table)
 
 
-def sanitize_kwargs(**kwargs):
-    kwargs = dict((k, v) for k, v in six.iteritems(kwargs) if v)
-
-    try:
-        kwargs['data'] = json.loads(kwargs['data'])
-    except KeyError:
-        pass
-    except TypeError:
-        pass
-
-    return kwargs
-
-
 def format_output(output, format, item=None, headers=None):
 
     if format == 'json':
@@ -83,14 +72,16 @@ def format_output(output, format, item=None, headers=None):
         print_prettytable(to_display, headers)
 
 
-def run_command(context, cmd, cwd, jobstate_id):
+def run_command(context, cmd, cwd, jobstate_id, team_id):
     """This function execute a command and send its log which will be
     attached to a jobstate.
     """
-    output = six.StringIO.StringIO()
+    output = six.StringIO()
+    print('* Processing command: %s' % cmd)
+    print('* Working directory: %s' % cwd)
     pipe_process = subprocess.Popen(cmd, cwd=cwd,
                                     stdout=subprocess.PIPE,
-                                    stderr=subprocess.PIPE)
+                                    stderr=subprocess.STDOUT)
 
     fcntl.fcntl(pipe_process.stdout.fileno(), fcntl.F_SETFL, os.O_NONBLOCK)
     inputs = [pipe_process.stdout]
@@ -101,16 +92,31 @@ def run_command(context, cmd, cwd, jobstate_id):
                                                         inputs, 1)
         if not readable:
             break
-        read = pipe_process.stdout.read().decode('UTF-8', 'ignore')
-        if len(read) == 0:
+        pstdout = pipe_process.stdout.read().decode('UTF-8', 'ignore')
+        if len(pstdout) == 0:
             break
-        print(read)
-        output.write(read)
+        else:
+            print(pstdout)
+        output.write(pstdout)
 
-    # equivalent to pipe_process.wait(), avoid deadlock, see Popen doc.
-    pipe_process.communicate()
+    pipe_process.wait()
 
-    api.file.create(context, name='_'.join(cmd), content=output.getvalue(),
-                    mime='text/plain', jobstate_id=jobstate_id)
+    #file.create(context, name='_'.join(cmd), content=output.getvalue(),
+    #            mime='text/plain', jobstate_id=jobstate_id, team_id=team_id)
     output.close()
     return pipe_process.returncode
+
+
+def run_commands(context, cmds, cwd, jobstate_id, job_id, team_id):
+    for cmd in cmds:
+        if isinstance(cmd, dict):
+            rc = run_command(context, cmd['cmd'], cmd['cwd'], jobstate_id,
+                             team_id)
+        else:
+            rc = run_command(context, cmd, cwd, jobstate_id, team_id)
+
+        if rc != 0:
+            error_msg = "Failed on command %s" % cmd
+            jobstate.create(context, "failure", error_msg, job_id, team_id)
+            print(error_msg)
+            sys.exit(1)
