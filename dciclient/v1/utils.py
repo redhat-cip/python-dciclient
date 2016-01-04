@@ -15,12 +15,14 @@
 # under the License.
 
 from dciclient.v1.api import file
+from dciclient.v1.api import jobstate
 
 import fcntl
 import os
 import select
 import StringIO
 import subprocess
+import sys
 
 import click
 import json
@@ -115,3 +117,17 @@ def run_command(context, cmd, cwd, jobstate_id):
                 mime='text/plain', jobstate_id=jobstate_id)
     output.close()
     return pipe_process.returncode
+
+
+def run_commands(context, cmds, cwd, jobstate_id, job_id, team_id):
+    for cmd in cmds:
+        if isinstance(cmd, dict):
+            rc = run_command(context, cmd['cmd'], cmd['cwd'], jobstate_id)
+        else:
+            rc = run_command(context, cmd, cwd, jobstate_id)
+
+        if rc != 0:
+            error_msg = "Failed on command %s" % cmd
+            jobstate.create(context, "failure", error_msg, job_id, team_id)
+            print(error_msg)
+            sys.exit(1)
