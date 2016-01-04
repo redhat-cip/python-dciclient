@@ -12,12 +12,26 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from dciclient.v1 import utils
+import json
+import six
+
+
+def _sanitize_kwargs(**kwargs):
+    kwargs = dict((k, v) for k, v in six.iteritems(kwargs) if v)
+
+    try:
+        kwargs['data'] = json.loads(kwargs['data'])
+    except KeyError:
+        pass
+    except TypeError:
+        pass
+
+    return kwargs
 
 
 def create(context, resource, **kwargs):
     """Create a resource"""
-    data = utils.sanitize_kwargs(**kwargs)
+    data = _sanitize_kwargs(**kwargs)
     uri = '%s/%s' % (context.dci_cs_api, resource)
     r = context.session.post(uri, json=data)
     return r
@@ -41,7 +55,7 @@ def update(context, resource, **kwargs):
     """Update a specific resource"""
     etag = kwargs.pop('etag')
     id = kwargs.pop('id')
-    data = utils.sanitize_kwargs(**kwargs)
+    data = _sanitize_kwargs(**kwargs)
     uri = '%s/%s/%s' % (context.dci_cs_api, resource, id)
     r = context.session.put(uri, headers={'If-match': etag}, json=data)
     return r

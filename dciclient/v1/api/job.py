@@ -33,7 +33,6 @@ def schedule(context, remoteci_id):
     uri = '%s/%s/schedule' % (context.dci_cs_api, RESOURCE)
     data_json = {'remoteci_id': remoteci_id}
     r = context.session.post(uri, json=data_json)
-    r.raise_for_status()
     return r
 
 
@@ -50,12 +49,12 @@ def get_full_data(context, id):
         context, job['jobdefinition']['id']).json()['components']
 
     # Aggregate the data of each resource
-    full_data = {'remoteci': job['remoteci']['data'],
-                 'test': job['jobdefinition']['test']['data'],
+    full_data = {'remoteci': job['remoteci'],
+                 'jobdefinition': job['jobdefinition'],
                  'components': []}
 
     for component in jobdefinition_components:
-        full_data['components'].append(component['data'])
+        full_data['components'].append(component)
 
     return full_data
 
