@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ace114c_6c3c9b94",
+        "filename": "dciclient/v1/api/base.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-01-06T07:49:40Z",
+      "side": 0,
+      "message": "Why is this done in this review ?",
+      "revId": "b41f4103fc140afbfd022890b9751ff1d80b4194",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
