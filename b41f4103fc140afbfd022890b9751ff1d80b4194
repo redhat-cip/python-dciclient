@@ -16,6 +16,24 @@
       "revId": "b41f4103fc140afbfd022890b9751ff1d80b4194",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ace114c_6c31fba1",
+        "filename": "dciclient/v1/api/base.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2016-01-06T12:22:11Z",
+      "side": 0,
+      "message": "Because it\u0027s handy for me to debug. raise_for_status() call is a mess because it doesn\u0027t print the result of the call which prevent me to debug.",
+      "parentUuid": "3ace114c_6c3c9b94",
+      "revId": "b41f4103fc140afbfd022890b9751ff1d80b4194",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
