@@ -22,10 +22,9 @@ TABLE_HEADERS = ['id', 'name', 'content', 'mime', 'md5', 'jobstate_id',
                  'team_id', 'etag', 'created_at', 'updated_at']
 
 
-def create(context, name, content, mime, jobstate_id, team_id, md5=None):
+def create(context, name, content, mime, jobstate_id, md5=None):
     return base.create(context, RESOURCE, name=name, content=content,
-                       mime=mime, md5=md5, jobstate_id=jobstate_id,
-                       team_id=team_id)
+                       mime=mime, md5=md5, jobstate_id=jobstate_id)
 
 
 def get(context, id, where=None, embed=None):
