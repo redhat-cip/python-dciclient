@@ -23,3 +23,9 @@ class TestUtils(object):
         r = utils.flatten(s)
         r.sort()
         assert r == ['a.b.c.d=bob', 'jim=123', 'rob=34']
+
+    def test_format_output(self):
+        o = {'foo': {'items': []}}
+        assert utils.format_output(o, 'json') is None
+        assert utils.format_output(o, '', item='jim') is None
+        assert utils.format_output(o, '', item='foo') is None
