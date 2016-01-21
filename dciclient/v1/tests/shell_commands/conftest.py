@@ -14,6 +14,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from dci import dci_config
+from dci.elasticsearch import engine as es_engine
 import dci.tests.conftest as server_conftest
 from dciclient.v1.api import component
 from dciclient.v1.api import context
@@ -49,8 +51,15 @@ def db_provisioning(db_clean, engine):
 
 
 @pytest.fixture
-def server(db_provisioning, engine):
-    return server_conftest.app(db_provisioning, engine)
+def es_clean(request):
+    conf = dci_config.generate_conf()
+    conn = es_engine.DCIESEngine(conf)
+    conn.cleanup()
+
+
+@pytest.fixture
+def server(db_provisioning, engine, es_clean):
+    return server_conftest.app(db_provisioning, engine, es_clean)
 
 
 @pytest.fixture
