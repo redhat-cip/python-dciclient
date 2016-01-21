@@ -76,7 +76,7 @@ def sanitize_kwargs(**kwargs):
 
 def format_output(output, format, item=None, headers=None):
 
-    if format == 'json':
+    if format == 'json' or item not in output:
         print_json(output)
     else:
         to_display = output[item] if item else output
