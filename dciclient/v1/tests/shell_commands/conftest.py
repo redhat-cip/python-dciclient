@@ -14,7 +14,10 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from dci.server.tests import conftest as server_conftest
+import dci
+import dci.app
+import dci.dci_config
+
 from dciclient.v1.api import component
 from dciclient.v1.api import context
 from dciclient.v1.api import job
@@ -23,6 +26,9 @@ from dciclient.v1.api import remoteci
 from dciclient.v1.api import team
 from dciclient.v1.api import test
 
+import pytest
+import sqlalchemy
+import sqlalchemy_utils.functions
 
 from dciclient import v1 as dci_client
 
@@ -30,27 +36,47 @@ import click.testing
 import dciclient.shell as shell
 from dciclient.v1.tests.shell_commands import utils
 import functools
-import pytest
 
 
 @pytest.fixture(scope='session')
 def engine(request):
-    return server_conftest.engine(request)
+    conf = dci.dci_config.generate_conf()
+    db_uri = conf['SQLALCHEMY_DATABASE_URI']
+
+    engine = sqlalchemy.create_engine(db_uri)
+
+    def del_db():
+        if sqlalchemy_utils.functions.database_exists(db_uri):
+            sqlalchemy_utils.functions.drop_database(db_uri)
+
+    del_db()
+    request.addfinalizer(del_db)
+    sqlalchemy_utils.functions.create_database(db_uri)
+
+    dci.db.models.metadata.create_all(engine)
+    return engine
 
 
 @pytest.fixture
 def db_clean(request, engine):
-    return server_conftest.db_clean(request, engine)
+    def fin():
+        for table in reversed(dci.db.models.metadata.sorted_tables):
+            engine.execute(table.delete())
+    request.addfinalizer(fin)
 
 
 @pytest.fixture
 def db_provisioning(db_clean, engine):
-    server_conftest.db_provisioning(db_clean, engine)
+    with engine.begin() as conn:
+        utils.provision(conn)
 
 
 @pytest.fixture
 def server(db_provisioning, engine):
-    return server_conftest.app(db_provisioning, engine)
+    app = dci.app.create_app(dci.dci_config.generate_conf())
+    app.testing = True
+    app.engine = engine
+    return app
 
 
 @pytest.fixture
