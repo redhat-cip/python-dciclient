@@ -20,7 +20,10 @@ from dciclient.v1.api import context
 from dciclient.v1.api import jobdefinition
 from dciclient.v1.api import test
 
+import configparser
+from datetime import datetime
 import requests
+from urllib.parse import urlparse
 
 import time
 
@@ -102,7 +105,29 @@ def get_khaleesi_installer_component():
     return kh_installer_component
 
 
-def get_khaleesi_puddle_component():
+def get_puddle_component(repo_file, repo_name):
+    repo_file_raw_content = requests.get(repo_file).text
+    config = configparser.ConfigParser()
+    config.read_string(repo_file_raw_content)
+    base_url = config[repo_name]['baseurl'].replace("$basearch", "x86_64")
+    o = urlparse(base_url)
+    path = o.path
+    version = path.split('/')[4]
+
+    puddle_component = {
+        'type': component.PUDDLE,
+        'name': '%s %s' % (repo_name, version),
+        'url': base_url,
+        'data': {
+            'path': path,
+            'version': version,
+            'repo_name': repo_name
+        }
+    }
+    return puddle_component
+
+
+def get_osp8_puddle_component():
     url = 'http://download.lab.bos.redhat.com/rel-eng/OpenStack/7.0-RHEL-7'
     timestamp = _get_timestamp('%s/latest/status.txt' % url)
 
@@ -138,13 +163,15 @@ def get_test_id(dci_context, name):
 if __name__ == '__main__':
     dci_context = context.build_dci_context()
     # Create Khaleesi-tempest test
-    khaleesi_tempest_test_id = get_test_id(dci_context, 'Khaleesi-tempest')
+    test_id = get_test_id(dci_context, 'tempest')
 
-    components = [get_khaleesi_component(),
-                  get_khaleesi_settings_component(),
-                  get_khaleesi_installer_component(),
-                  get_khaleesi_puddle_component()]
-
+    components = [
+        get_puddle_component(
+            'http://download.eng.bos.redhat.com/rel-eng/OpenStack/8.0-RHEL-7-director/latest/RH7-RHOS-8.0-director.repo',
+            'RH7-RHOS-8.0-director'),
+        get_puddle_component(
+            'http://download.eng.bos.redhat.com/rel-eng/OpenStack/8.0-RHEL-7/latest/RH7-RHOS-8.0.repo',
+            'RH7-RHOS-8.0')]
     # If at least one component doesn't exist in the database then a new
     # jobdefinition must be created.
     at_least_one = False
@@ -158,9 +185,9 @@ if __name__ == '__main__':
             at_least_one = True
 
     if at_least_one:
-        jobdef_name = "Khaleesi - OSP 8 - FV2"
+        jobdef_name = 'OSP 8 - %s' % datetime.now().strftime('%Y.%m.%d-%H.%M')
         jobdef = jobdefinition.create(dci_context, jobdef_name,
-                                      khaleesi_tempest_test_id)
+                                      test_id)
         if jobdef.status_code == 201:
             jobdef_id = jobdef.json()['jobdefinition']['id']
             for cmpt_id in component_ids:
