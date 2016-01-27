@@ -26,7 +26,7 @@ from dciclient.v1.api import team
 @click.pass_obj
 def list(context):
     result = team.list(context)
-    utils.format_output(result.json(), context.format,
+    utils.format_output(result, context.format,
                         team.RESOURCE, team.TABLE_HEADERS)
 
 
@@ -35,7 +35,7 @@ def list(context):
 @click.pass_obj
 def create(context, name):
     result = team.create(context, name=name)
-    utils.format_output(result.json(), context.format, team.RESOURCE[:-1])
+    utils.format_output(result, context.format, team.RESOURCE[:-1])
 
 
 @cli.command("team-update", help="Update a team.")
@@ -47,12 +47,9 @@ def update(context, id, etag, name):
     result = team.update(context, id=id, etag=etag, name=name)
 
     if result.status_code == 204:
-        utils.format_output({'id': id,
-                             'etag': etag,
-                             'name': name,
-                             'message': 'Team updated.'}, context.format)
+        utils.print_json({'id': id, 'message': 'Team updated.'})
     else:
-        utils.format_output(result.json(), context.format)
+        utils.format_output(result, context.format)
 
 
 @cli.command("team-delete", help="Delete a team.")
@@ -63,10 +60,9 @@ def delete(context, id, etag):
     result = team.delete(context, id=id, etag=etag)
 
     if result.status_code == 204:
-        utils.format_output({'id': id,
-                             'message': 'Team deleted.'}, context.format)
+        utils.print_json({'id': id, 'message': 'Team deleted.'})
     else:
-        utils.format_output(result.json(), context.format)
+        utils.format_output(result, context.format)
 
 
 @cli.command("team-show", help="Show a team.")
@@ -74,5 +70,5 @@ def delete(context, id, etag):
 @click.pass_obj
 def show(context, id):
     result = team.get(context, id=id)
-    utils.format_output(result.json(), context.format,
+    utils.format_output(result, context.format,
                         team.RESOURCE[:-1], team.TABLE_HEADERS)

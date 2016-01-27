@@ -74,12 +74,14 @@ def sanitize_kwargs(**kwargs):
     return kwargs
 
 
-def format_output(output, format, item=None, headers=None):
+def format_output(result, format, item=None, headers=None,
+                  success_code=(200, 201, 204)):
 
-    if format == 'json':
-        print_json(output)
+    result_json = result.json()
+    if format == 'json' or result.status_code not in success_code:
+        print_json(result_json)
     else:
-        to_display = output[item] if item else output
+        to_display = result_json[item] if item else result_json
         print_prettytable(to_display, headers)
 
 

@@ -28,7 +28,7 @@ import json
 @click.pass_obj
 def list(context):
     result = remoteci.list(context)
-    utils.format_output(result.json(), context.format,
+    utils.format_output(result, context.format,
                         remoteci.RESOURCE, remoteci.TABLE_HEADERS)
 
 
@@ -42,7 +42,7 @@ def create(context, name, team_id, data, active):
     data = json.loads(data)
     result = remoteci.create(context, name=name, team_id=team_id, data=data,
                              active=active)
-    utils.format_output(result.json(), context.format, remoteci.RESOURCE[:-1])
+    utils.format_output(result, context.format, remoteci.RESOURCE[:-1])
 
 
 @cli.command("remoteci-update", help="Update a remoteci.")
@@ -57,14 +57,9 @@ def update(context, id, etag, name, team_id, data, active):
     result = remoteci.update(context, id=id, etag=etag, name=name,
                              team_id=team_id, data=data, active=active)
     if result.status_code == 204:
-        utils.format_output({'id': id,
-                             'etag': etag,
-                             'name': name,
-                             'active': active,
-                             'message': 'Remote CI updated.'},
-                            context.format)
+        utils.print_json({'id': id, 'message': 'Remote CI updated.'})
     else:
-        utils.format_output(result.json(), context.format)
+        utils.format_output(result, context.format)
 
 
 @cli.command("remoteci-delete", help="Delete a remoteci.")
@@ -75,11 +70,9 @@ def delete(context, id, etag):
     result = remoteci.delete(context, id=id, etag=etag)
 
     if result.status_code == 204:
-        utils.format_output({'id': id,
-                             'message': 'Remote CI deleted.'},
-                            context.format)
+        utils.print_json({'id': id, 'message': 'Remote CI deleted.'})
     else:
-        utils.format_output(result.json(), context.format)
+        utils.format_output(result, context.format)
 
 
 @cli.command("remoteci-show", help="Show a remoteci.")
@@ -87,5 +80,5 @@ def delete(context, id, etag):
 @click.pass_obj
 def show(context, id):
     result = remoteci.get(context, id=id)
-    utils.format_output(result.json(), context.format,
+    utils.format_output(result, context.format,
                         remoteci.RESOURCE[:-1], remoteci.TABLE_HEADERS)
