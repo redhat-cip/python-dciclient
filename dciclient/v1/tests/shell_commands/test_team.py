@@ -80,7 +80,7 @@ def test_update(runner):
     result = json.loads(result.output)
 
     assert result['message'] == 'Team updated.'
-    assert result['name'] == 'bar'
+    assert result['id'] == team['id']
 
 
 def test_delete(runner):

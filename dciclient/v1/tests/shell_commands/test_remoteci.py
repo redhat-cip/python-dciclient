@@ -103,8 +103,7 @@ def test_update(runner):
     result = json.loads(result.output)
 
     assert result['message'] == 'Remote CI updated.'
-    assert result['name'] == 'bar'
-    assert result['active'] is False
+    assert result['id'] == remoteci['id']
 
 
 def test_delete(runner):
