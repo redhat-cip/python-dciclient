@@ -1,0 +1,97 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+#
+# Copyright 2015-2016 Red Hat, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License. You may obtain
+# a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+
+from dciclient.v1.api import component
+from dciclient.v1.api import context
+from dciclient.v1.api import jobdefinition
+from dciclient.v1.api import test
+
+import configparser
+from datetime import datetime
+import requests
+from urllib.parse import urlparse
+
+
+def get_puddle_component(repo_file, repo_name):
+    repo_file_raw_content = requests.get(repo_file).text
+    config = configparser.ConfigParser()
+    config.read_string(repo_file_raw_content)
+    base_url = config[repo_name]['baseurl'].replace("$basearch", "x86_64")
+    o = urlparse(base_url)
+    path = o.path
+    version = path.split('/')[4]
+
+    puddle_component = {
+        'type': component.PUDDLE,
+        'name': '%s %s' % (repo_name, version),
+        'url': base_url,
+        'data': {
+            'path': path,
+            'version': version,
+            'repo_name': repo_name
+        }
+    }
+    return puddle_component
+
+
+def get_test_id(dci_context, name):
+    print("Use test '%s'" % name)
+    test.create(dci_context, name)
+    return test.get(dci_context, name).json()['test']['id']
+
+
+if __name__ == '__main__':
+    dci_context = context.build_dci_context()
+    # Create Khaleesi-tempest test
+    test_id = get_test_id(dci_context, 'tempest')
+
+    components = [
+        # TODO(Gonéri): We should also return the images.
+        get_puddle_component(
+            'http://download.eng.bos.redhat.com/rel-eng/OpenStack/' +
+            '8.0-RHEL-7-director/latest/RH7-RHOS-8.0-director.repo',
+            'RH7-RHOS-8.0-director'),
+        get_puddle_component(
+            'http://download.eng.bos.redhat.com/rel-eng/OpenStack/' +
+            '8.0-RHEL-7/latest/RH7-RHOS-8.0.repo',
+            'RH7-RHOS-8.0')]
+
+    # If at least one component doesn't exist in the database then a new
+    # jobdefinition must be created.
+    at_least_one = False
+    component_ids = []
+    for cmpt in components:
+        created_cmpt = component.create(dci_context, **cmpt)
+        if created_cmpt.status_code == 201:
+            print("Create component '%s', type '%s'" % (cmpt['name'],
+                                                        cmpt['type']))
+            component_ids.append(created_cmpt.json()['component']['id'])
+            at_least_one = True
+
+    if at_least_one:
+        jobdef_name = 'OSP 8 - %s' % datetime.now().strftime('%Y.%m.%d-%H.%M')
+        jobdef = jobdefinition.create(dci_context, jobdef_name,
+                                      test_id)
+        if jobdef.status_code == 201:
+            jobdef_id = jobdef.json()['jobdefinition']['id']
+            for cmpt_id in component_ids:
+                jobdefinition.add_component(dci_context, jobdef_id, cmpt_id)
+            print("Jobdefinition '%s' created." % jobdef_name)
+        else:
+            print("Error on jobdefinition creation: '%s'", jobdef.json())
+    else:
+        print("No jobdefinition created.")
