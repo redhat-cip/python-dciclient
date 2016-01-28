@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_04f8477b",
+        "filename": "feeders/dummy.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2016-01-28T10:35:06Z",
+      "side": 1,
+      "message": "why you don\u0027t create components ?",
+      "revId": "81c41d273ddae990455b173c96d465780810bdde",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
