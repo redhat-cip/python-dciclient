@@ -16,6 +16,24 @@
       "revId": "81c41d273ddae990455b173c96d465780810bdde",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_c448efce",
+        "filename": "feeders/dummy.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-01-28T10:45:50Z",
+      "side": 1,
+      "message": "Because I don\u0027t need any component.\nThe dummy provider use is simply to create an entry in jobdefinition. So an agent that doesn\u0027t need component can pick it up, for example the helloworld agent in this review.\n\nIt doesn\u0027t need any component, it simply echo helloworld",
+      "parentUuid": "9ab8dda7_04f8477b",
+      "revId": "81c41d273ddae990455b173c96d465780810bdde",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
