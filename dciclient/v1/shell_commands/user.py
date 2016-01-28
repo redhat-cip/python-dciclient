@@ -26,7 +26,7 @@ from dciclient.v1.api import user
 @click.pass_obj
 def list(context):
     result = user.list(context)
-    utils.format_output(result.json(), context.format,
+    utils.format_output(result, context.format,
                         user.RESOURCE, user.TABLE_HEADERS)
 
 
@@ -39,7 +39,7 @@ def list(context):
 def create(context, name, password, role, team_id):
     result = user.create(context, name=name, password=password,
                          role=role, team_id=team_id)
-    utils.format_output(result.json(), context.format, user.RESOURCE[:-1])
+    utils.format_output(result, context.format, user.RESOURCE[:-1])
 
 
 @cli.command("user-update", help="Update a user.")
@@ -54,11 +54,9 @@ def update(context, id, etag, name, password, role):
                          password=password, role=role)
 
     if result.status_code == 204:
-        utils.format_output({'id': id,
-                             'etag': etag,
-                             'message': 'User updated.'}, context.format)
+        utils.print_json({'id': id, 'message': 'User updated.'})
     else:
-        utils.format_output(result.json(), context.format)
+        utils.format_output(result, context.format)
 
 
 @cli.command("user-delete", help="Delete a user.")
@@ -69,10 +67,9 @@ def delete(context, id, etag):
     result = user.delete(context, id=id, etag=etag)
 
     if result.status_code == 204:
-        utils.format_output({'id': id,
-                             'message': 'User deleted.'}, context.format)
+        utils.print_json({'id': id, 'message': 'User deleted.'})
     else:
-        utils.format_output(result.json(), context.format)
+        utils.format_output(result, context.format)
 
 
 @cli.command("user-show", help="Show a user.")
@@ -80,5 +77,5 @@ def delete(context, id, etag):
 @click.pass_obj
 def show(context, id):
     result = user.get(context, id=id)
-    utils.format_output(result.json(), context.format,
+    utils.format_output(result, context.format,
                         user.RESOURCE[:-1], user.TABLE_HEADERS)

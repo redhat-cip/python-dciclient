@@ -27,7 +27,7 @@ import json
 @cli.command("component-list", help="List all components.")
 @click.pass_obj
 def list(context):
-    components = component.list(context).json()
+    components = component.list(context)
     utils.format_output(components, context.format,
                         component.RESOURCE, component.TABLE_HEADERS)
 
@@ -51,7 +51,7 @@ def create(context, name, type, canonical_project_name, data, sha,
         context, name=name, type=type,
         canonical_project_name=canonical_project_name, data=data, sha=sha,
         title=title, message=message, url=url, git=git, ref=ref
-    ).json()
+    )
     utils.format_output(result, context.format, component.RESOURCE[:-1])
 
 
@@ -62,16 +62,15 @@ def create(context, name, type, canonical_project_name, data, sha,
 def delete(context, id, etag):
     result = component.delete(context, id=id, etag=etag)
     if result.status_code == 204:
-        utils.format_output({'id': id, 'message': 'Component deleted.'},
-                            context.format)
+        utils.print_json({'id': id, 'message': 'Component deleted.'})
     else:
-        utils.format_output(result.json(), context.format)
+        utils.format_output(result, context.format)
 
 
 @cli.command("component-show", help="Show a component.")
 @click.option("--id", required=True)
 @click.pass_obj
 def show(context, id):
-    result = component.get(context, id=id).json()
+    result = component.get(context, id=id)
     utils.format_output(result, context.format, component.RESOURCE[:-1],
                         component.TABLE_HEADERS)

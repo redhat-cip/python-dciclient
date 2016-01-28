@@ -28,7 +28,7 @@ import json
 @click.pass_obj
 def list(context):
     result = test.list(context)
-    utils.format_output(result.json(), context.format,
+    utils.format_output(result, context.format,
                         test.RESOURCE, test.TABLE_HEADERS)
 
 
@@ -39,7 +39,7 @@ def list(context):
 def create(context, name, data):
     data = json.loads(data)
     result = test.create(context, name=name, data=data)
-    utils.format_output(result.json(), context.format, test.RESOURCE[:-1])
+    utils.format_output(result, context.format, test.RESOURCE[:-1])
 
 
 @cli.command("test-update", help="Update a test.")
@@ -52,12 +52,9 @@ def update(context, id, etag, name, data):
     result = test.update(context, id=id, etag=etag, name=name, data=data)
 
     if result.status_code == 204:
-        utils.format_output({'id': id,
-                             'etag': etag,
-                             'name': name,
-                             'message': 'Test updated.'}, context.format)
+        utils.print_json({'id': id, 'message': 'Test updated.'})
     else:
-        utils.format_output(result.json(), context.format)
+        utils.format_output(result, context.format)
 
 
 @cli.command("test-delete", help="Delete a test.")
@@ -68,10 +65,9 @@ def delete(context, id, etag):
     result = test.delete(context, id=id, etag=etag)
 
     if result.status_code == 204:
-        utils.format_output({'id': id,
-                             'message': 'Test deleted.'}, context.format)
+        utils.print_json({'id': id, 'message': 'Test deleted.'})
     else:
-        utils.format_output(result.json(), context.format)
+        utils.format_output(result, context.format)
 
 
 @cli.command("test-show", help="Show a test.")
@@ -79,5 +75,5 @@ def delete(context, id, etag):
 @click.pass_obj
 def show(context, id):
     result = test.get(context, id=id)
-    utils.format_output(result.json(), context.format,
+    utils.format_output(result, context.format,
                         test.RESOURCE[:-1], test.TABLE_HEADERS)

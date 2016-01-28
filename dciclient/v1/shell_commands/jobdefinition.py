@@ -26,7 +26,7 @@ from dciclient.v1.api import jobdefinition
 @click.pass_obj
 def list(context):
     result = jobdefinition.list(context)
-    utils.format_output(result.json(), context.format,
+    utils.format_output(result, context.format,
                         jobdefinition.RESOURCE,
                         jobdefinition.TABLE_HEADERS)
 
@@ -39,7 +39,7 @@ def list(context):
 def create(context, name, test_id, priority):
     result = jobdefinition.create(context, name=name, test_id=test_id,
                                   priority=priority)
-    utils.format_output(result.json(), context.format,
+    utils.format_output(result, context.format,
                         jobdefinition.RESOURCE[:-1])
 
 
@@ -50,11 +50,9 @@ def create(context, name, test_id, priority):
 def delete(context, id, etag):
     result = jobdefinition.delete(context, id=id, etag=etag)
     if result.status_code == 204:
-        utils.format_output({'id': id,
-                             'message': 'Job Definition deleted.'},
-                            context.format)
+        utils.print_json({'id': id, 'message': 'Job Definition deleted.'})
     else:
-        utils.format_output(result.json(), context.format)
+        utils.format_output(result, context.format)
 
 
 @cli.command("jobdefinition-show", help="Show a jobdefinition.")
@@ -62,6 +60,6 @@ def delete(context, id, etag):
 @click.pass_obj
 def show(context, id):
     result = jobdefinition.get(context, id=id)
-    utils.format_output(result.json(), context.format,
+    utils.format_output(result, context.format,
                         jobdefinition.RESOURCE[:-1],
                         jobdefinition.TABLE_HEADERS)

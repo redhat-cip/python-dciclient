@@ -26,7 +26,7 @@ from dciclient.v1.api import job
 @click.pass_obj
 def list(context):
     result = job.list(context)
-    utils.format_output(result.json(), context.format,
+    utils.format_output(result, context.format,
                         job.RESOURCE, job.TABLE_HEADERS)
 
 
@@ -35,5 +35,5 @@ def list(context):
 @click.pass_obj
 def show(context, id):
     result = job.get(context, id=id)
-    utils.format_output(result.json(), context.format,
+    utils.format_output(result, context.format,
                         job.RESOURCE[:-1], job.TABLE_HEADERS)
