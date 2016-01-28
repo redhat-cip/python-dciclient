@@ -19,6 +19,6 @@ from dciclient.v1.api import job
 
 def test_get_full_data(job_id, dci_context):
     full_data_job = job.get_full_data(dci_context, job_id)
-    assert full_data_job['remoteci'] == {'remoteci': 'remoteci'}
-    assert full_data_job['test'] == {'test': 'test'}
+    assert full_data_job['remoteci']['data'] == {'remoteci': 'remoteci'}
+    assert full_data_job['jobdefinition'] == {'jobdefinition': 'jobdefinition'}
     assert full_data_job['components'] == [{'component': 'component'}]
