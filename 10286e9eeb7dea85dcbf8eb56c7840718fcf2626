@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_9f879e61",
+        "filename": "dciclient/v1/run_commands.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-01-28T21:36:11Z",
+      "side": 1,
+      "message": "I\u0027m not fan of this move. These functions are not mandatory for dciclient/dciserver communication. It\u0027s more like a helper for the sample agent. For example, we don\u0027t use it\u0027s in the python-triple-wrapper POQ.\n\nI don\u0027t think it should be in the dciclient/v1 directory hierarchy.",
+      "revId": "10286e9eeb7dea85dcbf8eb56c7840718fcf2626",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_7f82ea53",
+        "filename": "python-dciclient.spec",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-01-28T21:36:11Z",
+      "side": 1,
+      "message": "You don\u0027t need xargs for that:\n\nfind %{buildroot}/%{python2_sitelib}/*.egg-info -name \u0027requires.txt\u0027 -exec sed -i \u00271s/bcrypt.*//\u0027 {} \\;",
+      "revId": "10286e9eeb7dea85dcbf8eb56c7840718fcf2626",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
