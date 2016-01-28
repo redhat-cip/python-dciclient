@@ -71,25 +71,36 @@ agents for the remote CIs including tox agent and khaleesi agent.
 %py2_install
 find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '1s/bcrypt.*//'
 find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '4s/2.7.0/2.6.0/'
+find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '7s/click.*/click/'
 find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '8s/setuptools.*/setuptools/'
 %if 0%{?with_python3}
 %py3_install
+find %{buildroot}/%{python3_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '1s/bcrypt.*//'
+find %{buildroot}/%{python3_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '4s/2.7.0/2.6.0/'
+find %{buildroot}/%{python3_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '7s/click.*/click/'
+find %{buildroot}/%{python3_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '8s/setuptools.*/setuptools/'
 %endif
 
 %files -n python2-dciclient
 %doc
 %{python2_sitelib}/agents
+%{python2_sitelib}/feeders
 %{python2_sitelib}/dciclient
 %{python2_sitelib}/*.egg-info
 %{_bindir}/dcictl
+%{_bindir}/dci-feeder-dummy
+%{_bindir}/dci-agent-helloworld
 
 %if 0%{?with_python3}
 %files -n python3-dciclient
 %doc
 %{python3_sitelib}/agents
+%{python3_sitelib}/feeders
 %{python3_sitelib}/dciclient
 %{python3_sitelib}/*.egg-info
 %{_bindir}/dcictl
+%{_bindir}/dci-feeder-dummy
+%{_bindir}/dci-agent-helloworld
 %endif
 
 %changelog
