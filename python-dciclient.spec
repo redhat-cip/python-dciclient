@@ -79,17 +79,23 @@ find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' | xargs sed
 %files -n python2-dciclient
 %doc
 %{python2_sitelib}/agents
+%{python2_sitelib}/feeders
 %{python2_sitelib}/dciclient
 %{python2_sitelib}/*.egg-info
 %{_bindir}/dcictl
+%{_bindir}/dci-feeder-dummy
+%{_bindir}/dci-agent-helloworld
 
 %if 0%{?with_python3}
 %files -n python3-dciclient
 %doc
 %{python3_sitelib}/agents
+%{python3_sitelib}/feeders
 %{python3_sitelib}/dciclient
 %{python3_sitelib}/*.egg-info
 %{_bindir}/dcictl
+%{_bindir}/dci-feeder-dummy
+%{_bindir}/dci-agent-helloworld
 %endif
 
 %changelog
