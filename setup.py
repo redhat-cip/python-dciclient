@@ -55,7 +55,9 @@ setuptools.setup(
     ],
     entry_points={
         "console_scripts": [
-            "dcictl = dciclient.shell:main"
+            "dcictl = dciclient.shell:main",
+            "dci-feeder-dummy = feeders.dummy:main",
+            "dci-agent-helloworld = agents.helloworld:main",
         ],
     }
 )
