@@ -50,12 +50,12 @@ def get_full_data(context, id):
         context, job['jobdefinition']['id']).json()['components']
 
     # Aggregate the data of each resource
-    full_data = {'remoteci': job['remoteci']['data'],
-                 'test': job['jobdefinition']['test']['data'],
+    full_data = {'remoteci': job['remoteci'],
+                 'jobdefinition': job['jobdefinition'],
                  'components': []}
 
     for component in jobdefinition_components:
-        full_data['components'].append(component['data'])
+        full_data['components'].append(component)
 
     return full_data
 
