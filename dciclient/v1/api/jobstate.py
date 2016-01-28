@@ -29,6 +29,10 @@ def create(context, status, comment, job_id):
     return jobstate
 
 
+def list(context):
+    return base.list(context, RESOURCE)
+
+
 def get(context, id, where=None, embed=None):
     return base.get(context, RESOURCE, id=id, where=where, embed=embed)
 
