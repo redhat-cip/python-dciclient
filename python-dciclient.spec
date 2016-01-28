@@ -76,29 +76,62 @@ A Python 3 implementation of the client for DCI control server and also the
 agents for the remote CIs including tox agent and khaleesi agent.
 %endif
 
+%package -n dci-agents
+Summary:  DCI agents
+%if 0%{?with_python3}
+Requires:      python3-dciclient
+%else
+Requires:      python2-dciclient
+%endif
+
+%description -n dci-agents
+DCI agents
+
+
+%package -n dci-feeders
+Summary:  DCI feeders
+%if 0%{?with_python3}
+Requires:      python3-dciclient
+%else
+Requires:      python2-dciclient
+%endif
+
+%description -n dci-feeders
+DCI feeders
+
 %prep -a
 %setup -qc
 
 %build
+ls -lR .
+exit 1
 %py2_build
 %if 0%{?with_python3}
 %py3_build
 %endif
+cp -r {agents,feeders} build/lib/
 
 %install
+install -d %{buildroot}%{_bindir}
+find agents -name '*py' -exec sh -c 'mv "$0" %{buildroot}%{_bindir}/dci-agent-$(basename "$0")' {} \;
+find feeders -name '*py' -exec sh -c 'mv "$0" %{buildroot}%{_bindir}/dci-feeder-$(basename "$0")' {} \;
+find %{buildroot}%{_bindir} -name '*.py' -exec sh -c 'mv "$0" "${0%%.py}"' {} \;
 %py2_install
-find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '1s/bcrypt.*//'
-find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '4s/2.7.0/2.6.0/'
-find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '8s/setuptools.*/setuptools/'
+find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' -exec sed -i '3s/2.7.0/2.6.0/' {} \;
+find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' -exec sed -i '5s/click.*/click/' {} \;
+find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' -exec sed -i '6s/setuptools.*/setuptools/' {} \;
 %if 0%{?with_python3}
 %py3_install
-find %{buildroot}/%{python3_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '1s/bcrypt.*//'
-find %{buildroot}/%{python3_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '4s/2.7.0/2.6.0/'
-find %{buildroot}/%{python3_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '8s/setuptools.*/setuptools/'
+find %{buildroot}/%{python3_sitelib}/*.egg-info -name 'requires.txt' -exec sed -i '3s/2.7.0/2.6.0/' {} \;
+find %{buildroot}/%{python3_sitelib}/*.egg-info -name 'requires.txt' -exec sed -i '5s/click.*/click/' {} \;
+find %{buildroot}/%{python3_sitelib}/*.egg-info -name 'requires.txt' -exec sed -i '6s/setuptools.*/setuptools/' {} \;
 %endif
-sed -i '1s/bcrypt.*//' requirements.txt
-sed -i '4s/2.7.0/2.6.0/' requirements.txt
-sed -i '8s/setuptools.*/setuptools/' requirements.txt
+sed -i '3s/2.7.0/2.6.0/' requirements.txt
+sed -i '5s/click.*/click/' requirements.txt
+sed -i '6s/setuptools.*/setuptools/' requirements.txt
+rm -rf {agents, feeders}
+rm -rf %{buildroot}/%{python2_sitelib}/{agents,feeders}
+rm -rf %{buildroot}/%{python3_sitelib}/{agents,feeders}
 
 %check
 %{__python2} setup.py test
@@ -119,6 +152,14 @@ sed -i '8s/setuptools.*/setuptools/' requirements.txt
 %{python3_sitelib}/*.egg-info
 %{_bindir}/dcictl
 %endif
+
+
+%files -n dci-agents
+%{_bindir}/dci-agent-*
+
+%files -n dci-feeders
+%{_bindir}/dci-feeder-*
+
 
 %changelog
 * Mon Nov 16 2015 Yanis Guenane <yguenane@redhat.com> 0.1-1
