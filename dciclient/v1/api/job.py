@@ -47,15 +47,15 @@ def get_full_data(context, id):
     job = base.get(context, RESOURCE, id=id, embed=embed).json()['job']
     # Get the components of the jobdefinition
     jobdefinition_components = jobdefinition.get_components(
-        context, job['jobdefinition']['id']).json()['components']
+        context, job['jobdefinition']['id']).json()
 
     # Aggregate the data of each resource
-    full_data = {'remoteci': job['remoteci']['data'],
-                 'test': job['jobdefinition']['test']['data'],
+    full_data = {'remoteci': job['remoteci'],
+                 'jobdefinition': job['jobdefinition'],
                  'components': []}
 
     for component in jobdefinition_components:
-        full_data['components'].append(component['data'])
+        full_data['components'].append(component)
 
     return full_data
 
