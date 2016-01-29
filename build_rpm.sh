@@ -25,6 +25,21 @@ for arch in fedora-22-x86_64 fedora-23-x86_64 epel-7-x86_64; do
         RPATH='el/7/x86_64'
     fi
 
+    # NOTE(spredzy): Include the elasticsearch and dci repo in mock env
+    #
+    mkdir -p ${HOME}/.mock
+    cp /etc/mock/${arch}.cfg ${HOME}/.mock/${arch}-with-dci-repo.cfg
+    sed -i '$i[dci-devel]' ${HOME}/.mock/${arch}-with-dci-repo.cfg
+    sed -i '$iname=Distributed CI - Devel - CentOS 7"' ${HOME}/.mock/${arch}-with-dci-repo.cfg
+    sed -i '$ibaseurl=http://dci.enovance.com/repos/development/el/7/x86_64/' ${HOME}/.mock/${arch}-with-dci-repo.cfg
+    sed -i '$igpgcheck=0' ${HOME}/.mock/${arch}-with-dci-repo.cfg
+    sed -i '$ienabled=1' ${HOME}/.mock/${arch}-with-dci-repo.cfg
+    sed -i '$i[dci-extras]' ${HOME}/.mock/${arch}-with-dci-repo.cfg
+    sed -i '$iname=Distributed CI - No upstream package - CentOS 7"' ${HOME}/.mock/${arch}-with-dci-repo.cfg
+    sed -i '$ibaseurl=http://dci.enovance.com/repos/extras/el/7/x86_64/' ${HOME}/.mock/${arch}-with-dci-repo.cfg
+    sed -i '$igpgcheck=0' ${HOME}/.mock/${arch}-with-dci-repo.cfg
+    sed -i '$ienabled=1' ${HOME}/.mock/${arch}-with-dci-repo.cfg
+
     mkdir -p development
     mock -r $arch rebuild --resultdir=development/${RPATH} ${HOME}/rpmbuild/SRPMS/${PROJ_NAME}*
 done
