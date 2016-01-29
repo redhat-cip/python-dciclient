@@ -24,6 +24,16 @@ Summary:        Python client for DCI control server
 
 BuildRequires:  python2-devel
 BuildRequires:  python-setuptools
+BuildRequires:  postgresql
+BuildRequires:  postgresql-devel
+BuildRequires:  postgresql-server
+BuildRequires:  python-psycopg2
+BuildRequires:  python-tox
+BuildRequires:  python-requests
+BuildRequires:  python-six
+BuildRequires:  gcc
+BuildRequires:  libffi-devel
+
 
 Requires:       python-prettytable
 Requires:       py-bcrypt
@@ -44,6 +54,15 @@ Summary:        Python client for DCI control server
 
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
+BuildRequires:  postgresql
+BuildRequires:  postgresql-devel
+BuildRequires:  postgresql-server
+BuildRequires:  python3-psycopg2
+BuildRequires:  python3-tox
+BuildRequires:  python3-requests
+BuildRequires:  python3-six
+BuildRequires:  gcc
+BuildRequires:  libffi-devel
 
 Requires:       python3-prettytable
 Requires:       python3-py-bcrypt
@@ -74,11 +93,22 @@ find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' | xargs sed
 find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '8s/setuptools.*/setuptools/'
 %if 0%{?with_python3}
 %py3_install
+find %{buildroot}/%{python3_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '1s/bcrypt.*//'
+find %{buildroot}/%{python3_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '4s/2.7.0/2.6.0/'
+find %{buildroot}/%{python3_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '8s/setuptools.*/setuptools/'
+%endif
+sed -i '1s/bcrypt.*//' requirements.txt
+sed -i '4s/2.7.0/2.6.0/' requirements.txt
+sed -i '8s/setuptools.*/setuptools/' requirements.txt
+
+%check
+%{__python2} setup.py test
+%if 0%{?with_python3}
+%{__python3} setup.py test
 %endif
 
 %files -n python2-dciclient
 %doc
-%{python2_sitelib}/agents
 %{python2_sitelib}/dciclient
 %{python2_sitelib}/*.egg-info
 %{_bindir}/dcictl
@@ -86,7 +116,6 @@ find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' | xargs sed
 %if 0%{?with_python3}
 %files -n python3-dciclient
 %doc
-%{python3_sitelib}/agents
 %{python3_sitelib}/dciclient
 %{python3_sitelib}/*.egg-info
 %{_bindir}/dcictl
