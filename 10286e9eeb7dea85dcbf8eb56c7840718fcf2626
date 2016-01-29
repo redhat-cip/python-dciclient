@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7aade967_6694ae37",
+        "filename": "dciclient/v1/run_commands.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-01-29T16:10:05Z",
+      "side": 1,
+      "message": "Well,\n\nSince there are functions only used by the demo agents, I don\u0027t think it should be in the dciclient/ distribution. But more in a sample/lib directory.",
+      "parentUuid": "7aade967_663cae94",
+      "revId": "10286e9eeb7dea85dcbf8eb56c7840718fcf2626",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab8dda7_7f82ea53",
         "filename": "python-dciclient.spec",
         "patchSetId": 10
