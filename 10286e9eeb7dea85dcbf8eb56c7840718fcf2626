@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "7aade967_269eb657",
+        "filename": "dciclient/v1/run_commands.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-01-29T16:13:34Z",
+      "side": 1,
+      "message": "Well it was created for the khaleesi agent so I guessed it was going to be the way to go.\n\nCould you link here what\u0027s the official way to run a command and will update this review accordingly. No need to add code that won\u0027t be really needed.",
+      "parentUuid": "7aade967_6694ae37",
+      "revId": "10286e9eeb7dea85dcbf8eb56c7840718fcf2626",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab8dda7_7f82ea53",
         "filename": "python-dciclient.spec",
         "patchSetId": 10
