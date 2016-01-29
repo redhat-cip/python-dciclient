@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7aade967_663cae94",
+        "filename": "dciclient/v1/run_commands.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-01-29T13:40:43Z",
+      "side": 1,
+      "message": "It was moved here because it was initally located in utils.py[1] creating an import loop.\n\nI don\u0027t mind having it in dciclient itself. Will fix.\n\n[1] http://softwarefactory-project.io/r/#/c/2314/7/dciclient/v1/utils.py.",
+      "parentUuid": "9ab8dda7_9f879e61",
+      "revId": "10286e9eeb7dea85dcbf8eb56c7840718fcf2626",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab8dda7_7f82ea53",
         "filename": "python-dciclient.spec",
         "patchSetId": 10
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "7aade967_06413a0b",
+        "filename": "python-dciclient.spec",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-01-29T13:40:43Z",
+      "side": 1,
+      "message": "Will fix. Thanks for the pointer.",
+      "parentUuid": "9ab8dda7_7f82ea53",
+      "revId": "10286e9eeb7dea85dcbf8eb56c7840718fcf2626",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab8dda7_5f812649",
         "filename": "setup.py",
         "patchSetId": 10
@@ -47,6 +83,24 @@
       "writtenOn": "2016-01-28T21:37:17Z",
       "side": 1,
       "message": "I\u0027m not sure these samples deserve to be installed on the user system.",
+      "revId": "10286e9eeb7dea85dcbf8eb56c7840718fcf2626",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aade967_c64a4227",
+        "filename": "setup.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-01-29T13:40:43Z",
+      "side": 1,
+      "message": "I disagree here.\n\nIMO there are two ways to go here :\n\n  * agents/ and feeders/ remain on the repo python-dciclient and we distribute it this way. Those samples are dciclient 101 to write a feeder and an agent and hence should be distributed.\n\n  * We start splitting and having a repo for agents and feeders. Those wouldn\u0027t be distributed through the setup.py of dci-control-server.\n\nBut those needs IMO needs to be distributed as much as OSP feeder and chainsaw agent.",
+      "parentUuid": "9ab8dda7_5f812649",
       "revId": "10286e9eeb7dea85dcbf8eb56c7840718fcf2626",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
