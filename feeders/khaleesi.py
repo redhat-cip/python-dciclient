@@ -14,7 +14,12 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations
 # under the License.
-
+error_message = """
+This script make the use of Khaleesi mandatory which is not the current
+situation. If you call it know, you will create jobdefinition that are not
+compatible with the existing agents.
+"""
+raise Exception(error_message)
 from dciclient.v1.api import component
 from dciclient.v1.api import context
 from dciclient.v1.api import jobdefinition
