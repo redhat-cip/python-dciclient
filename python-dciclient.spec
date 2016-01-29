@@ -24,6 +24,16 @@ Summary:        Python client for DCI control server
 
 BuildRequires:  python2-devel
 BuildRequires:  python-setuptools
+BuildRequires:  postgresql
+BuildRequires:  postgresql-devel
+BuildRequires:  postgresql-server
+BuildRequires:  python-psycopg2
+BuildRequires:  python-tox
+BuildRequires:  python-requests
+BuildRequires:  python-six
+BuildRequires:  gcc
+BuildRequires:  libffi-devel
+
 
 Requires:       python-prettytable
 Requires:       py-bcrypt
@@ -44,6 +54,15 @@ Summary:        Python client for DCI control server
 
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
+BuildRequires:  postgresql
+BuildRequires:  postgresql-devel
+BuildRequires:  postgresql-server
+BuildRequires:  python3-psycopg2
+BuildRequires:  python3-tox
+BuildRequires:  python3-requests
+BuildRequires:  python3-six
+BuildRequires:  gcc
+BuildRequires:  libffi-devel
 
 Requires:       python3-prettytable
 Requires:       python3-py-bcrypt
@@ -74,6 +93,14 @@ find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' | xargs sed
 find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' | xargs sed -i '8s/setuptools.*/setuptools/'
 %if 0%{?with_python3}
 %py3_install
+%endif
+
+%check -n python2-dciclient
+tox -e pep8,py27
+
+%if 0%{?with_python3}
+%check -n python3-dciclient
+tox
 %endif
 
 %files -n python2-dciclient
