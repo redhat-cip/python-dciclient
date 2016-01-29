@@ -73,6 +73,40 @@
     },
     {
       "key": {
+        "uuid": "7aade967_46b652de",
+        "filename": "dciclient/v1/run_commands.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-01-29T16:26:23Z",
+      "side": 1,
+      "message": "team_id is not used in the code",
+      "revId": "10286e9eeb7dea85dcbf8eb56c7840718fcf2626",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aade967_66bb4ec5",
+        "filename": "dciclient/v1/run_commands.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-01-29T16:26:23Z",
+      "side": 1,
+      "message": "the same",
+      "revId": "10286e9eeb7dea85dcbf8eb56c7840718fcf2626",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab8dda7_7f82ea53",
         "filename": "python-dciclient.spec",
         "patchSetId": 10
