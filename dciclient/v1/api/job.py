@@ -24,9 +24,11 @@ TABLE_HEADERS = ['id', 'recheck', 'jobdefinition_id', 'remoteci_id',
 
 
 def create(context, recheck, remoteci_id, team_id, jobdefinition_id=None):
-    return base.create(context, RESOURCE, recheck=recheck,
-                       remoteci_id=remoteci_id, team_id=team_id,
-                       jobdefinition_id=jobdefinition_id)
+    job = base.create(context, RESOURCE, recheck=recheck,
+                      remoteci_id=remoteci_id, team_id=team_id,
+                      jobdefinition_id=jobdefinition_id)
+    context.last_job_id = job.json()['job']['id']
+    return job
 
 
 def schedule(context, remoteci_id):
