@@ -23,10 +23,11 @@ def create(context, resource, **kwargs):
     return r
 
 
-def list(context, resource):
+def list(context, resource, **kwargs):
     """List all resources"""
+    data = utils.sanitize_kwargs(**kwargs)
     uri = '%s/%s' % (context.dci_cs_api, resource)
-    r = context.session.get(uri)
+    r = context.session.get(uri, params=data)
     return r
 
 

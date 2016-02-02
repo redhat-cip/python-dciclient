@@ -31,8 +31,8 @@ def get(context, id, where=None, embed=None):
     return base.get(context, RESOURCE, id=id, where=where, embed=embed)
 
 
-def list(context):
-    return base.list(context, RESOURCE)
+def list(context, where=None, embed=None):
+    return base.list(context, RESOURCE, where=None, embed=None)
 
 
 def update(context, name=None, content=None, mime=None, md5=None):
