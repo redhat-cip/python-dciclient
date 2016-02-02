@@ -25,8 +25,8 @@ def create(context, name):
     return base.create(context, RESOURCE, name=name)
 
 
-def list(context):
-    return base.list(context, RESOURCE)
+def list(context, where=None, embed=None):
+    return base.list(context, RESOURCE, where=None, embed=None)
 
 
 def get(context, id, where=None, embed=None):

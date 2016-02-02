@@ -25,6 +25,7 @@ class DciContext(object):
         self.session = self._build_http_session(login, password)
         self.dci_cs_api = '%s/%s' % (dci_cs_url, DciContext.API_VERSION)
         self.last_jobstate_id = None
+        self.last_job_id = None
 
     @staticmethod
     def _build_http_session(login, password):

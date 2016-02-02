@@ -25,12 +25,13 @@ TABLE_HEADERS = ['id', 'status', 'comment', 'job_id', 'team_id', 'etag',
 def create(context, status, comment, job_id):
     jobstate = base.create(context, RESOURCE, status=status, comment=comment,
                            job_id=job_id)
-    context.last_jobstate_id = jobstate.json()['jobstate']['id']
+    json = jobstate.json()
+    context.last_jobstate_id = json['jobstate']['id']
     return jobstate
 
 
-def list(context):
-    return base.list(context, RESOURCE)
+def list(context, where=None, embed=None):
+    return base.list(context, RESOURCE, where=where, embed=embed)
 
 
 def get(context, id, where=None, embed=None):
