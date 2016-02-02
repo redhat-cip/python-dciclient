@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aaae553_e573b6e5",
+        "filename": "dciclient/v1/api/job.py",
+        "patchSetId": 23
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-02-02T14:23:09Z",
+      "side": 0,
+      "message": "not a big deal, but we should also store the test in this structure.",
+      "revId": "213aefaf68f9187e4c9da6639aa0855cfd152b63",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}

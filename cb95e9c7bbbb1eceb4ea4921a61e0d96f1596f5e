@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aaae553_8580c28c",
+        "filename": "python-dciclient.spec",
+        "patchSetId": 23
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-02-02T14:23:09Z",
+      "side": 1,
+      "message": "the xargs is not mandatory here. We can just use -exec sed blabla",
+      "revId": "cb95e9c7bbbb1eceb4ea4921a61e0d96f1596f5e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
