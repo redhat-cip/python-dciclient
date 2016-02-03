@@ -55,9 +55,7 @@ setuptools.setup(
     ],
     entry_points={
         "console_scripts": [
-            "dcictl = dciclient.shell:main",
-            "dci-feeder-github = feeders.github:main",
-            "dci-agent-tox = agents.tox:main"
+            "dcictl = dciclient.shell:main"
         ],
     }
 )
