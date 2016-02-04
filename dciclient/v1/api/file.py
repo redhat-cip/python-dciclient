@@ -19,7 +19,7 @@ from dciclient.v1.api import base
 
 RESOURCE = 'files'
 TABLE_HEADERS = ['id', 'name', 'content', 'mime', 'md5', 'jobstate_id',
-                 'team_id', 'etag', 'created_at', 'updated_at']
+                 'team_id', 'created_at']
 
 
 def create(context, name, content, mime, jobstate_id, md5=None):

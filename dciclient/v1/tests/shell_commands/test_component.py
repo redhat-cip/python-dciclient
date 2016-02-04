@@ -53,15 +53,14 @@ def test_prettytable_output(runner):
                      component['type'], component['sha'],
                      component['title'], component['message'],
                      component['url'], component['git'], component['ref'],
-                     component['etag'], component['created_at'],
-                     component['updated_at'])
+                     component['created_at'])
 
     assert header == ('| id | name | canonical_project_name '
                       '| type | sha | title | message | url | git '
-                      '| ref | data | etag | created_at | updated_at |')
+                      '| ref | data | created_at |')
 
     assert data == ('| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | {} '
-                    '| %s | %s | %s |' % expected_data)
+                    '| %s |' % expected_data)
 
 
 def test_list(runner):
@@ -88,8 +87,7 @@ def test_delete(runner):
     component = json.loads(result.output)['component']
 
     result = runner.invoke(['component-delete', '--id',
-                            component['id'], '--etag',
-                            component['etag']])
+                            component['id']])
     result = json.loads(result.output)
 
     assert result['message'] == 'Component deleted.'
