@@ -43,7 +43,7 @@ def run_command(context, cmd, cwd, jobstate_id, team_id):
 
     while True:
         readable, writable, exceptional = select.select(inputs, outputs,
-                                                        inputs, 5)
+                                                        inputs, 60)
         if not readable:
             break
         pstdout = pipe_process.stdout.read().decode('UTF-8', 'ignore')
