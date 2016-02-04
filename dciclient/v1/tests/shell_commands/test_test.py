@@ -47,12 +47,11 @@ def test_prettytable_output(runner):
     header = ' '.join(output[1].split())
     data = ' '.join(output[3].split())
 
-    expected_data = (test['id'], test['name'], test['etag'],
-                     test['created_at'], test['updated_at'])
+    expected_data = (test['id'], test['name'], test['created_at'])
 
-    assert header == '| id | name | data | etag | created_at | updated_at |'
+    assert header == '| id | name | data | created_at |'
 
-    assert data == '| %s | %s | {} | %s | %s | %s |' % expected_data
+    assert data == '| %s | %s | {} | %s |' % expected_data
 
 
 def test_list(runner):
@@ -71,24 +70,11 @@ def test_create(runner):
     assert test['name'] == 'foo'
 
 
-def test_update(runner):
-    result = runner.invoke(['test-create', '--name', 'foo'])
-    test = json.loads(result.output)['test']
-
-    result = runner.invoke(['test-update', '--id', test['id'],
-                            '--etag', test['etag'], '--name', 'bar'])
-    result = json.loads(result.output)
-
-    assert result['message'] == 'Test updated.'
-    assert result['id'] == test['id']
-
-
 def test_delete(runner):
     result = runner.invoke(['test-create', '--name', 'foo'])
     test = json.loads(result.output)['test']
 
-    result = runner.invoke(['test-delete', '--id', test['id'],
-                            '--etag', test['etag']])
+    result = runner.invoke(['test-delete', '--id', test['id']])
     result = json.loads(result.output)
 
     assert result['message'] == 'Test deleted.'

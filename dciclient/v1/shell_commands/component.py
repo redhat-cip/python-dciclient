@@ -57,10 +57,9 @@ def create(context, name, type, canonical_project_name, data, sha,
 
 @cli.command("component-delete", help="Delete a component.")
 @click.option("--id", required=True)
-@click.option("--etag", required=True)
 @click.pass_obj
-def delete(context, id, etag):
-    result = component.delete(context, id=id, etag=etag)
+def delete(context, id):
+    result = component.delete(context, id=id)
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Component deleted.'})
     else:
