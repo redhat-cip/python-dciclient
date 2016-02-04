@@ -42,27 +42,11 @@ def create(context, name, data):
     utils.format_output(result, context.format, test.RESOURCE[:-1])
 
 
-@cli.command("test-update", help="Update a test.")
-@click.option("--id", required=True)
-@click.option("--etag", required=True)
-@click.option("--name")
-@click.option("--data")
-@click.pass_obj
-def update(context, id, etag, name, data):
-    result = test.update(context, id=id, etag=etag, name=name, data=data)
-
-    if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Test updated.'})
-    else:
-        utils.format_output(result, context.format)
-
-
 @cli.command("test-delete", help="Delete a test.")
 @click.option("--id", required=True)
-@click.option("--etag", required=True)
 @click.pass_obj
-def delete(context, id, etag):
-    result = test.delete(context, id=id, etag=etag)
+def delete(context, id):
+    result = test.delete(context, id=id)
 
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Test deleted.'})
