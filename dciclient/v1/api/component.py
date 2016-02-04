@@ -21,7 +21,7 @@ import json
 RESOURCE = 'components'
 TABLE_HEADERS = ['id', 'name', 'canonical_project_name',
                  'type', 'sha', 'title', 'message', 'url',
-                 'git', 'ref', 'data', 'etag', 'created_at', 'updated_at']
+                 'git', 'ref', 'data', 'created_at']
 
 GIT_COMMIT = 'git_commit'
 KH_INSTALLER = 'kh_installer'
@@ -44,5 +44,5 @@ def get(context, id, where=None, embed=None):
     return base.get(context, RESOURCE, id=id, where=where, embed=embed)
 
 
-def delete(context, id, etag):
-    return base.delete(context, RESOURCE, id=id, etag=etag)
+def delete(context, id):
+    return base.delete(context, RESOURCE, id=id)
