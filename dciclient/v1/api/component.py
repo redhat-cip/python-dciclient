@@ -21,7 +21,7 @@ import json
 RESOURCE = 'components'
 TABLE_HEADERS = ['id', 'name', 'canonical_project_name',
                  'type', 'sha', 'title', 'message', 'url',
-                 'git', 'ref', 'data', 'etag', 'created_at', 'updated_at']
+                 'git', 'ref', 'data', 'created_at']
 
 GIT_COMMIT = 'git_commit'
 KH_INSTALLER = 'kh_installer'

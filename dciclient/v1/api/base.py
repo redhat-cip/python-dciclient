@@ -49,7 +49,10 @@ def update(context, resource, **kwargs):
 
 def delete(context, resource, **kwargs):
     """Delete a specific resource"""
-    etag = kwargs.pop('etag')
+
+    etag = None
+    if 'etag' in kwargs:
+        etag = kwargs.pop('etag')
     uri = '%s/%s/%s' % (context.dci_cs_api, resource, kwargs.pop('id'))
     r = context.session.delete(uri, headers={'If-match': etag})
     return r
