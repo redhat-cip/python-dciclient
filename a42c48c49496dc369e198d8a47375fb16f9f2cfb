@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa7f18b_e40f3a2d",
+        "filename": "dciclient/v1/api/base.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2016-02-05T10:22:16Z",
+      "side": 1,
+      "message": "i think it\u0027s params\u003d",
+      "revId": "a42c48c49496dc369e198d8a47375fb16f9f2cfb",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aa7f18b_c4123e58",
+        "filename": "dciclient/v1/logger.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2016-02-05T10:22:16Z",
+      "side": 1,
+      "message": "check if self._dci_context.last_job_id is not None",
+      "revId": "a42c48c49496dc369e198d8a47375fb16f9f2cfb",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
