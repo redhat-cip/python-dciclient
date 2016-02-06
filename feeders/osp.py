@@ -37,6 +37,7 @@ def get_puddle_component(repo_file, repo_name):
 
     puddle_component = {
         'type': component.PUDDLE,
+        'canonical_project_name': repo_name,
         'name': '%s %s' % (repo_name, version),
         'url': base_url,
         'data': {
@@ -77,10 +78,10 @@ if __name__ == '__main__':
     for cmpt in components:
         created_cmpt = component.create(dci_context, **cmpt)
         if created_cmpt.status_code == 201:
-            print("Create component '%s', type '%s'" % (cmpt['name'],
-                                                        cmpt['type']))
-            component_ids.append(created_cmpt.json()['component']['id'])
             at_least_one = True
+        elif created_cmpt.status_code == 422:
+            created_cmpt = component.get(dci_context, cmpt['name'])
+        component_ids.append(created_cmpt.json()['component']['id'])
 
     if at_least_one:
         jobdef_name = 'OSP 8 - %s' % datetime.now().strftime('%Y.%m.%d-%H.%M')
