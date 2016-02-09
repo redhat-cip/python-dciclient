@@ -4,6 +4,11 @@ PROJ_NAME=python-dciclient
 DATE=$(date +%Y%m%d%H%M)
 SHA=$(git rev-parse HEAD | cut -c1-8)
 
+# Configure rpmmacros to enable signing packages
+#
+echo '%_signature gpg' >> ~/.rpmmacros
+echo '%_gpg_name Distributed-CI' >> ~/.rpmmacros
+
 # Create the proper filesystem hierarchy to proceed with srpm creatioon
 #
 rm -rf ${HOME}/rpmbuild
@@ -37,6 +42,13 @@ for arch in fedora-23-x86_64 epel-7-x86_64; do
     sed -i '$ibaseurl=http://dci.enovance.com/repos/extras/el/7/x86_64/' ${HOME}/.mock/${arch}-with-dci-repo.cfg
     sed -i '$igpgcheck=0' ${HOME}/.mock/${arch}-with-dci-repo.cfg
     sed -i '$ienabled=1' ${HOME}/.mock/${arch}-with-dci-repo.cfg
+
+    # NOTE(spredzy) Add signing options
+    #
+    sed -i "\$aconfig_opts['plugin_conf']['sign_enable'] = True" ${HOME}/.mock/${arch}-with-dci-repo.cfg
+    sed -i "\$aconfig_opts['plugin_conf']['sign_opts'] = {}" ${HOME}/.mock/${arch}-with-dci-repo.cfg
+    sed -i "\$aconfig_opts['plugin_conf']['sign_opts']['cmd'] = 'rpmsign'" ${HOME}/.mock/${arch}-with-dci-repo.cfg
+    sed -i "\$aconfig_opts['plugin_conf']['sign_opts']['opts'] = '--addsign %(rpms)s'" ${HOME}/.mock/${arch}-with-dci-repo.cfg
 
     mkdir -p development
     mock -r ${HOME}/.mock/${arch}-with-dci-repo.cfg rebuild --resultdir=development/${RPATH} ${HOME}/rpmbuild/SRPMS/${PROJ_NAME}*
