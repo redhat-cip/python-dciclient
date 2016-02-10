@@ -31,14 +31,14 @@ class DciHandler(logging.Handler):
         self._idx_file = 0
         self._current_log = io.StringIO()
         self._threshold_log = 512 * 1024  # 512K
-        self._interval = 60  # 1 minute
-        timer_handle = functools.partial(self.handle, record=None)
+        self._interval = 30  # 30 seconds
+        self._start_timer()
+
+    def _start_timer(self):
+        timer_handle = functools.partial(self.emit, record=None)
         self._timer = threading.Timer(self._interval, timer_handle)
-        try:
-            self._timer.start()
-        except KeyboardInterrupt:
-            self._timer.cancel()
-            raise
+        self._timer.setDaemon(True)
+        self._timer.start()
 
     def _send_log_file(self):
         if not self._dci_context.last_jobstate_id:
@@ -54,8 +54,16 @@ class DciHandler(logging.Handler):
     def emit(self, record):
         # run by the timer
         if record is None:
-            if len(self._current_log.getvalue()) > 0:
-                self._send_log_file()
+            print("timer emit")
+            self.acquire()
+            print("acquire")
+            try:
+                if len(self._current_log.getvalue()) > 0:
+                    self._send_log_file()
+            finally:
+                self.release()
+                print("release")
+            self._start_timer()
             return
 
         msg = u"%s\n" % self.format(record)
