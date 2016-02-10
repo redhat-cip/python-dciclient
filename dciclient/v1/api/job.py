@@ -17,6 +17,8 @@
 from dciclient.v1.api import base
 from dciclient.v1.api import jobdefinition
 
+import json
+
 
 RESOURCE = 'jobs'
 TABLE_HEADERS = ['id', 'recheck', 'jobdefinition_id', 'remoteci_id',
@@ -33,10 +35,10 @@ def create(context, recheck, remoteci_id, team_id, jobdefinition_id=None):
 
 def schedule(context, remoteci_id):
     uri = '%s/%s/schedule' % (context.dci_cs_api, RESOURCE)
-    data_json = {'remoteci_id': remoteci_id}
-    r = context.session.post(uri, json=data_json)
-    r.raise_for_status()
-    context.last_job_id = r.json()['job']['id']
+    data_json = json.dumps({'remoteci_id': remoteci_id})
+    r = context.session.post(uri, data=data_json)
+    if r.status_code == 201:
+        context.last_job_id = r.json()['job']['id']
     return r
 
 
