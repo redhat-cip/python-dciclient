@@ -14,12 +14,14 @@
 
 from dciclient.v1 import utils
 
+import json
+
 
 def create(context, resource, **kwargs):
     """Create a resource"""
     data = utils.sanitize_kwargs(**kwargs)
     uri = '%s/%s' % (context.dci_cs_api, resource)
-    r = context.session.post(uri, json=data)
+    r = context.session.post(uri, data=json.dumps(data))
     return r
 
 

@@ -26,7 +26,10 @@ def _get_requirements():
                                    "requirements.txt")
     with open(requirements_path, "r") as f:
         requirements = f.read()
-        return requirements.split("\n")
+        # remove the dependencies which comes from url source because
+        # it's not supported by install_requires
+        return [dep for dep in requirements.split("\n")
+                if not dep.startswith('-e')]
 
 _README_CONTENT = open("%s/%s" % (os.path.dirname(os.path.abspath(__file__)),
                                   "README.md")).read()
@@ -40,6 +43,9 @@ setuptools.setup(
     description="Python client for DCI Control Server",
     long_description=_README_CONTENT,
     install_requires=_get_requirements(),
+    dependency_links=[
+        "https://github.com/redhat-cip/python-rdo-m-helper.git"
+        "#egg=python-rdo-m-helper"],
     url="https://github.com/redhat-cip/dci-control-server",
     licence="Apache v2.0",
     include_package_data=True,
