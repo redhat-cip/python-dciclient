@@ -1,0 +1,44 @@
+---
+dci:
+    login: admin
+    password: admin
+    control_server_url: http://127.0.0.1:5000
+    remoteci_id: 6bdf44bd-5d25-41db-ae52-ac94427fade3
+rhsm:
+    login: <rhn_login>
+    password: <rhn_password>
+    pool_id: <pool_id>
+mirror_repo_url: http://192.168.1.2
+repositories: &DEFAULT_REPOSITORIES
+    - {type: rhsm_channel, name: rhel-7-server-rpms}
+    - {type: rhsm_channel, name: rhel-7-server-optional-rpms}
+    - {type: rhsm_channel, name: rhel-7-server-extras-rpms}
+provisioner:
+    type: openstack
+    instance_name_prefix: <my-prefix>
+    image:
+        name: RHEL 7.2 x86_64
+        user: <user name>
+    flavor: m1.hypervisor
+    network: private
+    keypair: DCI
+    security-groups:
+        - ssh
+        - rhos-mirror-user
+    repositories: *DEFAULT_REPOSITORIES
+undercloud:
+    repositories: *DEFAULT_REPOSITORIES
+    guest_image_path: http://192.168.1.2/brewroot/packages/rhel-guest-image/7.2/20151102.0/images/rhel-guest-image-7.2-20151102.0.x86_64.qcow2
+    guest_image_checksum: 486900b54f4757cb2d6b59d9bce9fe90
+    files:
+        overcloud-full:
+            path: http://192.168.1.2/mburns/8.0/2015-12-03.1/images/overcloud-full.tar
+            checksum: e88968c81703fbcf6dbc8623997f6a84
+        ironic-python-agent:
+            path: http://192.168.1.2/mburns/latest-8.0-images/ironic-python-agent.tar
+            checksum: 360430a19c204774044cdca22ce60220
+        deploy-ramdisk-ironic:
+            path: http://192.168.1.2/mburns/latest-8.0-images/deploy-ramdisk-ironic.tar
+            checksum: 5c8fd42deb34831377f0bf69fbe71f4b
+ssh:
+    private_key: /home/dci/.ssh/id_rsa
