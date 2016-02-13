@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a494da4_bb2427c7",
+        "filename": "agents/chainsaw.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2016-02-13T20:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a494da4_7b573f03",
+      "revId": "adf78bfed34a3bd54dbcda32a814de1610bde691",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a494da4_5b5c0326",
         "filename": "agents/chainsaw.py",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-02-12T07:29:22Z",
       "side": 1,
       "message": "Can you add the possibility to specify those 3 parameters also on the command line ? So we have a common pattern across every agent",
+      "revId": "adf78bfed34a3bd54dbcda32a814de1610bde691",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_9b216bb7",
+        "filename": "agents/chainsaw.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2016-02-13T20:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a494da4_5b5c0326",
       "revId": "adf78bfed34a3bd54dbcda32a814de1610bde691",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
