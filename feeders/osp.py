@@ -21,7 +21,6 @@ from dciclient.v1.api import jobdefinition
 from dciclient.v1.api import test
 
 import configparser
-from datetime import datetime
 import requests
 from urllib.parse import urlparse
 
@@ -75,7 +74,9 @@ if __name__ == '__main__':
     # jobdefinition must be created.
     at_least_one = False
     component_ids = []
+    names = []
     for cmpt in components:
+        names.append(cmpt['name'])
         created_cmpt = component.create(dci_context, **cmpt)
         if created_cmpt.status_code == 201:
             at_least_one = True
@@ -84,7 +85,7 @@ if __name__ == '__main__':
         component_ids.append(created_cmpt.json()['component']['id'])
 
     if at_least_one:
-        jobdef_name = 'OSP 8 - %s' % datetime.now().strftime('%Y.%m.%d-%H.%M')
+        jobdef_name = 'OSP 8 - %s' % '+'.join(names)
         jobdef = jobdefinition.create(dci_context, jobdef_name,
                                       test_id)
         if jobdef.status_code == 201:
