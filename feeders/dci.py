@@ -91,29 +91,26 @@ def main():
 
     # If at least one component doesn't exist in the database then a new
     # jobdefinition must be created.
-    at_least_one = False
-    component_ids = []
     for cmpt in components:
         created_cmpt = component.create(dci_context, **cmpt)
         if created_cmpt.status_code == 201:
             print("Create component '%s', type '%s'" % (cmpt['name'],
                                                         cmpt['type']))
 
-            component_ids.append(created_cmpt.json()['component']['id'])
-            at_least_one = True
+            created_cmpt_id = created_cmpt.json()['component']['id']
+            created_cmpt_name = created_cmpt.json()['component']['name']
 
-    if at_least_one:
-        jobdef_name = components[0]['name']
-        jobdef = jobdefinition.create(dci_context, jobdef_name, test_id)
-        if jobdef.status_code == 201:
-            jobdef_id = jobdef.json()['jobdefinition']['id']
-            for cmpt_id in component_ids:
-                jobdefinition.add_component(dci_context, jobdef_id, cmpt_id)
-            print("Jobdefinition '%s' created." % jobdef_name)
+            jobdef_name = created_cmpt_name
+            jobdef = jobdefinition.create(dci_context, jobdef_name, test_id)
+            if jobdef.status_code == 201:
+                jobdef_id = jobdef.json()['jobdefinition']['id']
+                jobdefinition.add_component(dci_context, jobdef_id,
+                                            created_cmpt_id)
+                print("Jobdefinition '%s' created." % jobdef_name)
+            else:
+                print("Error on jobdefinition creation: '%s'", jobdef.json())
         else:
-            print("Error on jobdefinition creation: '%s'", jobdef.json())
-    else:
-        print("No jobdefinition created.")
+            print("No jobdefinition created.")
 
 
 if __name__ == '__main__':
