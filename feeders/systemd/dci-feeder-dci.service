@@ -1,0 +1,6 @@
+[Unit]
+Description=The DCI dci feeder
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/dci-feeder-dci
