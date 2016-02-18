@@ -78,10 +78,12 @@ agents for the remote CIs including tox agent and khaleesi agent.
 
 %package -n dci-agents
 Summary:  DCI agents
+
+BuildRequires:	systemd
 %if 0%{?with_python3}
-Requires:      python3-dciclient
+Requires:	python3-dciclient
 %else
-Requires:      python2-dciclient
+Requires:	python2-dciclient
 %endif
 
 %description -n dci-agents
@@ -90,6 +92,8 @@ DCI agents
 
 %package -n dci-feeders
 Summary:  DCI feeders
+
+BuildRequires:	systemd
 %if 0%{?with_python3}
 Requires:      python3-dciclient
 %else
@@ -114,6 +118,9 @@ install -d %{buildroot}%{_bindir}
 find agents -name '*py' -exec sh -c 'mv "$0" %{buildroot}%{_bindir}/dci-agent-$(basename "$0")' {} \;
 find feeders -name '*py' -exec sh -c 'mv "$0" %{buildroot}%{_bindir}/dci-feeder-$(basename "$0")' {} \;
 find %{buildroot}%{_bindir} -name '*.py' -exec sh -c 'mv "$0" "${0%%.py}"' {} \;
+install -d %{buildroot}%{_unitdir}
+mv agents/systemd/* %{buildroot}%{_unitdir}
+mv feeders/systemd/* %{buildroot}%{_unitdir}
 %py2_install
 find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' -exec sed -i '3s/2.7.0/2.6.0/' {} \;
 find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' -exec sed -i '5s/click.*/click/' {} \;
@@ -130,6 +137,21 @@ sed -i '6s/setuptools.*/setuptools/' requirements.txt
 rm -rf {agents, feeders}
 rm -rf %{buildroot}/%{python2_sitelib}/{agents,feeders}
 rm -rf %{buildroot}/%{python3_sitelib}/{agents,feeders}
+
+%post
+for unit in $(ls %{buildroot}%{_unitdir}); do
+    %systemd_post $unit
+done
+
+%preun
+for unit in $(ls %{buildroot}%{_unitdir}); do
+    %systemd_preun $unit
+done
+
+%postun
+for unit in $(ls %{buildroot}%{_unitdir}); do
+    %systemd_postun $unit
+done
 
 %check
 %{__python2} setup.py test
@@ -154,9 +176,11 @@ rm -rf %{buildroot}/%{python3_sitelib}/{agents,feeders}
 
 %files -n dci-agents
 %{_bindir}/dci-agent-*
+%{_unitdir}/dci-agent-*
 
 %files -n dci-feeders
 %{_bindir}/dci-feeder-*
+%{_unitdir}/dci-feeder-*
 
 
 %changelog

@@ -1,0 +1,10 @@
+[Unit]
+Descriptuon=The DCI github feeder timer
+
+[Timer]
+OnCalendar=00:10:00
+Persistent=true
+Unit=dci-feeder-github@%I.service
+
+[Install]
+WantedBy=timers.target
