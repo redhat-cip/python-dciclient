@@ -18,12 +18,22 @@ from dciclient.v1.api import file
 from dciclient.v1.api import jobstate
 
 import fcntl
+import mimetypes
 import os
 import select
 import subprocess
 
 import six
 import sys
+
+
+def upload_file(context, path, job_id, mime=None):
+
+    if not mime:
+        mime = mimetypes.guess_type(path)[0]
+
+    file.create(context, name=path, content=open(path, 'r').read(),
+                mime=mime, job_id=job_id)
 
 
 def run_command(context, cmd, cwd, jobstate_id, team_id):
