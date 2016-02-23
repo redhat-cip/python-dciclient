@@ -18,7 +18,7 @@
 from dciclient.v1.api import context
 from dciclient.v1.api import job
 from dciclient.v1.api import jobstate
-from dciclient.v1 import run_commands
+from dciclient.v1 import helper
 
 from optparse import OptionParser
 
@@ -136,8 +136,8 @@ def main():
 
     # 2. Install requirements packages and tools.
     pre_run_commands = get_pre_run_commands(jobinformation, environment_url)
-    run_commands.run_commands(dci_context, pre_run_commands, '/var/tmp',
-                              pre_run_state_id, new_job_id, team_id)
+    helper.run_commands(dci_context, pre_run_commands, '/var/tmp',
+                        pre_run_state_id, new_job_id, team_id)
 
     # 3. Create the running state
     running_state = jobstate.create(dci_context, 'running',
@@ -147,8 +147,8 @@ def main():
 
     # 4. Run the ansible deployment
     running_commands = get_running_commands()
-    run_commands.run_commands(dci_context, running_commands, '/var/tmp',
-                              running_state_id, new_job_id, team_id)
+    helper.run_commands(dci_context, running_commands, '/var/tmp',
+                        running_state_id, new_job_id, team_id)
 
     # 5. Create the post-run state
     post_run_state = jobstate.create(dci_context,
@@ -159,8 +159,8 @@ def main():
 
     # 6. Run the test suite
     post_run_commands = get_post_run_commands()
-    run_commands.run_commands(dci_context, post_run_commands, '/var/tmp',
-                              post_run_state_id, new_job_id, team_id)
+    helper.run_commands(dci_context, post_run_commands, '/var/tmp',
+                        post_run_state_id, new_job_id, team_id)
 
     # If we are there, then all the commands have succeed, create success state
     jobstate.create(dci_context, 'success', 'Rake commands run successfully',
