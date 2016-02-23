@@ -68,3 +68,13 @@ def get_full_data(context, id):
 
 def delete(context, id):
     return base.delete(context, RESOURCE, id=id)
+
+
+def add_file(context, id, file_id):
+    uri = '%s/%s/%s/files' % (context.dci_cs_api, RESOURCE, id)
+    return context.session.post(uri, json={'file_id': file_id})
+
+
+def get_files(context, id):
+    uri = '%s/%s/%s/files' % (context.dci_cs_api, RESOURCE, id)
+    return context.session.get(uri)
