@@ -12,7 +12,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import os
 import sys
 
 import requests
@@ -36,9 +35,9 @@ class DciContext(object):
 
 
 def build_dci_context(dci_cs_url=None, dci_login=None, dci_password=None):
-    dci_cs_url = dci_cs_url or os.environ.get('DCI_CS_URL', '')
-    dci_login = dci_login or os.environ.get('DCI_LOGIN', '')
-    dci_password = dci_password or os.environ.get('DCI_PASSWORD', '')
+    dci_cs_url = dci_cs_url or ''
+    dci_login = dci_login or ''
+    dci_password = dci_password or ''
 
     if not dci_cs_url or not dci_login or not dci_password:
         print("Environment variables required: DCI_CS_URL=%s, "

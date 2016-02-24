@@ -14,9 +14,13 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from ConfigParser import SafeConfigParser
+from optparse import OptionParser
+
 from dciclient.v1.api import file
 from dciclient.v1.api import job
 from dciclient.v1.api import jobstate
+
 
 import fcntl
 import mimetypes
@@ -26,6 +30,57 @@ import subprocess
 
 import six
 import sys
+
+
+def parse_command_line():
+    parser = OptionParser("")
+    parser.add_option("-u", "--dci-login", dest="dci_login",
+                      help="DCI login")
+    parser.add_option("-p", "--dci-password", dest="dci_password",
+                      help="DCI password")
+    parser.add_option("-a", "--dci-cs-url", dest="dci_cs_url",
+                      help="DCI CS url")
+
+    return parser.parse_args()
+
+
+def get_credentials(options):
+
+    if options.dci_cs_url and options.dci_login and options.dci_password:
+        return options.dci_login, options.dci_password, options.dci_cs_url
+
+    if os.environ.get('DCI_LOGIN') and \
+       os.environ.get('DCI_PASSWORD') and \
+       os.environ.get('DCI_CS_URL'):
+        return os.environ.get('DCI_LOGIN'),
+        os.environ.get('DCI_PASSWORD'),
+        os.environ.get('DCI_CS_URL')
+
+    return load_configfile()
+
+
+def load_configfile():
+
+    # DCI can load configuration files from 3 locations.
+    # This is their order of priority
+    #
+    # * A path specified in the DCICONFFILE environment variable
+    # * In a file .dci.conf located in the user home folder
+    # * In a file called  /etc/dci/dci.conf
+    #
+    possible_conf_files = [os.environ.get('DCICONFFILE'),
+                           '~/.dci.conf',
+                           '/etc/dci/dci.conf']
+
+    for conf_file in possible_conf_files:
+        if os.path.isfile(os.path.expanduser(conf_file)):
+            parser = SafeConfigParser().read(conf_file)
+            dci_login = parser.get('DEFAULT', 'dci_login')
+            dci_password = parser.get('DEFAULT', 'dci_password')
+            dci_cs_url = parser.get('DEFAULT', 'dci_cs_url')
+            return dci_login, dci_password, dci_cs_url
+
+    return None, None, None
 
 
 def upload_file(context, path, job_id, mime=None):

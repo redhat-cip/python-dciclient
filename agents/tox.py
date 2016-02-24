@@ -20,8 +20,6 @@ from dciclient.v1.api import job
 from dciclient.v1.api import jobstate
 from dciclient.v1 import toolbox
 
-from optparse import OptionParser
-
 import sys
 
 
@@ -62,30 +60,19 @@ def retrieve_jobinformation(dci_context, remoteci_id):
     return scheduled_job_id, full_data
 
 
-def parse_command_line():
-    parser = OptionParser("")
-    parser.add_option("-u", "--dci-login", dest="dci_login",
-                      help="DCI login")
-    parser.add_option("-p", "--dci-password", dest="dci_password",
-                      help="DCI password")
-    parser.add_option("-a", "--dci-cs-url", dest="dci_cs_url",
-                      help="DCI CS url")
-
-    return parser.parse_args()
-
-
 def main():
-    (options, args) = parse_command_line()
+    (options, args) = toolbox.parse_command_line()
 
     if len(args) < 2:
-        print("dci-agent-helloworld remoteci_id team_id")
+        print("dci-agent-tox remoteci_id team_id")
         sys.exit(1)
     remoteci_id = args[0]
     team_id = args[1]
 
-    dci_context = context.build_dci_context(options.dci_cs_url,
-                                            options.dci_login,
-                                            options.dci_password)
+    dci_login, dci_password, dci_cs_url = toolbox.get_credentials(options)
+    dci_context = context.build_dci_context(dci_cs_url,
+                                            dci_login,
+                                            dci_password)
 
     new_job_id, jobinformation = retrieve_jobinformation(dci_context,
                                                          remoteci_id)
@@ -102,13 +89,13 @@ def main():
     toolbox.run_commands(dci_context, pre_run_commands, '/var/tmp',
                          pre_run_state_id, new_job_id, team_id)
 
-    # 5. Create the running state
+    # 3. Create the running state
     running_state = jobstate.create(dci_context, 'running',
                                     'Running commands',
                                     new_job_id).json()
     running_state_id = running_state['jobstate']['id']
 
-    # 6. Run the echo helloworld command
+    # 4. Run the echo helloworld command
     running_commands = get_running_commands(jobinformation)
     toolbox.run_commands(dci_context, running_commands, '/var/tmp',
                          running_state_id, new_job_id, team_id)
