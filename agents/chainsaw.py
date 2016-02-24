@@ -16,6 +16,7 @@
 # under the License.
 
 import click
+import requests
 import yaml
 
 import logging
@@ -36,6 +37,14 @@ from rdomhelper.provisioners.openstack import provisioner as os_provisioner
 LOG = logging.getLogger('__chainsaw__')
 
 
+def _check_url(url):
+    resp = requests.get(url)
+    if resp.status_code != 200:
+        LOG.error("url '%s' is not available, content '%s'" %
+                  (url, resp.content))
+        raise
+
+
 def _get_job_puddles(dci_context, job_id, mirror_repo_url):
     """Get the repositories of the puddles to test from the control server.
     Returns the content of the .repo files.
@@ -45,14 +54,14 @@ def _get_job_puddles(dci_context, job_id, mirror_repo_url):
     for job_component in job_details['components']:
         if job_component['type'] == component.PUDDLE:
             puddle_name = job_component['canonical_project_name'].lower()
-            cmp_data = job_component['data']
+            repo_name = job_component['data']['repo_name']
+            baseurl = "%s%s" % (mirror_repo_url, job_component['data']['path'])
+            _check_url(baseurl)
             content = "[%s]\n"\
                       "name=%s\n"\
-                      "baseurl=%s%s\n"\
+                      "baseurl=%s\n"\
                       "gpgcheck=0\n"\
-                      "enabled=1\n" % (cmp_data['repo_name'],
-                                       cmp_data['repo_name'],
-                                       mirror_repo_url, cmp_data['path'])
+                      "enabled=1\n" % (repo_name, repo_name, baseurl)
 
             job_puddles.append(
                 {'type': 'yum_repo',
