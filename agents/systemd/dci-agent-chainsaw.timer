@@ -1,0 +1,10 @@
+[Unit]
+Description=The DCI chainsaw agent timer
+
+[Timer]
+OnActiveSec=5sec
+OnCalendar=*:0/30
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,7 @@
+[Unit]
+Description=The DCI chainsaw agent
+
+[Service]
+Type=oneshot
+EnvironmentFile=-/etc/sysconfig/dci-agent-chainsaw
+ExecStart=/usr/bin/dci-agent-chainsaw --config-file /etc/chainsaw.conf
