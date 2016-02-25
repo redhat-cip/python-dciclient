@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa57193c_eea6e752",
+        "filename": "agents/tox.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-02-25T12:21:48Z",
+      "side": 1,
+      "message": "use simple quotes",
+      "revId": "e3ef7ca466c873758b89b8ecbe1cc59907707c32",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_aeacef36",
+        "filename": "dciclient/v1/toolbox.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-02-25T12:21:48Z",
+      "side": 1,
+      "message": "Use simple quotes for strings",
+      "revId": "e3ef7ca466c873758b89b8ecbe1cc59907707c32",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_0eaa3b19",
+        "filename": "dciclient/v1/toolbox.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-02-25T12:21:48Z",
+      "side": 1,
+      "message": "you can write this function like this:\n\n    def get_credentials(options):\n        credentials \u003d [options.dci_cs_url, options.dci_login, options.dci_password]\n        get \u003d lambda name: os.environ.get(name)\n\n        if all(credentials):\n            return *credentials\n\n        credentials \u003d [get(\u0027DCI_LOGIN\u0027), get(\u0027DCI_PASSWORD\u0027),get(\u0027DCI_CS_URL\u0027)]\n\n        if all(credentials):\n            return *credentials\n\n        return load_configfile()",
+      "revId": "e3ef7ca466c873758b89b8ecbe1cc59907707c32",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
