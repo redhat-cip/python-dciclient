@@ -101,6 +101,15 @@ def dci_context(server, db_provisioning):
 
 
 @pytest.fixture
+def dci_context_broken(server, db_provisioning):
+    test_context = context.DciContext('http://no_where.com',
+                                      'admin', 'admin')
+    test_context.last_jobstate_id = 1
+    test_context.last_job_id = 1
+    return test_context
+
+
+@pytest.fixture
 def runner(dci_context):
     context.build_dci_context = lambda **kwargs: dci_context
     runner = click.testing.CliRunner(env={'DCI_LOGIN': '', 'DCI_PASSWORD': '',
