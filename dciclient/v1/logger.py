@@ -17,6 +17,7 @@
 import functools
 import io
 import logging
+import requests
 import threading
 
 from dciclient.v1.api import file as dci_file
@@ -44,9 +45,13 @@ class DciHandler(logging.Handler):
         if not self._dci_context.last_jobstate_id:
             return
         jobstate_id = self._dci_context.last_jobstate_id
-        dci_file.create(self._dci_context, '%s.log' % self._idx_file,
-                        self._current_log.getvalue(), 'text/plain',
-                        jobstate_id)
+        try:
+            dci_file.create(self._dci_context, '%s.log' % self._idx_file,
+                            self._current_log.getvalue(), 'text/plain',
+                            jobstate_id)
+        except requests.ConnectionError as e:
+            print('[dciclient]Failed to push log: %s' % e)
+            return
         self._current_log.truncate(0)
         self._current_log.seek(0)
         self._idx_file += 1
