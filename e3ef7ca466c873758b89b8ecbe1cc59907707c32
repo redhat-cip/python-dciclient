@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "5a682502_35183084",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2016-02-29T15:32:37Z",
+      "side": 1,
+      "message": "revert the changes of this files so that user which use directly the api can benefit from these environment variables",
+      "revId": "e3ef7ca466c873758b89b8ecbe1cc59907707c32",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_151d3474",
+        "filename": "dciclient/v1/toolbox.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2016-02-29T15:32:37Z",
+      "side": 1,
+      "message": "we can use Click for that",
+      "revId": "e3ef7ca466c873758b89b8ecbe1cc59907707c32",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa57193c_aeacef36",
         "filename": "dciclient/v1/toolbox.py",
         "patchSetId": 1
@@ -30,6 +64,23 @@
       "writtenOn": "2016-02-25T12:21:48Z",
       "side": 1,
       "message": "Use simple quotes for strings",
+      "revId": "e3ef7ca466c873758b89b8ecbe1cc59907707c32",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_7512a863",
+        "filename": "dciclient/v1/toolbox.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2016-02-29T15:32:37Z",
+      "side": 1,
+      "message": "we can use Click for that",
       "revId": "e3ef7ca466c873758b89b8ecbe1cc59907707c32",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
