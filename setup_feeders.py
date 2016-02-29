@@ -22,17 +22,6 @@ import setuptools
 from dciclient import version
 
 
-def _get_requirements():
-    requirements_path = '%s/%s' % (os.path.dirname(os.path.abspath(__file__)),
-                                   'requirements.txt')
-    with open(requirements_path, 'r') as f:
-        requirements = f.read()
-        # remove the dependencies which comes from url source because
-        # it's not supported by install_requires
-        return [dep for dep in requirements.split('\n')
-                if not dep.startswith('-e')]
-
-
 def _get_readme():
     readme_path = '%s/%s' % (os.path.dirname(os.path.abspath(__file__)),
                              'README.md')
@@ -42,18 +31,15 @@ def _get_readme():
 
 
 setuptools.setup(
-    name='dciclient',
+    name='dci-feeders',
     version=version.__version__,
-    packages=setuptools.find_packages(),
+    packages=['feeders'],
     author='Distributed CI team',
     author_email='distributed-ci@redhat.com',
-    description='Python client for DCI Control Server',
+    description='DCI feeders for DCI Control Server',
     long_description=_get_readme(),
-    install_requires=_get_requirements(),
-    dependency_links=[
-        'https://github.com/redhat-cip/python-rdo-m-helper.git'
-        '#egg=python-rdo-m-helper'],
-    url='https://github.com/redhat-cip/dci-control-server',
+    install_requires=['dciclient'],
+    url='https://github.com/redhat-cip/python-dciclient',
     license='Apache v2.0',
     include_package_data=True,
     classifiers=[
@@ -68,7 +54,10 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'dcictl = dciclient.shell:main'
+            'dci-feeder-dci = feeders.dci:main',
+            'dci-feeder-github = feeders.github:main',
+            'dci-feeder-khaleesi = feeders.khaleesi:main',
+            'dci-feeder-osp = feeders.osp:main',
         ],
     }
 )
