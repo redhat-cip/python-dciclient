@@ -61,7 +61,14 @@ setuptools.setup(
     ],
     entry_points={
         "console_scripts": [
-            "dcictl = dciclient.shell:main"
+            "dcictl = dciclient.shell:main",
+            "dci-agent-chainsaw = agents.chainsaw:main",
+            "dci-agent-dci = agents.dci:main",
+            "dci-agent-tox = agents.tox:main",
+            "dci-feeder-dci = feeders.dci:main",
+            "dci-feeder-github = feeders.github:main",
+            "dci-feeder-khaleesi = feeders.khaleesi:main",
+            "dci-feeder-osp = feeders.osp:main",
         ],
     }
 )
