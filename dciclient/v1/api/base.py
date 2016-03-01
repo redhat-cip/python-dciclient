@@ -28,7 +28,13 @@ def create(context, resource, **kwargs):
 def list(context, resource, **kwargs):
     """List all resources"""
     data = utils.sanitize_kwargs(**kwargs)
-    uri = '%s/%s' % (context.dci_cs_api, resource)
+    topic_id = data.pop('topic_id', None)
+
+    if topic_id is not None:
+        uri = '%s/topics/%s/%s' % (context.dci_cs_api, topic_id, resource)
+    else:
+        uri = '%s/%s' % (context.dci_cs_api, resource)
+
     r = context.session.get(uri, params=data)
     return r
 

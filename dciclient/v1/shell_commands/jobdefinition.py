@@ -23,9 +23,10 @@ from dciclient.v1.api import jobdefinition
 
 
 @cli.command("jobdefinition-list", help="List all jobdefinitions.")
+@click.option("--topic_id", required=True)
 @click.pass_obj
-def list(context):
-    result = jobdefinition.list(context)
+def list(context, topic_id):
+    result = jobdefinition.list(context, topic_id)
     utils.format_output(result, context.format,
                         jobdefinition.RESOURCE,
                         jobdefinition.TABLE_HEADERS)
@@ -34,11 +35,12 @@ def list(context):
 @cli.command("jobdefinition-create", help="Create a jobdefinition.")
 @click.option("--name", required=True)
 @click.option("--test_id", required=True)
+@click.option("--topic_id", required=True)
 @click.option("--priority")
 @click.pass_obj
-def create(context, name, test_id, priority):
+def create(context, name, test_id, priority, topic_id):
     result = jobdefinition.create(context, name=name, test_id=test_id,
-                                  priority=priority)
+                                  priority=priority, topic_id=topic_id)
     utils.format_output(result, context.format,
                         jobdefinition.RESOURCE[:-1])
 
