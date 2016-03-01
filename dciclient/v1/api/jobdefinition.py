@@ -22,13 +22,13 @@ TABLE_HEADERS = ['id', 'name', 'priority', 'test_id', 'etag', 'created_at',
                  'updated_at']
 
 
-def create(context, name, test_id=None, priority=None):
+def create(context, name, topic_id, test_id=None, priority=None):
     return base.create(context, RESOURCE, name=name, test_id=test_id,
-                       priority=priority)
+                       priority=priority, topic_id=topic_id)
 
 
-def list(context):
-    return base.list(context, RESOURCE)
+def list(context, topic_id):
+    return base.list(context, RESOURCE, topic_id=topic_id)
 
 
 def get(context, id, where=None, embed=None):

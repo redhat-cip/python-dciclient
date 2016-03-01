@@ -25,9 +25,10 @@ import json
 
 
 @cli.command("component-list", help="List all components.")
+@click.option("--topic_id", required=True)
 @click.pass_obj
-def list(context):
-    components = component.list(context)
+def list(context, topic_id):
+    components = component.list(context, topic_id)
     utils.format_output(components, context.format,
                         component.RESOURCE, component.TABLE_HEADERS)
 
@@ -35,6 +36,7 @@ def list(context):
 @cli.command("component-create", help="Create a component.")
 @click.option("--name", required=True)
 @click.option("--type", required=True)
+@click.option("--topic_id", required=True)
 @click.option("--canonical_project_name")
 @click.option("--data", default='{}')
 @click.option("--sha")
@@ -45,12 +47,13 @@ def list(context):
 @click.option("--ref")
 @click.pass_obj
 def create(context, name, type, canonical_project_name, data, sha,
-           title, message, url, git, ref):
+           title, message, url, git, ref, topic_id):
     data = json.loads(data)
     result = component.create(
         context, name=name, type=type,
         canonical_project_name=canonical_project_name, data=data, sha=sha,
-        title=title, message=message, url=url, git=git, ref=ref
+        title=title, message=message, url=url, git=git, ref=ref,
+        topic_id=topic_id
     )
     utils.format_output(result, context.format, component.RESOURCE[:-1])
 
