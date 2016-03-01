@@ -47,5 +47,6 @@ import dciclient.v1.shell_commands.jobdefinition  # noqa
 import dciclient.v1.shell_commands.jobstate  # noqa
 import dciclient.v1.shell_commands.remoteci  # noqa
 import dciclient.v1.shell_commands.team  # noqa
+import dciclient.v1.shell_commands.topic  # noqa
 import dciclient.v1.shell_commands.test  # noqa
 import dciclient.v1.shell_commands.user  # noqa
