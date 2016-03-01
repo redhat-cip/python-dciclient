@@ -47,7 +47,7 @@ setuptools.setup(
         "https://github.com/redhat-cip/python-rdo-m-helper.git"
         "#egg=python-rdo-m-helper"],
     url="https://github.com/redhat-cip/dci-control-server",
-    licence="Apache v2.0",
+    license="Apache v2.0",
     include_package_data=True,
     classifiers=[
         "Environment :: Console",

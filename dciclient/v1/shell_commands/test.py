@@ -25,20 +25,22 @@ import json
 
 
 @cli.command("test-list", help="List all tests.")
+@click.option("--topic_id", required=True)
 @click.pass_obj
-def list(context):
-    result = test.list(context)
+def list(context, topic_id):
+    result = test.list(context, topic_id)
     utils.format_output(result, context.format,
                         test.RESOURCE, test.TABLE_HEADERS)
 
 
 @cli.command("test-create", help="Create a test.")
 @click.option("--name", required=True)
+@click.option("--topic_id", required=True)
 @click.option("--data", default='{}')
 @click.pass_obj
-def create(context, name, data):
+def create(context, name, data, topic_id):
     data = json.loads(data)
-    result = test.create(context, name=name, data=data)
+    result = test.create(context, name=name, data=data, topic_id=topic_id)
     utils.format_output(result, context.format, test.RESOURCE[:-1])
 
 

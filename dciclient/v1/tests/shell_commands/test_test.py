@@ -19,7 +19,12 @@ import json
 
 
 def test_prettytable_output(runner):
-    result = runner.invoke(['test-create', '--name', 'foo'])
+    topic = runner.invoke(['topic-create', '--name', 'osp'])
+    topic = json.loads(topic.output)['topic']
+    assert topic['name'] == 'osp'
+
+    result = runner.invoke(['test-create', '--name', 'foo', '--topic_id',
+                            topic['id']])
     test = json.loads(result.output)['test']
 
     result = runner.invoke(['--format', 'table', 'test-show', '--id',
@@ -55,9 +60,23 @@ def test_prettytable_output(runner):
 
 
 def test_list(runner):
-    runner.invoke(['test-create', '--name', 'foo'])
-    runner.invoke(['test-create', '--name', 'bar'])
-    result = runner.invoke(['test-list'])
+    topic = runner.invoke(['topic-create', '--name', 'osp'])
+    topic = json.loads(topic.output)['topic']
+    assert topic['name'] == 'osp'
+
+    result = runner.invoke(['team-list'])
+    teams = json.loads(result.output)['teams']
+    team_id = teams[0]['id']
+
+    topic_team = runner.invoke(['topic-attach-team', '--id', topic['id'],
+                                '--team_id', team_id])
+    topic_team = json.loads(topic_team.output)
+    assert topic_team['team_id'] == team_id
+    assert topic_team['topic_id'] == topic['id']
+
+    runner.invoke(['test-create', '--name', 'foo', '--topic_id', topic['id']])
+    runner.invoke(['test-create', '--name', 'bar', '--topic_id', topic['id']])
+    result = runner.invoke(['test-list', '--topic_id', topic['id']])
     tests = json.loads(result.output)['tests']
     assert len(tests) == 2
     assert tests[0]['name'] == 'foo'
@@ -65,13 +84,23 @@ def test_list(runner):
 
 
 def test_create(runner):
-    result = runner.invoke(['test-create', '--name', 'foo'])
+    topic = runner.invoke(['topic-create', '--name', 'osp'])
+    topic = json.loads(topic.output)['topic']
+    assert topic['name'] == 'osp'
+
+    result = runner.invoke(['test-create', '--name', 'foo', '--topic_id',
+                            topic['id']])
     test = json.loads(result.output)['test']
     assert test['name'] == 'foo'
 
 
 def test_delete(runner):
-    result = runner.invoke(['test-create', '--name', 'foo'])
+    topic = runner.invoke(['topic-create', '--name', 'osp'])
+    topic = json.loads(topic.output)['topic']
+    assert topic['name'] == 'osp'
+
+    result = runner.invoke(['test-create', '--name', 'foo', '--topic_id',
+                            topic['id']])
     test = json.loads(result.output)['test']
 
     result = runner.invoke(['test-delete', '--id', test['id']])
@@ -81,7 +110,12 @@ def test_delete(runner):
 
 
 def test_show(runner):
-    result = runner.invoke(['test-create', '--name', 'foo'])
+    topic = runner.invoke(['topic-create', '--name', 'osp'])
+    topic = json.loads(topic.output)['topic']
+    assert topic['name'] == 'osp'
+
+    result = runner.invoke(['test-create', '--name', 'foo', '--topic_id',
+                            topic['id']])
     test = json.loads(result.output)['test']
 
     result = runner.invoke(['test-show', '--id', test['id']])
