@@ -16,6 +16,23 @@
       "revId": "36d3ebc21dcddd058b97c5c82ac6af892e4867a7",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_98d7b9bf",
+        "filename": "dciclient/v1/shell_commands/topic.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-03-01T21:14:03Z",
+      "side": 1,
+      "message": "should follow alphabetic order",
+      "revId": "36d3ebc21dcddd058b97c5c82ac6af892e4867a7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
