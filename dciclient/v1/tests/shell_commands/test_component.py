@@ -19,8 +19,12 @@ import json
 
 
 def test_prettytable_output(runner):
+    topic = runner.invoke(['topic-create', '--name', 'osp'])
+    topic = json.loads(topic.output)['topic']
+    assert topic['name'] == 'osp'
+
     result = runner.invoke(['component-create', '--name', 'foo',
-                            '--type', 'bar'])
+                            '--type', 'bar', '--topic_id', topic['id']])
     component = json.loads(result.output)['component']
 
     result = runner.invoke(['--format', 'table', 'component-show', '--id',
@@ -64,9 +68,22 @@ def test_prettytable_output(runner):
 
 
 def test_list(runner):
-    runner.invoke(['component-create', '--name', 'foo', '--type', 'bar'])
-    runner.invoke(['component-create', '--name', 'bar', '--type', 'bar2'])
-    result = runner.invoke(['component-list'])
+    topic = runner.invoke(['topic-create', '--name', 'osp'])
+    topic = json.loads(topic.output)['topic']
+
+    result = runner.invoke(['team-list'])
+    teams = json.loads(result.output)['teams']
+    team_id = teams[0]['id']
+
+    topic_team = runner.invoke(['topic-attach-team', '--id', topic['id'],
+                                '--team_id', team_id])
+    topic_team = json.loads(topic_team.output)
+
+    runner.invoke(['component-create', '--name', 'foo', '--type', 'bar',
+                   '--topic_id', topic['id']])
+    runner.invoke(['component-create', '--name', 'bar', '--type', 'bar2',
+                   '--topic_id', topic['id']])
+    result = runner.invoke(['component-list', '--topic_id', topic['id']])
     components = json.loads(result.output)['components']
 
     assert len(components) == 2
@@ -75,15 +92,21 @@ def test_list(runner):
 
 
 def test_create(runner):
+    topic = runner.invoke(['topic-create', '--name', 'osp'])
+    topic = json.loads(topic.output)['topic']
+
     component = runner.invoke(['component-create', '--name', 'foo',
-                               '--type', 'foobar'])
+                               '--type', 'foobar', '--topic_id', topic['id']])
     component = json.loads(component.output)['component']
     assert component['name'] == 'foo'
 
 
 def test_delete(runner):
+    topic = runner.invoke(['topic-create', '--name', 'osp'])
+    topic = json.loads(topic.output)['topic']
+
     result = runner.invoke(['component-create', '--name', 'foo',
-                            '--type', 'bar'])
+                            '--type', 'bar', '--topic_id', topic['id']])
     component = json.loads(result.output)['component']
 
     result = runner.invoke(['component-delete', '--id', component['id']])
@@ -93,8 +116,12 @@ def test_delete(runner):
 
 
 def test_show(runner):
+    topic = runner.invoke(['topic-create', '--name', 'osp'])
+    topic = json.loads(topic.output)['topic']
+    assert topic['name'] == 'osp'
+
     result = runner.invoke(['component-create', '--name', 'foo',
-                            '--type', 'bar'])
+                            '--type', 'bar', '--topic_id', topic['id']])
     component = json.loads(result.output)['component']
 
     result = runner.invoke(['component-show', '--id', component['id']])
