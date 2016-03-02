@@ -30,15 +30,17 @@ SNAPSHOT = 'snapshot'
 
 
 def create(context, name, type, canonical_project_name=None, data={}, sha=None,
-           title=None, message=None, url=None, git=None, ref=None):
+           title=None, message=None, url=None, git=None, ref=None,
+           topic_id='default'):
     return base.create(context, RESOURCE, name=name, type=type,
                        canonical_project_name=canonical_project_name,
                        data=json.dumps(data), sha=sha, title=title,
-                       message=message, url=url, git=git, ref=ref)
+                       message=message, url=url, git=git, ref=ref,
+                       topic_id=topic_id)
 
 
-def list(context):
-    return base.list(context, RESOURCE)
+def list(context, topic_id='default'):
+    return base.list(context, RESOURCE, topic_id=topic_id)
 
 
 def get(context, id, where=None, embed=None):
