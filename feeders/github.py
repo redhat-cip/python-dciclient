@@ -54,7 +54,7 @@ def _get_commit_from_base_url(url):
     return account_name, repo_name, commit
 
 
-def get_github_component(url):
+def get_github_component(topic_id, url):
 
     parsed_url = urlparse(url)
     if not parsed_url.scheme or not parsed_url.netloc == 'github.com':
@@ -94,15 +94,16 @@ def get_github_component(url):
         "title": commit_data['commit']['message'].split('\n')[0],
         "message": commit_data['commit']['message'],
         "url": url,
-        "git": 'https://github.com/%s/%s.git' % (account_name, repo_name)
+        "git": 'https://github.com/%s/%s.git' % (account_name, repo_name),
+        "topic_id": topic_id
     }
 
     return github_component
 
 
-def get_test_id(dci_context, name):
+def get_test_id(dci_context, name, topic_id):
     print("Use test '%s'" % name)
-    test.create(dci_context, name)
+    test.create(dci_context, name, topic_id)
     return test.get(dci_context, name).json()['test']['id']
 
 
@@ -124,14 +125,17 @@ def main():
     dci_context = context.build_dci_context(options.dci_cs_url,
                                             options.dci_login,
                                             options.dci_password)
-    if len(args) != 1:
-        print('Usage: %s GITHUB_COMMIT_URL' % sys.argv[0])
+    if len(args) != 2:
+        print('Usage: %s TOPIC_ID GITHUB_COMMIT_URL' % sys.argv[0])
         sys.exit(1)
 
-    components = [get_github_component(args[0])]
+    topic_id = args[1]
+    github_url = args[2]
+
+    components = [get_github_component(topic_id, github_url)]
 
     # Create a dummy test
-    github_test_id = get_test_id(dci_context, components[0]['name'])
+    github_test_id = get_test_id(dci_context, components[0]['name'], topic_id)
 
     # If at least one component doesn't exist in the database then a new
     # jobdefinition must be created.
@@ -148,7 +152,7 @@ def main():
     if at_least_one:
         jobdef_name = components[0]['name']
         jobdef = jobdefinition.create(dci_context, jobdef_name,
-                                      github_test_id)
+                                      topic_id, github_test_id)
         if jobdef.status_code == 201:
             jobdef_id = jobdef.json()['jobdefinition']['id']
             for cmpt_id in component_ids:

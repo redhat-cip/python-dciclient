@@ -113,11 +113,12 @@ def parse_command_line():
 def main():
     (options, args) = parse_command_line()
 
-    if len(args) < 2:
-        print("dci-agent-dci remoteci_id team_id ENVIRONMENT_URL")
+    if len(args) != 4:
+        print("dci-agent-dci remoteci_id team_id topic_id ENVIRONMENT_URL")
         sys.exit(1)
     remoteci_id = args[0]
     team_id = args[1]
+    topic_id = args[2]
     environment_url = args[2]
 
     dci_context = context.build_dci_context(options.dci_cs_url,
@@ -125,7 +126,8 @@ def main():
                                             options.dci_password)
 
     new_job_id, jobinformation = retrieve_jobinformation(dci_context,
-                                                         remoteci_id)
+                                                         remoteci_id,
+                                                         topic_id)
 
     # 1. Create the pre-run state
     pre_run_state = jobstate.create(dci_context,
