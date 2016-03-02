@@ -23,11 +23,12 @@ from dciclient.v1.api import test
 from optparse import OptionParser
 
 import requests
+import sys
 
 CANDIDATES_URL = 'http://dci.enovance.com/candidates/'
 
 
-def get_dci_candidate_component(dci_context, url):
+def get_dci_candidate_component(dci_context, url, topic_id):
     """Add the missing candidates in the components database"""
     rcs = []
     dci_candidate_components = []
@@ -35,7 +36,8 @@ def get_dci_candidate_component(dci_context, url):
     candidates = requests.get('%s/index.json' % url).json().keys()
     candidates.pop()  # Remove the 'latest' component that is a link
 
-    registered_components = component.list(dci_context).json()['components']
+    registered_components = component.list(dci_context,
+                                           topic_id).json()['components']
 
     for registered_component in registered_components:
         if registered_component['canonical_project_name'] == 'dci-candidate':
@@ -51,15 +53,16 @@ def get_dci_candidate_component(dci_context, url):
             'type': component.SNAPSHOT,
             'canonical_project_name': 'dci-candidate',
             'name': 'dci-candidate %s' % candidate,
-            'url': '%s/%s' % (url, candidate)
+            'url': '%s/%s' % (url, candidate),
+            'topic_id': topic_id
         })
 
     return dci_candidate_components
 
 
-def get_test_id(dci_context, name):
+def get_test_id(dci_context, name, topic_id):
     print("Use test '%s'" % name)
-    test.create(dci_context, name)
+    test.create(dci_context, name, topic_id)
     return test.get(dci_context, name).json()['test']['id']
 
 
@@ -82,11 +85,18 @@ def main():
                                             options.dci_login,
                                             options.dci_password)
 
-    test_id = get_test_id(dci_context, 'scenario01')
+    try:
+        topic_id = args
+    except ValueError:
+        print('dci-feeder-dci topic_id')
+        sys.exit(1)
+
+    test_id = get_test_id(dci_context, 'scenario01', topic_id)
 
     components = get_dci_candidate_component(
         dci_context,
-        CANDIDATES_URL
+        CANDIDATES_URL,
+        topic_id
     )
 
     # If at least one component doesn't exist in the database then a new
@@ -101,7 +111,8 @@ def main():
             created_cmpt_name = created_cmpt.json()['component']['name']
 
             jobdef_name = created_cmpt_name
-            jobdef = jobdefinition.create(dci_context, jobdef_name, test_id)
+            jobdef = jobdefinition.create(dci_context, jobdef_name, topic_id,
+                                          test_id)
             if jobdef.status_code == 201:
                 jobdef_id = jobdef.json()['jobdefinition']['id']
                 jobdefinition.add_component(dci_context, jobdef_id,
