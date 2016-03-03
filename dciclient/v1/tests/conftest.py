@@ -113,6 +113,11 @@ def runner(dci_context):
 def team_id(dci_context):
     return team.create(dci_context, name='tname').json()['team']['id']
 
+@pytest.fixture
+def remoteci_id(dci_context):
+    team_id = team.create(dci_context, name='tname').json()['team']['id']
+    rci = remoteci.create(dci_context, name='remoteci', team_id=team_id).json()
+    return rci['remoteci']['id']
 
 @pytest.fixture
 def job_id(dci_context):

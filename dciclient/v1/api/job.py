@@ -32,6 +32,8 @@ def create(context, recheck, remoteci_id, team_id, jobdefinition_id=None):
     context.last_job_id = job.json()['job']['id']
     return job
 
+def list(context):
+    return base.list(context, RESOURCE)
 
 def schedule(context, remoteci_id, topic_id):
     uri = '%s/%s/schedule' % (context.dci_cs_api, RESOURCE)
