@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a65312a_545ccc25",
+        "filename": "setup_agents.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-03-03T10:40:32Z",
+      "side": 1,
+      "message": "single quotes",
+      "revId": "8f42e503f57646e388c8c7cce24afc3154eb7ef3",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a65312a_943dc4be",
+        "filename": "setup_agents.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-03-03T10:40:32Z",
+      "side": 1,
+      "message": "here again",
+      "revId": "8f42e503f57646e388c8c7cce24afc3154eb7ef3",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a65312a_f44a3854",
+        "filename": "setup_agents.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-03-03T10:40:32Z",
+      "side": 1,
+      "message": "Maybe README content must be handled that way:\nhttps://github.com/redhat-cip/dci-control-server/blob/master/setup.py#L32\nin order to avoid surprises on encoding",
+      "revId": "8f42e503f57646e388c8c7cce24afc3154eb7ef3",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a65312a_d4473c4a",
+        "filename": "setup_agents.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-03-03T10:40:32Z",
+      "side": 1,
+      "message": "quotes",
+      "revId": "8f42e503f57646e388c8c7cce24afc3154eb7ef3",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a65312a_3474b09b",
+        "filename": "setup_agents.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-03-03T10:40:32Z",
+      "side": 1,
+      "message": "and so on",
+      "revId": "8f42e503f57646e388c8c7cce24afc3154eb7ef3",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a65312a_1479b493",
+        "filename": "setup_feeders.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-03-03T10:40:32Z",
+      "side": 1,
+      "message": "same remarks for quotes and content reading",
+      "revId": "8f42e503f57646e388c8c7cce24afc3154eb7ef3",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
