@@ -115,6 +115,13 @@ def team_id(dci_context):
 
 
 @pytest.fixture
+def remoteci_id(dci_context):
+    team_id = team.create(dci_context, name='tname').json()['team']['id']
+    rci = remoteci.create(dci_context, name='remoteci', team_id=team_id).json()
+    return rci['remoteci']['id']
+
+
+@pytest.fixture
 def job_id(dci_context):
     my_topic = topic.create(dci_context, name='topic_name').json()['topic']
     my_team = team.create(dci_context, name='tname').json()['team']
