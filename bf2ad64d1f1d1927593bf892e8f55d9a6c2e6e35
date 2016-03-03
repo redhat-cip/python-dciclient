@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a65312a_542b2c30",
+        "filename": "setup_agents.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-03-03T15:33:17Z",
+      "side": 1,
+      "message": "Please, drop the Red Hat here, just keep \u0027Distributed CI team\u0027",
+      "revId": "bf2ad64d1f1d1927593bf892e8f55d9a6c2e6e35",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
