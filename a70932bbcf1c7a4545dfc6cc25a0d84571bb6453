@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a65312a_d419fc7a",
+        "filename": "dciclient/v1/logger.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-03-03T10:21:27Z",
+      "side": 1,
+      "message": "can you put 60 as a variable of the class at least, something like \n\n    self._max_retries \u003d 60",
+      "revId": "a70932bbcf1c7a4545dfc6cc25a0d84571bb6453",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a65312a_342670bb",
+        "filename": "dciclient/v1/logger.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-03-03T10:21:27Z",
+      "side": 1,
+      "message": "not a huge fan of the print statement, can\u0027t we use the click.echo one ? or put a real system logger for the client (this can be complicated)?",
+      "revId": "a70932bbcf1c7a4545dfc6cc25a0d84571bb6453",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a65312a_142b7483",
+        "filename": "dciclient/v1/logger.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-03-03T10:21:27Z",
+      "side": 1,
+      "message": "I am not sure that this pattern is needed, it cans lead to  miscomprehension, this is personal, but don\u0027t you think that:\n\n    try:\n        dci_file.create(self._dci_context, \u0027%s.log\u0027 % self._idx_file,\n                        self._current_log.getvalue(), \u0027text/plain\u0027,\n                         jobstate_id)\n        self._current_log.truncate(0)\n        self._current_log.seek(0)\n        self._idx_file +\u003d 1\n        break\n    except requests.ConnectionError as e:\n        print(\u0027[dciclient]Failed to push log: %s\u0027 % e)\n\nwill be better ? This syntax make me think a lot of the go-to statement which leads to headache",
+      "revId": "a70932bbcf1c7a4545dfc6cc25a0d84571bb6453",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
