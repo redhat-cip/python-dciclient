@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a65312a_f43358f4",
+        "filename": "agents/dci.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-03-03T10:35:40Z",
+      "side": 1,
+      "message": "better ask for forgiveness than permission\n\n    try:\n        remoteci_id, team_id, topic_id, environment_url \u003d args\n    except ValueError:\n        print(\u0027dci-agent-dci remoteci_id team_id topic_id ENVIRONMENT_URL\u0027)\n        sys.exit(1)",
+      "revId": "b46b9621f0219ea0473798b9ef943783a7693ba7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a65312a_d430dcea",
+        "filename": "agents/tox.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-03-03T10:35:40Z",
+      "side": 1,
+      "message": "same as http://softwarefactory-project.io/r/#/c/3076/3/agents/dci.py\n\nunpack and catch exception",
+      "revId": "b46b9621f0219ea0473798b9ef943783a7693ba7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a65312a_344dd073",
+        "filename": "feeders/dci.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-03-03T10:35:40Z",
+      "side": 1,
+      "message": "same as http://softwarefactory-project.io/r/#/c/3076/3/agents/dci.py\n\nto unpack unique value type the following:\n\n     topic_id, \u003d args",
+      "revId": "b46b9621f0219ea0473798b9ef943783a7693ba7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a65312a_14525413",
+        "filename": "feeders/github.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-03-03T10:35:40Z",
+      "side": 1,
+      "message": "same as http://softwarefactory-project.io/r/#/c/3076/3/agents/dci.py",
+      "revId": "b46b9621f0219ea0473798b9ef943783a7693ba7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
