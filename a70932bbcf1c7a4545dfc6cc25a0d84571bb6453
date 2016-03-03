@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3a65312a_14bff4d1",
+        "filename": "dciclient/v1/logger.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-03-03T16:09:14Z",
+      "side": 1,
+      "message": "agreed",
+      "parentUuid": "3a65312a_d419fc7a",
+      "revId": "a70932bbcf1c7a4545dfc6cc25a0d84571bb6453",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a65312a_342670bb",
         "filename": "dciclient/v1/logger.py",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "3a65312a_34baf0e1",
+        "filename": "dciclient/v1/logger.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-03-03T16:09:14Z",
+      "side": 1,
+      "message": "we are already in the logger and out of the CLI, so IMO:\n- it\u0027s a bad idea to use the logger\n- we cannot use click\n\nI agree, this is ugly.",
+      "parentUuid": "3a65312a_342670bb",
+      "revId": "a70932bbcf1c7a4545dfc6cc25a0d84571bb6453",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a65312a_142b7483",
         "filename": "dciclient/v1/logger.py",
         "patchSetId": 5
@@ -47,6 +83,24 @@
       "writtenOn": "2016-03-03T10:21:27Z",
       "side": 1,
       "message": "I am not sure that this pattern is needed, it cans lead to  miscomprehension, this is personal, but don\u0027t you think that:\n\n    try:\n        dci_file.create(self._dci_context, \u0027%s.log\u0027 % self._idx_file,\n                        self._current_log.getvalue(), \u0027text/plain\u0027,\n                         jobstate_id)\n        self._current_log.truncate(0)\n        self._current_log.seek(0)\n        self._idx_file +\u003d 1\n        break\n    except requests.ConnectionError as e:\n        print(\u0027[dciclient]Failed to push log: %s\u0027 % e)\n\nwill be better ? This syntax make me think a lot of the go-to statement which leads to headache",
+      "revId": "a70932bbcf1c7a4545dfc6cc25a0d84571bb6453",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a65312a_74b468f2",
+        "filename": "dciclient/v1/logger.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-03-03T16:09:14Z",
+      "side": 1,
+      "message": "Agreed, let\u0027s put a temporary -1 on this review. For the record, this patch is more a side-effect of my network issues with the DC.",
+      "parentUuid": "3a65312a_142b7483",
       "revId": "a70932bbcf1c7a4545dfc6cc25a0d84571bb6453",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
