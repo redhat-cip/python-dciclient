@@ -59,3 +59,14 @@ def test_list(runner, dci_context, remoteci_id):
     assert len(l_job['jobs']) == 1
     assert l_job['jobs'][0]['remoteci_id'] == remoteci_id
     assert l_job['jobs'][0]['jobdefinition_id'] == jd['id']
+
+
+def test_delete(runner, job_id):
+    l_job = runner.invoke(['job-show', '--id', job_id])
+    l_job_etag = json.loads(l_job.output)['job']['etag']
+
+    result = runner.invoke(['job-delete', '--id', job_id,
+                            '--etag', l_job_etag])
+    result = json.loads(result.output)
+
+    assert result['message'] == 'Job deleted.'
