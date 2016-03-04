@@ -99,3 +99,50 @@ def show(context, id):
     utils.format_output(result, context.format,
                         jobdefinition.RESOURCE[:-1],
                         jobdefinition.TABLE_HEADERS)
+
+
+@cli.command("jobdefinition-attach-component",
+             help="Attach a component to a jobdefinition.")
+@click.option("--id", required=True)
+@click.option("--component_id", required=True)
+@click.pass_obj
+def attach_component(context, id, component_id):
+    """attach_component(context, id, component_id)
+
+    Attach a component to a jobdefinition.
+
+    >>> dcictl jobdefinition-attach-component [OPTIONS]
+
+    :param string id: ID of the jobdefinition to attach the component to
+                      [required]
+    :param string component_id: ID of the component to attach [required]
+    """
+    result = jobdefinition.add_component(context, id=id,
+                                         component_id=component_id)
+    utils.format_output(result, context.format)
+
+
+@cli.command("jobdefinition-unattach-component",
+             help="Unattach a component to a jobdefinition.")
+@click.option("--id", required=True)
+@click.option("--component_id", required=True)
+@click.pass_obj
+def unattach_component(context, id, component_id):
+    """unattach_component(context, id, component_id)
+
+    Unattach a component from a jobdefinition.
+
+    >>> dcictl jobdefinition-unattach-component [OPTIONS]
+
+    :param string id: ID of the jobdefinition to unattach the component from
+                      [required]
+    :param string component_id: ID of the component to unattach [required]
+    """
+    result = jobdefinition.remove_component(context, id=id,
+                                            component_id=component_id)
+    if result.status_code == 204:
+        unattach_msg = 'Component unattached from Jobdefinition'
+        utils.print_json({'id': id,
+                          'message': unattach_msg})
+    else:
+        utils.format_output(result, context.format)
