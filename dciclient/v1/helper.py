@@ -16,6 +16,7 @@
 
 from dciclient.v1.api import file
 from dciclient.v1.api import jobstate
+from dciclient.v1.api import test
 
 import fcntl
 import mimetypes
@@ -25,6 +26,38 @@ import subprocess
 
 import six
 import sys
+
+
+def get_test_id(dci_context, name, topic_id):
+    print("Use test '%s'" % name)
+    test.create(dci_context, name, topic_id)
+    return test.get(dci_context, name).json()['test']['id']
+
+
+def create_jobdefinition_and_add_component(dci_context, components, test_id):
+    # If at least one component doesn't exist in the database then a new
+    # jobdefinition must be created.
+    for cmpt in components:
+        created_cmpt = component.create(dci_context, **cmpt)
+        if created_cmpt.status_code == 201:
+            print("Create component '%s', type '%s'" % (cmpt['name'],
+                                                        cmpt['type']))
+
+            created_cmpt_id = created_cmpt.json()['component']['id']
+            created_cmpt_name = created_cmpt.json()['component']['name']
+
+            jobdef_name = created_cmpt_name
+            jobdef = jobdefinition.create(dci_context, jobdef_name, topic_id,
+                                          test_id)
+            if jobdef.status_code == 201:
+                jobdef_id = jobdef.json()['jobdefinition']['id']
+                jobdefinition.add_component(dci_context, jobdef_id,
+                                            created_cmpt_id)
+                print("Jobdefinition '%s' created." % jobdef_name)
+            else:
+                print("Error on jobdefinition creation: '%s'", jobdef.json())
+        else:
+            print("No jobdefinition created.")
 
 
 def upload_file(context, path, job_id, mime=None):

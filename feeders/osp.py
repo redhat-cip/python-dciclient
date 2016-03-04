@@ -15,10 +15,10 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from dciclient.v1 import helper
 from dciclient.v1.api import component
 from dciclient.v1.api import context
 from dciclient.v1.api import jobdefinition
-from dciclient.v1.api import test
 
 import configparser
 import requests
@@ -48,16 +48,10 @@ def get_puddle_component(repo_file, repo_name):
     return puddle_component
 
 
-def get_test_id(dci_context, name):
-    print("Use test '%s'" % name)
-    test.create(dci_context, name)
-    return test.get(dci_context, name).json()['test']['id']
-
-
 if __name__ == '__main__':
     dci_context = context.build_dci_context()
     # Create Khaleesi-tempest test
-    test_id = get_test_id(dci_context, 'tempest')
+    test_id = helper.get_test_id(dci_context, 'tempest')
 
     components = [
         # TODO(Gonéri): We should also return the images.

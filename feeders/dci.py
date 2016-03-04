@@ -15,9 +15,9 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from dciclient.v1 import helper
 from dciclient.v1.api import component
 from dciclient.v1.api import context
-from dciclient.v1.api import jobdefinition
 from dciclient.v1.api import test
 
 from optparse import OptionParser
@@ -60,12 +60,6 @@ def get_dci_candidate_component(dci_context, url, topic_id):
     return dci_candidate_components
 
 
-def get_test_id(dci_context, name, topic_id):
-    print("Use test '%s'" % name)
-    test.create(dci_context, name, topic_id)
-    return test.get(dci_context, name).json()['test']['id']
-
-
 def parse_command_line():
     parser = OptionParser("")
     parser.add_option("-u", "--dci-login", dest="dci_login",
@@ -91,37 +85,16 @@ def main():
         print('dci-feeder-dci topic_id')
         sys.exit(1)
 
-    test_id = get_test_id(dci_context, 'scenario01', topic_id)
-
     components = get_dci_candidate_component(
         dci_context,
         CANDIDATES_URL,
         topic_id
     )
+    test_id = helper.get_test_id(dci_context, 'scenario01', topic_id)
 
-    # If at least one component doesn't exist in the database then a new
-    # jobdefinition must be created.
-    for cmpt in components:
-        created_cmpt = component.create(dci_context, **cmpt)
-        if created_cmpt.status_code == 201:
-            print("Create component '%s', type '%s'" % (cmpt['name'],
-                                                        cmpt['type']))
-
-            created_cmpt_id = created_cmpt.json()['component']['id']
-            created_cmpt_name = created_cmpt.json()['component']['name']
-
-            jobdef_name = created_cmpt_name
-            jobdef = jobdefinition.create(dci_context, jobdef_name, topic_id,
-                                          test_id)
-            if jobdef.status_code == 201:
-                jobdef_id = jobdef.json()['jobdefinition']['id']
-                jobdefinition.add_component(dci_context, jobdef_id,
-                                            created_cmpt_id)
-                print("Jobdefinition '%s' created." % jobdef_name)
-            else:
-                print("Error on jobdefinition creation: '%s'", jobdef.json())
-        else:
-            print("No jobdefinition created.")
+    helper.create_jobdefinition_and_add_component(dci_context,
+                                                  components,
+                                                  test_id)
 
 
 if __name__ == '__main__':
