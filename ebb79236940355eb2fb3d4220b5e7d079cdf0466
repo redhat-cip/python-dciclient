@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a65312a_54116cab",
+        "filename": "setup.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-03-04T10:01:03Z",
+      "side": 1,
+      "message": "still not good for handling custom encoding: http://softwarefactory-project.io/r/#/c/3045/5/setup_agents.py",
+      "revId": "ebb79236940355eb2fb3d4220b5e7d079cdf0466",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
