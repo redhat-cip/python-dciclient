@@ -17,18 +17,15 @@
 
 from dciclient.v1.api import component
 from dciclient.v1.api import context
-from dciclient.v1.api import jobdefinition
-from dciclient.v1.api import test
+from dciclient.v1 import helper
 
-from optparse import OptionParser
-
+import click
 import requests
-import sys
 
 CANDIDATES_URL = 'http://dci.enovance.com/candidates/'
 
 
-def get_dci_candidate_component(dci_context, url, topic_id):
+def get_components(dci_context, url, topic_id):
     """Add the missing candidates in the components database"""
     rcs = []
     dci_candidate_components = []
@@ -60,68 +57,27 @@ def get_dci_candidate_component(dci_context, url, topic_id):
     return dci_candidate_components
 
 
-def get_test_id(dci_context, name, topic_id):
-    print("Use test '%s'" % name)
-    test.create(dci_context, name, topic_id)
-    return test.get(dci_context, name).json()['test']['id']
+@click.command()
+@click.option('--dci-login', envvar='DCI_LOGIN', required=True,
+              help="DCI username account.")
+@click.option('--dci-password', envvar='DCI_PASSWORD', required=True,
+              help="DCI password account.")
+@click.option('--dci-cs-url', envvar='DCI_CS_URL', required=True,
+              help="DCI CS url.")
+@click.option('--dci-remoteci-id', envvar='DCI_REMOTECI_ID', required=True,
+              help="DCI remoteci id.")
+@click.option('--dci-topic-id', envvar='DCI_TOPIC_ID', required=True,
+              help="DCI topic id.")
+def main(dci_login, dci_password, dci_cs_url, dci_remoteci_id, dci_topic_id):
 
+    dci_context = context.build_dci_context(dci_cs_url, dci_login,
+                                            dci_password)
 
-def parse_command_line():
-    parser = OptionParser("")
-    parser.add_option("-u", "--dci-login", dest="dci_login",
-                      help="DCI login")
-    parser.add_option("-p", "--dci-password", dest="dci_password",
-                      help="DCI password")
-    parser.add_option("-a", "--dci-cs-url", dest="dci_cs_url",
-                      help="DCI CS url")
+    components = get_components(dci_context, CANDIDATES_URL, dci_topic_id)
+    test_id = helper.get_test_id(dci_context, 'scenario01', dci_topic_id)
 
-    return parser.parse_args()
-
-
-def main():
-    (options, args) = parse_command_line()
-
-    dci_context = context.build_dci_context(options.dci_cs_url,
-                                            options.dci_login,
-                                            options.dci_password)
-
-    try:
-        topic_id = args
-    except ValueError:
-        print('dci-feeder-dci topic_id')
-        sys.exit(1)
-
-    test_id = get_test_id(dci_context, 'scenario01', topic_id)
-
-    components = get_dci_candidate_component(
-        dci_context,
-        CANDIDATES_URL,
-        topic_id
-    )
-
-    # If at least one component doesn't exist in the database then a new
-    # jobdefinition must be created.
-    for cmpt in components:
-        created_cmpt = component.create(dci_context, **cmpt)
-        if created_cmpt.status_code == 201:
-            print("Create component '%s', type '%s'" % (cmpt['name'],
-                                                        cmpt['type']))
-
-            created_cmpt_id = created_cmpt.json()['component']['id']
-            created_cmpt_name = created_cmpt.json()['component']['name']
-
-            jobdef_name = created_cmpt_name
-            jobdef = jobdefinition.create(dci_context, jobdef_name, topic_id,
-                                          test_id)
-            if jobdef.status_code == 201:
-                jobdef_id = jobdef.json()['jobdefinition']['id']
-                jobdefinition.add_component(dci_context, jobdef_id,
-                                            created_cmpt_id)
-                print("Jobdefinition '%s' created." % jobdef_name)
-            else:
-                print("Error on jobdefinition creation: '%s'", jobdef.json())
-        else:
-            print("No jobdefinition created.")
+    helper.create_jobdefinition_and_add_component(dci_context, components,
+                                                  test_id, dci_topic_id)
 
 
 if __name__ == '__main__':
