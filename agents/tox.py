@@ -48,9 +48,9 @@ def get_running_commands(component_details):
     return commands
 
 
-def retrieve_jobinformation(dci_context, remoteci_id):
+def retrieve_jobinformation(dci_context, remoteci_id, topic_id):
     """Retrieve job information"""
-    scheduled_job = job.schedule(dci_context, remoteci_id)
+    scheduled_job = job.schedule(dci_context, remoteci_id, topic_id)
     if scheduled_job.status_code != 201:
         print("No job scheduled: '%s'" % scheduled_job.json())
         sys.exit(0)
@@ -77,18 +77,19 @@ def parse_command_line():
 def main():
     (options, args) = parse_command_line()
 
-    if len(args) < 2:
-        print("dci-agent-helloworld remoteci_id team_id")
+    try:
+        remoteci_id, team_id, topic_id = args
+    except ValueError:
+        print('dci-agent-tox remoteci_id team_id topic_id')
         sys.exit(1)
-    remoteci_id = args[0]
-    team_id = args[1]
 
     dci_context = context.build_dci_context(options.dci_cs_url,
                                             options.dci_login,
                                             options.dci_password)
 
     new_job_id, jobinformation = retrieve_jobinformation(dci_context,
-                                                         remoteci_id)
+                                                         remoteci_id,
+                                                         topic_id)
 
     # 1. Create the pre-run state
     pre_run_state = jobstate.create(dci_context,
