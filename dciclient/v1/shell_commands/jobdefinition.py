@@ -65,3 +65,31 @@ def show(context, id):
     utils.format_output(result, context.format,
                         jobdefinition.RESOURCE[:-1],
                         jobdefinition.TABLE_HEADERS)
+
+
+@cli.command("jobdefinition-attach-component",
+             help="Attach a component to a jobdefinition.")
+@click.option("--id", required=True)
+@click.option("--component-id", required=True)
+@click.pass_obj
+def attach_component(context, id, component_id):
+    result = jobdefinition.add_component(context, id=id,
+                                         component_id=component_id)
+    utils.format_output(result, context.format,
+                        jobdefinition.RESOURCE[:-1],
+                        jobdefinition.TABLE_HEADERS)
+
+
+@cli.command("jobdefinition-unattach-component",
+             help="Unattach a component to a jobdefinition.")
+@click.option("--id", required=True)
+@click.option("--component-id", required=True)
+@click.pass_obj
+def unattach_component(context, id, component_id):
+    result = jobdefinition.remove_component(context, id=id,
+                                            component_id=component_id)
+    if result.status_code == 204:
+        utils.print_json({'id': id,
+                          'message': 'Component unattached from Jobdefinition'})
+    else:
+        utils.format_output(result, context.format)
