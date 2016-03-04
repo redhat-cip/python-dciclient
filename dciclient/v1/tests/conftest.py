@@ -150,6 +150,19 @@ def remoteci_id(dci_context):
 
 
 @pytest.fixture
+def topic_id(dci_context):
+    return topic.create(dci_context, name='topicdefault').json()['topic']['id']
+
+
+@pytest.fixture
+def component_id(dci_context, topic_id):
+    my_component = component.create(
+        dci_context, name='component1', type='git_review',
+        data={'component': 'component'}, topic_id=topic_id).json()
+    return my_component['component']['id']
+
+
+@pytest.fixture
 def job_id(dci_context):
     my_topic = topic.create(dci_context, name='topic_name').json()['topic']
     my_team = team.create(dci_context, name='tname').json()['team']
