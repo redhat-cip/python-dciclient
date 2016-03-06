@@ -19,6 +19,7 @@ from dciclient.v1.api import component
 from dciclient.v1.api import context
 from dciclient.v1.api import jobdefinition
 from dciclient.v1.api import test
+from dciclient.v1.api import topic
 
 import configparser
 import requests
@@ -48,16 +49,16 @@ def get_puddle_component(repo_file, repo_name):
     return puddle_component
 
 
-def get_test_id(dci_context, name):
-    print("Use test '%s'" % name)
-    test.create(dci_context, name)
+def get_test_id(dci_context, name, topic_id):
+    test.create(dci_context, name, topic_id)
     return test.get(dci_context, name).json()['test']['id']
 
 
 if __name__ == '__main__':
     dci_context = context.build_dci_context()
     # Create Khaleesi-tempest test
-    test_id = get_test_id(dci_context, 'tempest')
+    topic_id = topic.get(dci_context, 'default').json()['topic']['id']
+    test_id = get_test_id(dci_context, 'tempest', topic_id)
 
     components = [
         # TODO(Gonéri): We should also return the images.
@@ -77,7 +78,7 @@ if __name__ == '__main__':
     names = []
     for cmpt in components:
         names.append(cmpt['name'])
-        created_cmpt = component.create(dci_context, **cmpt)
+        created_cmpt = component.create(dci_context, topic_id=topic_id, **cmpt)
         if created_cmpt.status_code == 201:
             at_least_one = True
         elif created_cmpt.status_code == 422:
@@ -86,8 +87,11 @@ if __name__ == '__main__':
 
     if at_least_one:
         jobdef_name = 'OSP 8 - %s' % '+'.join(names)
-        jobdef = jobdefinition.create(dci_context, jobdef_name,
-                                      test_id)
+        jobdef = jobdefinition.create(
+            dci_context,
+            jobdef_name,
+            topic_id=topic_id,
+            test_id=test_id)
         if jobdef.status_code == 201:
             jobdef_id = jobdef.json()['jobdefinition']['id']
             for cmpt_id in component_ids:
