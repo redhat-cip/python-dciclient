@@ -37,3 +37,15 @@ def show(context, id):
     result = job.get(context, id=id)
     utils.format_output(result, context.format,
                         job.RESOURCE[:-1], job.TABLE_HEADERS)
+
+
+@cli.command("job-delete", help="Delete a job.")
+@click.option("--id", required=True)
+@click.option("--etag", required=True)
+@click.pass_obj
+def delete(context, id, etag):
+    result = job.delete(context, id=id, etag=etag)
+    if result.status_code == 204:
+        utils.print_json({'id': id, 'message': 'Job deleted.'})
+    else:
+        utils.format_output(result, context.format)

@@ -70,5 +70,5 @@ def get_full_data(context, id):
     return full_data
 
 
-def delete(context, id):
-    return base.delete(context, RESOURCE, id=id)
+def delete(context, id, etag):
+    return base.delete(context, RESOURCE, id=id, etag=etag)
