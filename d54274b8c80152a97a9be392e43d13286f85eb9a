@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a65312a_fa3341f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2016-03-08T21:32:42Z",
+      "side": 1,
+      "message": "Commit msg too long",
+      "revId": "d54274b8c80152a97a9be392e43d13286f85eb9a",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
