@@ -4,7 +4,7 @@
 
 Name:           python-dciclient
 Version:        0.0.VERS
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 Summary:        Python client for DCI control server
 License:        ASL 2.0
@@ -121,6 +121,7 @@ find %{buildroot}%{_bindir} -name '*.py' -exec sh -c 'mv "$0" "${0%%.py}"' {} \;
 install -d %{buildroot}%{_unitdir}
 mv agents/systemd/* %{buildroot}%{_unitdir}
 mv feeders/systemd/* %{buildroot}%{_unitdir}
+mkdir -p %{buildroot}%{_sysconfdir}/sysconfig/dci-feeder-github
 %py2_install
 find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' -exec sed -i '3s/2.7.0/2.6.0/' {} \;
 find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' -exec sed -i '5s/click.*/click/' {} \;
@@ -181,8 +182,12 @@ done
 %files -n dci-feeders
 %{_bindir}/dci-feeder-*
 %{_unitdir}/dci-feeder-*
+%dir %{_sysconfdir}/sysconfig/dci-feeder-github
 
 
 %changelog
+* Tue Mar 08 2016 Brad Watkins <bwatkins@redhat.com> - 0.1-2
+- Add dci-feeder-github sysconfig directory
+
 * Mon Nov 16 2015 Yanis Guenane <yguenane@redhat.com> 0.1-1
 - Initial commit
