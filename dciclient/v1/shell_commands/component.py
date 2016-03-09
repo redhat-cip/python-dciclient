@@ -14,6 +14,13 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+"""
+.. module:: component
+   :platform: Unix
+   :synopsis: dcictl component commands
+
+"""
+
 import click
 
 from dciclient.v1.shell_commands import cli
@@ -28,6 +35,10 @@ import json
 @click.option("--topic_id", required=True)
 @click.pass_obj
 def list(context, topic_id):
+    """List all components.
+
+    :param string topic_id: The topic ID for the list of components to return
+    """
     components = component.list(context, topic_id)
     utils.format_output(components, context.format,
                         component.RESOURCE, component.TABLE_HEADERS)
