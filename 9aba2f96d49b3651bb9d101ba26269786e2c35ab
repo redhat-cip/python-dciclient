@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fafc7978_923bfc37",
+        "filename": "python-dciclient.spec",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 303
+      },
+      "writtenOn": "2016-03-09T13:48:14Z",
+      "side": 1,
+      "message": "An alternative might be to have a single directory for all DCI feeders, but separate directories might be better.  Either way, I can make the necessary change(s) and submit a new patch set.",
+      "parentUuid": "fafc7978_1279cc93",
+      "revId": "9aba2f96d49b3651bb9d101ba26269786e2c35ab",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fafc7978_726e58cb",
         "filename": "python-dciclient.spec",
         "patchSetId": 3
@@ -47,6 +65,24 @@
       "writtenOn": "2016-03-09T07:50:26Z",
       "side": 1,
       "message": "As of today we did not release yet 0.1, packages are generated in a CI/CD way, so whenever a review is merged, the package will be built, tested against install and upgrade scenario and then pushed to our repo. If you re-run ansible on top of the same install it will automatically update your platform to install the latest packages.\n\nSo at the moment, 0.1-2 isn\u0027t a thing yet as 0.1-1 hasn\u0027t been cut yet.",
+      "revId": "9aba2f96d49b3651bb9d101ba26269786e2c35ab",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_720c9895",
+        "filename": "python-dciclient.spec",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 303
+      },
+      "writtenOn": "2016-03-09T13:48:14Z",
+      "side": 1,
+      "message": "OK, so just change the version back to 0.1-1 then?",
+      "parentUuid": "fafc7978_527354b1",
       "revId": "9aba2f96d49b3651bb9d101ba26269786e2c35ab",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
