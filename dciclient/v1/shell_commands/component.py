@@ -28,26 +28,53 @@ import json
 @click.option("--topic_id", required=True)
 @click.pass_obj
 def list(context, topic_id):
+    """list(context, topic_id)
+
+    List all components.
+
+    >>> dcictl component-list [OPTIONS]
+
+    :param string topic_id: The topic ID for the list of components to return
+    """
     components = component.list(context, topic_id)
     utils.format_output(components, context.format,
                         component.RESOURCE, component.TABLE_HEADERS)
 
 
 @cli.command("component-create", help="Create a component.")
-@click.option("--name", required=True)
-@click.option("--type", required=True)
-@click.option("--topic_id", required=True)
-@click.option("--canonical_project_name")
-@click.option("--data", default='{}')
-@click.option("--sha")
-@click.option("--title")
-@click.option("--message")
-@click.option("--url")
-@click.option("--git")
-@click.option("--ref")
+@click.option("--name", required=True, help='Name of component')
+@click.option("--type", required=True, help='Type of component')
+@click.option("--topic_id", required=True, help='Topic ID')
+@click.option("--canonical_project_name", help='Canonical project name')
+@click.option("--data", default='{}', help='Data to pass (in JSON)')
+@click.option("--sha", help='SHA hash')
+@click.option("--title", help='Title of component')
+@click.option("--message", help='Component message')
+@click.option("--url", help='URL to look for the component')
+@click.option("--git", help='Git reference for the component')
+@click.option("--ref", help='External reference for the component')
 @click.pass_obj
 def create(context, name, type, canonical_project_name, data, sha,
            title, message, url, git, ref, topic_id):
+    """create(context, name, type, canonical_project_name, data, sha,
+           title, message, url, git, ref, topic_id)
+
+    Create a component.
+
+    >>> dcictl component-create [OPTIONS]
+
+    :param name: [required]
+    :param type: [required]
+    :param topic_id: [required]
+    :param canonical_project_name:
+    :param data:
+    :param sha:
+    :param title:
+    :param message:
+    :param url:
+    :param git:
+    :param ref:
+    """
     data = json.loads(data)
     result = component.create(
         context, name=name, type=type,
@@ -62,6 +89,14 @@ def create(context, name, type, canonical_project_name, data, sha,
 @click.option("--id", required=True)
 @click.pass_obj
 def delete(context, id):
+    """delete(context, id)
+
+    Delete a component.
+
+    >>> dcictl component-delete
+
+    :param id: [required]
+    """
     result = component.delete(context, id=id)
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Component deleted.'})
@@ -73,6 +108,14 @@ def delete(context, id):
 @click.option("--id", required=True)
 @click.pass_obj
 def show(context, id):
+    """show(context, id)
+
+    Show a component
+
+    >>> dcictl component-show [OPTIONS]
+
+    :param id: [required]
+    """
     result = component.get(context, id=id)
     utils.format_output(result, context.format, component.RESOURCE[:-1],
                         component.TABLE_HEADERS)
