@@ -1,3 +1,6 @@
+"""hihi
+haha
+"""
 # -*- encoding: utf-8 -*-
 #
 # Copyright 2015 Red Hat, Inc.
@@ -28,6 +31,10 @@ import json
 @click.option("--topic_id", required=True)
 @click.pass_obj
 def list(context, topic_id):
+    """List all components.
+
+    :param string topic_id: The topic ID for the list of components to return
+    """
     components = component.list(context, topic_id)
     utils.format_output(components, context.format,
                         component.RESOURCE, component.TABLE_HEADERS)

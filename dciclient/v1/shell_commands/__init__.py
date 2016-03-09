@@ -22,6 +22,24 @@ from dciclient.v1.api import context as dci_context
 _default_dci_cs_url = 'http://127.0.0.1:5000'
 
 
+from click.core import Command
+from click.decorators import _make_command
+
+
+# Override Click command so that to preserve the function's docstring,
+# this is useful for sphinx autodoc generation
+def command(name=None, cls=None, **attrs):
+    if cls is None:
+        cls = Command
+
+    def decorator(f):
+        r = _make_command(f, name, attrs, cls)
+        r.__doc__ = f.__doc__
+        return r
+    return decorator
+
+click.core.command = command
+
 @click.group()
 @click.option('--dci-login', envvar='DCI_LOGIN', required=True,
               help="DCI login or 'DCI_LOGIN' environment variable.")
@@ -39,6 +57,8 @@ def cli(ctx, dci_login, dci_password, dci_cs_url, format):
                                             dci_cs_url=dci_cs_url)
     context.format = format
     ctx.obj = context
+
+#cli.command = command
 
 import dciclient.v1.shell_commands.component  # noqa
 import dciclient.v1.shell_commands.file  # noqa
