@@ -27,6 +27,10 @@ import json
 @cli.command("remoteci-list", help="List all remotecis.")
 @click.pass_obj
 def list(context):
+    """List all Remote CIs
+
+    >>> dcictl remoteci-list
+    """
     result = remoteci.list(context)
     utils.format_output(result, context.format,
                         remoteci.RESOURCE, remoteci.TABLE_HEADERS)
@@ -39,6 +43,19 @@ def list(context):
 @click.option("--active/--no-active", default=True)
 @click.pass_obj
 def create(context, name, team_id, data, active):
+    """create(context, name, team_id, data, active)
+
+    Create a Remote CI
+
+    >>> dcictl remoteci-create [OPTIONS]
+
+    :param string name: Name of the Remote CI [required]
+    :param string team_id: ID of the team to associate this remote CI with
+        [required]
+    :param string data: JSON data to pass during remote CI creation
+    :param boolean active: Mark remote CI active
+    :param boolean no-active: Mark remote CI inactive
+    """
     data = json.loads(data)
     result = remoteci.create(context, name=name, team_id=team_id, data=data,
                              active=active)
@@ -54,6 +71,20 @@ def create(context, name, team_id, data, active):
 @click.option("--active/--no-active")
 @click.pass_obj
 def update(context, id, etag, name, team_id, data, active):
+    """update(context, id, etag, name, team_id, data, active)
+
+    Update a Remote CI.
+
+    >>> dcictl remoteci-update [OPTIONS]
+
+    :param string id: ID of the remote CI [required]
+    :param string etag: [required]
+    :param string name: Name of the Remote CI
+    :param string team_id: ID of the team to associate this remote CI with
+    :param string data: JSON data to pass during remote CI update
+    :param boolean active: Mark remote CI active
+    :param boolean no-active: Mark remote CI inactive
+    """
     result = remoteci.update(context, id=id, etag=etag, name=name,
                              team_id=team_id, data=data, active=active)
     if result.status_code == 204:
@@ -67,6 +98,15 @@ def update(context, id, etag, name, team_id, data, active):
 @click.option("--etag", required=True)
 @click.pass_obj
 def delete(context, id, etag):
+    """delete(context, id, etag)
+
+    Delete a Remote CI.
+
+    >>> dcictl remoteci-delete [OPTIONS]
+
+    :param string id: ID of the remote CI to delete [required]
+    :param string etag: [required]
+    """
     result = remoteci.delete(context, id=id, etag=etag)
 
     if result.status_code == 204:
@@ -79,6 +119,14 @@ def delete(context, id, etag):
 @click.option("--id", required=True)
 @click.pass_obj
 def show(context, id):
+    """show(context, id)
+
+    Show a Remote CI.
+
+    >>> dcictl remoteci-show [OPTIONS]
+
+    :param string id: ID of the remote CI to show [required]
+    """
     result = remoteci.get(context, id=id)
     utils.format_output(result, context.format,
                         remoteci.RESOURCE[:-1], remoteci.TABLE_HEADERS)
