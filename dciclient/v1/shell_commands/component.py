@@ -1,3 +1,6 @@
+"""Hihi haha
+hihi haha
+"""
 # -*- encoding: utf-8 -*-
 #
 # Copyright 2015 Red Hat, Inc.
@@ -16,7 +19,7 @@
 
 import click
 
-from dciclient.v1.shell_commands import cli
+from dciclient.v1.shell_commands import command
 from dciclient.v1 import utils
 
 from dciclient.v1.api import component
@@ -24,16 +27,20 @@ from dciclient.v1.api import component
 import json
 
 
-@cli.command("component-list", help="List all components.")
+@command("component-list", help="List all components.")
 @click.option("--topic_id", required=True)
 @click.pass_obj
 def list(context, topic_id):
+    """List all components.
+
+    :param string topic_id: The topic ID for the list of components to return
+    """
     components = component.list(context, topic_id)
     utils.format_output(components, context.format,
                         component.RESOURCE, component.TABLE_HEADERS)
 
 
-@cli.command("component-create", help="Create a component.")
+@command("component-create", help="Create a component.")
 @click.option("--name", required=True)
 @click.option("--type", required=True)
 @click.option("--topic_id", required=True)
@@ -58,7 +65,7 @@ def create(context, name, type, canonical_project_name, data, sha,
     utils.format_output(result, context.format, component.RESOURCE[:-1])
 
 
-@cli.command("component-delete", help="Delete a component.")
+@command("component-delete", help="Delete a component.")
 @click.option("--id", required=True)
 @click.pass_obj
 def delete(context, id):
@@ -69,7 +76,7 @@ def delete(context, id):
         utils.format_output(result, context.format)
 
 
-@cli.command("component-show", help="Show a component.")
+@command("component-show", help="Show a component.")
 @click.option("--id", required=True)
 @click.pass_obj
 def show(context, id):
