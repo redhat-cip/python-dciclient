@@ -25,6 +25,10 @@ from dciclient.v1.api import user
 @cli.command("user-list", help="List all users.")
 @click.pass_obj
 def list(context):
+    """List all users.
+
+    >>> dcictl user-list
+    """
     result = user.list(context)
     utils.format_output(result, context.format,
                         user.RESOURCE, user.TABLE_HEADERS)
@@ -37,6 +41,17 @@ def list(context):
 @click.option("--team_id", required=True)
 @click.pass_obj
 def create(context, name, password, role, team_id):
+    """create(context, name, password, role, team_id)
+
+    Create a user.
+
+    >>> dcictl user-create [OPTIONS]
+
+    :param string name: Name of the user [required]
+    :param string password: Password for the user [required]
+    :param string role: Role of user (admin or user)
+    :param string team_id: ID of the team to attach this user to [required]
+    """
     result = user.create(context, name=name, password=password,
                          role=role, team_id=team_id)
     utils.format_output(result, context.format, user.RESOURCE[:-1])
@@ -50,6 +65,18 @@ def create(context, name, password, role, team_id):
 @click.option("--role", help="'admin' or 'user'")
 @click.pass_obj
 def update(context, id, etag, name, password, role):
+    """update(context, id, etag, name, password, role)
+
+    Update a user.
+
+    >>> dcictl user-update [OPTIONS]
+
+    :param string id: ID of the user to update [required]
+    :param string etag: Entity tag of the user resource [required]
+    :param string name: Name of the user
+    :param string password: Password of the user
+    :param string role: Role of the user (admin or user)
+    """
     result = user.update(context, id=id, etag=etag, name=name,
                          password=password, role=role)
 
@@ -64,6 +91,15 @@ def update(context, id, etag, name, password, role):
 @click.option("--etag", required=True)
 @click.pass_obj
 def delete(context, id, etag):
+    """delete(context, id, etag)
+
+    Delete a user.
+
+    >>> dcictl user-delete [OPTIONS]
+
+    :param string id: ID of the user to delete [required]
+    :param string etag: Entity tag of the user resource [required]
+    """
     result = user.delete(context, id=id, etag=etag)
 
     if result.status_code == 204:
@@ -76,6 +112,14 @@ def delete(context, id, etag):
 @click.option("--id", required=True)
 @click.pass_obj
 def show(context, id):
+    """show(context, id)
+
+    Show a user.
+
+    >>> dcictl user-show [OPTIONS]
+
+    :param string id: ID of the user to show [required]
+    """
     result = user.get(context, id=id)
     utils.format_output(result, context.format,
                         user.RESOURCE[:-1], user.TABLE_HEADERS)
