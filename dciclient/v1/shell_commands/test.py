@@ -28,6 +28,10 @@ import json
 @click.option("--topic_id", required=True)
 @click.pass_obj
 def list(context, topic_id):
+    """List all tests.
+
+    >>> dcictl test list
+    """
     result = test.list(context, topic_id)
     utils.format_output(result, context.format,
                         test.RESOURCE, test.TABLE_HEADERS)
@@ -39,6 +43,14 @@ def list(context, topic_id):
 @click.option("--data", default='{}')
 @click.pass_obj
 def create(context, name, data, topic_id):
+    """Create a test.
+
+    >>> dcictl test-create [OPTIONS]
+
+    :param string name: Name of the test [required]
+    :param string topic_id: ID of the topic to associate with [required]
+    :param json data: JSON formatted data block for the test
+    """
     data = json.loads(data)
     result = test.create(context, name=name, data=data, topic_id=topic_id)
     utils.format_output(result, context.format, test.RESOURCE[:-1])
@@ -48,6 +60,12 @@ def create(context, name, data, topic_id):
 @click.option("--id", required=True)
 @click.pass_obj
 def delete(context, id):
+    """Delete a test.
+
+    >>> dcictl test-delete [OPTIONS]
+
+    :param string id: ID of the test to delete [required]
+    """
     result = test.delete(context, id=id)
 
     if result.status_code == 204:
@@ -60,6 +78,12 @@ def delete(context, id):
 @click.option("--id", required=True)
 @click.pass_obj
 def show(context, id):
+    """Show a test.
+
+    >>> dcictl test-show [OPTIONS]
+
+    :param string id: ID of the test to return [required]
+    """
     result = test.get(context, id=id)
     utils.format_output(result, context.format,
                         test.RESOURCE[:-1], test.TABLE_HEADERS)

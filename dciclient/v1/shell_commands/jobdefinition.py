@@ -26,6 +26,14 @@ from dciclient.v1.api import jobdefinition
 @click.option("--topic_id", required=True)
 @click.pass_obj
 def list(context, topic_id):
+    """list(context, id)
+
+    List all jobdefinitions.
+
+    >>> dcictl jobdefinition-list [OPTIONS]
+
+    :param string topic_id: Topic ID [required]
+    """
     result = jobdefinition.list(context, topic_id)
     utils.format_output(result, context.format,
                         jobdefinition.RESOURCE,
@@ -39,6 +47,17 @@ def list(context, topic_id):
 @click.option("--priority")
 @click.pass_obj
 def create(context, name, test_id, priority, topic_id):
+    """create(context, name, test_id, priority, topic_id)
+
+    Create a jobdefinition.
+
+    >>> dcictl jobdefinition-create [OPTIONS]
+
+    :param string name: Name of the jobdefinition [required]
+    :param string test_id: ID of the test for this jobdefinition [required]
+    :param string topic_id: ID of the topic for this jobdefinition [required]
+    :param integer priority: Priority for this jobdefinition
+    """
     result = jobdefinition.create(context, name=name, test_id=test_id,
                                   priority=priority, topic_id=topic_id)
     utils.format_output(result, context.format,
@@ -50,6 +69,15 @@ def create(context, name, test_id, priority, topic_id):
 @click.option("--etag", required=True)
 @click.pass_obj
 def delete(context, id, etag):
+    """delete(context, id, etag)
+
+    Delete a jobdefinition.
+
+    >>> dcictl jobdefinition-delete [OPTIONS]
+
+    :param string id: ID of the jobdefinition to delete [required]
+    :param string etag: Entity tag of the jobdefinition resource [required]
+    """
     result = jobdefinition.delete(context, id=id, etag=etag)
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Job Definition deleted.'})
@@ -61,6 +89,12 @@ def delete(context, id, etag):
 @click.option("--id", required=True)
 @click.pass_obj
 def show(context, id):
+    """show(context, id)
+
+    Show a jobdefinition.
+
+    :param string id: ID of the jobdefinition to show [required]
+    """
     result = jobdefinition.get(context, id=id)
     utils.format_output(result, context.format,
                         jobdefinition.RESOURCE[:-1],
