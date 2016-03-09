@@ -26,6 +26,10 @@ import click
 @cli.command("topic-list", help="List all topics.")
 @click.pass_obj
 def list(context):
+    """List all topics.
+
+    >>> dcictl topic-list
+    """
     topics = topic.list(context)
     utils.format_output(topics, context.format,
                         topic.RESOURCE, topic.TABLE_HEADERS)
@@ -35,6 +39,14 @@ def list(context):
 @click.option("--name", required=True)
 @click.pass_obj
 def create(context, name):
+    """create(context, name)
+
+    Create a topic.
+
+    >>> dcictl topic-create [OPTIONS]
+
+    :param string name: Name of the topic [required]
+    """
     result = topic.create(context, name=name)
     utils.format_output(result, context.format, topic.RESOURCE[:-1])
 
@@ -43,6 +55,14 @@ def create(context, name):
 @click.option("--id", required=True)
 @click.pass_obj
 def delete(context, id):
+    """delete(context, id)
+
+    Delete a topic.
+
+    >>> dcictl topic-delete [OPTIONS]
+
+    :param string id: ID of the topic to delete [required]
+    """
     result = topic.delete(context, id=id)
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Topic deleted.'})
@@ -54,6 +74,14 @@ def delete(context, id):
 @click.option("--id", required=True)
 @click.pass_obj
 def show(context, id):
+    """show(context, id)
+
+    Show a topic.
+
+    >>> dcictl topic-show [OPTIONS]
+
+    :param string id: ID of the topic to return [required]
+    """
     result = topic.get(context, id=id)
     utils.format_output(result, context.format, topic.RESOURCE[:-1],
                         topic.TABLE_HEADERS)
@@ -64,6 +92,15 @@ def show(context, id):
 @click.option("--team_id", required=True)
 @click.pass_obj
 def attach_team(context, id, team_id):
+    """attach_team(context, id, team_id)
+
+    Attach a team to a topic.
+
+    >>> dcictl topic-attach-team [OPTIONS]
+
+    :param string id: ID of the topic to attach to [required]
+    :param string team_id: ID of the team to attach to this topic [required]
+    """
     result = topic.attach_team(context, id=id, team_id=team_id)
     utils.format_output(result, context.format)
 
@@ -73,6 +110,15 @@ def attach_team(context, id, team_id):
 @click.option("--team_id", required=True)
 @click.pass_obj
 def unattach_team(context, id, team_id):
+    """unattach_team(context, id, team_id)
+
+    Unattach a team from a topic.
+
+    >>> dcictl topic-unattach-team [OPTIONS]
+
+    :param string id: ID of the topic to unattach from [required]
+    :param string team_id: ID of team to unattach from this topic [required]
+    """
     result = topic.unattach_team(context, id=id, team_id=team_id)
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Teams has been unattached.'})
@@ -84,6 +130,14 @@ def unattach_team(context, id, team_id):
 @click.option("--id", required=True)
 @click.pass_obj
 def list_attached_team(context, id):
+    """list_attached_team(context, id)
+
+    List teams attached to a topic.
+
+    >>> dcictl topic-list-team
+
+    :param string id: ID of the topic to list teams for [required]
+    """
     result = topic.list_attached_team(context, id=id)
     utils.format_output(result, context.format,
                         team.RESOURCE, team.TABLE_HEADERS)

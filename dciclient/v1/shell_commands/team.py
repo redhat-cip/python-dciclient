@@ -25,6 +25,10 @@ from dciclient.v1.api import team
 @cli.command("team-list", help="List all teams.")
 @click.pass_obj
 def list(context):
+    """List all teams.
+
+    >>> dcictl team list
+    """
     result = team.list(context)
     utils.format_output(result, context.format,
                         team.RESOURCE, team.TABLE_HEADERS)
@@ -34,6 +38,14 @@ def list(context):
 @click.option("--name", required=True)
 @click.pass_obj
 def create(context, name):
+    """create(context, name)
+
+    Create a team.
+
+    >>> dcictl team-create [OPTIONS]
+
+    :param string name: Name of the team [required]
+    """
     result = team.create(context, name=name)
     utils.format_output(result, context.format, team.RESOURCE[:-1])
 
@@ -44,6 +56,16 @@ def create(context, name):
 @click.option("--name", required=True)
 @click.pass_obj
 def update(context, id, etag, name):
+    """update(context, id, etag, name)
+
+    Update a team.
+
+    >>> dcictl team-update [OPTIONS]
+
+    :param string id: ID of the team to update [required]
+    :param string etag: Entity tag of the resource [required]
+    :param string name: Name of the team [required]
+    """
     result = team.update(context, id=id, etag=etag, name=name)
 
     if result.status_code == 204:
@@ -57,6 +79,15 @@ def update(context, id, etag, name):
 @click.option("--etag", required=True)
 @click.pass_obj
 def delete(context, id, etag):
+    """delete(context, id, etag)
+
+    Delete a team
+
+    >>> dcictl team-delete [OPTIONS]
+
+    :param string id: ID of the team to delete [required]
+    :param string etag: Entity tag of resource [required]
+    """
     result = team.delete(context, id=id, etag=etag)
 
     if result.status_code == 204:
@@ -69,6 +100,14 @@ def delete(context, id, etag):
 @click.option("--id", required=True)
 @click.pass_obj
 def show(context, id):
+    """show(context, id)
+
+    Show a team.
+
+    >>> dcictl team-show [OPTIONS]
+
+    :param string id: ID of the team [required]
+    """
     result = team.get(context, id=id)
     utils.format_output(result, context.format,
                         team.RESOURCE[:-1], team.TABLE_HEADERS)
