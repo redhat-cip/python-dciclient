@@ -25,6 +25,11 @@ from dciclient.v1.api import jobstate
 @cli.command("jobstate-list", help="List all jobstates.")
 @click.pass_obj
 def list(context):
+    """
+    List all jobstates.
+
+    >>> dcictl jobstate-list
+    """
     result = jobstate.list(context)
     utils.format_output(result, context.format,
                         jobstate.RESOURCE, jobstate.TABLE_HEADERS)
@@ -34,6 +39,14 @@ def list(context):
 @click.option("--id", required=True)
 @click.pass_obj
 def show(context, id):
+    """show(context, id)
+
+    Show a jobstate.
+
+    >>> dcictl jobstate-show [OPTIONS]
+
+    :param string id: ID of the jobstate to show [required]
+    """
     result = jobstate.get(id=id)
     utils.format_output(result, context.format,
                         jobstate.RESOURCE[:-1], jobstate.TABLE_HEADERS)

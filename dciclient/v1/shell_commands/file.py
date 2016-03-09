@@ -25,15 +25,28 @@ from dciclient.v1.api import file
 @cli.command("file-list", help="List all files.")
 @click.pass_obj
 def list(context):
+    """
+    List all files.
+
+    >>> dcictl file-list
+    """
     result = file.list(context)
     utils.format_output(result, context.format,
                         file.RESOURCE, file.TABLE_HEADERS)
 
 
 @cli.command("file-show", help="Show a file.")
-@click.option("--id", required=True)
+@click.option("--id", required=True, help="ID of the file to show")
 @click.pass_obj
 def show(context, id):
+    """show(context, id)
+
+    Show a file.
+
+    >>> dcictl file-show [OPTIONS]
+
+    :param string id: ID of the file to show [required]
+    """
     result = file.get(context, id=id)
     utils.format_output(result, context['format'],
                         file.RESOURCE[:-1], file.TABLE_HEADERS)

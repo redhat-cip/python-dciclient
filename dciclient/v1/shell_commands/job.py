@@ -25,6 +25,11 @@ from dciclient.v1.api import job
 @cli.command("job-list", help="List all jobs.")
 @click.pass_obj
 def list(context):
+    """
+    List all jobs.
+
+    >>> dcictl job-list
+    """
     result = job.list(context)
     utils.format_output(result, context.format,
                         job.RESOURCE, job.TABLE_HEADERS)
@@ -34,6 +39,14 @@ def list(context):
 @click.option("--id", required=True)
 @click.pass_obj
 def show(context, id):
+    """show(context, id)
+
+    Show a job.
+
+    >>> dcictl job-show [OPTIONS]
+
+    :param string id: ID of the job to show [required]
+    """
     result = job.get(context, id=id)
     utils.format_output(result, context.format,
                         job.RESOURCE[:-1], job.TABLE_HEADERS)
@@ -44,6 +57,15 @@ def show(context, id):
 @click.option("--etag", required=True)
 @click.pass_obj
 def delete(context, id, etag):
+    """delete(context, id, etag)
+
+    Delete a job.
+
+    >>> dcictl job-delete [OPTIONS]
+
+    :param string id: ID of the job to delete [required]
+    :param string etag: [required]
+    """
     result = job.delete(context, id=id, etag=etag)
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Job deleted.'})
