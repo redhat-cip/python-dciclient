@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fafc7978_18528d13",
+        "filename": "test-requirements.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2016-03-10T15:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fafc7978_955ac64e",
+      "revId": "01c59765f22b0ec44460b851315858c08dd7c84b",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fafc7978_980f9d2e",
         "filename": "tox.ini",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-10T13:46:03Z",
       "side": 1,
       "message": "could you add \u0027sphinx-build\u0027 as well",
+      "revId": "01c59765f22b0ec44460b851315858c08dd7c84b",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_78575903",
+        "filename": "tox.ini",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2016-03-10T15:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fafc7978_980f9d2e",
       "revId": "01c59765f22b0ec44460b851315858c08dd7c84b",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
