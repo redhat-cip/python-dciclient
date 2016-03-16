@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_d19bc670",
+        "filename": "feeders/osp.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-03-16T19:10:55Z",
+      "side": 1,
+      "message": "indeed, use it only on a Py3 environment.",
+      "revId": "cca269bb45476e284f64e0f7a5ace59730d7ebf9",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_f19ec262",
+        "filename": "python-dciclient.spec",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-03-16T19:10:55Z",
+      "side": 1,
+      "message": "Can you do another patch for this change.",
+      "revId": "cca269bb45476e284f64e0f7a5ace59730d7ebf9",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
