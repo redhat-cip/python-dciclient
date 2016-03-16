@@ -3,4 +3,5 @@ Description=The DCI github feeder
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/dci-feeder-github https://github.com/%I
+EnvironmentFile=/etc/sysconfig/dci-feeder-github/%i
+ExecStart=/usr/bin/dci-feeder-github $DCI_TOPIC_ID https://github.com/%I
