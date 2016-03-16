@@ -23,7 +23,11 @@ from dciclient.v1.api import topic
 
 import configparser
 import requests
-from urllib.parse import urlparse
+
+try:
+    from urllib.parse import urlparse
+except ImportError:
+    from urlparse import urlparse
 
 
 def get_puddle_component(repo_file, repo_name):
