@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_91781e2d",
+        "filename": "feeders/osp.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2016-03-16T20:08:24Z",
+      "side": 1,
+      "message": "github uses this:\n\nfrom six.moves.urllib.parse import urlparse\n\nwhich I believes resolves the issues with imports going wrong on python 2 vs 3",
+      "revId": "d203ec0711f341e7f50ce7e4709d5449d39080f2",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
