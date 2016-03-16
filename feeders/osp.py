@@ -25,7 +25,6 @@ import configparser
 import requests
 from urllib.parse import urlparse
 
-
 def get_puddle_component(repo_file, repo_name):
     repo_file_raw_content = requests.get(repo_file).text
     config = configparser.ConfigParser()
