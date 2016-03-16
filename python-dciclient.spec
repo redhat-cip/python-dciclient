@@ -41,6 +41,7 @@ Requires:       PyYAML
 Requires:       python-requests
 Requires:       python-simplejson
 Requires:       python-six
+Requires:       python-configparser
 
 %description -n python2-dciclient
 A Python 2 implementation of the client for DCI control server and also the
