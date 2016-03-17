@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_d4ee14b4",
+        "filename": "feeders/dci.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2016-03-17T17:09:16Z",
+      "side": 1,
+      "message": "TODO: Not for this commit, but we should look at making this dynamic perhaps? Maybe not 100% necessary since this is intended to test DCI itself.",
+      "revId": "78f215e946070d4f59a3de8e138fc5270fd6a6ea",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
