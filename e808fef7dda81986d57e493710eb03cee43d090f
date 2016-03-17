@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_14653c45",
+        "filename": "dciclient/v1/shell_commands/jobdefinition.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2016-03-17T20:29:32Z",
+      "side": 1,
+      "message": "Missing CLI documentation as previously added to other commands",
+      "revId": "e808fef7dda81986d57e493710eb03cee43d090f",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_745ac084",
+        "filename": "dciclient/v1/shell_commands/jobdefinition.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2016-03-17T20:29:32Z",
+      "side": 1,
+      "message": "Missing CLI documentation (docstring)",
+      "revId": "e808fef7dda81986d57e493710eb03cee43d090f",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_545fc472",
+        "filename": "dciclient/v1/tests/shell_commands/test_jobdefinition.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 247
+      },
+      "writtenOn": "2016-03-17T20:29:32Z",
+      "side": 1,
+      "message": "I can\u0027t figure out why this is failing. It looks to be failing due to not passing an etag on delete, but when I add the etag it fails due to the JSON not having an etag component.\n\nI manually tested the jobdefinition-create and there is definitely an etag element returned.",
+      "revId": "e808fef7dda81986d57e493710eb03cee43d090f",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
