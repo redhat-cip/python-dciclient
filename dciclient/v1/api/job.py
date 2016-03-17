@@ -21,7 +21,7 @@ import json
 
 
 RESOURCE = 'jobs'
-TABLE_HEADERS = ['id', 'recheck', 'jobdefinition_id', 'remoteci_id',
+TABLE_HEADERS = ['id', 'status', 'recheck', 'jobdefinition_id', 'remoteci_id',
                  'team_id', 'etag', 'created_at', 'updated_at']
 
 
