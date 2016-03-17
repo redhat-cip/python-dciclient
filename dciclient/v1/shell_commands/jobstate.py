@@ -46,6 +46,6 @@ def show(context, id):
 
     :param string id: ID of the jobstate to show [required]
     """
-    result = jobstate.get(id=id)
+    result = jobstate.get(context, id=id)
     utils.format_output(result, context.format,
                         jobstate.RESOURCE[:-1], jobstate.TABLE_HEADERS)
