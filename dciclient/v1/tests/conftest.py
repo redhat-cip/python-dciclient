@@ -115,6 +115,34 @@ def team_id(dci_context):
 
 
 @pytest.fixture
+def topic_id(dci_context):
+    return topic.create(dci_context, name='foo_topic').json()['topic']['id']
+
+
+@pytest.fixture
+def test_id(dci_context, topic_id):
+    return test.create(dci_context, name='test_name',
+                       topic_id=topic_id).json()['test']['id']
+
+
+@pytest.fixture
+def components(dci_context, topic_id):
+    component1 = {'name': 'component1',
+                  'type': 'git_commit',
+                  'data': {},
+                  'canonical_project_name': 'component 1',
+                  'topic_id': topic_id}
+
+    component2 = {'name': 'component2',
+                  'type': 'git_commit',
+                  'data': {},
+                  'canonical_project_name': 'component 2',
+                  'topic_id': topic_id}
+
+    return [component1, component2]
+
+
+@pytest.fixture
 def remoteci_id(dci_context):
     team_id = team.create(dci_context, name='tname').json()['team']['id']
     rci = remoteci.create(dci_context, name='remoteci', team_id=team_id).json()

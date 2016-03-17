@@ -14,8 +14,11 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from dciclient.v1.api import component
 from dciclient.v1.api import file
+from dciclient.v1.api import jobdefinition
 from dciclient.v1.api import jobstate
+from dciclient.v1.api import test
 
 import fcntl
 import mimetypes
@@ -25,6 +28,45 @@ import subprocess
 
 import six
 import sys
+
+
+def get_test_id(dci_context, name, topic_id):
+    print("Use test '%s'" % name)
+    test.create(dci_context, name, topic_id)
+    return test.get(dci_context, name).json()['test']['id']
+
+
+def create_jobdefinition_and_add_component(dci_context, components, test_id,
+                                           topic_id, jobdef_name=None):
+    # If at least one component doesn't exist in the database then a new
+    # jobdefinition must be created.
+    at_least_one = False
+    component_ids = []
+    names = []
+    for cmpt in components:
+        names.append(cmpt['name'])
+        created_cmpt = component.create(dci_context, **cmpt)
+        if created_cmpt.status_code == 201:
+            at_least_one = True
+        elif created_cmpt.status_code == 422:
+            created_cmpt = component.get(dci_context, cmpt['name'])
+        created_cmpt_name = created_cmpt.json()['component']['name']
+        component_ids.append(created_cmpt.json()['component']['id'])
+
+    if at_least_one:
+        if jobdef_name is None:
+            jobdef_name = created_cmpt_name
+        jobdef = jobdefinition.create(dci_context, jobdef_name, topic_id,
+                                      test_id)
+        if jobdef.status_code == 201:
+            jobdef_id = jobdef.json()['jobdefinition']['id']
+            for cmpt_id in component_ids:
+                jobdefinition.add_component(dci_context, jobdef_id, cmpt_id)
+            print("Jobdefinition '%s' created." % jobdef_name)
+        else:
+            print("Error on jobdefinition creation: '%s'", jobdef.json())
+    else:
+        print("No jobdefinition created.")
 
 
 def upload_file(context, path, job_id, mime=None):
