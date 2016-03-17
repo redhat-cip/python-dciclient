@@ -17,23 +17,27 @@
 
 from dciclient.v1.api import component
 from dciclient.v1.api import context
-from dciclient.v1.api import jobdefinition
-from dciclient.v1.api import test
-from dciclient.v1.api import topic
+from dciclient.v1 import helper
 
-import configparser
+from six.moves.urllib.parse import urlparse
+
+import click
+import re
 import requests
-from urllib.parse import urlparse
 
 
-def get_puddle_component(repo_file, repo_name):
+def get_repo_information(repo_file):
     repo_file_raw_content = requests.get(repo_file).text
-    config = configparser.ConfigParser()
-    config.read_string(repo_file_raw_content)
-    base_url = config[repo_name]['baseurl'].replace("$basearch", "x86_64")
-    o = urlparse(base_url)
-    path = o.path
-    version = path.split('/')[4]
+    base_url = re.search('baseurl=((.*)/os)', repo_file_raw_content).group(1)
+    base_url = base_url.replace("$basearch", "x86_64")
+    version = urlparse(base_url).path.split('/')[4]
+    repo_name = urlparse(base_url).path.split('/')[5]
+
+    return base_url, version, repo_name
+
+
+def get_puddle_component(repo_file, topic_id):
+    (base_url, version, repo_name) = get_repo_information(repo_file)
 
     puddle_component = {
         'type': component.PUDDLE,
@@ -41,63 +45,46 @@ def get_puddle_component(repo_file, repo_name):
         'name': '%s %s' % (repo_name, version),
         'url': base_url,
         'data': {
-            'path': path,
+            'path': urlparse(base_url).path,
             'version': version,
             'repo_name': repo_name
-        }
+        },
+        'topic_id': topic_id,
     }
     return puddle_component
 
 
-def get_test_id(dci_context, name, topic_id):
-    test.create(dci_context, name, topic_id)
-    return test.get(dci_context, name).json()['test']['id']
+@click.command()
+@click.option('--dci-login', envvar='DCI_LOGIN', required=True,
+              help="DCI username account.")
+@click.option('--dci-password', envvar='DCI_PASSWORD', required=True,
+              help="DCI password account.")
+@click.option('--dci-cs-url', envvar='DCI_CS_URL', required=True,
+              help="DCI CS url.")
+@click.option('--dci-remoteci-id', envvar='DCI_REMOTECI_ID', required=True,
+              help="DCI remoteci id.")
+@click.option('--dci-topic-id', envvar='DCI_TOPIC_ID', required=True,
+              help="DCI topic id.")
+def main(dci_login, dci_password, dci_cs_url, dci_remoteci_id, dci_topic_id):
+    dci_context = context.build_dci_context(dci_cs_url, dci_login,
+                                            dci_password)
 
-
-if __name__ == '__main__':
-    dci_context = context.build_dci_context()
     # Create Khaleesi-tempest test
-    topic_id = topic.get(dci_context, 'default').json()['topic']['id']
-    test_id = get_test_id(dci_context, 'tempest', topic_id)
+    test_id = helper.get_test_id(dci_context, 'tempest', dci_topic_id)
 
     components = [
         # TODO(Gonéri): We should also return the images.
         get_puddle_component(
             'http://download.eng.bos.redhat.com/rel-eng/OpenStack/' +
             '8.0-RHEL-7-director/latest/RH7-RHOS-8.0-director.repo',
-            'RH7-RHOS-8.0-director'),
+            dci_topic_id),
         get_puddle_component(
             'http://download.eng.bos.redhat.com/rel-eng/OpenStack/' +
             '8.0-RHEL-7/latest/RH7-RHOS-8.0.repo',
-            'RH7-RHOS-8.0')]
+            dci_topic_id)]
 
-    # If at least one component doesn't exist in the database then a new
-    # jobdefinition must be created.
-    at_least_one = False
-    component_ids = []
-    names = []
-    for cmpt in components:
-        names.append(cmpt['name'])
-        created_cmpt = component.create(dci_context, topic_id=topic_id, **cmpt)
-        if created_cmpt.status_code == 201:
-            at_least_one = True
-        elif created_cmpt.status_code == 422:
-            created_cmpt = component.get(dci_context, cmpt['name'])
-        component_ids.append(created_cmpt.json()['component']['id'])
+    helper.create_jobdefinition_and_add_component(dci_context, components,
+                                                  test_id, dci_topic_id)
 
-    if at_least_one:
-        jobdef_name = 'OSP 8 - %s' % '+'.join(names)
-        jobdef = jobdefinition.create(
-            dci_context,
-            jobdef_name,
-            topic_id=topic_id,
-            test_id=test_id)
-        if jobdef.status_code == 201:
-            jobdef_id = jobdef.json()['jobdefinition']['id']
-            for cmpt_id in component_ids:
-                jobdefinition.add_component(dci_context, jobdef_id, cmpt_id)
-            print("Jobdefinition '%s' created." % jobdef_name)
-        else:
-            print("Error on jobdefinition creation: '%s'", jobdef.json())
-    else:
-        print("No jobdefinition created.")
+if __name__ == '__main__':
+    main()
