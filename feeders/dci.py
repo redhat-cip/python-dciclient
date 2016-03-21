@@ -64,11 +64,9 @@ def get_components(dci_context, url, topic_id):
               help="DCI password account.")
 @click.option('--dci-cs-url', envvar='DCI_CS_URL', required=True,
               help="DCI CS url.")
-@click.option('--dci-remoteci-id', envvar='DCI_REMOTECI_ID', required=True,
-              help="DCI remoteci id.")
 @click.option('--dci-topic-id', envvar='DCI_TOPIC_ID', required=True,
               help="DCI topic id.")
-def main(dci_login, dci_password, dci_cs_url, dci_remoteci_id, dci_topic_id):
+def main(dci_login, dci_password, dci_cs_url, dci_topic_id):
 
     dci_context = context.build_dci_context(dci_cs_url, dci_login,
                                             dci_password)
