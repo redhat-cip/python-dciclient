@@ -24,14 +24,14 @@ from dciclient.v1.api import jobstate as dci_jobstate
 
 
 class DciHandler(logging.Handler):
-    def __init__(self, dci_context, info_as_jobstate=False):
+    def __init__(self, dci_context, info_as_jobstate=False, interval=30):
         logging.Handler.__init__(self)
         self._info_as_jobstate = info_as_jobstate
         self._dci_context = dci_context
         self._idx_file = 0
         self._current_log = io.StringIO()
         self._threshold_log = 512 * 1024  # 512K
-        self._interval = 30  # 30 seconds
+        self._interval = interval  # seconds
         self._start_timer()
 
     def _start_timer(self):
@@ -41,12 +41,12 @@ class DciHandler(logging.Handler):
         self._timer.start()
 
     def _send_log_file(self):
-        if not self._dci_context.last_jobstate_id:
-            return
         jobstate_id = self._dci_context.last_jobstate_id
-        dci_file.create(self._dci_context, '%s.log' % self._idx_file,
-                        self._current_log.getvalue(), 'text/plain',
-                        jobstate_id)
+        r = dci_file.create(self._dci_context, '%s.log' % self._idx_file,
+                            self._current_log.getvalue(), 'text/plain',
+                            jobstate_id)
+        if r.status_code != 201:
+            raise DciLogPushFailure(r.json()['message'])
         self._current_log.truncate(0)
         self._current_log.seek(0)
         self._idx_file += 1
@@ -80,3 +80,7 @@ class DciHandler(logging.Handler):
         #  if we reach the current log threshold
         elif len(self._current_log.getvalue()) > self._threshold_log:
             self._send_log_file()
+
+
+class DciLogPushFailure(Exception):
+    """Failed to push log."""
