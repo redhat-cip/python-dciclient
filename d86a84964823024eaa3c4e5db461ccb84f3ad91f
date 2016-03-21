@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_22a636c2",
+        "filename": "dciclient/v1/logger.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-03-21T15:39:06Z",
+      "side": 1,
+      "message": "I do not see why we have a custom error and why it needs to caught it like this.\n\neither we try to access_dci_context.last_jobstate_id and catch the KeyError or we let it bubble through the call stack as the result will be the same as creating a custom error.",
+      "revId": "d86a84964823024eaa3c4e5db461ccb84f3ad91f",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_82abaa88",
+        "filename": "dciclient/v1/logger.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-03-21T15:39:06Z",
+      "side": 1,
+      "message": "do not do this, instead use the http://stackoverflow.com/questions/15431044/can-i-set-max-retries-for-requests-request",
+      "revId": "d86a84964823024eaa3c4e5db461ccb84f3ad91f",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_a2918654",
+        "filename": "dciclient/v1/logger.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-03-21T15:39:06Z",
+      "side": 1,
+      "message": "At least declare custom errors in the exception module",
+      "revId": "d86a84964823024eaa3c4e5db461ccb84f3ad91f",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_e29b8e70",
+        "filename": "dciclient/v1/tests/test_logger.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-03-21T15:39:06Z",
+      "side": 1,
+      "message": "this is a missing",
+      "revId": "d86a84964823024eaa3c4e5db461ccb84f3ad91f",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
