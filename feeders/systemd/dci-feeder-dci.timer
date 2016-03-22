@@ -1,9 +1,0 @@
-[Unit]
-Descriptuon=The DCI dci feeder timer
-
-[Timer]
-OnCalendar=00:10:00
-Persistent=true
-
-[Install]
-WantedBy=timers.target
