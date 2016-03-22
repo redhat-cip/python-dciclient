@@ -16,13 +16,19 @@ import os
 import sys
 
 import requests
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 
 
 class DciContext(object):
     API_VERSION = 'api/v1'
 
-    def __init__(self, dci_cs_url, login, password):
+    def __init__(self, dci_cs_url, login, password, max_retries=0):
         self.session = self._build_http_session(login, password)
+        retries = Retry(total=max_retries,
+                        backoff_factor=0.1)
+        self.session.mount('http://', HTTPAdapter(max_retries=retries))
+        self.session.mount('https://', HTTPAdapter(max_retries=retries))
         self.dci_cs_api = '%s/%s' % (dci_cs_url, DciContext.API_VERSION)
         self.last_jobstate_id = None
         self.last_job_id = None
