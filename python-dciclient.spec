@@ -116,12 +116,12 @@ cp -r {agents,feeders} build/lib/
 
 %install
 install -d %{buildroot}%{_bindir}
-find agents -name '*py' -exec sh -c 'mv "$0" %{buildroot}%{_bindir}/dci-agent-$(basename "$0")' {} \;
-find feeders -name '*py' -exec sh -c 'mv "$0" %{buildroot}%{_bindir}/dci-feeder-$(basename "$0")' {} \;
+find agents/agents -name '[^_]*py' -exec sh -c 'mv "$0" %{buildroot}%{_bindir}/dci-agent-$(basename "$0")' {} \;
+find feeders/feeders -name '[^_]*py' -exec sh -c 'mv "$0" %{buildroot}%{_bindir}/dci-feeder-$(basename "$0")' {} \;
 find %{buildroot}%{_bindir} -name '*.py' -exec sh -c 'mv "$0" "${0%%.py}"' {} \;
 install -d %{buildroot}%{_unitdir}
-mv agents/systemd/* %{buildroot}%{_unitdir}
-mv feeders/systemd/* %{buildroot}%{_unitdir}
+mv agents/agents/systemd/* %{buildroot}%{_unitdir}
+mv feeders/agents/systemd/* %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig/dci-feeder-github
 %py2_install
 find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' -exec sed -i '3s/2.7.0/2.6.0/' {} \;
