@@ -19,24 +19,22 @@ import codecs
 import os
 import setuptools
 
-from dciclient import version
-
 
 def _get_readme():
     readme_path = '%s/%s' % (os.path.dirname(os.path.abspath(__file__)),
-                             'README.md')
+                             'README.rst')
 
     with codecs.open(readme_path, 'r', encoding='utf8') as f:
         return f.read()
 
 
 setuptools.setup(
-    name='dci-feeders',
-    version=version.__version__,
-    packages=['feeders'],
+    name='dci-agents',
+    version='0.1a3',
+    packages=['agents'],
     author='Distributed CI team',
     author_email='distributed-ci@redhat.com',
-    description='DCI feeders for DCI Control Server',
+    description='DCI agents for DCI Control Server',
     long_description=_get_readme(),
     install_requires=['dciclient'],
     url='https://github.com/redhat-cip/python-dciclient',
@@ -54,10 +52,9 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'dci-feeder-dci = feeders.dci:main',
-            'dci-feeder-github = feeders.github:main',
-            'dci-feeder-khaleesi = feeders.khaleesi:main',
-            'dci-feeder-osp = feeders.osp:main',
+            'dci-agent-chainsaw = agents.chainsaw:main',
+            'dci-agent-dci = agents.dci:main',
+            'dci-agent-tox = agents.tox:main',
         ],
     }
 )
