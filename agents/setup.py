@@ -19,8 +19,6 @@ import codecs
 import os
 import setuptools
 
-from dciclient import version
-
 
 def _get_readme():
     readme_path = '%s/%s' % (os.path.dirname(os.path.abspath(__file__)),
@@ -32,7 +30,7 @@ def _get_readme():
 
 setuptools.setup(
     name='dci-agents',
-    version=version.__version__,
+    version='0.1a2',
     packages=['agents'],
     author='Distributed CI team',
     author_email='distributed-ci@redhat.com',
