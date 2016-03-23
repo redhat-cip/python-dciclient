@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7af0899e_dd1c77c4",
+        "filename": "dciclient/v1/logger.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-03-23T14:12:31Z",
+      "side": 1,
+      "message": "oh this is embarrassing :D",
+      "parentUuid": "7af0899e_1d171fa5",
+      "revId": "176335d7ecc4fe98fdc92248b65f782aea5d6113",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7af0899e_7d0c6395",
         "filename": "dciclient/v1/logger.py",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-03-23T14:06:38Z",
       "side": 1,
       "message": "ditto",
+      "revId": "176335d7ecc4fe98fdc92248b65f782aea5d6113",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7af0899e_3d793bfd",
+        "filename": "dciclient/v1/logger.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-03-23T14:12:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7af0899e_7d0c6395",
       "revId": "176335d7ecc4fe98fdc92248b65f782aea5d6113",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
