@@ -26,6 +26,7 @@ def create(context, status, comment, job_id):
     jobstate = base.create(context, RESOURCE, status=status, comment=comment,
                            job_id=job_id)
     json = jobstate.json()
+    print(json)
     context.last_jobstate_id = json['jobstate']['id']
     return jobstate
 

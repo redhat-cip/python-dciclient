@@ -27,8 +27,8 @@ def create(context, name, topic_id, test_id=None, priority=None):
                        priority=priority, topic_id=topic_id)
 
 
-def list(context, topic_id):
-    return base.list(context, RESOURCE, topic_id=topic_id)
+def list(context, topic_id, where=None, embed=None):
+    return base.list(context, RESOURCE, topic_id=topic_id, where=where, embed=embed)
 
 
 def get(context, id, where=None, embed=None):
