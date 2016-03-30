@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7af0899e_15aa5319",
+        "filename": "feeders/feeders/osp.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2016-03-30T15:35:41Z",
+      "side": 1,
+      "message": "Is it sane to hard code OSP 8 ?",
+      "revId": "6a35788260ad07db93c1c9893edeee01b922686f",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
