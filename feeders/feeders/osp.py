@@ -81,8 +81,13 @@ def main(dci_login, dci_password, dci_cs_url, dci_topic_id):
             '8.0-RHEL-7/latest/RH7-RHOS-8.0.repo',
             dci_topic_id)]
 
+    tmp = []
+    for c in components:
+        tmp.append(c['data']['repo_name'] + ' ' + c['data']['version'])
+    jobdef_name = 'OSP 8 - ' + '+'.join(tmp)
     helper.create_jobdefinition_and_add_component(dci_context, components,
-                                                  test_id, dci_topic_id)
+                                                  test_id, dci_topic_id,
+                                                  jobdef_name=jobdef_name)
 
 if __name__ == '__main__':
     main()
