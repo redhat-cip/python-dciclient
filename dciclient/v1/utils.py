@@ -55,7 +55,10 @@ def print_prettytable(data, headers):
 
 
 def sanitize_kwargs(**kwargs):
-    kwargs = dict((k, v) for k, v in six.iteritems(kwargs) if v)
+    boolean_fields = ['active']
+    kwargs = dict(
+        (k, v) for k, v in six.iteritems(kwargs) if k in boolean_fields or v
+    )
 
     try:
         kwargs['data'] = json.loads(kwargs['data'])

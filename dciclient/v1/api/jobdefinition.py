@@ -18,8 +18,8 @@ from dciclient.v1.api import base
 
 
 RESOURCE = 'jobdefinitions'
-TABLE_HEADERS = ['id', 'name', 'priority', 'test_id', 'etag', 'created_at',
-                 'updated_at']
+TABLE_HEADERS = ['id', 'name', 'priority', 'test_id', 'active', 'comment',
+                 'etag', 'created_at', 'updated_at']
 
 
 def create(context, name, topic_id, test_id=None, priority=None):
@@ -37,6 +37,15 @@ def get(context, id, where=None, embed=None):
 
 def delete(context, id, etag):
     return base.delete(context, RESOURCE, id=id, etag=etag)
+
+
+def annotate(context, id, comment, etag):
+    return base.update(context, RESOURCE, id=id, etag=etag, comment=comment)
+
+
+def setactive(context, id, active, etag):
+    active_bool =  active in ['True', 'true']
+    return base.update(context, RESOURCE, id=id, etag=etag, active=active_bool)
 
 
 def add_component(context, id, component_id):
