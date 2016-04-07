@@ -101,6 +101,52 @@ def show(context, id):
                         jobdefinition.TABLE_HEADERS)
 
 
+@cli.command("jobdefinition-annotate", help="Annotate a jobdefinition.")
+@click.option("--id", required=True)
+@click.option("--comment", required=True)
+@click.option("--etag", required=True)
+@click.pass_obj
+def annotate(context, id, comment, etag):
+    """annotate(context, id, comment, etag)
+
+    Annotate a jobdefinition.
+
+    >>> dcictl jobdefinition-annotate [OPTIONS]
+
+    :param string id: ID of the jobdefinition resource [required]
+    :param string comment: Comment of the jobdefinition resource [required]
+    :param string etag: Entity tag of the jobdefinition resource [required]
+    """
+    result = jobdefinition.annotate(context, id=id, comment=comment, etag=etag)
+    if result.status_code == 204:
+        utils.print_json({'id': id, 'message': 'Job Definition updated.'})
+    else:
+        utils.format_output(result, context.format)
+
+
+@cli.command("jobdefinition-set-active", help="Annotate a jobdefinition.")
+@click.option("--id", required=True)
+@click.option("--active", required=True)
+@click.option("--etag", required=True)
+@click.pass_obj
+def setactive(context, id, active, etag):
+    """setactive(context, id, active, etag)
+
+    Change the active status of a jobdefinition.
+
+    >>> dcictl jobdefinition-active [OPTIONS]
+
+    :param string id: ID of the jobdefinition resource [required]
+    :param string active: Active state of the jobdefinition resource [required]
+    :param string etag: Entity tag of the jobdefinition resource [required]
+    """
+    result = jobdefinition.setactive(context, id=id, active=active, etag=etag)
+    if result.status_code == 204:
+        utils.print_json({'id': id, 'message': 'Job Definition updated.'})
+    else:
+        utils.format_output(result, context.format)
+
+
 @cli.command("jobdefinition-attach-component",
              help="Attach a component to a jobdefinition.")
 @click.option("--id", required=True)

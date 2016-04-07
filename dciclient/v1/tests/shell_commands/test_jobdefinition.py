@@ -55,13 +55,16 @@ def test_prettytable_output(runner, topic_id):
 
     expected_data = (jobdefinition['id'], jobdefinition['name'],
                      jobdefinition['priority'], jobdefinition['test_id'],
+                     jobdefinition['active'], jobdefinition['comment'],
                      jobdefinition['etag'], jobdefinition['created_at'],
                      jobdefinition['updated_at'])
 
-    assert header == ('| id | name | priority | test_id | etag | created_at '
-                      '| updated_at |')
+    assert header == ('| id | name | priority | test_id | active | comment '
+                      '| etag | created_at | updated_at |')
 
-    assert data == '| %s | %s | %s | %s | %s | %s | %s |' % expected_data
+    assert data == '| %s | %s | %s | %s | %s | %s | %s | %s | %s |' % (
+        expected_data
+    )
 
 
 def test_list(runner, topic_id):
@@ -134,6 +137,46 @@ def test_show(runner, topic_id):
     jobdefinition = json.loads(result.output)['jobdefinition']
 
     assert jobdefinition['name'] == 'foo'
+
+
+def test_annotate(runner, topic_id):
+    result = runner.invoke(['test-create', '--name', 'foo', '--topic_id',
+                            topic_id])
+    test = json.loads(result.output)['test']
+    result = runner.invoke(['jobdefinition-create', '--name', 'foo',
+                            '--test_id', test['id'], '--topic_id',
+                            topic_id])
+
+    jd = json.loads(result.output)['jobdefinition']
+    result = runner.invoke(['jobdefinition-annotate', '--id', jd['id'],
+                            '--comment', 'This is my annotation', '--etag',
+                            jd['etag']])
+
+    result = json.loads(result.output)
+    assert result['message'] == 'Job Definition updated.'
+
+    result = runner.invoke(['jobdefinition-show', '--id', jd['id']])
+    jobdefinition_comm = json.loads(result.output)['jobdefinition']['comment']
+    assert jobdefinition_comm == 'This is my annotation'
+
+
+def test_active(runner, topic_id):
+    result = runner.invoke(['test-create', '--name', 'foo', '--topic_id',
+                            topic_id])
+    test = json.loads(result.output)['test']
+    result = runner.invoke(['jobdefinition-create', '--name', 'foo',
+                            '--test_id', test['id'], '--topic_id',
+                            topic_id])
+
+    jd = json.loads(result.output)['jobdefinition']
+    result = runner.invoke(['jobdefinition-set-active', '--active', 'False',
+                            '--id', jd['id'], '--etag', jd['etag']])
+
+    result = json.loads(result.output)
+    assert result['message'] == 'Job Definition updated.'
+    result = runner.invoke(['jobdefinition-show', '--id', jd['id']])
+    jobdefinition_active = json.loads(result.output)['jobdefinition']['active']
+    assert jobdefinition_active is False
 
 
 def test_attach_component(runner, topic_id, component_id):
