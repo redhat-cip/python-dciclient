@@ -70,3 +70,10 @@ def test_delete(runner, job_id):
     result = json.loads(result.output)
 
     assert result['message'] == 'Job deleted.'
+
+
+def test_recheck(runner, job_id):
+    result = runner.invoke(['job-recheck', '--id', job_id])
+    result = json.loads(result.output)['job']
+
+    assert result['status'] == 'new'

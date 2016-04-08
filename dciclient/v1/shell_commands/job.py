@@ -70,3 +70,19 @@ def delete(context, id, etag):
         utils.print_json({'id': id, 'message': 'Job deleted.'})
     else:
         utils.format_output(result, context.format)
+
+
+@cli.command("job-recheck", help="Recheck a job.")
+@click.option("--id", required=True)
+@click.pass_obj
+def recheck(context, id):
+    """recheck(context, id)
+
+    Reecheck a job.
+
+    >>> dcictl job-recheck [OPTIONS]
+
+    :param string id: ID of the job to recheck [required]
+    """
+    result = job.recheck(context, id=id)
+    utils.format_output(result, context.format, job.RESOURCE[:-1])
