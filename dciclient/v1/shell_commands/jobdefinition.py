@@ -20,6 +20,7 @@ from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
 from dciclient.v1.api import jobdefinition
+from dciclient.v1.api import test
 
 
 @cli.command("jobdefinition-list", help="List all jobdefinitions.")
@@ -142,6 +143,73 @@ def unattach_component(context, id, component_id):
                                             component_id=component_id)
     if result.status_code == 204:
         unattach_msg = 'Component unattached from Jobdefinition'
+        utils.print_json({'id': id,
+                          'message': unattach_msg})
+    else:
+        utils.format_output(result, context.format)
+
+
+@cli.command("jobdefinition-attach-test",
+             help="Attach a test to a jobdefinition.")
+@click.option("--id", required=True)
+@click.option("--test_id", required=True)
+@click.pass_obj
+def attach_test(context, id, test_id):
+    """attach_test(context, id, test_id)
+
+    Attach a test to a jobdefinition.
+
+    >>> dcictl jobdefinition-attach-test [OPTIONS]
+
+    :param string id: ID of the jobdefinition to attach the test to [required]
+    :param string test_id: ID of the test to attach [required]
+    """
+    result = jobdefinition.add_test(context, id=id,
+                                    test_id=test_id)
+    utils.format_output(result, context.format)
+
+
+@cli.command("jobdefinition-list-test",
+             help="List tests attached to a jobdefinition.")
+@click.option("--id", required=True)
+@click.pass_obj
+def list_test(context, id):
+    """unattach_test(context, id, test_id)
+
+    Unattach a test from a jobdefinition.
+
+    >>> dcictl jobdefinition-unattach-test [OPTIONS]
+
+    :param string id: ID of the jobdefinition to unattach the test from
+                      [required]
+    :param string test_id: ID of the test to unattach [required]
+    """
+    result = jobdefinition.get_tests(context, id=id)
+    utils.format_output(result, context.format,
+                        test.RESOURCE,
+                        test.TABLE_HEADERS)
+
+
+@cli.command("jobdefinition-unattach-test",
+             help="Unattach a test to a jobdefinition.")
+@click.option("--id", required=True)
+@click.option("--test_id", required=True)
+@click.pass_obj
+def unattach_test(context, id, test_id):
+    """unattach_test(context, id, test_id)
+
+    Unattach a test from a jobdefinition.
+
+    >>> dcictl jobdefinition-unattach-test [OPTIONS]
+
+    :param string id: ID of the jobdefinition to unattach the test from
+                      [required]
+    :param string test_id: ID of the test to unattach [required]
+    """
+    result = jobdefinition.remove_test(context, id=id,
+                                       test_id=test_id)
+    if result.status_code == 204:
+        unattach_msg = 'Test unattached from Jobdefinition'
         utils.print_json({'id': id,
                           'message': unattach_msg})
     else:

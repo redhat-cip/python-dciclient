@@ -18,13 +18,13 @@ from dciclient.v1.api import base
 
 
 RESOURCE = 'jobdefinitions'
-TABLE_HEADERS = ['id', 'name', 'priority', 'test_id', 'etag', 'created_at',
+TABLE_HEADERS = ['id', 'name', 'priority', 'etag', 'created_at',
                  'updated_at']
 
 
-def create(context, name, topic_id, test_id=None, priority=None):
-    return base.create(context, RESOURCE, name=name, test_id=test_id,
-                       priority=priority, topic_id=topic_id)
+def create(context, name, topic_id, priority=None):
+    return base.create(context, RESOURCE, name=name, priority=priority,
+                       topic_id=topic_id)
 
 
 def list(context, topic_id):
@@ -52,4 +52,20 @@ def get_components(context, id):
 def remove_component(context, id, component_id):
     uri = '%s/%s/%s/components/%s' % (context.dci_cs_api, RESOURCE, id,
                                       component_id)
+    return context.session.delete(uri)
+
+
+def add_test(context, id, test_id):
+    uri = '%s/%s/%s/tests' % (context.dci_cs_api, RESOURCE, id)
+    return context.session.post(uri, json={'test_id': test_id})
+
+
+def get_tests(context, id):
+    uri = '%s/%s/%s/tests' % (context.dci_cs_api, RESOURCE, id)
+    return context.session.get(uri)
+
+
+def remove_test(context, id, test_id):
+    uri = '%s/%s/%s/tests/%s' % (context.dci_cs_api, RESOURCE, id,
+                                 test_id)
     return context.session.delete(uri)

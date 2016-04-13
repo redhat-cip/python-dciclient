@@ -54,14 +54,13 @@ def test_prettytable_output(runner, topic_id):
     data = ' '.join(output[3].split())
 
     expected_data = (jobdefinition['id'], jobdefinition['name'],
-                     jobdefinition['priority'], jobdefinition['test_id'],
-                     jobdefinition['etag'], jobdefinition['created_at'],
-                     jobdefinition['updated_at'])
+                     jobdefinition['priority'], jobdefinition['etag'],
+                     jobdefinition['created_at'], jobdefinition['updated_at'])
 
-    assert header == ('| id | name | priority | test_id | etag | created_at '
+    assert header == ('| id | name | priority | etag | created_at '
                       '| updated_at |')
 
-    assert data == '| %s | %s | %s | %s | %s | %s | %s |' % expected_data
+    assert data == '| %s | %s | %s | %s | %s | %s |' % expected_data
 
 
 def test_list(runner, topic_id):
