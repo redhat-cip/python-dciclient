@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1af78d9a_91913c55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2016-04-13T12:59:17Z",
+      "side": 1,
+      "message": "I think the commit message is wrong.",
+      "revId": "e6da34bc89ec5206f93be659471d195b0cba1d97",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
