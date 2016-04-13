@@ -19,13 +19,8 @@ import json
 
 
 def test_prettytable_output(runner, topic_id):
-    result = runner.invoke(['test-create', '--name', 'foo', '--topic_id',
-                            topic_id])
-    test = json.loads(result.output)['test']
-
     result = runner.invoke(['jobdefinition-create', '--name', 'foo',
-                            '--test_id', test['id'], '--topic_id',
-                            topic_id])
+                            '--topic_id', topic_id])
     jobdefinition = json.loads(result.output)['jobdefinition']
 
     result = runner.invoke(['--format', 'table', 'jobdefinition-show', '--id',
@@ -54,15 +49,14 @@ def test_prettytable_output(runner, topic_id):
     data = ' '.join(output[3].split())
 
     expected_data = (jobdefinition['id'], jobdefinition['name'],
-                     jobdefinition['priority'], jobdefinition['test_id'],
-                     jobdefinition['active'], jobdefinition['comment'],
-                     jobdefinition['etag'], jobdefinition['created_at'],
-                     jobdefinition['updated_at'])
+                     jobdefinition['priority'], jobdefinition['active'],
+                     jobdefinition['comment'], jobdefinition['etag'],
+                     jobdefinition['created_at'], jobdefinition['updated_at'])
 
-    assert header == ('| id | name | priority | test_id | active | comment '
+    assert header == ('| id | name | priority | active | comment '
                       '| etag | created_at | updated_at |')
 
-    assert data == '| %s | %s | %s | %s | %s | %s | %s | %s | %s |' % (
+    assert data == '| %s | %s | %s | %s | %s | %s | %s | %s |' % (
         expected_data
     )
 
@@ -76,14 +70,10 @@ def test_list(runner, topic_id):
                                 '--team_id', team_id])
     topic_team = json.loads(topic_team.output)
 
-    result = runner.invoke(['test-create', '--name', 'foo', '--topic_id',
-                            topic_id])
-    test = json.loads(result.output)['test']
-
-    runner.invoke(['jobdefinition-create', '--name', 'foo', '--test_id',
-                   test['id'], '--topic_id', topic_id])
-    runner.invoke(['jobdefinition-create', '--name', 'bar', '--test_id',
-                   test['id'], '--topic_id', topic_id])
+    runner.invoke(['jobdefinition-create', '--name', 'foo', '--topic_id',
+                  topic_id])
+    runner.invoke(['jobdefinition-create', '--name', 'bar', '--topic_id',
+                  topic_id])
 
     result = runner.invoke(['jobdefinition-list', '--topic_id', topic_id])
     jobdefinitions = json.loads(result.output)['jobdefinitions']
@@ -94,25 +84,16 @@ def test_list(runner, topic_id):
 
 
 def test_create(runner, topic_id):
-    result = runner.invoke(['test-create', '--name', 'foo', '--topic_id',
-                            topic_id])
-    test = json.loads(result.output)['test']
     result = runner.invoke(['jobdefinition-create', '--name', 'foo',
-                            '--test_id', test['id'], '--topic_id',
-                            topic_id])
+                            '--topic_id', topic_id])
 
     jobdefinition = json.loads(result.output)['jobdefinition']
     assert jobdefinition['name'] == 'foo'
 
 
 def test_delete(runner, topic_id):
-    result = runner.invoke(['test-create', '--name', 'foo', '--topic_id',
-                            topic_id])
-    test = json.loads(result.output)['test']
-
     result = runner.invoke(['jobdefinition-create', '--name', 'foo',
-                            '--test_id', test['id'], '--topic_id',
-                            topic_id])
+                            '--topic_id', topic_id])
     jobdefinition = json.loads(result.output)['jobdefinition']
 
     result = runner.invoke(['jobdefinition-delete', '--id',
@@ -161,12 +142,8 @@ def test_annotate(runner, topic_id):
 
 
 def test_active(runner, topic_id):
-    result = runner.invoke(['test-create', '--name', 'foo', '--topic_id',
-                            topic_id])
-    test = json.loads(result.output)['test']
     result = runner.invoke(['jobdefinition-create', '--name', 'foo',
-                            '--test_id', test['id'], '--topic_id',
-                            topic_id])
+                            '--topic_id', topic_id])
 
     jd = json.loads(result.output)['jobdefinition']
     result = runner.invoke(['jobdefinition-set-active', '--active', 'False',
@@ -180,12 +157,8 @@ def test_active(runner, topic_id):
 
 
 def test_attach_component(runner, topic_id, component_id):
-    result = runner.invoke(['test-create', '--name', 'foo', '--topic_id',
-                            topic_id])
-    test = json.loads(result.output)['test']
     result = runner.invoke(['jobdefinition-create', '--name', 'foo',
-                            '--test_id', test['id'], '--topic_id',
-                            topic_id])
+                            '--topic_id', topic_id])
 
     jobdefinition = json.loads(result.output)['jobdefinition']
     jobdefinition_id = jobdefinition['id']

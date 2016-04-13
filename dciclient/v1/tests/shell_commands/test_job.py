@@ -39,12 +39,8 @@ def test_list(runner, dci_context, remoteci_id):
                                 '--team_id', team_id])
     topic_team = json.loads(topic_team.output)
 
-    result = runner.invoke(['test-create', '--name', 'foo', '--topic_id',
-                            topic['id']])
-    test = json.loads(result.output)['test']
-
-    jd = runner.invoke(['jobdefinition-create', '--name', 'foo', '--test_id',
-                       test['id'], '--topic_id', topic['id']])
+    jd = runner.invoke(['jobdefinition-create', '--name', 'foo', '--topic_id',
+                       topic['id']])
     jd = json.loads(jd.output)['jobdefinition']
 
     component = runner.invoke(['component-create', '--name', 'foo',
