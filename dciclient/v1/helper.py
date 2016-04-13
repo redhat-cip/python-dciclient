@@ -36,8 +36,8 @@ def get_test_id(dci_context, name, topic_id):
     return test.get(dci_context, name).json()['test']['id']
 
 
-def create_jobdefinition_and_add_component(dci_context, components, test_id,
-                                           topic_id, jobdef_name=None):
+def create_jobdefinition(dci_context, components, test_ids,
+                         topic_id, jobdef_name=None):
     # If at least one component doesn't exist in the database then a new
     # jobdefinition must be created.
     at_least_one = False
@@ -56,12 +56,13 @@ def create_jobdefinition_and_add_component(dci_context, components, test_id,
     if at_least_one:
         if jobdef_name is None:
             jobdef_name = created_cmpt_name
-        jobdef = jobdefinition.create(dci_context, jobdef_name, topic_id,
-                                      test_id)
+        jobdef = jobdefinition.create(dci_context, jobdef_name, topic_id)
         if jobdef.status_code == 201:
             jobdef_id = jobdef.json()['jobdefinition']['id']
             for cmpt_id in component_ids:
                 jobdefinition.add_component(dci_context, jobdef_id, cmpt_id)
+            for test_id in test_ids:
+                jobdefinition.add_test(dci_context, jobdef_id, test_id)
             print("Jobdefinition '%s' created." % jobdef_name)
         else:
             print("Error on jobdefinition creation: '%s'", jobdef.json())

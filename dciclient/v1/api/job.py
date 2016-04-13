@@ -52,7 +52,7 @@ def get(context, id, where=None, embed=None):
 
 def get_full_data(context, id):
     # Get the job with embed on test and remoteci
-    embed = 'jobdefinition,jobdefinition.test,remoteci'
+    embed = 'jobdefinition,remoteci'
     job = base.get(context, RESOURCE, id=id, embed=embed).json()['job']
     # Get the components of the jobdefinition
     jobdefinition_components = jobdefinition.get_components(
@@ -61,7 +61,9 @@ def get_full_data(context, id):
     # Aggregate the data of each resource
     full_data = {'remoteci': job['remoteci'],
                  'jobdefinition': job['jobdefinition'],
-                 'test': job['jobdefinition']['test'],
+                  # TODO(spredzy): Add an array of test.
+                  # Needs update on the control-server to
+                  # properly handle embed
                  'components': []}
 
     for component in jobdefinition_components:
