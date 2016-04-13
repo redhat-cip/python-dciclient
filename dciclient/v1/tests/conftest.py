@@ -176,16 +176,9 @@ def job_id(dci_context):
                                   name='tname', team_id=my_team['id'],
                                   data={'remoteci': 'remoteci'}).json()
     my_remoteci_id = my_remoteci['remoteci']['id']
-    my_test = test.create(
-        dci_context,
-        topic_id=my_topic['id'],
-        name='tname',
-        data={'test': 'test'}).json()
-    my_test_id = my_test['test']['id']
     my_jobdefinition = jobdefinition.create(
         dci_context,
         name='tname',
-        test_id=my_test_id,
         topic_id=my_topic['id']).json()
     my_component = component.create(
         dci_context, name='hihi', type='git_review',
