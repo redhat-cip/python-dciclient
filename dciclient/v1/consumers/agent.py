@@ -101,7 +101,7 @@ class Agent(dciconsumer.DCIConsumer):
 
         return ret_value
 
-    def run_agent(self, run, pre_run=None, post_run=None):
+    def run_agent(self, run, pre_run=None, post_run=None, retries=0):
         """Run the agent business logic"""
         failure = False
         l_jobstate = jobstate.JobState(self._s)
@@ -118,10 +118,14 @@ class Agent(dciconsumer.DCIConsumer):
                 .create(**kwargs).json()['jobstate']['id']
             )
             for cmd in pre_run['cmds']:
-                rc = (
-                    self
-                    ._run_command(cmd, pre_run['cwd'], pre_run_jobstate_id)
-                )
+                for _ in range(retries + 1)
+                    rc = (
+                        self
+                        ._run_command(cmd, pre_run['cwd'], pre_run_jobstate_id)
+                    )
+                    if rc == 0:
+                        break
+
                 if rc != 0:
                     kwargs = (
                         self
