@@ -23,6 +23,8 @@ from dciclient.v1.handlers import remoteci
 
 import subprocess
 
+class AgentError(Exception):
+    """Convenient class, just to be able to catch failure"""
 
 class Agent(dciconsumer.DCIConsumer):
     """A DCI agent class"""
@@ -101,68 +103,42 @@ class Agent(dciconsumer.DCIConsumer):
 
         return ret_value
 
-    def run_agent(self, run, pre_run=None, post_run=None):
+    def _run_agent(self, run, pre_run=None, post_run=None):
         """Run the agent business logic"""
-        failure = False
         l_jobstate = jobstate.JobState(self._s)
-        kwargs = self._get_state_hash('new', 'Starting run agent')
-        l_jobstate.create(**kwargs)
+        def create_js(state, msg):
+            return l_jobstate.create(**self._get_state_hash(state, msg))
 
+        create_js('new', 'Starting run agent')
         if pre_run:
-            kwargs = (
-                self
-                ._get_state_hash('pre-run', 'Starting pre_run setup')
-            )
-            pre_run_jobstate_id = (
-                l_jobstate
-                .create(**kwargs).json()['jobstate']['id']
-            )
+            pre_run_js = create_js('pre-run', 'Starting pre_run setup')
+            pre_run_js_id = pre_run_js.json()['jobstate']['id']
             for cmd in pre_run['cmds']:
-                rc = (
-                    self
-                    ._run_command(cmd, pre_run['cwd'], pre_run_jobstate_id)
-                )
-                if rc != 0:
-                    kwargs = (
-                        self
-                        ._get_state_hash('failure', 'Failure in pre_run setup')
-                    )
-                    l_jobstate.create(**kwargs)
-                    failure = True
+                if self._run_command(cmd, pre_run['cwd'], pre_run_js_id):
+                    create_js('failure', 'Failure in pre_run setup')
+                    raise AgentError()
 
-        if not failure:
-            kwargs = self._get_state_hash('running', 'Starting run setup')
-            run_jobstate_id = (
-                l_jobstate.create(**kwargs)
-                .json()['jobstate']['id']
-            )
-            for cmd in run['cmds']:
-                rc = self._run_command(cmd, run['cwd'], run_jobstate_id)
-                if rc != 0:
-                    kwargs = (
-                        self
-                        ._get_state_hash('failure', 'Failure in run setup')
-                    )
-                    l_jobstate.create(**kwargs)
-                    failure = True
+        run_js = create_js('running', 'Starting run setup')
+        run_js_id = run_js.json()['jobstate']['id']
 
-        if not failure and post_run:
-            kwargs = (self
-                      ._get_state_hash('post-run', 'Starting post_run setup'))
-            post_run_jobstate_id = (
-                l_jobstate
-                .create(**kwargs).json()['jobstate']['id']
-            )
+        for cmd in run['cmds']:
+            if self._run_command(cmd, run['cwd'], run_js_id):
+                create_js('failure', 'Failure in run setup')
+                raise AgentError()
+
+        if post_run:
+            post_run_js = create_js('post-run', 'Starting post_run setup')
+            post_run_js_id = post_run_js.json()['jobstate']['id']
             for cmd in post_run['cmds']:
-                self._run_command(cmd, post_run['cwd'], post_run_jobstate_id)
-                if rc != 0:
-                    kwargs = (
-                        self
-                        ._get_state_hash('failure', 'Fail in post_run setup')
-                    )
-                    l_jobstate.create(**kwargs)
-                    failure = True
+                if self._run_command(cmd, post_run['cwd'], post_run_js_id):
+                    create_js('failure', 'Fail in post_run setup')
+                    raise AgentError()
 
-        if not failure:
-            kwargs = self._get_state_hash('success', 'Finished running agent')
-            l_jobstate.create(**kwargs)
+        create_js('success', 'Finished running agent')
+
+    def run_agent(self, run, pre_run=None, post_run=None, retries=0):
+        try:
+            self._run_agent(run, pre_run, post_run)
+        except AgentError:
+            if retries:
+                self.run_agent(run, pre_run, post_run, retries - 1)
