@@ -85,9 +85,8 @@ def main(dci_login, dci_password, dci_cs_url, dci_topic_id):
     for c in components:
         tmp.append(c['data']['repo_name'] + ' ' + c['data']['version'])
     jobdef_name = 'OSP 8 - ' + '+'.join(tmp)
-    helper.create_jobdefinition_and_add_component(dci_context, components,
-                                                  test_id, dci_topic_id,
-                                                  jobdef_name=jobdef_name)
+    helper.create_jobdefinition(dci_context, components, [test_id],
+                                dci_topic_id, jobdef_name=jobdef_name)
 
 if __name__ == '__main__':
     main()
