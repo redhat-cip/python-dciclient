@@ -46,6 +46,14 @@ def schedule(context, remoteci_id, topic_id):
     return r
 
 
+def recheck(context, id):
+    uri = '%s/%s/%s/recheck' % (context.dci_cs_api, RESOURCE, id)
+    r = context.session.post(uri)
+    if r.status_code == 201:
+        context.last_job_id = r.json()['job']['id']
+    return r
+
+
 def get(context, id, where=None, embed=None):
     return base.get(context, RESOURCE, id=id, where=where, embed=embed)
 
