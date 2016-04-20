@@ -33,6 +33,10 @@ def create(context, recheck, remoteci_id, team_id, jobdefinition_id=None):
     return job
 
 
+def update(context, configuration=None):
+    return base.update(context, RESOURCE, configuration=configuration)
+
+
 def list(context):
     return base.list(context, RESOURCE)
 
