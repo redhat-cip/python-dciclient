@@ -74,8 +74,8 @@ def main(dci_login, dci_password, dci_cs_url, dci_topic_id):
     components = get_components(dci_context, CANDIDATES_URL, dci_topic_id)
     test_id = helper.get_test_id(dci_context, 'scenario01', dci_topic_id)
 
-    helper.create_jobdefinition_and_add_component(dci_context, components,
-                                                  test_id, dci_topic_id)
+    helper.create_jobdefinition(dci_context, components, [test_id],
+                                dci_topic_id)
 
 
 if __name__ == '__main__':
