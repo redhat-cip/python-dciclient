@@ -29,8 +29,8 @@ def create(context, name, topic_id, priority=None, component_types=None):
                        topic_id=topic_id, component_types=component_types)
 
 
-def list(context, topic_id):
-    return base.list(context, RESOURCE, topic_id=topic_id)
+def list(context, topic_id, embed=None):
+    return base.list(context, RESOURCE, topic_id=topic_id, embed=embed)
 
 
 def get(context, id, where=None, embed=None):
