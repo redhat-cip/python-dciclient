@@ -30,7 +30,7 @@ BuildRequires:  postgresql-server
 BuildRequires:  python-psycopg2
 BuildRequires:  python-tox
 BuildRequires:  python-requests
-BuildRequires:  python-six
+BuildRequires:  python-tqdm
 BuildRequires:  gcc
 BuildRequires:  libffi-devel
 
@@ -97,8 +97,10 @@ Summary:  DCI feeders
 BuildRequires:	systemd
 %if 0%{?with_python3}
 Requires:      python3-dciclient
+Requires:      python3-tqdm
 %else
 Requires:      python2-dciclient
+Requires:      python2-tqdm
 %endif
 
 %description -n dci-feeders
