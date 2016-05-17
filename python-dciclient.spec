@@ -31,6 +31,7 @@ BuildRequires:  python-psycopg2
 BuildRequires:  python-tox
 BuildRequires:  python-requests
 BuildRequires:  python-six
+BuildRequires:  python-tqdm
 BuildRequires:  gcc
 BuildRequires:  libffi-devel
 
@@ -41,6 +42,7 @@ Requires:       PyYAML
 Requires:       python-requests
 Requires:       python-simplejson
 Requires:       python-six
+Requires:       python-tqdm
 Requires:       python-configparser
 
 %description -n python2-dciclient
@@ -61,6 +63,7 @@ BuildRequires:  python3-psycopg2
 BuildRequires:  python-tox
 BuildRequires:  python3-requests
 BuildRequires:  python3-six
+BuildRequires:  python3-tqdm
 BuildRequires:  gcc
 BuildRequires:  libffi-devel
 
@@ -71,6 +74,7 @@ Requires:       python3-PyYAML
 Requires:       python3-requests
 Requires:       python3-simplejson
 Requires:       python3-six
+Requires:       python3-tqdm
 
 %description -n python3-dciclient
 A Python 3 implementation of the client for DCI control server and also the
