@@ -37,8 +37,8 @@ def create(context, name, type, topic_id, canonical_project_name=None, data={},
                        topic_id=topic_id)
 
 
-def list(context, topic_id):
-    return base.list(context, RESOURCE, topic_id=topic_id)
+def list(context, topic_id, where=None):
+    return base.list(context, RESOURCE, topic_id=topic_id, where=where)
 
 
 def get(context, id, where=None, embed=None):
