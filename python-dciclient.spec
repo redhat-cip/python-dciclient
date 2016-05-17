@@ -97,8 +97,10 @@ Summary:  DCI feeders
 BuildRequires:	systemd
 %if 0%{?with_python3}
 Requires:      python3-dciclient
+Requires:      python3-tqdm
 %else
 Requires:      python2-dciclient
+Requires:      python2-tqdm
 %endif
 
 %description -n dci-feeders
