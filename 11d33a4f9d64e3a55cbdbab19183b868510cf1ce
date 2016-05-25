@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a106d94_a367dae9",
+        "filename": "dciclient/v1/api/file.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-05-25T15:17:30Z",
+      "side": 1,
+      "message": "We cannot just decide to upgrade the agent and the server at the same time. This will just break agents.\n\nI would like the agent to be able to fallback on the previous implementation.\n\nThis will give us enough time to contact the partners and ask them to upgrade.",
+      "revId": "11d33a4f9d64e3a55cbdbab19183b868510cf1ce",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
