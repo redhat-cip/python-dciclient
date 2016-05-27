@@ -30,8 +30,8 @@ from dciclient.v1.api import job as dcijob
 from dciclient.v1.api import jobstate as dcijobstate
 from dciclient.v1 import logger
 
-from rdomhelper import logger as chainsaw_logger
-from rdomhelper.provisioners.openstack import provisioner as os_provisioner
+from tripleohelper import logger as chainsaw_logger
+from tripleohelper.provisioners.openstack import provisioner as os_provisioner
 
 
 LOG = logging.getLogger('__chainsaw__')
