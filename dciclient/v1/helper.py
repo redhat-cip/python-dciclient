@@ -16,6 +16,7 @@
 
 from dciclient.v1.api import component
 from dciclient.v1.api import file
+from dciclient.v1.api import job
 from dciclient.v1.api import jobdefinition
 from dciclient.v1.api import jobstate
 from dciclient.v1.api import test
@@ -25,9 +26,12 @@ import mimetypes
 import os
 import select
 import subprocess
+import traceback
 
 import six
 import sys
+
+import tripleohelper.undercloud
 
 
 def get_test_id(dci_context, name, topic_id):
@@ -129,3 +133,43 @@ def run_commands(context, cmds, cwd, jobstate_id, job_id, team_id):
             jobstate.create(context, "failure", error_msg, job_id)
             print(error_msg)
             sys.exit(1)
+
+
+def run_tests(context, undercloud_ip, key_filename):
+    undercloud = tripleohelper.undercloud.Undercloud(
+        hostname=undercloud_ip,
+        user='root',
+        key_filename='/root/.ssh/id_rsa')
+    undercloud.create_stack_user()
+
+    j = job.get(context, context.last_job_id).json()['job']
+    tests = jobdefinition.get_tests(
+        context, j['jobdefinition_id']).json()
+    try:
+        for t in tests['tests']:
+            if 'url' not in t['data']:
+                continue
+            url = t['data']['url']
+            undercloud.add_environment_file(
+                user='stack',
+                filename='overcloudrc')
+            undercloud.run('curl -O ' + url, user='stack')
+            undercloud.run('bash -x run.sh', user='stack')
+            result = undercloud.run(
+                'cat result.xml',
+                success_status=(0, 1,),
+                user='stack')[0]
+            file.create(
+                context,
+                'result.xml',
+                result, mime='application/junit',
+                job_id=context.last_job_id)
+    except Exception:
+        msg = traceback.format_exc()
+        print(msg)
+        jobstate.create(context,
+                        'failure',
+                        msg,
+                        context.last_job_id)
+    else:
+        jobstate.create(context, 'success', '', context.last_job_id)
