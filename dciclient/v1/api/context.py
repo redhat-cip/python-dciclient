@@ -19,6 +19,8 @@ import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 
+from dciclient import version
+
 
 class DciContext(object):
     API_VERSION = 'api/v1'
@@ -37,6 +39,9 @@ class DciContext(object):
     def _build_http_session(login, password):
         session = requests.Session()
         session.headers.setdefault('Content-Type', 'application/json')
+        ua = 'python-dciclient_' + version.__version__
+        session.headers['User-Agent'] = ua
+
         session.auth = (login, password)
         return session
 
