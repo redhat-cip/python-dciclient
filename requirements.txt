@@ -5,3 +5,4 @@ PyYAML>=3.0, <4.0
 click==3.3 # EL7 version
 setuptools<=18.5
 -e git+https://github.com/redhat-openstack/python-tripleo-helper.git#egg=python-tripleo-helper
+mock
