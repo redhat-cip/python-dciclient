@@ -15,6 +15,7 @@
 # under the License.
 
 from dciclient.v1.api import base
+from dciclient.v1 import utils
 
 
 RESOURCE = 'files'
@@ -24,9 +25,14 @@ TABLE_HEADERS = ['id', 'name', 'content', 'mime', 'md5', 'jobstate_id',
 
 def create(context, name, content, mime, jobstate_id=None, md5=None,
            job_id=None):
-    return base.create(context, RESOURCE, name=name, content=content,
-                       mime=mime, md5=md5, jobstate_id=jobstate_id,
-                       job_id=job_id)
+    headers = {'DCI-NAME': name,
+               'DCI-MIME': mime,
+               'DCI-JOBSTATE-ID': jobstate_id,
+               'DCI-MD5': md5,
+               'DCI-JOB-ID': job_id}
+    headers = utils.sanitize_kwargs(**headers)
+    uri = '%s/%s' % (context.dci_cs_api, RESOURCE)
+    return context.session.post(uri, headers=headers, data=content)
 
 
 def get(context, id, where=None, embed=None):
