@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a106d94_361799a5",
+        "filename": "dciclient/v1/tripleo_helper.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-06-02T13:18:02Z",
+      "side": 1,
+      "message": "s/2015/2016 :)",
+      "revId": "408203d3503258fe5c96804979364cb907f2d8f7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_b63b8937",
+        "filename": "dciclient/v1/tripleo_helper.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-06-02T13:18:02Z",
+      "side": 1,
+      "message": "Can we do\n\ntry:\n  import ...\nexcept ImportError:\n  ...\n\nSo user knows that s/he needs to install the tripleohelper module before relying on this feature.",
+      "revId": "408203d3503258fe5c96804979364cb907f2d8f7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_1649bdd0",
+        "filename": "dciclient/v1/tripleo_helper.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-06-02T13:18:02Z",
+      "side": 1,
+      "message": "should be passed as param in run_tests (could default to root)",
+      "revId": "408203d3503258fe5c96804979364cb907f2d8f7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_561215b5",
+        "filename": "dciclient/v1/tripleo_helper.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-06-02T13:18:02Z",
+      "side": 1,
+      "message": "Same thing here. Allow for parametrization.",
+      "revId": "408203d3503258fe5c96804979364cb907f2d8f7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
