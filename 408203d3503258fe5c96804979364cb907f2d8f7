@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "1a106d94_d67605d8",
+        "filename": "dciclient/v1/tripleo_helper.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-06-02T14:12:19Z",
+      "side": 1,
+      "message": "Since this module is specific to tripleo, I guess it\u0027s enough. If the user don\u0027t want to use tripleo-helper, s/he just has to avoid this module.",
+      "parentUuid": "1a106d94_b63b8937",
+      "revId": "408203d3503258fe5c96804979364cb907f2d8f7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a106d94_1649bdd0",
         "filename": "dciclient/v1/tripleo_helper.py",
         "patchSetId": 3
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "1a106d94_5663351a",
+        "filename": "dciclient/v1/tripleo_helper.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-06-02T14:12:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a106d94_1649bdd0",
+      "revId": "408203d3503258fe5c96804979364cb907f2d8f7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a106d94_561215b5",
         "filename": "dciclient/v1/tripleo_helper.py",
         "patchSetId": 3
@@ -64,6 +100,24 @@
       "writtenOn": "2016-06-02T13:18:02Z",
       "side": 1,
       "message": "Same thing here. Allow for parametrization.",
+      "revId": "408203d3503258fe5c96804979364cb907f2d8f7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_f6a6a152",
+        "filename": "dciclient/v1/tripleo_helper.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-06-02T14:12:19Z",
+      "side": 1,
+      "message": "this is a documented default in the TripleO documentation.",
+      "parentUuid": "1a106d94_561215b5",
       "revId": "408203d3503258fe5c96804979364cb907f2d8f7",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
