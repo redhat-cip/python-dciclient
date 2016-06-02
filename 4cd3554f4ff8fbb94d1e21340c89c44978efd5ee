@@ -1,0 +1,418 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a106d94_7b173a52",
+        "filename": "feeders/feeders/openstack-ci-config.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "can be replace by\n\n   TOPIC_ID\u003d$(dcictl topic-list | awk \u0027$1 ~\"openstack-ci\" {print $2}\u0027)",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_db0bce29",
+        "filename": "feeders/feeders/openstack-ci-config.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "can be tested using -z\n\nif [ -z \"$TOPIC_ID\" ]",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_1b060621",
+        "filename": "feeders/feeders/openstack-ci-config.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "same remarks as above",
+      "range": {
+        "startLine": 11,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 22
+      },
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_56ffb501",
+        "filename": "feeders/feeders/openstack-ci-config.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "can be replaced by \n\n! $(dcictl topic-list-team --id ${TOPIC_ID} | grep -q ${TEAM_ID})\n\nAlso, is there a reason for switching from double quotes to brackets in variable using ?",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_f619817a",
+        "filename": "feeders/feeders/openstack-ci-config.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "why no double quotes around variables here ?",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_b60f092e",
+        "filename": "feeders/feeders/openstack-ci-config.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "same remarks as above about awk",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_161d3d67",
+        "filename": "feeders/feeders/openstack-ci-config.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "same remarks as above for grep",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_562695bb",
+        "filename": "feeders/feeders/openstack-ci-config.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "same remarks for awk, -z and variable quoting in the following lines",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_96200d9d",
+        "filename": "feeders/feeders/openstack-ci-config.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "variable quoting here",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_762591aa",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "just do if result.get(\u0027status_code\u0027) \u003d\u003d 422\n\nno need to check existence, the get method will return None if key does not exists",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_b636e9e5",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "maybe use puddle instead of x for variable naming, which will help clarity",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_d66725e9",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "those 3 variables can be setup in one line each\n\n\n    views \u003d config.get(\u0027jenkins\u0027, [])\n    multijobs \u003d config.get(\u0027multijobs\u0027, [])\n    jobs \u003d config.get(\u0027jobs\u0027, [])",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_16625dd8",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "lines 123 to 126 can be replaced with:\n\n    job_array.extend(json.loads(r.text)[\u0027jobs\u0027])",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_f65ea111",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "lines 129 to 131 can be replaced with:\n    job_array.extend(json.loads(r.text)[\u0027downstreamProjects\u0027])",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_96a5ad06",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "can be made more readable by writing\n\n    jobdef_in_dci \u003d json.loads(\n        dcijobdef.list(dcicontext, topic_id, \u0027jobdefinition_component\u0027).text\n    )",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_76aab1d5",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "this is %d not %s (detail)",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_d6ae05e7",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "dci_puddles \u003d json.loads(\n        component.list( dci_context, topic_id, where\u003d\"type:puddle\").text\n    )",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_7681114a",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "import itertools\n\n    for puddle, job in itertools.product(puddles, job_array):\n        pbar.update(1)\n        # no need to use flag anymore\n        for dci_job in jobdef_in_dci[\u0027jobdefinitions\u0027]:\n            cid \u003d dci_job[\u0027jobdefinition_component\u0027][\u0027component_id\u0027]\n            if dci_job[\u0027name\u0027] \u003d\u003d job[\u0027name\u0027] and cid \u003d\u003d puddle[\u0027id\u0027]:\n                break\n        else: # else in for loop is called if no break has been called, so no need to use a flag\n            newjob \u003d json.loads(\n                dcijobdef.create(dcicontext, job[\u0027name\u0027], topic_id).text\n            )\n            dcijobdef.add_component(\n                dcicontext, newjob[\u0027jobdefinition\u0027][\u0027id\u0027], puddle[\"id\"]\n            )",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_76f8f1e5",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "for build, job in itertools.product(tqm(builds), joblist[\u0027jobs\u0027]):\n        if job[\u0027comment\u0027] \u003d\u003d build[\u0027url\u0027]:\n            continue\n        puddlev \u003d get_puddlev_from_build(build, dci_puddles[\u0027components\u0027])\n        if not puddlev:\n             continue\n\n        temparray.append({\n            \u0027name\u0027: job[\u0027name\u0027], \u0027puddle\u0027: puddlev,\n            \u0027result\u0027: build[\u0027result\u0027], \u0027url\u0027: build[\u0027url\u0027]\n        })",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_d6dc4577",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "jobdef_in_dci \u003d json.loads(\n    dcijobdef.list(dcicontext, topic_id, \u0027jobdefinition_component\u0027).text\n)",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_16beddff",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "for status, item in itertools.product(tqdm(temparray), jobdef_in_dci[\u0027jobdefinitions\u0027]):\n     if item[\u0027name\u0027] \u003d\u003d status[\u0027name\u0027]:\n         cid \u003d item[\u0027jobdefinition_component\u0027][\u0027component_id\u0027]\n         if cid \u003d\u003d status[\"puddle\"]:\n             jobid \u003d item[\u0027id\u0027]\n\n     if status[\u0027url\u0027] in [jobit[\u0027comment\u0027] for jobit in joblist[\u0027jobs\u0027]]:\n         continue\n\n     args \u003d [dcicontext, False, remoteci_id, team_id, jobid, status[\"url\"]]\n     job \u003d json.loads(dcijob.create(*args).text)\n\n     args \u003d [dcicontext, get_job_status(status[\u0027result\u0027]), status[\u0027url\u0027], job[\u0027job\u0027][\u0027id\u0027]]\n\n     state \u003d json.loads(dcijobstate.create(*args).text)\n\n     nose_url \u003d get_nosetests_url(status[\"url\"])\n     if not nose_url:\n         continue\n\n     # maybe calculate the md5 of the file here can be a good idea\n     args \u003d [dcicontext, \u0027nosetests.xml\u0027, get_nosetests_content(status[\u0027url\u0027], nose_url), \n        \u0027application/junit\u0027, state[\u0027jobstate\u0027][\u0027id\u0027]]\n     dcifile.create(*args, job_id\u003djob[\u0027job\u0027][\u0027id\u0027])",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_5674d59b",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "use the with statement here it will handle file errors and closing:\n\n    with open(\u0027config.yaml\u0027, \u0027r\u0027) as config_file:\n        config \u003d yaml.load(conf_file)",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_36795994",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "use an intermediary variable instead of calling dci each time, like:\n\n    config_dci \u003d config[\u0027dci\u0027]\n    \ndo not use variables here, there is no need to reuse those values, directly call the function with dict vars, like in build_dci_context",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_7673d1b1",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-02T10:06:52Z",
+      "side": 1,
+      "message": "this become\n\n    dci_context \u003d dcicontext.build_dci_context(\n        dci[\u0027control_server_url\u0027], dci[\u0027login\u0027], dci[\u0027password\u0027]\n    )",
+      "revId": "4cd3554f4ff8fbb94d1e21340c89c44978efd5ee",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
