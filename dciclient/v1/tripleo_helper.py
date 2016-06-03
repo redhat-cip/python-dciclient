@@ -24,6 +24,24 @@ from dciclient.v1.api import jobstate
 import tripleohelper.undercloud
 
 
+def push_stack_details(context, undercloud_ip):
+    undercloud = tripleohelper.undercloud.Undercloud(
+        hostname=undercloud_ip,
+        user=user,
+        key_filename=key_filename)
+    undercloud.create_stack_user()
+    undercloud.run('yum install -y git')
+    undercloud.run('git clone https://github.com/goneri/tripleo-stack-dump', user='stack')
+    undercloud.add_environment_file(
+        user='stack',
+        filename='stackrc')
+    undercloud.run('./tripleo-stack-dump/tripleo-stack-dump')
+    fd = undercloud.open('/home/stack/tripleo-stack-dump.json')
+    j = job.get(dci_context, id=context.last_job_id).json()['job']
+    job.update(dci_context, id=job_id, etag=j['etag'], configuration=fd.read)
+    fd.close()
+
+
 def run_tests(context, undercloud_ip, key_filename, user='root'):
     undercloud = tripleohelper.undercloud.Undercloud(
         hostname=undercloud_ip,
