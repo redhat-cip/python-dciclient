@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a106d94_3bc49d3f",
+        "filename": "feeders/feeders/openstack-ci-config.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-06T14:44:45Z",
+      "side": 1,
+      "message": "is this normal ? or it was for debugging purpose ?",
+      "revId": "b057b9d244ad0897d3ca689c177e9343b9e8c9bd",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_1bd8c11c",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-06T14:44:45Z",
+      "side": 1,
+      "message": "can be simplified by writing:\n\n    def get_job_status(status):\n        statuses \u003d {\u0027SUCCESS\u0027: \u0027success\u0027, \u0027UNSTABLE\u0027: \u0027success\u0027, \n                    \u0027FAILURE\u0027: \u0027failure\u0027, \u0027ABORTED\u0027: \u0027failure\u0027}\n        return statuses.get(status, \u0027failure)",
+      "revId": "b057b9d244ad0897d3ca689c177e9343b9e8c9bd",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_7b04557e",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-06T14:44:45Z",
+      "side": 1,
+      "message": "No need to return None, this is the default behavior of python",
+      "revId": "b057b9d244ad0897d3ca689c177e9343b9e8c9bd",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_9becb1c9",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-06T14:44:45Z",
+      "side": 1,
+      "message": "replace lines 108 to 119 with \n\n    config \u003d config[\u0027jenkins\u0027]\n    job_array \u003d []\n    views \u003d config.get(\u0027views\u0027, [])\n    multijobs \u003d config.get(\u0027multijobs\u0027, [])\n    jobs \u003d config.get(\u0027jobs\u0027, [])",
+      "revId": "b057b9d244ad0897d3ca689c177e9343b9e8c9bd",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_5b099994",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-06T14:44:45Z",
+      "side": 1,
+      "message": "178 to 192:\n\n        for build in tqdm(builds):\n            for jobdci in joblist[\u0027jobs\u0027]:\n                if jobdci[\u0027comment\u0027] \u003d\u003d build[\u0027url\u0027]:\n                    break\n            else:\n                puddlev \u003d get_puddlev_from_build(\n                    build, dci_puddles[\u0027components\u0027]\n                )\n                if puddlev:\n                    temparray.append({\n                        \u0027name\u0027: job[\u0027name\u0027], \u0027puddle\u0027: puddlev,\n                        \u0027result\u0027: build[\u0027result\u0027], \u0027url\u0027: build[\u0027url\u0027]\n                    })",
+      "revId": "b057b9d244ad0897d3ca689c177e9343b9e8c9bd",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
