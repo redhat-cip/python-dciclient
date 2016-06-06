@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a106d94_fbf7a58a",
+        "filename": "dciclient/v1/tests/test_file.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-06T15:00:53Z",
+      "side": 1,
+      "message": "why not \u0027foo\u0027: \u0027bar\u0027 ?",
+      "revId": "96a9369ff03f20ccdd0ac441705df65ddc5edd2d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_1bef21b2",
+        "filename": "dciclient/v1/tests/test_file.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-06T15:00:53Z",
+      "side": 1,
+      "message": "Can be written more concisely like this\n\n    job.update(dci_context, id\u003djob_id, etag\u003dj[\u0027etag\u0027],\n               configuration\u003dnew_configuration)",
+      "revId": "96a9369ff03f20ccdd0ac441705df65ddc5edd2d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_5b307956",
+        "filename": "dciclient/v1/tripleo_helper.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2016-06-06T15:00:53Z",
+      "side": 1,
+      "message": "can we split this in two lines ? like this:\n\n    j \u003d job.get(context, id\u003dcontext.last_job_id)\n    j \u003d j.json()[\u0027job\u0027]\n\nseems clearer for me",
+      "revId": "96a9369ff03f20ccdd0ac441705df65ddc5edd2d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
