@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a106d94_bedd1b45",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-06-07T12:53:04Z",
+      "side": 1,
+      "message": "Could you add this in the requirement file and the spec file please",
+      "revId": "c3e1bcc88f26ec648642bde6cc22412d5e1cbea3",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_de1c5716",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-06-07T12:53:04Z",
+      "side": 1,
+      "message": "if config.yaml is supposed to be the output of http://softwarefactory-project.io/r/#/c/3777/6/feeders/feeders/openstack-ci-config.sh\n\nI think that puddle is missing in the configuration file. If you don\u0027t want to disclose internal url simply put the structure the file should have with empty data",
+      "revId": "c3e1bcc88f26ec648642bde6cc22412d5e1cbea3",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_1ec54f5b",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-06-07T12:53:04Z",
+      "side": 1,
+      "message": "nit: non blocker can this be renamed jenkins. This way it will end up in jenkin.get(\u0027views\u0027) and not be misleading, as \u0027config\u0027 represent the whole configuration object",
+      "revId": "c3e1bcc88f26ec648642bde6cc22412d5e1cbea3",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_7ea1e3a8",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-06-07T12:53:04Z",
+      "side": 1,
+      "message": "Weird that MaxV didn\u0027t complain about those \"(double quotes) since \u0027 (single quote) are used else where",
+      "revId": "c3e1bcc88f26ec648642bde6cc22412d5e1cbea3",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_5ea6a7c2",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-06-07T12:53:04Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "c3e1bcc88f26ec648642bde6cc22412d5e1cbea3",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_beab5b88",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-06-07T12:53:04Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "c3e1bcc88f26ec648642bde6cc22412d5e1cbea3",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
