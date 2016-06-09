@@ -15,9 +15,11 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from dciclient.v1.api import component
-from dciclient.v1.api import context
-from dciclient.v1 import helper
+import dciclient.v1.api.component as dci_component
+import dciclient.v1.api.context as dci_context
+import dciclient.v1.api.test as dci_test
+import dciclient.v1.api.topic as dci_topic
+import dciclient.v1.helper as dci_helper
 
 from six.moves.urllib.parse import urlparse
 
@@ -40,7 +42,7 @@ def get_puddle_component(repo_file, topic_id):
     (base_url, version, repo_name) = get_repo_information(repo_file)
 
     puddle_component = {
-        'type': component.PUDDLE,
+        'type': dci_component.PUDDLE,
         'canonical_project_name': repo_name,
         'name': '%s %s' % (repo_name, version),
         'url': base_url,
@@ -54,6 +56,41 @@ def get_puddle_component(repo_file, topic_id):
     return puddle_component
 
 
+def get_test_ids(ctx, topic_id):
+    test_list = dci_test.list(ctx, topic_id=topic_id).json()['tests']
+    test_ids = [test['id'] for test in test_list]
+    return test_ids
+
+
+def get_components(v, topic_id):
+    base_url = "http://download.eng.bos.redhat.com/rel-eng/OpenStack/"
+    osp_url = (
+        "{base_url}{version}"
+        "-RHEL-7/latest/RH7-RHOS-{version}.repo")
+    ospd_url = (
+        "{base_url}{version}"
+        "-RHEL-7-director/latest/RH7-RHOS-{version}-director.repo")
+    components = [
+        get_puddle_component(
+            osp_url.format(version=v, base_url=base_url),
+            topic_id)]
+
+    if v == '8.0':
+        # OSP8 comes also with the addictional director repository
+        ospd = get_puddle_component(
+            ospd_url.format(version=v, base_url=base_url),
+            topic_id)
+        components.append(ospd)
+    return components
+
+
+def build_jobdefinition_name(v, components):
+    tmp = []
+    for c in components:
+        tmp.append("%s %s" % (c['data']['repo_name'], c['data']['version']))
+    return 'OSP %s - %s' % (v.split('.')[0], '+'.join(tmp))
+
+
 @click.command()
 @click.option('--dci-login', envvar='DCI_LOGIN', required=True,
               help="DCI username account.")
@@ -61,32 +98,24 @@ def get_puddle_component(repo_file, topic_id):
               help="DCI password account.")
 @click.option('--dci-cs-url', envvar='DCI_CS_URL', required=True,
               help="DCI CS url.")
-@click.option('--dci-topic-id', envvar='DCI_TOPIC_ID', required=True,
-              help="DCI topic id.")
-def main(dci_login, dci_password, dci_cs_url, dci_topic_id):
-    dci_context = context.build_dci_context(dci_cs_url, dci_login,
-                                            dci_password)
+def main(dci_login, dci_password, dci_cs_url):
+    ctx = dci_context.build_dci_context(dci_cs_url, dci_login,
+                                        dci_password)
 
-    # Create Khaleesi-tempest test
-    test_id = helper.get_test_id(dci_context, 'tempest', dci_topic_id)
-
-    components = [
-        # TODO(Gonéri): We should also return the images.
-        get_puddle_component(
-            'http://download.eng.bos.redhat.com/rel-eng/OpenStack/' +
-            '8.0-RHEL-7-director/latest/RH7-RHOS-8.0-director.repo',
-            dci_topic_id),
-        get_puddle_component(
-            'http://download.eng.bos.redhat.com/rel-eng/OpenStack/' +
-            '8.0-RHEL-7/latest/RH7-RHOS-8.0.repo',
-            dci_topic_id)]
-
-    tmp = []
-    for c in components:
-        tmp.append(c['data']['repo_name'] + ' ' + c['data']['version'])
-    jobdef_name = 'OSP 8 - ' + '+'.join(tmp)
-    helper.create_jobdefinition(dci_context, components, [test_id],
-                                dci_topic_id, jobdef_name=jobdef_name)
+    versions = {
+        dci_topic.get(ctx, 'OSP8').json()['topic']['id']: '8.0',
+        dci_topic.get(ctx, 'OSP9').json()['topic']['id']: '9.0'
+    }
+    for topic_id, v in versions.items():
+        # Create Khaleesi-tempest test
+        components = get_components(v, topic_id)
+        jobdef_name=build_jobdefinition_name(v, components)
+        dci_helper.create_jobdefinition(
+            ctx,
+            components,
+            get_test_ids(ctx, topic_id),
+            topic_id,
+            jobdef_name=jobdef_name)
 
 if __name__ == '__main__':
     main()
