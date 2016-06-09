@@ -68,7 +68,9 @@ def main(dci_login, dci_password, dci_cs_url, dci_topic_id):
                                             dci_password)
 
     # Create Khaleesi-tempest test
-    test_id = helper.get_test_id(dci_context, 'tempest', dci_topic_id)
+    test_ids = [
+        helper.get_test_id(dci_context, 'Rally generic', dci_topic_id),
+        helper.get_test_id(dci_context, 'Tempest generic', dci_topic_id)]
 
     components = [
         # TODO(Gonéri): We should also return the images.
@@ -85,7 +87,7 @@ def main(dci_login, dci_password, dci_cs_url, dci_topic_id):
     for c in components:
         tmp.append(c['data']['repo_name'] + ' ' + c['data']['version'])
     jobdef_name = 'OSP 8 - ' + '+'.join(tmp)
-    helper.create_jobdefinition(dci_context, components, [test_id],
+    helper.create_jobdefinition(dci_context, components, [test_ids],
                                 dci_topic_id, jobdef_name=jobdef_name)
 
 if __name__ == '__main__':
