@@ -22,7 +22,7 @@ from dciclient.v1 import helper
 import click
 import requests
 
-CANDIDATES_URL = 'http://dci.enovance.com/candidates/'
+CANDIDATES_URL = 'http://packages.distributed-ci.io/candidates/'
 
 
 def get_components(dci_context, url, topic_id):
