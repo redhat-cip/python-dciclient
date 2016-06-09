@@ -21,37 +21,58 @@ from dciclient.v1.api import job
 from dciclient.v1.api import jobdefinition
 from dciclient.v1.api import jobstate
 
+import json
 import tripleohelper.undercloud
 
 
-def push_stack_details(context, undercloud):
-    undercloud.run('yum install -y git', user='stack')
+def push_stack_details(context, undercloud, stack_name='overcloud'):
+    undercloud.yum_install(['git'])
+    repo_url = 'https://github.com/goneri/tripleo-stack-dump'
     undercloud.run(
-        'git clone https://github.com/goneri/tripleo-stack-dump',
+        'test -d tripleo-stack-dump || git clone ' + repo_url,
         user='stack')
     undercloud.add_environment_file(
         user='stack',
         filename='stackrc')
-    undercloud.run('./tripleo-stack-dump/tripleo-stack-dump')
-    fd = undercloud.open('/home/stack/tripleo-stack-dump.json')
-    j = job.get(
-        context,
-        id=context.last_job_id).json()['job']
-    job.update(
-        context,
-        id=context.last_job_id,
-        etag=j['etag'],
-        configuration=fd.read)
-    fd.close()
+    undercloud.run(
+        './tripleo-stack-dump/tripleo-stack-dump ' + stack_name,
+        user='stack')
+    with undercloud.open('/home/stack/tripleo-stack-dump.json') as fd:
+        j = job.get(
+            context,
+            id=context.last_job_id).json()['job']
+        job.update(
+            context,
+            id=context.last_job_id,
+            etag=j['etag'],
+            configuration=json.load(fd))
 
 
-def run_tests(context, undercloud_ip, key_filename, user='root'):
+def run_tests(context, undercloud_ip, key_filename, user='root',
+              stack_name='overcloud'):
     undercloud = tripleohelper.undercloud.Undercloud(
         hostname=undercloud_ip,
         user=user,
         key_filename=key_filename)
     undercloud.create_stack_user()
-    push_stack_details(context, undercloud)
+
+    final_status = 'success'
+    if undercloud.run(
+            'test -f stackrc',
+            user='stack',
+            success_status=(0, 1,))[1] != 0:
+        msg = 'undercloud deployment failure'
+        jobstate.create(context, 'failure', msg, context.last_job_id)
+        return
+    push_stack_details(context, undercloud, stack_name=stack_name)
+    rcfile = stack_name + 'rc'
+    if undercloud.run(
+            'test -f ' + rcfile,
+            user='stack',
+            success_status=(0, 1,))[1] != 0:
+        msg = 'overcloud deployment failure'
+        jobstate.create(context, 'failure', msg, context.last_job_id)
+        return
 
     j = job.get(context, context.last_job_id).json()['job']
     tests = jobdefinition.get_tests(
@@ -63,24 +84,18 @@ def run_tests(context, undercloud_ip, key_filename, user='root'):
             url = t['data']['url']
             undercloud.add_environment_file(
                 user='stack',
-                filename='overcloudrc')
+                filename=rcfile)
             undercloud.run('curl -O ' + url, user='stack')
-            undercloud.run('bash -x run.sh', user='stack')
-            result = undercloud.run(
-                'cat result.xml',
-                success_status=(0, 1,),
-                user='stack')[0]
-            file.create(
-                context,
-                'result.xml',
-                result, mime='application/junit',
-                job_id=context.last_job_id)
+            undercloud.run('bash -x run.sh ' + stack_name, user='stack')
+            with undercloud.open('result.xml', user='stack') as fd:
+                file.create(
+                    context,
+                    t['name'],
+                    fd.read(), mime='application/junit',
+                    job_id=context.last_job_id)
     except Exception:
         msg = traceback.format_exc()
         print(msg)
-        jobstate.create(context,
-                        'failure',
-                        msg,
-                        context.last_job_id)
     else:
-        jobstate.create(context, 'success', '', context.last_job_id)
+        msg = 'test(s) success'
+    jobstate.create(context, final_status, msg, context.last_job_id)
