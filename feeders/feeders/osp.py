@@ -15,9 +15,10 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from dciclient.v1.api import component
-from dciclient.v1.api import context
-from dciclient.v1 import helper
+import dciclient.v1.api.component as dci_component
+import dciclient.v1.api.topic as dci_topic
+import dciclient.v1.api.context as dci_context
+import dciclient.v1.helper as dci_helper
 
 from six.moves.urllib.parse import urlparse
 
@@ -40,7 +41,7 @@ def get_puddle_component(repo_file, topic_id):
     (base_url, version, repo_name) = get_repo_information(repo_file)
 
     puddle_component = {
-        'type': component.PUDDLE,
+        'type': dci_component.PUDDLE,
         'canonical_project_name': repo_name,
         'name': '%s %s' % (repo_name, version),
         'url': base_url,
@@ -61,34 +62,33 @@ def get_puddle_component(repo_file, topic_id):
               help="DCI password account.")
 @click.option('--dci-cs-url', envvar='DCI_CS_URL', required=True,
               help="DCI CS url.")
-@click.option('--dci-topic-id', envvar='DCI_TOPIC_ID', required=True,
-              help="DCI topic id.")
-def main(dci_login, dci_password, dci_cs_url, dci_topic_id):
-    dci_context = context.build_dci_context(dci_cs_url, dci_login,
+def main(dci_login, dci_password, dci_cs_url):
+    ctx = dci_context.build_dci_context(dci_cs_url, dci_login,
                                             dci_password)
 
+    topic = dci_topic.get(ctx, 'OSP8').json()['topic']
     # Create Khaleesi-tempest test
     test_ids = [
-        helper.get_test_id(dci_context, 'Rally generic', dci_topic_id),
-        helper.get_test_id(dci_context, 'Tempest generic', dci_topic_id)]
+        helper.get_test_id(dci_context, 'Rally generic', topic['id']),
+        helper.get_test_id(dci_context, 'Tempest generic', topic['id'])]
 
     components = [
         # TODO(Gonéri): We should also return the images.
         get_puddle_component(
             'http://download.eng.bos.redhat.com/rel-eng/OpenStack/' +
             '8.0-RHEL-7-director/latest/RH7-RHOS-8.0-director.repo',
-            dci_topic_id),
+            topic['id']),
         get_puddle_component(
             'http://download.eng.bos.redhat.com/rel-eng/OpenStack/' +
             '8.0-RHEL-7/latest/RH7-RHOS-8.0.repo',
-            dci_topic_id)]
+            topic['id'])]
 
     tmp = []
     for c in components:
         tmp.append(c['data']['repo_name'] + ' ' + c['data']['version'])
     jobdef_name = 'OSP 8 - ' + '+'.join(tmp)
-    helper.create_jobdefinition(dci_context, components, [test_ids],
-                                dci_topic_id, jobdef_name=jobdef_name)
+    dci_helper.create_jobdefinition(ctx, components, [test_ids],
+                                topic['id'], jobdef_name=jobdef_name)
 
 if __name__ == '__main__':
     main()
