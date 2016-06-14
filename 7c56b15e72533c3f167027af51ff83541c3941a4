@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_c5692c27",
+        "filename": "feeders/feeders/osp.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-06-14T13:25:53Z",
+      "side": 1,
+      "message": "Avoid the + pattern as it isn\u0027t used anywhere else, and rely on the \u0027%s %s\u0027 % (c[data][repo_name], c[data][version])",
+      "revId": "7c56b15e72533c3f167027af51ff83541c3941a4",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_e5763006",
+        "filename": "feeders/feeders/osp.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-06-14T13:25:53Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "7c56b15e72533c3f167027af51ff83541c3941a4",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
