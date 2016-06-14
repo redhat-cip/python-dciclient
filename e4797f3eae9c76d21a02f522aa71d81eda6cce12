@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_c5c68c49",
+        "filename": "feeders/feeders/osp.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-06-14T12:51:09Z",
+      "side": 1,
+      "message": "Could you add those 2 constants here :\n\n\u003e OSP_URL \u003d ( \n    \u0027http://download.eng.bos.redhat.com/rel-eng/OpenStack/{version}-RHEL-7\u0027\n    \u0027/latest/RH7-RHOS-{version}.repo\u0027\n)\n\n\u003e OSP_DIRECTOR_URL \u003d (                                                                                                                                                                                              \n    \u0027http://download.eng.bos.redhat.com/rel-eng/OpenStack/{version}-RHEL-7\u0027\n    \u0027/latest/RH7-RHOS-{version}-director.repo\u0027\n)",
+      "revId": "e4797f3eae9c76d21a02f522aa71d81eda6cce12",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_e5c39036",
+        "filename": "feeders/feeders/osp.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-06-14T12:51:09Z",
+      "side": 1,
+      "message": "If the constant above are created can you transform this function into:\n\n\u003e urls \u003d [OSP_URL.format(version\u003dv)]\n\n\u003e if v \u003d\u003d \u00278.0\u0027:\n\u003e    urls.append(OSP_DIRECTOR_URL.format(version\u003dv))\n\n\u003e components \u003d []\n\u003e for url in urls:\n\u003e    components.append(get_puddle_component(url))\n\n\u003e return components",
+      "revId": "e4797f3eae9c76d21a02f522aa71d81eda6cce12",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_c59f6c4f",
+        "filename": "feeders/feeders/osp.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-06-14T12:51:09Z",
+      "side": 1,
+      "message": "We use the \u0027blabla/%s/bla\u0027 % myvar everywhere, why do we change the pattern here ?",
+      "revId": "e4797f3eae9c76d21a02f522aa71d81eda6cce12",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_e5ac708f",
+        "filename": "feeders/feeders/osp.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-06-14T12:51:09Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "e4797f3eae9c76d21a02f522aa71d81eda6cce12",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_45bb5cc4",
+        "filename": "feeders/feeders/osp.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-06-14T12:51:09Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "e4797f3eae9c76d21a02f522aa71d81eda6cce12",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
