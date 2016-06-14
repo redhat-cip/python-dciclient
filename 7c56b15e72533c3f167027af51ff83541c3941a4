@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "facab960_855f2472",
+        "filename": "feeders/feeders/osp.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-06-14T13:28:49Z",
+      "side": 1,
+      "message": "The use of + here make sense IMO because unlike %s because in case of type error, it won\u0027t case the value to string but raise an exception.",
+      "parentUuid": "facab960_c5692c27",
+      "revId": "7c56b15e72533c3f167027af51ff83541c3941a4",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "facab960_e5763006",
         "filename": "feeders/feeders/osp.py",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-06-14T13:25:53Z",
       "side": 1,
       "message": "ditto",
+      "revId": "7c56b15e72533c3f167027af51ff83541c3941a4",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "facab960_a553486b",
+        "filename": "feeders/feeders/osp.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-06-14T13:28:49Z",
+      "side": 1,
+      "message": "the same.",
+      "parentUuid": "facab960_e5763006",
       "revId": "7c56b15e72533c3f167027af51ff83541c3941a4",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
