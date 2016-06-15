@@ -5,39 +5,61 @@
 One should retrieve the package available at
 https://packages.distributed-ci.io/dci-release.el7.noarch.rpm and install it.
 
-Then simply run yum install python-dciclient.
+Then simply run `yum install python-dciclient`.
 
 ## Example
 
 ```python
-from dciclient.v1.api import context as dcicontext
-from dciclient.v1.api import job as dcijob
-from dciclient.v1.api import jobstate as dcijobstate
-from dciclient.v1.api import file as dcifile
+#!/usr/bin/env python
+import dciclient.v1.api.context as dci_context
+import dciclient.v1.api.job as dci_job
+import dciclient.v1.api.jobstate as dci_jobstate
+import dciclient.v1.api.file as dci_file
+import io
 
-ctx = dcicontext.build_dci_context(
+# Basic function that simulates a test run and log creation
+def execute_testing(content=None):
+    with io.open('test.log', 'w') as f:
+        f.write(unicode(content))
+    return True
+
+# Our DCI connection
+dci_conn = dci_context.build_dci_context(
     'http://127.0.0.1',
-    'your_account',
-    'your_password')
+    'remoteci_1',
+    'welcome')
 
-remoteci_id = 'e86ab5ba-695b-4337-a163-161e20b20f56'
-job = dcijob.schedule(ctx, remoteci_id=remoteci_id).json()
-job_full_data = dcijob.get_full_data(ctx, job_id)
+# RemoteCI id and Topic id -- probably better to be dynamically passed in
+remoteci_id = 'fd6c285c-fa57-4aa8-a8b3-c68a4acdfa9c'
+topic_id = 'fe145e49-992a-4843-a44f-b058c7a05261'
 
-dcijobstate.create(ctx, 'pre-run', 'Initializing the environment', job_id)
-do_some_operations()
+# schedule the job and pull down data
+job = dci_job.schedule(dci_conn, remoteci_id=remoteci_id, topic_id=topic_id).json()
+job_id = job['job']['id']
+job_full_data = dci_job.get_full_data(dci_conn, job_id)
 
-jobstate = dcijobstate.create(ctx, 'running', 'Running the test', job_id)
-result == run_the_deployment(job_full_data)
+# create initial jobstate of pre-run
+jobstate = dci_jobstate.create(dci_conn, 'pre-run', 'Initializing the environment', job_id)
+print "This is where we'd do some stuff to init the environment"
 
-with codecs.open('test.log', encoding='utf-8') as f:
-    content = f.read(20 * 1024 * 1024)
-    dcifile.create(ctx, 'to_send.log', content, 'text/plain', jobstate_id)
+# update the jobstate to start the job run
+dci_jobstate.create(dci_conn, 'running', 'Running the test', job_id)
+jobstate_id = dci_conn.last_jobstate_id
+print "This is where we'd run some tests"
+result = execute_testing(content=job_full_data)
 
+# read our testing log and push to the DCI control server
+with io.open('test.log', encoding='utf-8') as f:
+    content = f.read(20 * 1024 * 1024) # default file size is 20MB
+    dci_file.create(dci_conn, 'test.log', content, 'text/plain', jobstate_id)
+
+# Check if our test passed successfully
+print "Submit result"
 if result:
     final_status = 'success'
 else:
     final_status = 'failure'
 
-dcijobstate.create(ctx, final_status, 'Job has been proceeded.', job_id)
+# Set final job state based on test pass/fail
+dci_jobstate.create(dci_conn, final_status,  "Job has been processed.", job_id)
 ```
