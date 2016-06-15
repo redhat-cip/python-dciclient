@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "facab960_cbe3fd03",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 380
+      },
+      "writtenOn": "2016-06-15T06:21:41Z",
+      "side": 1,
+      "message": "the mixture between connection and context looks a bit confusing to me, why not name is dci_context ?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 8
+      },
+      "revId": "cad032d37f548455149fbe1d2335bee579de6913",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
