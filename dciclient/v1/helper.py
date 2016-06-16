@@ -81,10 +81,12 @@ def upload_file(context, path, job_id, mime=None):
     return l_file
 
 
-def run_command(context, cmd, cwd, jobstate_id, team_id):
+def run_command(context, cmd, cwd=None, jobstate_id=None, team_id=None):
     """This function execute a command and send its log which will be
     attached to a jobstate.
     """
+    if not jobstate_id:
+        jobstate_id = context.last_jobstate_id
     output = six.StringIO()
     print('* Processing command: %s' % cmd)
     print('* Working directory: %s' % cwd)
