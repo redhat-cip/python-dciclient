@@ -23,7 +23,7 @@ TABLE_HEADERS = ['id', 'name', 'content', 'mime', 'md5', 'jobstate_id',
                  'team_id', 'created_at']
 
 
-def create(context, name, content, mime, jobstate_id=None, md5=None,
+def create(context, name, content, mime='text/plain', jobstate_id=None, md5=None,
            job_id=None):
     headers = {'DCI-NAME': name,
                'DCI-MIME': mime,
