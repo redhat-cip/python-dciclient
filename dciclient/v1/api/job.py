@@ -86,5 +86,12 @@ def get_full_data(context, id):
     return full_data
 
 
+def get_components(context, id):
+    uri = '%s/%s/%s/components' % (context.dci_cs_api, RESOURCE, id)
+    return context.session.get(uri)
+
+'/topics/<topic_id>/components/<component_id>/jobs'
+
+
 def delete(context, id, etag):
     return base.delete(context, RESOURCE, id=id, etag=etag)
