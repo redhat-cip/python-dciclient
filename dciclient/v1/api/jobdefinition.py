@@ -22,9 +22,11 @@ TABLE_HEADERS = ['id', 'name', 'priority', 'active', 'comment',
                  'etag', 'created_at', 'updated_at']
 
 
-def create(context, name, topic_id, priority=None):
+def create(context, name, topic_id, priority=None, component_types=None):
+    if component_types is None:
+        component_types = []
     return base.create(context, RESOURCE, name=name, priority=priority,
-                       topic_id=topic_id)
+                       topic_id=topic_id, component_types=component_types)
 
 
 def list(context, topic_id):

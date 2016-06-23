@@ -50,3 +50,9 @@ def unattach_team(context, id, team_id):
 def list_attached_team(context, id):
     uri = '%s/%s/%s/teams' % (context.dci_cs_api, RESOURCE, id)
     return context.session.get(uri)
+
+
+def get_jobs_from_components(context, topic_id, component_id):
+    uri = '%s/%s/%s/components/%s/jobs' % \
+          (context.dci_cs_api, RESOURCE, topic_id, component_id)
+    return context.session.get(uri)
