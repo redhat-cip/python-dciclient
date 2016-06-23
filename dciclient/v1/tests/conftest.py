@@ -176,16 +176,16 @@ def job_id(dci_context):
                                   name='tname', team_id=my_team['id'],
                                   data={'remoteci': 'remoteci'}).json()
     my_remoteci_id = my_remoteci['remoteci']['id']
-    my_jobdefinition = jobdefinition.create(
+    component.create(
+        dci_context, name='hihi', type='type_1',
+        data={'component': 'component1'}, topic_id=my_topic['id']).json()
+    component.create(
+        dci_context, name='haha', type='type_2',
+        data={'component': 'component2'}, topic_id=my_topic['id']).json()
+    jobdefinition.create(
         dci_context,
         name='tname',
-        topic_id=my_topic['id']).json()
-    my_component = component.create(
-        dci_context, name='hihi', type='git_review',
-        data={'component': 'component'}, topic_id=my_topic['id']).json()
-    my_component_id = my_component['component']['id']
-    jobdefinition.add_component(dci_context,
-                                my_jobdefinition['jobdefinition']['id'],
-                                my_component_id)
+        topic_id=my_topic['id'], component_types=['type_1', 'type_2']).json()
+
     my_job = job.schedule(dci_context, my_remoteci_id, my_topic['id']).json()
     return my_job['job']['id']

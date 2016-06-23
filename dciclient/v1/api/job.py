@@ -66,9 +66,9 @@ def get_full_data(context, id):
     # Get the job with embed on test and remoteci
     embed = 'jobdefinition,remoteci'
     job = base.get(context, RESOURCE, id=id, embed=embed).json()['job']
-    # Get the components of the jobdefinition
-    jobdefinition_components = jobdefinition.get_components(
-        context, job['jobdefinition']['id']).json()['components']
+    # Get the components of the job
+    job_components = get_components(context, id).json()['components']
+    # Get the tests of the associated jobdefinition
     jobdefinition_tests = jobdefinition.get_tests(
         context, job['jobdefinition']['id']).json()['tests']
 
@@ -78,12 +78,17 @@ def get_full_data(context, id):
                  'tests': [],
                  'components': []}
 
-    for component in jobdefinition_components:
+    for component in job_components:
         full_data['components'].append(component)
     for test in jobdefinition_tests:
         full_data['tests'].append(test)
 
     return full_data
+
+
+def get_components(context, id):
+    uri = '%s/%s/%s/components' % (context.dci_cs_api, RESOURCE, id)
+    return context.session.get(uri)
 
 
 def delete(context, id, etag):

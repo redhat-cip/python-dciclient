@@ -45,8 +45,9 @@ def list(context, topic_id):
 @click.option("--name", required=True)
 @click.option("--topic_id", required=True)
 @click.option("--priority")
+@click.option("--component_types")
 @click.pass_obj
-def create(context, name, priority, topic_id):
+def create(context, name, topic_id, priority, component_types):
     """create(context, name, priority, topic_id)
 
     Create a jobdefinition.
@@ -57,8 +58,11 @@ def create(context, name, priority, topic_id):
     :param string topic_id: ID of the topic for this jobdefinition [required]
     :param integer priority: Priority for this jobdefinition
     """
+    if component_types:
+        component_types = component_types.split(',')
     result = jobdefinition.create(context, name=name, priority=priority,
-                                  topic_id=topic_id)
+                                  topic_id=topic_id,
+                                  component_types=component_types)
     utils.format_output(result, context.format,
                         jobdefinition.RESOURCE[:-1])
 
