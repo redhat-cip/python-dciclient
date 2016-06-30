@@ -25,10 +25,12 @@ TABLE_HEADERS = ['id', 'status', 'recheck', 'jobdefinition_id', 'remoteci_id',
                  'team_id', 'etag', 'created_at', 'updated_at']
 
 
-def create(context, recheck, remoteci_id, team_id, jobdefinition_id=None):
+def create(context, recheck, remoteci_id, team_id, jobdefinition_id=None,
+           components=None):
     job = base.create(context, RESOURCE, recheck=recheck,
                       remoteci_id=remoteci_id, team_id=team_id,
-                      jobdefinition_id=jobdefinition_id)
+                      jobdefinition_id=jobdefinition_id,
+                      components=components)
     context.last_job_id = job.json()['job']['id']
     return job
 
