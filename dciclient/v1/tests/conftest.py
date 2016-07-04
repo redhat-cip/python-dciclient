@@ -16,27 +16,22 @@
 
 import dci
 import dci.app
+import dci.common.utils as dci_utils
 import dci.dci_config
 
-from dciclient.v1.api import component
-from dciclient.v1.api import context
-from dciclient.v1.api import job
-from dciclient.v1.api import jobdefinition
-from dciclient.v1.api import remoteci
-from dciclient.v1.api import team
-from dciclient.v1.api import test
-from dciclient.v1.api import topic
+import dciclient.shell as shell
+import dciclient.v1 as dci_client
+import dciclient.v1.api as api
+import dciclient.v1.tests.shell_commands.utils as utils
 
 import pytest
 import sqlalchemy
 import sqlalchemy_utils.functions
 
-from dciclient import v1 as dci_client
 
 import click.testing
-import dciclient.shell as shell
-from dciclient.v1.tests.shell_commands import utils
 import functools
+import passlib.apps as passlib_apps
 
 
 @pytest.fixture(scope='session')
@@ -66,6 +61,13 @@ def db_clean(request, engine):
     request.addfinalizer(fin)
 
 
+@pytest.fixture(scope='session', autouse=True)
+def memoize_password_hash():
+    pwd_context = passlib_apps.custom_app_context
+    pwd_context.verify = dci_utils.memoized(pwd_context.verify)
+    pwd_context.encrypt = dci_utils.memoized(pwd_context.encrypt)
+
+
 @pytest.fixture
 def db_provisioning(db_clean, engine):
     with engine.begin() as conn:
@@ -93,8 +95,8 @@ def client(server, db_provisioning):
 
 @pytest.fixture
 def dci_context(server, db_provisioning):
-    test_context = context.DciContext('http://dci_server.com',
-                                      'admin', 'admin')
+    test_context = api.context.DciContext('http://dci_server.com',
+                                          'admin', 'admin')
     flask_adapter = utils.FlaskHTTPAdapter(server.test_client())
     test_context.session.mount('http://dci_server.com', flask_adapter)
     return test_context
@@ -102,8 +104,8 @@ def dci_context(server, db_provisioning):
 
 @pytest.fixture
 def dci_context_broken(server, db_provisioning):
-    test_context = context.DciContext('http://no_where.com',
-                                      'admin', 'admin')
+    test_context = api.context.DciContext('http://no_where.com',
+                                          'admin', 'admin')
     test_context.last_jobstate_id = 1
     test_context.last_job_id = 1
     return test_context
@@ -111,7 +113,7 @@ def dci_context_broken(server, db_provisioning):
 
 @pytest.fixture
 def runner(dci_context):
-    context.build_dci_context = lambda **kwargs: dci_context
+    api.context.build_dci_context = lambda **kwargs: dci_context
     runner = click.testing.CliRunner(env={'DCI_LOGIN': '', 'DCI_PASSWORD': '',
                                           'DCI_CLI_OUTPUT_FORMAT': 'json'})
     runner.invoke = functools.partial(runner.invoke, shell.main)
@@ -120,18 +122,19 @@ def runner(dci_context):
 
 @pytest.fixture
 def team_id(dci_context):
-    return team.create(dci_context, name='tname').json()['team']['id']
+    return api.team.create(dci_context, name='tname').json()['team']['id']
 
 
 @pytest.fixture
 def topic_id(dci_context):
-    return topic.create(dci_context, name='foo_topic').json()['topic']['id']
+    kwargs = {'name': 'foo_topic'}
+    return api.topic.create(dci_context, **kwargs).json()['topic']['id']
 
 
 @pytest.fixture
 def test_id(dci_context, topic_id):
-    return test.create(dci_context, name='test_name',
-                       topic_id=topic_id).json()['test']['id']
+    kwargs = {'name': 'test_name', 'topic_id': topic_id}
+    return api.test.create(dci_context, **kwargs).json()['test']['id']
 
 
 @pytest.fixture
@@ -153,39 +156,45 @@ def components(dci_context, topic_id):
 
 @pytest.fixture
 def remoteci_id(dci_context):
-    team_id = team.create(dci_context, name='tname').json()['team']['id']
-    rci = remoteci.create(dci_context, name='remoteci', team_id=team_id).json()
+    team_id = api.team.create(dci_context, name='tname').json()['team']['id']
+    kwargs = {'name': 'remoteci', 'team_id': team_id}
+    rci = api.remoteci.create(dci_context, **kwargs).json()
     return rci['remoteci']['id']
 
 
 @pytest.fixture
 def component_id(dci_context, topic_id):
-    my_component = component.create(
-        dci_context, name='component1', type='git_review',
-        data={'component': 'component'}, topic_id=topic_id).json()
-    return my_component['component']['id']
+    kwargs = {'name': 'component1', 'type': 'git_review',
+              'data': {'component': 'component'}, 'topic_id': topic_id}
+
+    component = api.component.create(dci_context, **kwargs).json()
+    return component['component']['id']
 
 
 @pytest.fixture
 def job_id(dci_context):
-    my_topic = topic.create(dci_context, name='topic_name').json()['topic']
-    my_team = team.create(dci_context, name='tname').json()['team']
-    team_id = team.list(dci_context).json()['teams'][0]['id']
-    topic.attach_team(dci_context, my_topic['id'], team_id)
-    my_remoteci = remoteci.create(dci_context,
-                                  name='tname', team_id=my_team['id'],
-                                  data={'remoteci': 'remoteci'}).json()
-    my_remoteci_id = my_remoteci['remoteci']['id']
-    component.create(
-        dci_context, name='hihi', type='type_1',
-        data={'component': 'component1'}, topic_id=my_topic['id']).json()
-    component.create(
-        dci_context, name='haha', type='type_2',
-        data={'component': 'component2'}, topic_id=my_topic['id']).json()
-    jobdefinition.create(
-        dci_context,
-        name='tname',
-        topic_id=my_topic['id'], component_types=['type_1', 'type_2']).json()
+    topic = api.topic.create(dci_context, name='topic_name').json()['topic']
+    team = api.team.create(dci_context, name='tname').json()['team']
+    team_id = api.team.list(dci_context).json()['teams'][0]['id']
 
-    my_job = job.schedule(dci_context, my_remoteci_id, my_topic['id']).json()
-    return my_job['job']['id']
+    api.topic.attach_team(dci_context, topic['id'], team_id)
+
+    kwargs = {'name': 'tname', 'team_id': team['id'],
+              'data': {'remoteci': 'remoteci'}}
+    remoteci = api.remoteci.create(dci_context, **kwargs).json()
+    remoteci_id = remoteci['remoteci']['id']
+
+    kwargs = {'name': 'hihi', 'type': 'type_1', 'topic_id': topic['id'],
+              'data': {'component': 'component1'}}
+    api.component.create(dci_context, **kwargs).json()
+
+    kwargs = {'name': 'haha', 'type': 'type_2', 'topic_id': topic['id'],
+              'data': {'component': 'component2'}}
+    api.component.create(dci_context, **kwargs).json()
+
+    kwargs = {'name': 'tname', 'topic_id': topic['id'],
+              'component_types': ['type_1', 'type_2']}
+    api.jobdefinition.create(dci_context, **kwargs).json()
+
+    job = api.job.schedule(dci_context, remoteci_id, topic['id']).json()
+    return job['job']['id']
