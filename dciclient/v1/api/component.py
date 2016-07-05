@@ -25,7 +25,6 @@ TABLE_HEADERS = ['id', 'name', 'canonical_project_name',
 
 GIT_COMMIT = 'git_commit'
 KH_INSTALLER = 'kh_installer'
-PUDDLE = 'puddle'
 SNAPSHOT = 'snapshot'
 
 
