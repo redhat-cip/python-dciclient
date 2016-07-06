@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ad9bd40_737ca873",
+        "filename": "feeders/feeders/openstack-ci-config.sh",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-07-06T19:51:52Z",
+      "side": 1,
+      "message": "Each Jenkins should be a created as a remoteci.",
+      "revId": "5d52f6590c4663bc95b07face8b8af3c7e9ea652",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ad9bd40_b395508a",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-07-06T19:51:52Z",
+      "side": 1,
+      "message": "I see that is a OSP9 log, we can collect both the OSP and the OSP-d puddles.\n\nstdout: 9-director requires the core repo as well, Installing...\nInstalled: /etc/yum.repos.d/rhos-release-rhel-7.2.repo\nInstalling wget...\nInstalled: /etc/yum.repos.d/rhos-release-9-director.repo\nInstalled: /etc/yum.repos.d/rhos-release-9.repo\n# rhos-release 9-director   -p 2016-07-05.1\nInstalled: /etc/yum.repos.d/rhos-release-9-director.repo\n# rhos-release 9   -p 2016-07-04.2\nInstalled: /etc/yum.repos.d/rhos-release-9.repo",
+      "revId": "5d52f6590c4663bc95b07face8b8af3c7e9ea652",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
