@@ -33,6 +33,24 @@
       "revId": "5d52f6590c4663bc95b07face8b8af3c7e9ea652",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ad9bd40_b3dc7076",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-07-06T20:11:24Z",
+      "side": 1,
+      "message": "This snippet is enough to extract the osp and ospd puddle versions:\n\n    #!/usr/bin/en python\n\n    puddles \u003d {}\n    with open(\u0027sample\u0027, \u0027r\u0027) as fd:\n        for line in fd:\n            if \u0027# rhos-release \u0027 not in line:\n                _, _, puddle_type, _, version \u003d line.split()\n                puddles[puddle_type] \u003d version\n                if len(puddles) \u003d\u003d 2:\n                    break\n    assert len(puddles) \u003d\u003d 2\n    print(puddles)",
+      "parentUuid": "9ad9bd40_b395508a",
+      "revId": "5d52f6590c4663bc95b07face8b8af3c7e9ea652",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
