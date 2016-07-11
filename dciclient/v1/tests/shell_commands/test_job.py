@@ -73,3 +73,10 @@ def test_recheck(runner, job_id):
     result = json.loads(result.output)['job']
 
     assert result['status'] == 'new'
+
+
+def test_results(runner, job_id):
+    result = runner.invoke(['job-results', '--id', job_id])
+    result = json.loads(result.output)['results']
+
+    assert result['filename'] == 'res_junit.xml'

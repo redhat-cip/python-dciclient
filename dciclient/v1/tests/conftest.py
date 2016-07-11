@@ -173,6 +173,24 @@ def component_id(dci_context, topic_id):
 
 @pytest.fixture
 def job_id(dci_context):
+    JUNIT = """
+    <testsuite errors="0" failures="0" name="pytest" skips="1"
+               tests="3" time="46.050">
+    <properties>
+      <property name="x" value="y" />
+      <property name="a" value="b" />
+    </properties>
+    <testcase classname="" file="test-requirements.txt"
+              name="test-requirements.txt" time="0.0109479427338">
+        <skipped message="all tests skipped by +SKIP option"
+                 type="pytest.skip">Skipped for whatever reasons</skipped>
+    </testcase>
+    <testcase classname="tests.test_app" file="tests/test_app.py" line="26"
+              name="test_cors_preflight" time="2.91562318802"/>
+    <testcase classname="tests.test_app" file="tests/test_app.py" line="42"
+              name="test_cors_headers" time="0.574683904648"/>
+    </testsuite>"""
+
     topic = api.topic.create(dci_context, name='topic_name').json()['topic']
     team = api.team.create(dci_context, name='tname').json()['team']
     team_id = api.team.list(dci_context).json()['teams'][0]['id']
@@ -197,4 +215,7 @@ def job_id(dci_context):
     api.jobdefinition.create(dci_context, **kwargs).json()
 
     job = api.job.schedule(dci_context, remoteci_id, topic['id']).json()
+    api.file.create(dci_context, name='res_junit.xml', content=JUNIT,
+                    mime='application/junit', job['job']['id'])
+
     return job['job']['id']

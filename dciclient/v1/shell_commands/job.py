@@ -86,3 +86,23 @@ def recheck(context, id):
     """
     result = job.recheck(context, id=id)
     utils.format_output(result, context.format, job.RESOURCE[:-1])
+
+
+@cli.command("job-results", help="List all job results.")
+@click.option("--id", required=True)
+@click.pass_obj
+def list_results(context, id):
+    """list_result(context, id)
+
+    List all job results.
+
+    >>> dcictl job-results
+
+    :param string id: ID of the job to recheck [required]
+    """
+
+    headers = ['filename', 'name', 'total', 'success', 'failures', 'errors',
+               'skips', 'time']
+    result = job.list_results(context, id=id)
+    utils.format_output(result, context.format,
+                        'results', headers)
