@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ad9bd40_2e4ab783",
+        "filename": "feeders/feeders/openstack-ci-config.sh",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-07-11T19:31:01Z",
+      "side": 1,
+      "message": "See: http://softwarefactory-project.io/r/#/c/3777/8/feeders/feeders/openstack-ci-config.sh",
+      "revId": "98f80fb0e2ac2f92b8497772b771b794c724358b",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ad9bd40_0e7ed3ae",
+        "filename": "feeders/feeders/openstack-ci.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-07-11T19:31:01Z",
+      "side": 1,
+      "message": "See my comment here: http://softwarefactory-project.io/r/#/c/3777/8/feeders/feeders/openstack-ci.py",
+      "revId": "98f80fb0e2ac2f92b8497772b771b794c724358b",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
