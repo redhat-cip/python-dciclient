@@ -64,6 +64,11 @@ def get(context, id, where=None, embed=None):
     return base.get(context, RESOURCE, id=id, where=where, embed=embed)
 
 
+def list_results(context, id):
+    uri = '%s/%s/%s/results' % (context.dci_cs_api, RESOURCE, id)
+    return context.session.get(uri)
+
+
 def get_full_data(context, id):
     # Get the job with embed on test and remoteci
     embed = 'jobdefinition,remoteci'
