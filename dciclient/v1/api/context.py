@@ -25,8 +25,9 @@ from dciclient import version
 class DciContext(object):
     API_VERSION = 'api/v1'
 
-    def __init__(self, dci_cs_url, login, password, max_retries=0):
-        self.session = self._build_http_session(login, password)
+    def __init__(self, dci_cs_url, login, password, max_retries=0,
+                 user_agent=None):
+        self.session = self._build_http_session(login, password, user_agent)
         retries = Retry(total=max_retries,
                         backoff_factor=0.1)
         self.session.mount('http://', HTTPAdapter(max_retries=retries))
@@ -36,17 +37,21 @@ class DciContext(object):
         self.last_job_id = None
 
     @staticmethod
-    def _build_http_session(login, password):
+    def _build_http_session(login, password, user_agent):
         session = requests.Session()
         session.headers.setdefault('Content-Type', 'application/json')
-        ua = 'python-dciclient_' + version.__version__
-        session.headers['User-Agent'] = ua
-
+        if not user_agent:
+            user_agent = 'python-dciclient_%s' % version.__version__
+        session.headers['User-Agent'] = user_agent
+        session.headers['DCIClient-Version'] = (
+            'dciclient_%' % version.__version__
+        )
         session.auth = (login, password)
         return session
 
 
-def build_dci_context(dci_cs_url=None, dci_login=None, dci_password=None):
+def build_dci_context(dci_cs_url=None, dci_login=None, dci_password=None,
+                      user_agent=None):
     dci_cs_url = dci_cs_url or os.environ.get('DCI_CS_URL', '')
     dci_login = dci_login or os.environ.get('DCI_LOGIN', '')
     dci_password = dci_password or os.environ.get('DCI_PASSWORD', '')
