@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ad9bd40_f98fb773",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-07-12T13:41:32Z",
+      "side": 1,
+      "message": "maybe we can use python-dciclient instead of just dciclient, this to avoid confusion if one day we provide another lib.",
+      "revId": "5cad3db9e9badfbb32379b13b2902d1482d95435",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
