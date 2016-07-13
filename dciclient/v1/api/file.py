@@ -50,3 +50,9 @@ def update(context, name=None, content=None, mime=None, md5=None):
 
 def delete(context, id):
     return base.delete(context, RESOURCE, id=id)
+
+
+def content(context, id):
+    uri = '%s/%s/%s/content' % (context.dci_cs_api, RESOURCE, id)
+    r = context.session.get(uri)
+    return r
