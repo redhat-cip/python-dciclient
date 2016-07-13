@@ -208,3 +208,10 @@ def job_id(dci_context):
 
     job = api.job.schedule(dci_context, remoteci_id, topic['id']).json()
     return job['job']['id']
+
+
+@pytest.fixture
+def jobstate_id(dci_context, job_id):
+    kwargs = {'job_id': job_id, 'status': 'running', 'comment': 'some comment'}
+    jobstate = api.jobstate.create(dci_context, **kwargs).json()
+    return jobstate['jobstate']['id']
