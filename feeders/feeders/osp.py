@@ -17,32 +17,37 @@
 
 import dciclient.v1.api.component as dci_component
 import dciclient.v1.api.context as dci_context
-import dciclient.v1.api.test as dci_test
 import dciclient.v1.api.topic as dci_topic
-import dciclient.v1.helper as dci_helper
 
 from six.moves.urllib.parse import urlparse
 
 import click
-import re
+import configparser
 import requests
 
 
 def get_repo_information(repo_file):
     repo_file_raw_content = requests.get(repo_file).text
-    base_url = re.search('baseurl=((.*)/os)', repo_file_raw_content).group(1)
-    base_url = base_url.replace("$basearch", "x86_64")
-    version = urlparse(base_url).path.split('/')[4]
-    repo_name = urlparse(base_url).path.split('/')[5]
-
+    config = configparser.ConfigParser()
+    config.read_string(repo_file_raw_content)
+    # Only use the first section
+    section_name = config.sections()[0]
+    base_url = config[section_name]["baseurl"].replace("$basearch", "x86_64")
+    try:
+        version = config[section_name]['version']
+    except KeyError:
+        # extracting the version from the URL
+        version = base_url.split('/')[-4]
+    repo_name = config[section_name]['name']
     return base_url, version, repo_name
 
 
 def get_puddle_component(repo_file, topic_id):
     (base_url, version, repo_name) = get_repo_information(repo_file)
 
+    puddle_type = 'puddle_ospd' if 'director' in repo_name else 'puddle_osp'
     puddle_component = {
-        'type': dci_component.PUDDLE,
+        'type': puddle_type,
         'canonical_project_name': repo_name,
         'name': '%s %s' % (repo_name, version),
         'url': base_url,
@@ -56,32 +61,11 @@ def get_puddle_component(repo_file, topic_id):
     return puddle_component
 
 
-def get_test_ids(ctx, topic_id):
-    test_list = dci_test.list(ctx, topic_id=topic_id).json()['tests']
-    test_ids = [test['id'] for test in test_list]
-    return test_ids
-
-
-def get_components(v, topic_id):
-    base_url = "http://download.eng.bos.redhat.com/rel-eng/OpenStack/"
-    osp_url = (
-        "{base_url}{version}"
-        "-RHEL-7/latest/RH7-RHOS-{version}.repo")
-    ospd_url = (
-        "{base_url}{version}"
-        "-RHEL-7-director/latest/RH7-RHOS-{version}-director.repo")
-    components = [
-        get_puddle_component(
-            osp_url.format(version=v, base_url=base_url),
-            topic_id)]
-
-    if v == '8.0':
-        # OSP8 comes also with the addictional director repository
-        ospd = get_puddle_component(
-            ospd_url.format(version=v, base_url=base_url),
-            topic_id)
-        components.append(ospd)
-    return components
+def get_components(urls, topic_id):
+    c = []
+    for url in urls:
+        c += [get_puddle_component(url, topic_id)]
+    return c
 
 
 def build_jobdefinition_name(v, components):
@@ -101,21 +85,30 @@ def build_jobdefinition_name(v, components):
 def main(dci_login, dci_password, dci_cs_url):
     ctx = dci_context.build_dci_context(dci_cs_url, dci_login,
                                         dci_password)
+    versions = [
+        {
+            'name': '9.0',
+            'urls': [
+                'http://download.eng.bos.redhat.com/rcm-guest/puddles/OpenStack/9.0-RHEL-7/latest/RH7-RHOS-9.0.repo',  # noqa
+                'http://download.eng.bos.redhat.com/rcm-guest/puddles/OpenStack/9.0-RHEL-7-director/latest/RH7-RHOS-9.0-director.repo'],  # noqa
+            'topic_id': dci_topic.get(ctx, 'OSP9').json()['topic']['id']
+        },
+        {
+            'name': '8.0',
+            'urls': [
+                'http://download.eng.bos.redhat.com/rel-eng/OpenStack/8.0-RHEL-7/latest/RH7-RHOS-8.0.repo',  # noqa
+                'http://download.eng.bos.redhat.com/rel-eng/OpenStack/8.0-RHEL-7-director/latest/RH7-RHOS-8.0-director.repo'],  # noqa
+            'topic_id': dci_topic.get(ctx, 'OSP8').json()['topic']['id']
+        }
+    ]
 
-    versions = {
-        dci_topic.get(ctx, 'OSP8').json()['topic']['id']: '8.0',
-        dci_topic.get(ctx, 'OSP9').json()['topic']['id']: '9.0'
-    }
-    for topic_id, v in versions.items():
-        # Create Khaleesi-tempest test
-        components = get_components(v, topic_id)
-        jobdef_name = build_jobdefinition_name(v, components)
-        dci_helper.create_jobdefinition(
-            ctx,
-            components,
-            get_test_ids(ctx, topic_id),
-            topic_id,
-            jobdef_name=jobdef_name)
+    for v in versions:
+        # Create Khaleei-tempest test
+        components = get_components(v['urls'], v['topic_id'])
+        for c in components:
+            r = dci_component.create(ctx, **c)
+            print(r.status_code)
+
 
 if __name__ == '__main__':
     main()
