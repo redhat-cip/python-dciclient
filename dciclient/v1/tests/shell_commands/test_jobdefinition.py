@@ -145,38 +145,3 @@ def test_active(runner, topic_id):
     result = runner.invoke(['jobdefinition-show', '--id', jd['id']])
     jobdefinition_active = json.loads(result.output)['jobdefinition']['active']
     assert jobdefinition_active is False
-
-
-def test_attach_component(runner, topic_id, component_id):
-    result = runner.invoke(['jobdefinition-create', '--name', 'foo',
-                            '--topic_id', topic_id])
-
-    jobdefinition = json.loads(result.output)['jobdefinition']
-    jobdefinition_id = jobdefinition['id']
-
-    result = runner.invoke(['jobdefinition-attach-component', '--id',
-                            jobdefinition_id,
-                            '--component_id', component_id])
-
-    result = json.loads(result.output)
-    assert result['component_id'] == component_id
-    assert result['jobdefinition_id'] == jobdefinition_id
-
-
-def test_unattach_component(runner, topic_id, component_id):
-    result = runner.invoke(['jobdefinition-create', '--name', 'foo',
-                            '--topic_id', topic_id])
-
-    jobdefinition = json.loads(result.output)['jobdefinition']
-    jobdefinition_id = jobdefinition['id']
-
-    runner.invoke(['jobdefinition-attach-component', '--id',
-                   jobdefinition_id, '--component_id', component_id])
-
-    result = runner.invoke(['jobdefinition-unattach-component', '--id',
-                            jobdefinition_id,
-                            '--component_id', component_id])
-
-    result = json.loads(result.output)
-
-    assert result['message'] == 'Component unattached from Jobdefinition'

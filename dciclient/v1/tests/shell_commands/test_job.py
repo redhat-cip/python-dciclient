@@ -47,8 +47,6 @@ def test_list(runner, dci_context, remoteci_id):
                                '--type', 'foobar', '--topic_id', topic['id']])
     component = json.loads(component.output)['component']
 
-    jobdefinition.add_component(dci_context, jd['id'], component['id'])
-
     job.schedule(dci_context, remoteci_id, topic['id'])
     l_job = runner.invoke(['job-list'])
     l_job = json.loads(l_job.output)
