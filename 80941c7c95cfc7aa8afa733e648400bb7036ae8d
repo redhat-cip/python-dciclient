@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ad9bd40_34d3e639",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2016-07-13T13:14:01Z",
+      "side": 1,
+      "message": "you miss to pass user_agent to DciContext constructor.",
+      "revId": "80941c7c95cfc7aa8afa733e648400bb7036ae8d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
