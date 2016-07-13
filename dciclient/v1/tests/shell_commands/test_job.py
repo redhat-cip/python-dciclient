@@ -15,7 +15,6 @@
 # under the License.
 
 from dciclient.v1.api import job
-from dciclient.v1.api import jobdefinition
 
 import json
 
@@ -46,8 +45,6 @@ def test_list(runner, dci_context, remoteci_id):
     component = runner.invoke(['component-create', '--name', 'foo',
                                '--type', 'foobar', '--topic_id', topic['id']])
     component = json.loads(component.output)['component']
-
-    jobdefinition.add_component(dci_context, jd['id'], component['id'])
 
     job.schedule(dci_context, remoteci_id, topic['id'])
     l_job = runner.invoke(['job-list'])

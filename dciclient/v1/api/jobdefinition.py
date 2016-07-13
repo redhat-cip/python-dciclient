@@ -50,20 +50,9 @@ def setactive(context, id, active, etag):
     return base.update(context, RESOURCE, id=id, etag=etag, active=active_bool)
 
 
-def add_component(context, id, component_id):
-    uri = '%s/%s/%s/components' % (context.dci_cs_api, RESOURCE, id)
-    return context.session.post(uri, json={'component_id': component_id})
-
-
 def get_components(context, id):
     uri = '%s/%s/%s/components' % (context.dci_cs_api, RESOURCE, id)
     return context.session.get(uri)
-
-
-def remove_component(context, id, component_id):
-    uri = '%s/%s/%s/components/%s' % (context.dci_cs_api, RESOURCE, id,
-                                      component_id)
-    return context.session.delete(uri)
 
 
 def add_test(context, id, test_id):
