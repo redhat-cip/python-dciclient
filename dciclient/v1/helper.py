@@ -23,11 +23,11 @@ from dciclient.v1.api import test
 import fcntl
 import mimetypes
 import os
-import select
 import subprocess
 
 import six
 import sys
+import time
 
 
 def get_test_id(dci_context, name, topic_id):
@@ -89,32 +89,41 @@ def run_command(context, cmd, cwd=None, jobstate_id=None, team_id=None):
         jobstate_id = context.last_jobstate_id
     output = six.StringIO()
     print('* Processing command: %s' % cmd)
-    print('* Working directory: %s' % cwd)
+    if cmd:
+        print('* Working directory: %s' % cwd)
     pipe_process = subprocess.Popen(cmd, cwd=cwd,
                                     stdout=subprocess.PIPE,
                                     stderr=subprocess.STDOUT)
 
     fcntl.fcntl(pipe_process.stdout.fileno(), fcntl.F_SETFL, os.O_NONBLOCK)
-    inputs = [pipe_process.stdout]
-    outputs = []
 
-    while True:
-        readable, writable, exceptional = select.select(inputs, outputs,
-                                                        inputs, 60)
-        if not readable:
-            break
-        pstdout = pipe_process.stdout.read().decode('UTF-8', 'ignore')
-        if len(pstdout) == 0:
-            break
+    def flush_buffer(output):
+        if output.tell() == 0:
+            return
+        file.create(
+            context, name='_'.join(cmd),
+            content=output.getvalue(),
+            mime='text/plain',
+            jobstate_id=jobstate_id)
+        output.seek(0)
+        output.truncate()
+
+    while pipe_process.poll() is None:
+        time.sleep(0.5)
+        try:
+            pstdout = pipe_process.stdout.read().decode('UTF-8', 'ignore')
+        except IOError:
+            pass
         else:
-            print(pstdout)
-            output.write(pstdout)
+            if len(pstdout) > 0:
+                print(pstdout)
+                output.write(pstdout)
+            if output.tell() > 2048:
+                flush_buffer(output)
 
     pipe_process.wait()
+    flush_buffer(output)
 
-    file.create(context, name='_'.join(cmd), content=output.getvalue(),
-                mime='text/plain', jobstate_id=jobstate_id)
-    output.close()
     return pipe_process.returncode
 
 
