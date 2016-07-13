@@ -98,6 +98,16 @@ def run_command(context, cmd, cwd=None, jobstate_id=None, team_id=None):
     inputs = [pipe_process.stdout]
     outputs = []
 
+    def flush_buffer(output):
+        if output.tell() == 0:
+            return
+        file.create(
+            context, name='_'.join(cmd),
+            content=output.getvalue(),
+            mime='text/plain',
+            jobstate_id=jobstate_id)
+        output = six.StringIO()
+
     while True:
         readable, writable, exceptional = select.select(inputs, outputs,
                                                         inputs, 60)
@@ -109,12 +119,12 @@ def run_command(context, cmd, cwd=None, jobstate_id=None, team_id=None):
         else:
             print(pstdout)
             output.write(pstdout)
+        if output.tell() > 2048:
+            flush_buffer(output)
 
     pipe_process.wait()
+    flush_buffer(output)
 
-    file.create(context, name='_'.join(cmd), content=output.getvalue(),
-                mime='text/plain', jobstate_id=jobstate_id)
-    output.close()
     return pipe_process.returncode
 
 
