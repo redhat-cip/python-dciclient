@@ -24,3 +24,14 @@ def test_run_command(dci_context, jobstate_id):
         ['bash', '-c', 'for i in $(seq 1 1000); do echo "ga bu zo me"; done'],
         jobstate_id=jobstate_id)
     assert dci_file.list(dci_context).json()['_meta']['count'] == 3
+
+
+def test_run_command_shell(dci_context, jobstate_id):
+    dci_helper.run_command(
+        dci_context,
+        'echo foo bar',
+        shell=True)
+    files = dci_file.list(dci_context).json()['files']
+    assert files[0]['name'] == 'echo foo bar'
+    f = dci_file.content(dci_context, files[0]['id'])
+    assert f.content == 'foo bar\n'

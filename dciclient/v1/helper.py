@@ -81,7 +81,8 @@ def upload_file(context, path, job_id, mime=None):
     return l_file
 
 
-def run_command(context, cmd, cwd=None, jobstate_id=None, team_id=None):
+def run_command(context, cmd, cwd=None, jobstate_id=None, team_id=None,
+                shell=False):
     """This function execute a command and send its log which will be
     attached to a jobstate.
     """
@@ -92,18 +93,21 @@ def run_command(context, cmd, cwd=None, jobstate_id=None, team_id=None):
     print('* Working directory: %s' % cwd)
     pipe_process = subprocess.Popen(cmd, cwd=cwd,
                                     stdout=subprocess.PIPE,
-                                    stderr=subprocess.STDOUT)
+                                    stderr=subprocess.STDOUT,
+                                    shell=shell)
 
     fcntl.fcntl(pipe_process.stdout.fileno(), fcntl.F_SETFL, os.O_NONBLOCK)
     inputs = [pipe_process.stdout]
     outputs = []
+    name = cmd if shell else '_'.join(cmd)
 
     def flush_buffer(output):
         if output.tell() == 0:
             return
+        to_send = output.getvalue()
         file.create(
-            context, name='_'.join(cmd),
-            content=output.getvalue(),
+            context, name=name,
+            content=to_send,
             mime='text/plain',
             jobstate_id=jobstate_id)
         output = six.StringIO()
