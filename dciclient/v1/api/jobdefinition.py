@@ -15,6 +15,7 @@
 # under the License.
 
 from dciclient.v1.api import base
+from dciclient.v1 import utils
 
 
 RESOURCE = 'jobdefinitions'
@@ -51,21 +52,20 @@ def setactive(context, id, active, etag):
 
 
 def get_components(context, id):
-    uri = '%s/%s/%s/components' % (context.dci_cs_api, RESOURCE, id)
+    uri = utils.urlize(context.dci_cs_api, RESOURCE, id, 'components')
     return context.session.get(uri)
 
 
 def add_test(context, id, test_id):
-    uri = '%s/%s/%s/tests' % (context.dci_cs_api, RESOURCE, id)
+    uri = utils.urlize(context.dci_cs_api, RESOURCE, id, 'tests')
     return context.session.post(uri, json={'test_id': test_id})
 
 
 def get_tests(context, id):
-    uri = '%s/%s/%s/tests' % (context.dci_cs_api, RESOURCE, id)
+    uri = utils.urlize(context.dci_cs_api, RESOURCE, id, 'tests')
     return context.session.get(uri)
 
 
 def remove_test(context, id, test_id):
-    uri = '%s/%s/%s/tests/%s' % (context.dci_cs_api, RESOURCE, id,
-                                 test_id)
+    uri = utils.urlize(context.dci_cs_api, RESOURCE, id, 'tests', test_id)
     return context.session.delete(uri)
