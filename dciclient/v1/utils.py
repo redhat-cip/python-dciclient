@@ -18,6 +18,7 @@ import click
 import json
 import prettytable
 import six
+import urllib
 
 
 def flatten(d, prefix=''):
@@ -79,3 +80,8 @@ def format_output(result, format, item=None, headers=None,
     else:
         to_display = result_json[item] if item else result_json
         print_prettytable(to_display, headers)
+
+
+def urlize(*args):
+    args = [urllib.quote_plus(x) for x in args]
+    return '/'.join(args)
