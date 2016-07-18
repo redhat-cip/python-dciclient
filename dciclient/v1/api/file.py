@@ -53,6 +53,5 @@ def delete(context, id):
 
 
 def content(context, id):
-    uri = '%s/%s/%s/content' % (context.dci_cs_api, RESOURCE, id)
-    r = context.session.get(uri)
-    return r
+    uri = utils.urlize(context.dci_cs_api, RESOURCE, id, 'content')
+    return context.session.get(uri)
