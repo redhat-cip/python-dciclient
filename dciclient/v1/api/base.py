@@ -20,7 +20,7 @@ import json
 def create(context, resource, **kwargs):
     """Create a resource"""
     data = utils.sanitize_kwargs(**kwargs)
-    uri = '%s/%s' % (context.dci_cs_api, resource)
+    uri = utils.urlize(context.dci_cs_api, resource)
     r = context.session.post(uri, data=json.dumps(data))
     return r
 
@@ -31,9 +31,9 @@ def list(context, resource, **kwargs):
     topic_id = data.pop('topic_id', None)
 
     if topic_id is not None:
-        uri = '%s/topics/%s/%s' % (context.dci_cs_api, topic_id, resource)
+        uri = utils.urlize(context.dci_cs_api, 'topics', topic_id, resource)
     else:
-        uri = '%s/%s' % (context.dci_cs_api, resource)
+        uri = utils.urlize(context.dci_cs_api, resource)
 
     r = context.session.get(uri, params=data)
     return r
@@ -41,7 +41,7 @@ def list(context, resource, **kwargs):
 
 def get(context, resource, **kwargs):
     """List a specific resource"""
-    uri = '%s/%s/%s' % (context.dci_cs_api, resource, kwargs.pop('id'))
+    uri = utils.urlize(context.dci_cs_api, resource, kwargs.pop('id'))
     r = context.session.get(uri, params=kwargs)
     return r
 
@@ -51,7 +51,7 @@ def update(context, resource, **kwargs):
     etag = kwargs.pop('etag')
     id = kwargs.pop('id')
     data = utils.sanitize_kwargs(**kwargs)
-    uri = '%s/%s/%s' % (context.dci_cs_api, resource, id)
+    uri = utils.urlize(context.dci_cs_api, resource, id)
     r = context.session.put(uri, headers={'If-match': etag}, json=data)
     return r
 
@@ -60,6 +60,6 @@ def delete(context, resource, **kwargs):
     """Delete a specific resource"""
 
     etag = kwargs.pop('etag', None)
-    uri = '%s/%s/%s' % (context.dci_cs_api, resource, kwargs.pop('id'))
+    uri = utils.urlize(context.dci_cs_api, resource, kwargs.pop('id'))
     r = context.session.delete(uri, headers={'If-match': etag})
     return r
