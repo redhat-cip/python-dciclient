@@ -15,6 +15,7 @@
 # under the License.
 
 from dciclient.v1.api import base
+from dciclient.v1 import utils
 
 import json
 
@@ -44,7 +45,7 @@ def list(context):
 
 
 def schedule(context, remoteci_id, topic_id):
-    uri = '%s/%s/schedule' % (context.dci_cs_api, RESOURCE)
+    uri = utils.urlize(context.dci_cs_api, RESOURCE, 'schedule')
     data_json = json.dumps({'remoteci_id': remoteci_id, 'topic_id': topic_id})
     r = context.session.post(uri, data=data_json)
     if r.status_code == 201:
@@ -53,7 +54,7 @@ def schedule(context, remoteci_id, topic_id):
 
 
 def recheck(context, id):
-    uri = '%s/%s/%s/recheck' % (context.dci_cs_api, RESOURCE, id)
+    uri = utils.urlize(context.dci_cs_api, RESOURCE, id, 'recheck')
     r = context.session.post(uri)
     if r.status_code == 201:
         context.last_job_id = r.json()['job']['id']
@@ -65,7 +66,7 @@ def get(context, id, where=None, embed=None):
 
 
 def list_results(context, id):
-    uri = '%s/%s/%s/results' % (context.dci_cs_api, RESOURCE, id)
+    uri = utils.urlize(context.dci_cs_api, RESOURCE, id, 'results')
     return context.session.get(uri)
 
 
@@ -89,7 +90,7 @@ def get_full_data(context, id):
 
 
 def get_components(context, id):
-    uri = '%s/%s/%s/components' % (context.dci_cs_api, RESOURCE, id)
+    uri = utils.urlize(context.dci_cs_api, RESOURCE, id, 'components')
     return context.session.get(uri)
 
 
