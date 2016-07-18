@@ -15,7 +15,7 @@
 # under the License.
 
 from dciclient.v1.api import base
-
+from dciclient.v1 import utils
 
 RESOURCE = 'topics'
 TABLE_HEADERS = ['id', 'name', 'etag', 'created_at', 'updated_at']
@@ -38,17 +38,17 @@ def delete(context, id):
 
 
 def attach_team(context, id, team_id):
-    uri = '%s/%s/%s/teams' % (context.dci_cs_api, RESOURCE, id)
+    uri = utils.urlize(context.dci_cs_api, RESOURCE, id, 'teams')
     return context.session.post(uri, json={'team_id': team_id})
 
 
 def unattach_team(context, id, team_id):
-    uri = '%s/%s/%s/teams/%s' % (context.dci_cs_api, RESOURCE, id, team_id)
+    uri = utils.urlize(context.dci_cs_api, RESOURCE, id, 'teams', team_id)
     return context.session.delete(uri)
 
 
 def list_attached_team(context, id):
-    uri = '%s/%s/%s/teams' % (context.dci_cs_api, RESOURCE, id)
+    uri = utils.urlize(context.dci_cs_api, RESOURCE, id, 'teams')
     return context.session.get(uri)
 
 
@@ -57,6 +57,6 @@ def list_components(context, id):
 
 
 def get_jobs_from_components(context, topic_id, component_id):
-    uri = '%s/%s/%s/components/%s/jobs' % \
-          (context.dci_cs_api, RESOURCE, topic_id, component_id)
+    uri = utils.urlize(context.dci_cs_api, RESOURCE, topic_id, 'components',
+                       component_id, 'jobs')
     return context.session.get(uri)
