@@ -79,3 +79,8 @@ def format_output(result, format, item=None, headers=None,
     else:
         to_display = result_json[item] if item else result_json
         print_prettytable(to_display, headers)
+
+
+def urlize(domain, *args):
+    domain.extend([six.moves.urllib.parse.quote_plus(x) for x in args[1:]])
+    return '/'.join(domain)
