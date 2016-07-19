@@ -21,11 +21,13 @@ import dciclient.v1.helper as dci_helper
 def test_run_command(dci_context, jobstate_id):
     dci_helper.run_command(
         dci_context,
-        ['bash', '-c', 'for i in $(seq 1 3); do echo "ga bu zo me"; done'],
+        ['echo', 'bob'],
         jobstate_id=jobstate_id)
+    # temporary debug print to trace an issue with the gate
+    print(dci_file.list(dci_context).json())
     new_file = dci_file.list(dci_context).json()['files'][1]
-    assert new_file['size'] == 36
-    assert 'ga bu zo me' in new_file['name']
+    assert new_file['size'] == 4
+    assert 'bob' in new_file['name']
 
 
 def test_run_command_shell(dci_context, jobstate_id):
