@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7adec928_44652244",
+        "filename": "feeders/feeders/global-ci-grabber.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-07-19T16:41:35Z",
+      "side": 1,
+      "message": "Is this function still useful? From where it is called?",
+      "revId": "bab44d668bad9c43d14148fdb3b1f9c8d6d63a62",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7adec928_24601635",
+        "filename": "feeders/feeders/global-ci-grabber.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-07-19T16:41:35Z",
+      "side": 1,
+      "message": "[0-9] can be replaced by \\d",
+      "revId": "bab44d668bad9c43d14148fdb3b1f9c8d6d63a62",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7adec928_645a1e85",
+        "filename": "feeders/feeders/global-ci-grabber.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-07-19T16:41:35Z",
+      "side": 1,
+      "message": "I would be curious to know why a component has to be created? All of them should already be here.",
+      "revId": "bab44d668bad9c43d14148fdb3b1f9c8d6d63a62",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7adec928_845f2a72",
+        "filename": "feeders/feeders/global-ci-grabber.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-07-19T16:41:35Z",
+      "side": 1,
+      "message": "Could we add an extra key in data to trace the feeder name? I\u0027m afraid we can quickly end up with a log of similar component.",
+      "revId": "bab44d668bad9c43d14148fdb3b1f9c8d6d63a62",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
