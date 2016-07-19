@@ -1,0 +1,15 @@
+mirror:
+  url: http://192.168.100.11
+  directory: .
+auth:
+  dci_cs_url: http://46.231.133.44
+  dci_login: login
+  dci_password: password
+remoteci_id: some_id
+key_filename: /home/dci/.ssh/id_rsa
+undercloud_ip: 192.168.100.10
+topic: OSP8
+commands:
+  provisioning: ssh dci@192.168.100.2 'rollback.sh -y -n directorvm'
+  undercloud: ansible-playbook undercloud.yaml
+  overcloud: ansible-playbook overcloud.yaml
