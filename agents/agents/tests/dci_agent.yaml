@@ -1,0 +1,18 @@
+mirror:
+  url: http://192.168.100.11
+  directory: .
+auth:
+  dci_cs_url: http://dci_server.com
+  dci_login: admin
+  dci_password: admin
+remoteci: tname
+key_filename: /home/dci/.ssh/id_rsa
+undercloud_ip: 192.168.100.10
+stack_name: lab2
+commands:
+  provisioning:
+    - ansible-playbook provisioning.yaml
+  undercloud:
+    - ansible-playbook undercloud.yaml
+  overcloud:
+    - ansible-playbook overcloud.yaml
