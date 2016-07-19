@@ -82,7 +82,7 @@ def upload_file(context, path, job_id, mime=None):
 
 
 def run_command(context, cmd, cwd=None, jobstate_id=None, team_id=None,
-                shell=False):
+                shell=False, expected_retcodes=[0]):
     """This function execute a command and send its log which will be
     attached to a jobstate.
     """
@@ -112,15 +112,16 @@ def run_command(context, cmd, cwd=None, jobstate_id=None, team_id=None,
         output.seek(0)
         output.truncate()
 
-    while pipe_process.poll() is None:
+    p_status = None
+    while p_status is None:
         time.sleep(0.5)
         try:
+            p_status = pipe_process.poll()
             pstdout = pipe_process.stdout.read().decode('UTF-8', 'ignore')
         except IOError:
             pass
         else:
             if len(pstdout) > 0:
-                print(pstdout)
                 output.write(pstdout)
             if output.tell() > 2048:
                 flush_buffer(output)
@@ -128,19 +129,24 @@ def run_command(context, cmd, cwd=None, jobstate_id=None, team_id=None,
     pipe_process.wait()
     flush_buffer(output)
 
-    return pipe_process.returncode
+    if pipe_process.returncode not in expected_retcodes:
+        raise DCIExecutionError()
 
 
 def run_commands(context, cmds, cwd, jobstate_id, job_id, team_id):
     for cmd in cmds:
-        if isinstance(cmd, dict):
-            rc = run_command(context, cmd['cmd'], cmd['cwd'], jobstate_id,
-                             team_id)
-        else:
-            rc = run_command(context, cmd, cwd, jobstate_id, team_id)
-
-        if rc != 0:
+        try:
+            if isinstance(cmd, dict):
+                run_command(context, cmd['cmd'], cmd['cwd'], jobstate_id,
+                            team_id)
+            else:
+                run_command(context, cmd, cwd, jobstate_id, team_id)
+        except DCIExecutionError:
             error_msg = "Failed on command %s" % cmd
             jobstate.create(context, "failure", error_msg, job_id)
-            print(error_msg)
             sys.exit(1)
+
+
+class DCIExecutionError(Exception):
+    """DCI command excution failure."""
+    pass
