@@ -1,0 +1,34 @@
+mirror:
+  # The URL to the http mirror, as seen from the nodes.
+  url: http://192.168.100.11
+  # The local path to that will be shared over http. This directory
+  # will be used to store a local copy of the repositories.
+#  directory: /var/www/html
+auth:
+  # The DCI credentials
+  dci_login: login
+  dci_password: password
+# The name or the UUID of the remoteci
+remoteci: remoteci
+# The repositories are synced over rsync+ssh, this key is ued to authenticate
+# the agent. It's also used to connect to the undercloud.
+# The private key will be used to authenticate the agent
+# key_filename: /home/dci/.ssh/id_rsa
+# The IP address of the undercloud.
+undercloud_ip: 192.168.100.10
+# The name of the TripleO undercloud stack, you probably don't need to change
+# this value.
+# stack_name: overcloud
+# The default topic, this key can be overloaded with the --topic foo parameter.
+topic: OSP8
+# The hooks, these commands will be called from the top to the bottom.
+hooks:
+  # initialize the platform.
+  provisioning:
+    - ssh dci@192.168.100.2 'rollback.sh -y -n directorvm'
+  # configure the undercloud host and start the undercloud.
+  undercloud:
+    - ansible-playbook undercloud.yaml
+  # deploy the overcloud itself.
+  overcloud:
+    - ansible-playbook overcloud.yaml

@@ -52,9 +52,7 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'dci-agent-chainsaw = agents.chainsaw:main',
-            'dci-agent-dci = agents.dci:main',
-            'dci-agent-tox = agents.tox:main',
+            'dci-agent = agents.dci_agent:main',
         ],
     }
 )
