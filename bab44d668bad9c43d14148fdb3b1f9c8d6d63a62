@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7adec928_64d13ecd",
+        "filename": "feeders/feeders/global-ci-grabber.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2016-07-19T17:39:34Z",
+      "side": 1,
+      "message": "you are right, it\u0027s not usefull anymore",
+      "parentUuid": "7adec928_44652244",
+      "revId": "bab44d668bad9c43d14148fdb3b1f9c8d6d63a62",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7adec928_24601635",
         "filename": "feeders/feeders/global-ci-grabber.py",
         "patchSetId": 12
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "7adec928_c4d772be",
+        "filename": "feeders/feeders/global-ci-grabber.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2016-07-19T17:39:34Z",
+      "side": 1,
+      "message": "Cecause all the datas will be injected on another instance of the DCI CS.",
+      "parentUuid": "7adec928_645a1e85",
+      "revId": "bab44d668bad9c43d14148fdb3b1f9c8d6d63a62",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7adec928_845f2a72",
         "filename": "feeders/feeders/global-ci-grabber.py",
         "patchSetId": 12
@@ -64,6 +100,24 @@
       "writtenOn": "2016-07-19T16:41:35Z",
       "side": 1,
       "message": "Could we add an extra key in data to trace the feeder name? I\u0027m afraid we can quickly end up with a log of similar component.",
+      "revId": "bab44d668bad9c43d14148fdb3b1f9c8d6d63a62",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7adec928_e4e46eae",
+        "filename": "feeders/feeders/global-ci-grabber.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2016-07-19T17:39:34Z",
+      "side": 1,
+      "message": "ok i\u0027ll do that",
+      "parentUuid": "7adec928_845f2a72",
       "revId": "bab44d668bad9c43d14148fdb3b1f9c8d6d63a62",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
