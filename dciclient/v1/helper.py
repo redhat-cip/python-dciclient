@@ -82,7 +82,7 @@ def upload_file(context, path, job_id, mime=None):
 
 
 def run_command(context, cmd, cwd=None, jobstate_id=None, team_id=None,
-                shell=False):
+                shell=False, expected_retcode=[0]):
     """This function execute a command and send its log which will be
     attached to a jobstate.
     """
@@ -128,7 +128,8 @@ def run_command(context, cmd, cwd=None, jobstate_id=None, team_id=None,
     pipe_process.wait()
     flush_buffer(output)
 
-    return pipe_process.returncode
+    if pipe_process.returncode not in expected_retcodes:
+        raise DCIExecutionError()
 
 
 def run_commands(context, cmds, cwd, jobstate_id, job_id, team_id):
@@ -144,3 +145,7 @@ def run_commands(context, cmds, cwd, jobstate_id, job_id, team_id):
             jobstate.create(context, "failure", error_msg, job_id)
             print(error_msg)
             sys.exit(1)
+
+class DCIExecutionError(Exception):
+    """DCI command excution failure."""
+    pass
