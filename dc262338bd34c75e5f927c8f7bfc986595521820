@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5adbc538_bd919f54",
+        "filename": "agents/agents/dci_agent.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-07-21T10:52:10Z",
+      "side": 1,
+      "message": "Extra space",
+      "revId": "dc262338bd34c75e5f927c8f7bfc986595521820",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5adbc538_fd9b2770",
+        "filename": "agents/agents/dci_agent.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-07-21T10:52:10Z",
+      "side": 1,
+      "message": "Why using print here if we have imported logging.\n\nAt the start of the file\n\u003e LOG \u003d logging.getLogger(__name__) \n\nHere\n\u003e LOG.info(\u0027Nothing to do\u0027)\n\nThis way we could easily send all the output either to stdout or to a file",
+      "revId": "dc262338bd34c75e5f927c8f7bfc986595521820",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5adbc538_9d94e345",
+        "filename": "agents/agents/dci_agent.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-07-21T10:52:10Z",
+      "side": 1,
+      "message": "Let\u0027s create a rhos-mirror.distributed-ci.io here.\nAnd as soon as the rhos-mirror ansibling is finished (within the next day) use partner instead of rsync.",
+      "revId": "dc262338bd34c75e5f927c8f7bfc986595521820",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5adbc538_dd9e6b63",
+        "filename": "agents/agents/dci_agent.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-07-21T10:52:10Z",
+      "side": 1,
+      "message": "Should those two items be specified in dci_conf ?",
+      "revId": "dc262338bd34c75e5f927c8f7bfc986595521820",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
