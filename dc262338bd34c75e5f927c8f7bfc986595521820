@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "5adbc538_dd758b33",
+        "filename": "agents/agents/dci_agent.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-07-21T10:54:51Z",
+      "side": 1,
+      "message": "I agree we should use a better logger mechanism but I will address that in another commit. This is good enough IMO for a first version.",
+      "parentUuid": "5adbc538_fd9b2770",
+      "revId": "dc262338bd34c75e5f927c8f7bfc986595521820",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5adbc538_9d94e345",
         "filename": "agents/agents/dci_agent.py",
         "patchSetId": 1
@@ -64,6 +82,24 @@
       "writtenOn": "2016-07-21T10:52:10Z",
       "side": 1,
       "message": "Should those two items be specified in dci_conf ?",
+      "revId": "dc262338bd34c75e5f927c8f7bfc986595521820",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5adbc538_7d871710",
+        "filename": "agents/agents/dci_agent.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-07-21T10:54:51Z",
+      "side": 1,
+      "message": "Yes, it should. I will adjust that.",
+      "parentUuid": "5adbc538_dd9e6b63",
       "revId": "dc262338bd34c75e5f927c8f7bfc986595521820",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
