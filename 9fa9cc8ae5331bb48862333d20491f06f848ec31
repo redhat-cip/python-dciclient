@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5adbc538_a095f489",
+        "filename": "feeders/feeders/global-ci-grabber.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-07-22T13:52:55Z",
+      "side": 1,
+      "message": "I\u0027m a bit confuse here. We did a big refactoring of the jobdefinitions to avoid that. We can now use just one jobdefinitions for all the jobs. Why do we need that?",
+      "revId": "9fa9cc8ae5331bb48862333d20491f06f848ec31",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5adbc538_8081d84c",
+        "filename": "feeders/feeders/global-ci-grabber.py",
+        "patchSetId": 22
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-07-22T13:52:55Z",
+      "side": 1,
+      "message": "this should be done by the lib itself.",
+      "revId": "9fa9cc8ae5331bb48862333d20491f06f848ec31",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
