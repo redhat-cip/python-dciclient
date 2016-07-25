@@ -51,7 +51,7 @@ class DciContext(object):
 
 
 def build_dci_context(dci_cs_url=None, dci_login=None, dci_password=None,
-                      user_agent=None):
+                      user_agent=None, max_retries=80):
     dci_cs_url = dci_cs_url or os.environ.get('DCI_CS_URL', '')
     dci_login = dci_login or os.environ.get('DCI_LOGIN', '')
     dci_password = dci_password or os.environ.get('DCI_PASSWORD', '')
@@ -62,4 +62,4 @@ def build_dci_context(dci_cs_url=None, dci_login=None, dci_password=None,
               (dci_cs_url, dci_login, dci_password))
         sys.exit(1)
     return DciContext(dci_cs_url, dci_login, dci_password,
-                      user_agent=user_agent)
+                      user_agent=user_agent, max_retries=max_retries)
