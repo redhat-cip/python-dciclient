@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5adbc538_c085a0ae",
+        "filename": "agents/agents/dci_agent.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-07-25T15:21:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5adbc538_bd919f54",
+      "revId": "dc262338bd34c75e5f927c8f7bfc986595521820",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5adbc538_fd9b2770",
         "filename": "agents/agents/dci_agent.py",
         "patchSetId": 1
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5adbc538_e0929cf5",
+        "filename": "agents/agents/dci_agent.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-07-25T15:21:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5adbc538_9d94e345",
+      "revId": "dc262338bd34c75e5f927c8f7bfc986595521820",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5adbc538_dd9e6b63",
         "filename": "agents/agents/dci_agent.py",
         "patchSetId": 1
@@ -100,6 +136,24 @@
       "side": 1,
       "message": "Yes, it should. I will adjust that.",
       "parentUuid": "5adbc538_dd9e6b63",
+      "revId": "dc262338bd34c75e5f927c8f7bfc986595521820",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5adbc538_009068eb",
+        "filename": "agents/agents/dci_agent.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-07-25T15:21:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5adbc538_7d871710",
       "revId": "dc262338bd34c75e5f927c8f7bfc986595521820",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
