@@ -20,9 +20,37 @@ from dciclient.v1.api import file
 from dciclient.v1.api import job
 from dciclient.v1.api import jobdefinition
 from dciclient.v1.api import jobstate
+from dciclient.v1.logger import DciHandler
 
 import json
+import logging
+import requests.packages.urllib3
 import tripleohelper.undercloud
+
+
+list_hosts_status = """#!/bin/bash
+set -eu
+do_ssh="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=quiet heat-admin@"  # noqa
+for i in $(nova list 2>&1|awk '/ctlplane/ {print $12}'); do
+    eval $i
+    echo -n "** ${ctlplane} "
+    if [ -z $(${do_ssh}${ctlplane} hostname) ]; then
+        echo "Cannot reach host $ctlplane"
+        continue
+    else
+        echo "up and running"
+    fi
+
+    ${do_ssh}${ctlplane} "
+        for f in \$(sudo find /var/lib/heat-config/deployed -name '*.notify.json'); do  # noqa
+            if [ \$(sudo jq .deploy_status_code \$f) -ne 0 ]; then
+                sudo jq -r .deploy_stderr \$f
+                sudo jq -r .deploy_stdout \$f
+            fi
+        done
+    "
+done
+"""
 
 
 def push_stack_details(context, undercloud, stack_name='overcloud'):
@@ -48,8 +76,29 @@ def push_stack_details(context, undercloud, stack_name='overcloud'):
             configuration=json.load(fd))
 
 
+def list_host_status(context, undercloud):
+    undercloud.add_environment_file(
+        user='stack',
+        filename='stackrc')
+    undercloud.run(
+        'nova list',
+        user='stack')
+    undercloud.create_file('/home/stack/list_hosts_status', list_hosts_status)
+    undercloud.run(
+        'bash /home/stack/list_hosts_status',
+        user='stack')
+
+
 def run_tests(context, undercloud_ip, key_filename, user='root',
               stack_name='overcloud'):
+
+    # redirect the log messages to the DCI Control Server
+    # https://github.com/shazow/urllib3/issues/523
+    requests.packages.urllib3.disable_warnings()
+    dci_handler = DciHandler(context)
+    logger = logging.getLogger('tripleohelper')
+    logger.addHandler(dci_handler)
+
     undercloud = tripleohelper.undercloud.Undercloud(
         hostname=undercloud_ip,
         user=user,
@@ -64,6 +113,7 @@ def run_tests(context, undercloud_ip, key_filename, user='root',
         msg = 'undercloud deployment failure'
         jobstate.create(context, 'failure', msg, context.last_job_id)
         return
+    list_host_status(context, undercloud)
     push_stack_details(context, undercloud, stack_name=stack_name)
     rcfile = stack_name + 'rc'
     if undercloud.run(
