@@ -100,3 +100,13 @@ def get_components(context, id):
 
 def delete(context, id, etag):
     return base.delete(context, RESOURCE, id=id, etag=etag)
+
+
+def list_issues(context, id):
+    uri = '%s/%s/%s/issues' % (context.dci_cs_api, RESOURCE, id)
+    return context.session.get(uri)
+
+def attach_issue(context, id, url):
+    uri = '%s/%s/%s/issues' % (context.dci_cs_api, RESOURCE, id)
+    data_json = json.dumps({'url': url})
+    return context.session.post(uri, data=data_json)
