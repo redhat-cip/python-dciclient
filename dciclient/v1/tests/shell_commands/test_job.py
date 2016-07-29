@@ -77,3 +77,39 @@ def test_results(runner, job_id):
     result = json.loads(result.output)['results'][0]
 
     assert result['filename'] == 'res_junit.xml'
+
+
+def test_attach_issue(runner, job_id):
+    result = runner.invoke(['job-list-issue', '--id', job_id])
+    result = json.loads(result.output)['_meta']['count']
+    assert result == 0
+
+    runner.invoke(
+        ['job-attach-issue', '--id', job_id, '--url',
+         'https://github.com/redhat-cip/dci-control-server/issues/2']
+    )
+    result = runner.invoke(['job-list-issue', '--id', job_id])
+    result = json.loads(result.output)['_meta']['count']
+    assert result == 1
+
+
+def test_unattach_issue(runner, job_id):
+    result = runner.invoke(['job-list-issue', '--id', job_id])
+    result = json.loads(result.output)['_meta']['count']
+    assert result == 0
+
+    runner.invoke(
+        ['job-attach-issue', '--id', job_id, '--url',
+         'https://github.com/redhat-cip/dci-control-server/issues/2']
+    )
+    result = runner.invoke(['job-list-issue', '--id', job_id])
+    result = json.loads(result.output)['_meta']['count']
+    issue_id = json.loads(result.output)['issues'][0]['id']
+    assert result == 1
+
+    runner.invoke(
+        ['job-unattach-issue', '--id', job_id, '--issue_id', issue_id]
+    )
+    result = runner.invoke(['job-list-issue', '--id', job_id])
+    result = json.loads(result.output)['_meta']['count']
+    assert result == 0
