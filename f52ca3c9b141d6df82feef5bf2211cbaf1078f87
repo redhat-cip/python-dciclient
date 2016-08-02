@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5adbc538_72265e6a",
+        "filename": "dciclient/v1/api/job.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-08-02T13:37:47Z",
+      "side": 1,
+      "message": "detach_issue sounds more natural.",
+      "revId": "f52ca3c9b141d6df82feef5bf2211cbaf1078f87",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5adbc538_922bea2f",
+        "filename": "dciclient/v1/shell_commands/job.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-08-02T13:37:47Z",
+      "side": 1,
+      "message": "the same here",
+      "revId": "f52ca3c9b141d6df82feef5bf2211cbaf1078f87",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
