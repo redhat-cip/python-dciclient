@@ -28,7 +28,6 @@ class DciHandler(logging.Handler):
         logging.Handler.__init__(self)
         self._info_as_jobstate = info_as_jobstate
         self._dci_context = dci_context
-        self._idx_file = 0
         self._current_log = io.StringIO()
         self._threshold_log = 512 * 1024  # 512K
         self._interval = interval  # seconds
@@ -42,14 +41,13 @@ class DciHandler(logging.Handler):
 
     def _send_log_file(self):
         jobstate_id = self._dci_context.last_jobstate_id
-        r = dci_file.create(self._dci_context, '%s.log' % self._idx_file,
+        r = dci_file.create(self._dci_context, 'logger.txt',
                             self._current_log.getvalue(), 'text/plain',
                             jobstate_id)
         if r.status_code != 201:
             raise DciLogPushFailure(r.json()['message'])
         self._current_log.truncate(0)
         self._current_log.seek(0)
-        self._idx_file += 1
 
     def emit(self, record):
         # if record is None then emit() is actually run by the timer
