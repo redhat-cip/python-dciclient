@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5adbc538_d221f2b5",
+        "filename": "agents/agents/dci_agent.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-08-03T09:37:48Z",
+      "side": 1,
+      "message": "before you ask, this one is here on purpose. I will drop it later. :D",
+      "revId": "de6b75ed956d96d870641821be809ae1e894881d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
