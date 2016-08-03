@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5adbc538_a62507ad",
+        "filename": "agents/agents/dci_agent.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-08-03T11:00:00Z",
+      "side": 1,
+      "message": "oh gosh.",
+      "parentUuid": "5adbc538_12035a10",
+      "revId": "de6b75ed956d96d870641821be809ae1e894881d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5adbc538_8609eb2e",
         "filename": "agents/agents/dci_agent.py",
         "patchSetId": 17
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-03T09:59:52Z",
       "side": 1,
       "message": "The 3 ifs are unecessary.\n\ndci_conf[\u0027key_filename\u0027] \u003d dci_conf.get(\u0027key_filename, os.path...) would work here. Same pattern apply to others.",
+      "revId": "de6b75ed956d96d870641821be809ae1e894881d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5adbc538_c66773e9",
+        "filename": "agents/agents/dci_agent.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-08-03T11:00:00Z",
+      "side": 1,
+      "message": "Yes this work but I prefer the readability of the initial version. Matter of taste probably.",
+      "parentUuid": "5adbc538_8609eb2e",
       "revId": "de6b75ed956d96d870641821be809ae1e894881d",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
@@ -121,6 +157,24 @@
     },
     {
       "key": {
+        "uuid": "5adbc538_e6646fe7",
+        "filename": "agents/agents/dci_agent.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-08-03T11:00:00Z",
+      "side": 1,
+      "message": "gosh, thanks. I refreshed the unit-test to avoid that in the future.",
+      "parentUuid": "5adbc538_261ad76e",
+      "revId": "de6b75ed956d96d870641821be809ae1e894881d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5adbc538_462603bc",
         "filename": "agents/agents/dci_agent.py",
         "patchSetId": 17
@@ -132,6 +186,24 @@
       "writtenOn": "2016-08-03T09:59:52Z",
       "side": 1,
       "message": "should this be in the conf also ?",
+      "revId": "de6b75ed956d96d870641821be809ae1e894881d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5adbc538_06623bd8",
+        "filename": "agents/agents/dci_agent.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-08-03T11:00:00Z",
+      "side": 1,
+      "message": "Again a good catch. It\u0027s unit-tested too now.",
+      "parentUuid": "5adbc538_462603bc",
       "revId": "de6b75ed956d96d870641821be809ae1e894881d",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
