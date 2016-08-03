@@ -2,6 +2,91 @@
   "comments": [
     {
       "key": {
+        "uuid": "5adbc538_12035a10",
+        "filename": "agents/agents/dci_agent.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-08-03T09:59:52Z",
+      "side": 1,
+      "message": "I think you meant dci_conf[\u0027auth\u0027][\u0027dci_cs_url\u0027] on the left side here.",
+      "revId": "de6b75ed956d96d870641821be809ae1e894881d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5adbc538_8609eb2e",
+        "filename": "agents/agents/dci_agent.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-08-03T09:59:52Z",
+      "side": 1,
+      "message": "The 3 ifs are unecessary.\n\ndci_conf[\u0027key_filename\u0027] \u003d dci_conf.get(\u0027key_filename, os.path...) would work here. Same pattern apply to others.",
+      "revId": "de6b75ed956d96d870641821be809ae1e894881d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5adbc538_c6121358",
+        "filename": "agents/agents/dci_agent.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-08-03T09:59:52Z",
+      "side": 1,
+      "message": "I think we should fail here if no topic has been passed in the CLI and topic is not present in the configuration file. Else it might uglyly fail later on the program.",
+      "revId": "de6b75ed956d96d870641821be809ae1e894881d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5adbc538_e60f0f2d",
+        "filename": "agents/agents/dci_agent.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-08-03T09:59:52Z",
+      "side": 1,
+      "message": "More generally we should have a check at some point that *at least* all the required items are present else mention the one missing. This way we avoid failure early.",
+      "revId": "de6b75ed956d96d870641821be809ae1e894881d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5adbc538_061ddb66",
+        "filename": "agents/agents/dci_agent.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-08-03T09:59:52Z",
+      "side": 1,
+      "message": "curiosity not -1: if logging has been set to stream\u003dsys.stdout (l98), why using print ?",
+      "revId": "de6b75ed956d96d870641821be809ae1e894881d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5adbc538_d221f2b5",
         "filename": "agents/agents/dci_agent.py",
         "patchSetId": 17
@@ -13,6 +98,40 @@
       "writtenOn": "2016-08-03T09:37:48Z",
       "side": 1,
       "message": "before you ask, this one is here on purpose. I will drop it later. :D",
+      "revId": "de6b75ed956d96d870641821be809ae1e894881d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5adbc538_261ad76e",
+        "filename": "agents/agents/dci_agent.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-08-03T09:59:52Z",
+      "side": 1,
+      "message": "s/192.168.100.10/dci_conf[\u0027undercloud_ip\u0027]",
+      "revId": "de6b75ed956d96d870641821be809ae1e894881d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5adbc538_462603bc",
+        "filename": "agents/agents/dci_agent.py",
+        "patchSetId": 17
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-08-03T09:59:52Z",
+      "side": 1,
+      "message": "should this be in the conf also ?",
       "revId": "de6b75ed956d96d870641821be809ae1e894881d",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
