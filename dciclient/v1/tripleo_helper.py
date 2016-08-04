@@ -20,8 +20,11 @@ from dciclient.v1.api import file
 from dciclient.v1.api import job
 from dciclient.v1.api import jobdefinition
 from dciclient.v1.api import jobstate
+from dciclient.v1.logger import DciHandler
 
 import json
+import logging
+import requests.packages.urllib3
 import tripleohelper.undercloud
 
 
@@ -34,6 +37,9 @@ def push_stack_details(context, undercloud, stack_name='overcloud'):
     undercloud.add_environment_file(
         user='stack',
         filename='stackrc')
+    undercloud.run(
+        './tripleo-stack-dump/list_nodes_status',
+        user='stack')
     undercloud.run(
         './tripleo-stack-dump/tripleo-stack-dump ' + stack_name,
         user='stack')
@@ -50,6 +56,14 @@ def push_stack_details(context, undercloud, stack_name='overcloud'):
 
 def run_tests(context, undercloud_ip, key_filename, user='root',
               stack_name='overcloud'):
+
+    # redirect the log messages to the DCI Control Server
+    # https://github.com/shazow/urllib3/issues/523
+    requests.packages.urllib3.disable_warnings()
+    dci_handler = DciHandler(context)
+    logger = logging.getLogger('tripleohelper')
+    logger.addHandler(dci_handler)
+
     undercloud = tripleohelper.undercloud.Undercloud(
         hostname=undercloud_ip,
         user=user,
