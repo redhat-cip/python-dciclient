@@ -51,8 +51,8 @@ setuptools.setup(
     long_description=_get_readme(),
     install_requires=_get_requirements(),
     dependency_links=[
-        'https://github.com/redhat-cip/python-rdo-m-helper.git'
-        '#egg=python-rdo-m-helper'],
+        'https://github.com/redhat-openstack/python-tripleo-helper.git'
+        '#egg=python-tripleo-helper'],
     url='https://github.com/redhat-cip/dci-control-server',
     license='Apache v2.0',
     include_package_data=True,
