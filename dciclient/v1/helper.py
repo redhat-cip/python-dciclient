@@ -112,9 +112,11 @@ def run_command(context, cmd, cwd=None, jobstate_id=None, team_id=None,
         output.seek(0)
         output.truncate()
 
-    while pipe_process.poll() is None:
+    p_status = None
+    while p_status is None:
         time.sleep(0.5)
         try:
+            p_status = pipe_process.poll()
             pstdout = pipe_process.stdout.read().decode('UTF-8', 'ignore')
         except IOError:
             pass
