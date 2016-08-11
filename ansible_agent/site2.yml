@@ -1,0 +1,42 @@
+---
+# Provisioning
+- hosts: common
+  gather_facts: no
+  vars:
+      no_dci: yes
+  tasks:
+    - include: dci_tasks/init_logs_directory.yml
+
+# Provisioning
+- hosts: localhost
+  gather_facts: no
+  vars:
+      dci_status: 'pre-run'
+      dci_comment: 'provisioning all that sh*t'
+      dci_log_prefix: 'provisioning'
+  tasks:
+    - name: Provision 1 - provision_1.log
+      shell: echo 'provisioning mes steaks step 1' > {{local_logs}}/{{dci_status}}/provision_1.log
+
+    - name: Provision 2- provision_2.log
+      shell: echo 'provisioning mes steaks step 2' > {{local_logs}}/{{dci_status}}/provision_2.log
+
+    - debug: msg="{{ job_id }}"
+
+    - include: dci_tasks/upload_logs.yml logs={{local_logs}}
+
+
+# Provisioning
+- hosts: centos
+  gather_facts: no
+  vars:
+      dci_status: 'running'
+      dci_comment: 'testing all that sh*t'
+      dci_log_prefix: 'testing'
+  tasks:
+    - name: Tempest 1 - tempest_1.junit
+      shell: echo 'testing mes steaks step 1' > {{remote_logs}}/{{dci_status}}/tempest.junit
+
+    - debug: msg="{{ job_id }}"
+
+    - include: dci_tasks/upload_logs.yml
