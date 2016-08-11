@@ -1,0 +1,10 @@
+---
+- name: Fetch remote logs if not on local host
+  synchronize:  dest={{local_logs}} src={{remote_logs}}/{{dci_status}} mode=pull
+  when:
+    - inventory_hostname != "localhost"
+    - inventory_hostname != "127.0.0.1"
+
+- name: Upload logs on dci control server
+  #local_action: dci_upload  job_id={{job_id}} src={{local_logs}} dci_login={{dci_login}} dci_password={{dci_password}} dci_cs_url={{dci_cs_url}}
+  local_action: dci_upload  job_id={{job_id}} src={{local_logs}} dci_login=yaya dci_password=yaya dci_cs_url=https://api.distributed-ci.io dci_status={{dci_status}}
