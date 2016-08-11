@@ -1,0 +1,108 @@
+---
+# Provisioning
+- hosts: common
+  gather_facts: no
+  vars:
+      no_dci: yes
+  tasks:
+    - include: dci_tasks/init_logs_directory.yml
+
+# Provisioning
+- hosts: localhost
+  gather_facts: no
+  vars:
+      dci_status: 'pre-run'
+      dci_comment: 'provisioning all that sh*t'
+      dci_log_prefix: 'provisioning'
+  tasks:
+    - name: Provision 1 - provision_1.log
+      shell: echo 'provisioning mes steaks step 1' > {{local_logs}}/{{dci_status}}/provision_1.log
+
+    - name: Provision 2- provision_2.log
+      shell: echo 'provisioning mes steaks step 2' > {{local_logs}}/{{dci_status}}/provision_2.log
+
+    - debug: msg="{{ job_id }}"
+
+    - include: dci_tasks/upload_logs.yml
+
+# Provisioning
+- hosts: centos
+  gather_facts: no
+  vars:
+      dci_status: 'running'
+      dci_comment: 'testing all that sh*t'
+      dci_log_prefix: 'testing'
+  tasks:
+    - name: Tempest 1 - tempest_1.junit
+      shell: echo 'testing mes steaks step 1' > {{remote_logs}}/{{dci_status}}/tempest.junit
+
+    - debug: msg="{{ job_id }}"
+
+    - include: dci_tasks/upload_logs.yml
+
+# Provisioning
+- hosts: localhost
+  gather_facts: no
+  vars:
+      dci_status: 'pre-run'
+      dci_comment: 'provisioning all that sh*t'
+      dci_log_prefix: 'provisioning'
+  tasks:
+    - debug: msg="{{ inventory_hostname }}"
+
+    - name: Provision 1 - provision_1.log
+      shell: echo 'provisioning mes steaks step 1' > {{local_logs}}/{{dci_status}}/provision_1.log
+
+    - name: Provision 2- provision_2.log
+      command: echo 'provisioning mes steaks step 2' > {{local_logs}}/{{dci_status}}/provision_2.log
+
+    - include: dci_tasks/upload_logs.yml
+
+
+# Deploy undercloud
+- hosts: localhost
+  gather_facts: no
+  vars:
+    dci_status: 'running'
+    dci_comment: 'underclouding all that sh*t'
+    dci_log_prefix: 'undercloud'
+  tasks:
+    - name: undercloud 1
+      shell: echo 'deploy undercloud mes steaks step 1' > {{local_logs}}/{{dci_status}}/undercloud_1.log
+
+    - name: undercloud 2
+      shell: echo 'deploy undercloud mes steaks step 2' > {{local_logs}}/{{dci_status}}/undercloud_2.log
+
+    - include: dci_tasks/upload_logs.yml
+
+# Deploy overcloud
+- hosts: localhost
+  gather_facts: no
+  vars:
+    dci_status: 'running'
+    dci_comment: 'overclouding all that sh*t'
+    dci_log_prefix: 'overcloud'
+  tasks:
+    - name: overcloud 1
+      shell: echo 'deploy overcloud mes steaks step 1' > {{local_logs}}/{{dci_status}}/overcloud_1.log
+
+    - name: overcloud 2
+      shell: echo 'deploy overcloud mes steaks step 2' > {{local_logs}}/{{dci_status}}/overcloud_1.log
+
+    - include: dci_tasks/upload_logs.yml
+
+# Run tests
+- hosts: centos
+  gather_facts: no
+  vars:
+    dci_status: 'running'
+    dci_comment: 'testing all that sh*t'
+    dci_log_prefix: 'testing'
+  tasks:
+    - name: tempest 1
+      shell: echo 'run the tests mes steaks step 1' > {{remote_logs}}/{{dci_status}}/tempest_1.log
+
+    - name: tempest 2
+      shell: echo 'run the tests mes steaks step 2' > {{remote_logs}}/{{dci_status}}/tempest_2.log
+
+    - include: dci_tasks/upload_logs.yml
