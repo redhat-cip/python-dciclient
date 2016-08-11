@@ -1,0 +1,7 @@
+localhost ansible_connection=local ansible_user=yassine
+centos ansible_host=192.168.122.40 ansible_connection=ssh ansible_user=centos 
+
+[common]
+localhost
+centos
+

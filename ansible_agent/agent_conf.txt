@@ -1,0 +1,7 @@
+
+- dci_login
+- dci_password
+- dci_cs_url
+- local_src
+- remote_src
+- undercloud_ip
