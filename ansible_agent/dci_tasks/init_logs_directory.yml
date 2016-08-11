@@ -1,0 +1,35 @@
+---
+- name: remove remote logs directory
+  file: path={{remote_logs}} state=absent
+  when:
+    - inventory_hostname != "localhost"
+    - inventory_hostname != "127.0.0.1"
+
+- name: create remote dci logs directory
+  file: path={{remote_logs}}/{{item}} state=directory recurse=yes
+  with_items:
+    - pre-run
+    - running
+    - post-run
+    - success
+    - failure
+  when:
+    - inventory_hostname != "localhost"
+    - inventory_hostname != "127.0.0.1"
+
+
+- name: remove local logs directory
+  file: path={{local_logs}} state=absent
+  when:
+    - inventory_hostname != "localhost"
+    - inventory_hostname != "127.0.0.1"
+
+- name: create local dci logs directory
+  file: path={{local_logs}}/{{item}} state=directory recurse=yes
+  with_items:
+    - pre-run
+    - running
+    - post-run
+    - success
+    - failure
+  when: (inventory_hostname == "localhost") or (inventory_hostname == "127.0.0.1")

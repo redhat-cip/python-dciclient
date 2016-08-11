@@ -1,0 +1,66 @@
+---
+# Provisioning
+- hosts: localhost
+  gather_facts: no
+  vars:
+      dci_status: 'pre-run'
+      dci_comment: 'provisioning all that sh*t'
+      dci_log_prefix: 'provisioning'
+  tasks:
+    - debug: msg="{{ inventory_hostname }}"
+
+    - name: Provision 1
+      shell: echo 'provisioning mes steaks step 1'
+      # > {{logs}}/{{dci_status}}/provision_1.log
+
+    - name: Provision 2
+      command: echo 'provisioning mes steaks step 2'
+      #> {{logs}}/{{dci_status}}/provision_2.log
+
+    - debug: msg="{{ job_id }}"
+
+    - name: true
+      shell: /bin/true
+
+# Deploy undercloud
+- hosts: localhost
+  gather_facts: no
+  vars:
+    dci_status: 'running'
+    dci_comment: 'underclouding all that sh*t'
+    dci_log_prefix: 'undercloud'
+  tasks:
+    - name: undercloud 1
+      shell: echo 'deploy undercloud mes steaks step 1'
+
+    - name: undercloud 2
+      shell: echo 'deploy undercloud mes steaks step 2'
+
+# Deploy overcloud
+- hosts: localhost
+  gather_facts: no
+  vars:
+    dci_status: 'running'
+    dci_comment: 'overclouding all that sh*t'
+    dci_log_prefix: 'overcloud'
+  tasks:
+    - name: overcloud 1
+      shell: echo 'deploy overcloud mes steaks step 1'
+    #- shell: /bin/false
+
+    - name: overcloud 2
+      shell: echo 'deploy overcloud mes steaks step 2'
+
+# Run tests
+- hosts: localhost
+  gather_facts: no
+  vars:
+    dci_status: 'running'
+    dci_comment: 'testing all that sh*t'
+    dci_log_prefix: 'testing'
+  tasks:
+    - name: tests 1
+      shell: echo 'run the tests mes steaks step 1'
+
+    - name: tests 2
+      shell: echo 'run the tests mes steaks step 2'
