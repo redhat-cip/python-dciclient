@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dab895d6_7c3ab537",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 33
+      },
+      "writtenOn": "2016-08-16T06:25:33Z",
+      "side": 1,
+      "message": "For safety reasons, you can run urllib.quote_plus on each argument.",
+      "revId": "84f49f64eb86f53c10c9eea0ef9341d57a21a34e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
