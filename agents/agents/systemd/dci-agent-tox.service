@@ -1,7 +1,0 @@
-[Unit]
-Description=The DCI tox agent
-
-[Service]
-Type=oneshot
-EnvironmentFile=-/etc/sysconfig/dci-agent-tox
-ExecStart=/usr/bin/dci-agent-tox $REMOTE_ID $TEAM_ID
