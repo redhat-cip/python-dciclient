@@ -15,8 +15,7 @@ Source0:        python-dciclient-%{version}.tgz
 BuildArch:      noarch
 
 %description
-Python client for DCI control server and also the agents
-for the remote CIs including tox agent and khaleesi agent.
+Python client for DCI control server for the remote CIs.
 
 %package -n python2-dciclient
 Summary:        Python client for DCI control server
@@ -44,8 +43,7 @@ Requires:       python-six
 Requires:       python-configparser
 
 %description -n python2-dciclient
-A Python 2 implementation of the client for DCI control server and also the
-agents for the remote CIs including tox agent and khaleesi agent.
+A Python 2 implementation of the client for DCI control server.
 
 %if 0%{?with_python3}
 %package -n python3-dciclient
@@ -73,23 +71,8 @@ Requires:       python3-simplejson
 Requires:       python3-six
 
 %description -n python3-dciclient
-A Python 3 implementation of the client for DCI control server and also the
-agents for the remote CIs including tox agent and khaleesi agent.
+A Python 3 implementation of the client for DCI control server.
 %endif
-
-%package -n dci-agents
-Summary:  DCI agents
-
-BuildRequires:	systemd
-%if 0%{?with_python3}
-Requires:	python3-dciclient
-%else
-Requires:	python2-dciclient
-%endif
-
-%description -n dci-agents
-DCI agents
-
 
 %package -n dci-feeders
 Summary:  DCI feeders
@@ -114,15 +97,13 @@ DCI feeders
 %if 0%{?with_python3}
 %py3_build
 %endif
-cp -r {agents,feeders} build/lib/
+cp -r {feeders} build/lib/
 
 %install
 install -d %{buildroot}%{_bindir}
-find agents/agents -name '[^_]*py' -exec sh -c 'mv "$0" %{buildroot}%{_bindir}/dci-agent-$(basename "$0")' {} \;
 find feeders/feeders -name '[^_]*py' -exec sh -c 'mv "$0" %{buildroot}%{_bindir}/dci-feeder-$(basename "$0")' {} \;
 find %{buildroot}%{_bindir} -name '*.py' -exec sh -c 'mv "$0" "${0%%.py}"' {} \;
 install -d %{buildroot}%{_unitdir}
-mv agents/agents/systemd/* %{buildroot}%{_unitdir}
 mv feeders/feeders/systemd/* %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig/dci-feeder-github
 %py2_install
@@ -138,9 +119,9 @@ find %{buildroot}/%{python3_sitelib}/*.egg-info -name 'requires.txt' -exec sed -
 sed -i '3s/2.7.0/2.6.0/' requirements.txt
 sed -i '5s/click.*/click/' requirements.txt
 sed -i '6s/setuptools.*/setuptools/' requirements.txt
-rm -rf {agents, feeders}
-rm -rf %{buildroot}/%{python2_sitelib}/{agents,feeders}
-rm -rf %{buildroot}/%{python3_sitelib}/{agents,feeders}
+rm -rf feeders
+rm -rf %{buildroot}/%{python2_sitelib}/feeders
+rm -rf %{buildroot}/%{python3_sitelib}/feeders
 
 %post
 for unit in $(ls %{buildroot}%{_unitdir}); do
@@ -176,11 +157,6 @@ done
 %{python3_sitelib}/*.egg-info
 %{_bindir}/dcictl
 %endif
-
-
-%files -n dci-agents
-%{_bindir}/dci-agent-*
-%{_unitdir}/dci-agent-*
 
 %files -n dci-feeders
 %{_bindir}/dci-feeder-*
