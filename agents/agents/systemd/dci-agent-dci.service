@@ -1,7 +1,0 @@
-[Unit]
-Description=The DCI dci agent
-
-[Service]
-Type=oneshot
-EnvironmentFile=-/etc/sysconfig/dci-agent-dci
-ExecStart=/usr/bin/dci-agent-dci $REMOTE_ID $TEAM_ID $ENVIRONMENT
