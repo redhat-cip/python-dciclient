@@ -87,6 +87,13 @@ def main(dci_login, dci_password, dci_cs_url):
                                         dci_password)
     versions = [
         {
+            'name': '10.0',
+            'urls': [
+                'http://download.eng.bos.redhat.com/rcm-guest/puddles/OpenStack/10.0-RHEL-7/latest/RH7-RHOS-10.0.repo',  # noqa
+                'http://download.eng.bos.redhat.com/rcm-guest/puddles/OpenStack/10.0-RHEL-7-director/latest/RH7-RHOS-10.0-director.repo'],  # noqa
+            'topic_id': dci_topic.get(ctx, 'OSP10').json()['topic']['id']
+        },
+        {
             'name': '9.0',
             'urls': [
                 'http://download.eng.bos.redhat.com/rcm-guest/puddles/OpenStack/9.0-RHEL-7/latest/RH7-RHOS-9.0.repo',  # noqa
