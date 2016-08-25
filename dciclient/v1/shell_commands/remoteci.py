@@ -130,3 +130,24 @@ def show(context, id):
     result = remoteci.get(context, id=id)
     utils.format_output(result, context.format,
                         remoteci.RESOURCE[:-1], remoteci.TABLE_HEADERS)
+
+
+@cli.command("remoteci-get-data", help="Retrieve data field from a remoteci.")
+@click.option("--id", required=True)
+@click.option("--keys")
+@click.pass_obj
+def get_data(context, id, keys):
+    """get_data(context, id, keys)
+
+    Retrieve data field from a remoteci.
+
+    >>> dcictl remoteci-get-data [OPTIONS]
+
+    :param string id: ID of the remote CI to show [required]
+    :param string id: Keys of the data field to retrieve [optional]
+    """
+
+    if keys:
+        keys = keys.split(',')
+    result = remoteci.get_data(context, id=id, keys=keys)
+    utils.format_output(result, context.format)

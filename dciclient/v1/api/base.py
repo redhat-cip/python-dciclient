@@ -46,6 +46,20 @@ def get(context, resource, **kwargs):
     return r
 
 
+def get_data(context, resource, **kwargs):
+    """Retrieve data field from a resource"""
+
+    url_suffix = ''
+    if 'keys' in kwargs and kwargs['keys']:
+        url_suffix = '/?keys=%s' % ','.join(kwargs.pop('keys'))
+
+    uri = '%s/%s/%s/data%s' % (context.dci_cs_api, resource,
+                               kwargs.pop('id'), url_suffix)
+
+    r = context.session.get(uri, params=kwargs)
+    return r
+
+
 def update(context, resource, **kwargs):
     """Update a specific resource"""
     etag = kwargs.pop('etag')
