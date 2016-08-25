@@ -149,6 +149,19 @@ def test_get_data(runner):
     assert json.loads(result.output) == {'foo': 'bar'}
 
 
+def test_get_data_missing_key(runner):
+    result = runner.invoke(['team-create', '--name', 'foo'])
+    team = json.loads(result.output)['team']
+    result = runner.invoke(['remoteci-create', '--name', 'foo', '--team_id',
+                            team['id']])
+    remoteci = json.loads(result.output)['remoteci']
+
+    result = runner.invoke(['remoteci-get-data',
+                            '--id', remoteci['id'],
+                            '--keys', 'missing'])
+    assert json.loads(result.output) == {}
+
+
 def test_embed(dci_context):
     team_id = team.create(dci_context, name='teama').json()['team']['id']
 
