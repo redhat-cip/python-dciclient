@@ -54,8 +54,13 @@ def push_stack_details(context, undercloud, stack_name='overcloud'):
             configuration=json.load(fd))
 
 
-def run_tests(context, undercloud_ip, key_filename, user='root',
-              stack_name='overcloud'):
+def run_tests(context, undercloud_ip, key_filename, remoteci_id,
+              user='root', stack_name='overcloud'):
+
+    # Retrieve the certification_id data field. In order to run
+    # the rhcert test suite if enabled. If absent set to empty string.
+    certification_id = remoteci.get_data(
+        ctx, remoteci_id, ['certification_id']).get('certification_id', '')
 
     # redirect the log messages to the DCI Control Server
     # https://github.com/shazow/urllib3/issues/523
@@ -105,7 +110,15 @@ def run_tests(context, undercloud_ip, key_filename, user='root',
                 user='stack',
                 filename=rcfile)
             undercloud.run('curl -O ' + url, user='stack')
-            undercloud.run('bash -x run.sh ' + stack_name, user='stack')
+            undercloud.run((
+                'DCI_CERTIFICATION_ID=%s '
+                'DCI_REMOTECI_ID=%s '
+                'DCI_JOB_ID=%s '
+                'bash -x run.sh %s') % (
+                    certification_id,
+                    remoteci_id,
+                    j['id'], stack_name),
+                           user='stack')
             with undercloud.open('result.xml', user='stack') as fd:
                 file.create(
                     context,
