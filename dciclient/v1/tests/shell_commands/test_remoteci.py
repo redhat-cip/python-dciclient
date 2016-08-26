@@ -134,6 +134,21 @@ def test_show(runner):
     assert remoteci['name'] == 'foo'
 
 
+def test_get_data(runner):
+    result = runner.invoke(['team-create', '--name', 'foo'])
+    team = json.loads(result.output)['team']
+    result = runner.invoke(['remoteci-create', '--name', 'foo', '--team_id',
+                            team['id']])
+    remoteci = json.loads(result.output)['remoteci']
+
+    result = runner.invoke(['remoteci-get-data', '--id', remoteci['id']])
+    assert json.loads(result.output) == {}
+    runner.invoke(['remoteci-update', '--id', remoteci['id'],
+                   '--etag', remoteci['etag'], '--data', {'foo': 'bar'}])
+    result = runner.invoke(['remoteci-get-data', '--id', remoteci['id']])
+    assert json.loads(result.output) == {'foo': 'bar'}
+
+
 def test_embed(dci_context):
     team_id = team.create(dci_context, name='teama').json()['team']['id']
 
