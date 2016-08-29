@@ -52,6 +52,10 @@ def list_attached_team(context, id):
     return context.session.get(uri)
 
 
+def list_components(context, id):
+    return base.list(context, RESOURCE, id=id, subresource='components')
+
+
 def get_jobs_from_components(context, topic_id, component_id):
     uri = '%s/%s/%s/components/%s/jobs' % \
           (context.dci_cs_api, RESOURCE, topic_id, component_id)

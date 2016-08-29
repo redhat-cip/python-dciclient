@@ -19,40 +19,41 @@ import click
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
+from dciclient.v1.api import team
 from dciclient.v1.api import test
 
 import json
 
 
 @cli.command("test-list", help="List all tests.")
-@click.option("--topic_id", required=True)
+@click.option("--team_id", required=True)
 @click.pass_obj
-def list(context, topic_id):
+def list(context, team_id):
     """List all tests.
 
     >>> dcictl test list
     """
-    result = test.list(context, topic_id)
+    result = team.list_tests(context, team_id)
     utils.format_output(result, context.format,
                         test.RESOURCE, test.TABLE_HEADERS)
 
 
 @cli.command("test-create", help="Create a test.")
 @click.option("--name", required=True)
-@click.option("--topic_id", required=True)
+@click.option("--team_id", required=True)
 @click.option("--data", default='{}')
 @click.pass_obj
-def create(context, name, data, topic_id):
+def create(context, name, team_id, data):
     """Create a test.
 
     >>> dcictl test-create [OPTIONS]
 
     :param string name: Name of the test [required]
-    :param string topic_id: ID of the topic to associate with [required]
+    :param string team_id: ID of the team to associate with [required]
     :param json data: JSON formatted data block for the test
     """
     data = json.loads(data)
-    result = test.create(context, name=name, data=data, topic_id=topic_id)
+    result = test.create(context, name=name, data=data, team_id=team_id)
     utils.format_output(result, context.format, test.RESOURCE[:-1])
 
 

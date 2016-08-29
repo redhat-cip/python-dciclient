@@ -21,13 +21,13 @@ RESOURCE = 'tests'
 TABLE_HEADERS = ['id', 'name', 'data', 'created_at']
 
 
-def create(context, name, topic_id, data={}):
+def create(context, name, team_id, data={}):
     return base.create(context, RESOURCE, name=name, data=data,
-                       topic_id=topic_id)
+                       team_id=team_id)
 
 
-def list(context, topic_id):
-    return base.list(context, RESOURCE, topic_id=topic_id)
+def list(context, team_id):
+    return base.list(context, RESOURCE, team_id=team_id)
 
 
 def get(context, id, where=None, embed=None):
