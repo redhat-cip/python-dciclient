@@ -20,6 +20,7 @@ from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
 from dciclient.v1.api import component
+from dciclient.v1.api import topic
 
 import json
 
@@ -36,7 +37,7 @@ def list(context, topic_id):
 
     :param string topic_id: The topic ID for the list of components to return
     """
-    components = component.list(context, topic_id)
+    components = topic.list_components(context, topic_id)
     utils.format_output(components, context.format,
                         component.RESOURCE, component.TABLE_HEADERS)
 
