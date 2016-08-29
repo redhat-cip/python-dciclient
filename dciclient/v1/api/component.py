@@ -15,6 +15,7 @@
 # under the License.
 
 from dciclient.v1.api import base
+from dciclient.v1.api import topic
 
 import json
 
@@ -35,10 +36,6 @@ def create(context, name, type, topic_id, canonical_project_name=None, data={},
                        data=json.dumps(data), sha=sha, title=title,
                        message=message, url=url, git=git, ref=ref,
                        topic_id=topic_id)
-
-
-def list(context, topic_id, where=None):
-    return base.list(context, RESOURCE, topic_id=topic_id, where=where)
 
 
 def get(context, id, where=None, embed=None):

@@ -29,6 +29,10 @@ def list(context, where=None, embed=None):
     return base.list(context, RESOURCE, where=None, embed=None)
 
 
+def list_tests(context, id, where=None, embed=None):
+    return base.list(context, RESOURCE, id=id, subresource='tests', where=None, embed=None)
+
+
 def get(context, id, where=None, embed=None):
     return base.get(context, RESOURCE, id=id, where=where, embed=embed)
 
