@@ -38,7 +38,7 @@ def list(context):
 
 @cli.command("remoteci-create", help="Create a remoteci.")
 @click.option("--name", required=True)
-@click.option("--team_id", required=True)
+@click.option("--team_id", required=False)
 @click.option("--data", default='{}')
 @click.option("--active/--no-active", default=True)
 @click.pass_obj
@@ -56,6 +56,7 @@ def create(context, name, team_id, data, active):
     :param boolean active: Mark remote CI active
     :param boolean no-active: Mark remote CI inactive
     """
+    team_id = team_id or context.user['team_id']
     data = json.loads(data)
     result = remoteci.create(context, name=name, team_id=team_id, data=data,
                              active=active)

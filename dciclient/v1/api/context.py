@@ -33,6 +33,9 @@ class DciContext(object):
         self.session.mount('http://', HTTPAdapter(max_retries=retries))
         self.session.mount('https://', HTTPAdapter(max_retries=retries))
         self.dci_cs_api = '%s/%s' % (dci_cs_url, DciContext.API_VERSION)
+
+        r = self.session.get(self.dci_cs_api + '/users/' + login)
+        self.user = r.json()['user']
         self.last_jobstate_id = None
         self.last_job_id = None
 

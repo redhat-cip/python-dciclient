@@ -38,7 +38,7 @@ def list(context):
 @click.option("--name", required=True)
 @click.option("--password", required=True)
 @click.option("--role", help="'admin' or 'user'")
-@click.option("--team_id", required=True)
+@click.option("--team_id", required=False)
 @click.pass_obj
 def create(context, name, password, role, team_id):
     """create(context, name, password, role, team_id)
@@ -50,8 +50,9 @@ def create(context, name, password, role, team_id):
     :param string name: Name of the user [required]
     :param string password: Password for the user [required]
     :param string role: Role of user (admin or user)
-    :param string team_id: ID of the team to attach this user to [required]
+    :param string team_id: ID of the team to attach this user to [optional]
     """
+    team_id = team_id or context.user['team_id']
     result = user.create(context, name=name, password=password,
                          role=role, team_id=team_id)
     utils.format_output(result, context.format, user.RESOURCE[:-1])
