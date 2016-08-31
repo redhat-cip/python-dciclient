@@ -21,18 +21,20 @@ from dciclient.v1 import utils
 
 from dciclient.v1.api import team
 from dciclient.v1.api import test
+from dciclient.v1.api import user
 
 import json
 
 
 @cli.command("test-list", help="List all tests.")
-@click.option("--team_id", required=True)
+@click.option("--team_id", required=False)
 @click.pass_obj
 def list(context, team_id):
     """List all tests.
 
     >>> dcictl test list
     """
+    team_id = team_id or user.get(context.login).json()['team_id']
     result = team.list_tests(context, team_id)
     utils.format_output(result, context.format,
                         test.RESOURCE, test.TABLE_HEADERS)
@@ -40,7 +42,7 @@ def list(context, team_id):
 
 @cli.command("test-create", help="Create a test.")
 @click.option("--name", required=True)
-@click.option("--team_id", required=True)
+@click.option("--team_id", required=False)
 @click.option("--data", default='{}')
 @click.pass_obj
 def create(context, name, team_id, data):
@@ -52,6 +54,7 @@ def create(context, name, team_id, data):
     :param string team_id: ID of the team to associate with [required]
     :param json data: JSON formatted data block for the test
     """
+    team_id = team_id or user.get(context.login).json()['team_id']
     data = json.loads(data)
     result = test.create(context, name=name, data=data, team_id=team_id)
     utils.format_output(result, context.format, test.RESOURCE[:-1])

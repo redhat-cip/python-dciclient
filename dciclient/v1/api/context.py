@@ -30,6 +30,7 @@ class DciContext(object):
         self.session = self._build_http_session(login, password, user_agent)
         retries = Retry(total=max_retries,
                         backoff_factor=0.1)
+        self.login = login
         self.session.mount('http://', HTTPAdapter(max_retries=retries))
         self.session.mount('https://', HTTPAdapter(max_retries=retries))
         self.dci_cs_api = '%s/%s' % (dci_cs_url, DciContext.API_VERSION)
