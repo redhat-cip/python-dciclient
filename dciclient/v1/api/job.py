@@ -15,7 +15,6 @@
 # under the License.
 
 from dciclient.v1.api import base
-from dciclient.v1.api import jobdefinition
 
 import json
 
