@@ -98,15 +98,15 @@ def run_command(context, cmd, cwd=None, jobstate_id=None, team_id=None,
                                     shell=shell)
 
     fcntl.fcntl(pipe_process.stdout.fileno(), fcntl.F_SETFL, os.O_NONBLOCK)
-    name = cmd if shell else '_'.join(cmd)
+    name = cmd if shell else u'_'.join(cmd)
 
     def flush_buffer(output):
         if output.tell() == 0:
             return
         to_send = output.getvalue()
         file.create(
-            context, name=name,
-            content=to_send,
+            context, name=name.encode('utf-8'),
+            content=to_send.encode('utf-8'),
             mime='text/plain',
             jobstate_id=jobstate_id)
         output.seek(0)
