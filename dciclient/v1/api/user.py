@@ -28,7 +28,7 @@ def create(context, name, password, team_id, role=None):
 
 
 def list(context, where=None, embed=None):
-    return base.list(context, RESOURCE, where=None, embed=None)
+    return base.list(context, RESOURCE, where=where, embed=embed)
 
 
 def get(context, id, where=None, embed=None):
