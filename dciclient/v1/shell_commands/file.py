@@ -46,6 +46,5 @@ def show(context, id):
 
     :param string id: ID of the file to show [required]
     """
-    result = file.get(context, id=id)
-    utils.format_output(result, context['format'],
-                        file.RESOURCE[:-1], file.TABLE_HEADERS)
+    content = file.content(context, id=id)
+    print(content.text)
