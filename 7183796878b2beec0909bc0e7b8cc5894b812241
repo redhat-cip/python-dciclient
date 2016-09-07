@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dab895d6_11f197cd",
+        "filename": "dciclient/v1/tripleo_helper.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 107
+      },
+      "writtenOn": "2016-09-07T15:37:06Z",
+      "side": 1,
+      "message": "This syntax is not easy to read, can you use a if ?",
+      "range": {
+        "startLine": 65,
+        "startChar": 28,
+        "endLine": 65,
+        "endChar": 31
+      },
+      "revId": "7183796878b2beec0909bc0e7b8cc5894b812241",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
