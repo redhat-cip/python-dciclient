@@ -19,7 +19,7 @@ from dciclient.v1 import utils
 
 
 RESOURCE = 'files'
-TABLE_HEADERS = ['id', 'name', 'content', 'mime', 'md5', 'jobstate_id',
+TABLE_HEADERS = ['id', 'name', 'mime', 'md5', 'jobstate_id',
                  'team_id', 'created_at']
 
 
