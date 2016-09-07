@@ -40,7 +40,7 @@ def get(context, id, where=None, embed=None):
 
 
 def list(context, where=None, embed=None):
-    return base.list(context, RESOURCE, where=None, embed=None)
+    return base.list(context, RESOURCE, where=where, embed=embed)
 
 
 def update(context, name=None, content=None, mime=None, md5=None):
