@@ -232,6 +232,11 @@ def job_id(dci_context):
 
 
 @pytest.fixture
+def file_id(dci_context, job_id):
+    return api.file.list(dci_context).json()['files'][0]['id']
+
+
+@pytest.fixture
 def jobstate_id(dci_context, job_id):
     kwargs = {'job_id': job_id, 'status': 'running', 'comment': 'some comment'}
     jobstate = api.jobstate.create(dci_context, **kwargs).json()
