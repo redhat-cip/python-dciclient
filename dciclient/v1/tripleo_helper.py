@@ -115,7 +115,7 @@ def run_tests(context, undercloud_ip, key_filename, remoteci_id,
                 'DCI_CERTIFICATION_ID=%s '
                 'DCI_REMOTECI_ID=%s '
                 'DCI_JOB_ID=%s '
-                'DCI_OVERCLOUD_STACK_NAME=%s'
+                'DCI_OVERCLOUD_STACK_NAME=%s '
                 'bash -x run.sh') % (
                     certification_id,
                     remoteci_id,
