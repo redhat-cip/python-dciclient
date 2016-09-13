@@ -24,7 +24,8 @@ def test_prettytable_output(runner):
     assert topic['name'] == 'osp'
 
     result = runner.invoke(['component-create', '--name', 'foo',
-                            '--type', 'bar', '--topic_id', topic['id']])
+                            '--type', 'bar', '--export_control',
+                            '--topic_id', topic['id']])
     component = json.loads(result.output)['component']
 
     result = runner.invoke(['--format', 'table', 'component-show', '--id',
@@ -57,14 +58,16 @@ def test_prettytable_output(runner):
                      component['type'], component['sha'],
                      component['title'], component['message'],
                      component['url'], component['git'], component['ref'],
-                     component['created_at'])
+                     component['created_at'], component['export_control'],
+                     component['updated_at'])
 
     assert header == ('| id | name | canonical_project_name '
                       '| type | sha | title | message | url | git '
-                      '| ref | data | created_at |')
+                      '| ref | data | created_at | export_control '
+                      '| updated_at |')
 
     assert data == ('| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | {} '
-                    '| %s |' % expected_data)
+                    '| %s | %s | %s |' % expected_data)
 
 
 def test_list(runner):
@@ -121,7 +124,8 @@ def test_show(runner):
     assert topic['name'] == 'osp'
 
     result = runner.invoke(['component-create', '--name', 'foo',
-                            '--type', 'bar', '--topic_id', topic['id']])
+                            '--type', 'bar', '--export_control',
+                            '--topic_id', topic['id']])
     component = json.loads(result.output)['component']
 
     result = runner.invoke(['component-show', '--id', component['id']])

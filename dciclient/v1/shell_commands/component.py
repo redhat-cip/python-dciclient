@@ -54,11 +54,12 @@ def list(context, topic_id):
 @click.option("--url", help='URL to look for the component')
 @click.option("--git", help='Git reference for the component')
 @click.option("--ref", help='External reference for the component')
+@click.option("--export_control", is_flag=True, help='Set the component visible')
 @click.pass_obj
 def create(context, name, type, canonical_project_name, data, sha,
-           title, message, url, git, ref, topic_id):
+           title, message, url, git, ref, topic_id, export_control):
     """create(context, name, type, canonical_project_name, data, sha, title,
-message, url, git, ref, topic_id)
+message, url, git, ref, topic_id, export_control)
 
     Create a component.
 
@@ -75,13 +76,14 @@ message, url, git, ref, topic_id)
     :param string url: URL resource to monitor
     :param string git: Git resource to monitor
     :param string ref: Reference resource to monitor
+    :parma bool export_control: Set the component visible for users
     """
     data = json.loads(data)
     result = component.create(
         context, name=name, type=type,
         canonical_project_name=canonical_project_name, data=data, sha=sha,
         title=title, message=message, url=url, git=git, ref=ref,
-        topic_id=topic_id
+        topic_id=topic_id, export_control=export_control
     )
     utils.format_output(result, context.format, component.RESOURCE[:-1])
 
