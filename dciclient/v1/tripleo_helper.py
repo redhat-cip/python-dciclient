@@ -62,8 +62,7 @@ def run_tests(context, undercloud_ip, key_filename, remoteci_id,
     # the rhcert test suite if enabled. If absent set to empty string.
     data = remoteci.get_data(
         context, remoteci_id, ['certification_id']).json()
-    if data:
-        certification_id = data.get('certification_id', '')
+    certification_id = data and data.get('certification_id', '')
 
     # redirect the log messages to the DCI Control Server
     # https://github.com/shazow/urllib3/issues/523
