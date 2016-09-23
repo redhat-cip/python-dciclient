@@ -21,6 +21,7 @@ from dciclient.v1.api import job
 from dciclient.v1.api import jobdefinition
 from dciclient.v1.api import jobstate
 from dciclient.v1.api import remoteci
+from dciclient.v1.api import topic as dci_topic
 from dciclient.v1.logger import DciHandler
 
 import json
@@ -55,6 +56,21 @@ def push_stack_details(context, undercloud, stack_name='overcloud'):
             configuration=json.load(fd))
 
 
+def undercloud_is_ready(undercloud):
+    test_stackrc = undercloud.run(
+        'test -f stackrc',
+        user='stack',
+        success_status=(0, 1,))
+    return test_stackrc[1] == 0
+
+
+def overcloud_is_ready(undercloud, rcfile):
+    test_overcloudrc = undercloud.run(
+        'test -f ' + rcfile + 'rc',
+        user='stack',
+        success_status=(0, 1,))
+    return test_overcloudrc[1] == 0
+
 def run_tests(context, undercloud_ip, key_filename, remoteci_id,
               user='root', stack_name='overcloud'):
 
@@ -78,26 +94,18 @@ def run_tests(context, undercloud_ip, key_filename, remoteci_id,
     undercloud.create_stack_user()
 
     final_status = 'success'
-    if undercloud.run(
-            'test -f stackrc',
-            user='stack',
-            success_status=(0, 1,))[1] != 0:
+    if not undercloud_is_ready(undercloud):
         msg = 'undercloud deployment failure'
         jobstate.create(context, 'failure', msg, context.last_job_id)
         return
     push_stack_details(context, undercloud, stack_name=stack_name)
-    rcfile = stack_name + 'rc'
-    if undercloud.run(
-            'test -f ' + rcfile,
-            user='stack',
-            success_status=(0, 1,))[1] != 0:
+    if not overcloud_is_ready(undercloud, stack_name):
         msg = 'overcloud deployment failure'
         jobstate.create(context, 'failure', msg, context.last_job_id)
         return
 
     j = job.get(context, context.last_job_id).json()['job']
-    tests = jobdefinition.get_tests(
-        context, j['jobdefinition_id']).json()
+    tests = dci_topic.get_tests(context, j['topic_id']).json()['tests']
     try:
         for t in tests['tests']:
             if 'url' not in t['data']:
@@ -110,7 +118,7 @@ def run_tests(context, undercloud_ip, key_filename, remoteci_id,
             url = t['data']['url']
             undercloud.add_environment_file(
                 user='stack',
-                filename=rcfile)
+                filename=stack_name + 'rc')
             undercloud.run('curl -O ' + url, user='stack')
             undercloud.run((
                 'DCI_CERTIFICATION_ID=%s '
