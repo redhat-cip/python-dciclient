@@ -23,7 +23,11 @@ from six.moves.urllib.parse import urlparse
 
 import click
 import configparser
+import os.path
 import requests
+import shutil
+import subprocess
+import tarfile
 
 
 def get_repo_information(repo_file):
@@ -68,6 +72,36 @@ def get_components(urls, topic_id):
     return c
 
 
+def prepare_archive(component):
+    project_name = component['canonical_project_name']
+    config = configparser.ConfigParser()
+    config[project_name] = {
+        'name': project_name,
+        'baseurl': component['url'],
+        'gpgcheck': 1,
+        'enabled': 1
+    }
+
+    with open('yum.conf', 'w') as fd:
+        config.write(fd)
+    if os.path.exists(project_name):
+        shutil.rmtree(project_name)
+    subprocess.check_call([
+        'reposync',
+        '-c', 'yum.conf',
+        '--download-metadata',
+        '--norepopath',
+        '-r', project_name,
+        '-p', project_name])
+    subprocess.check_call(['createrepo', project_name])
+
+    archive = 'archive.tar'
+    if os.path.exists(archive):
+        os.unlink(archive)
+    with tarfile.open(archive, 'w:') as tar:
+        tar.add(project_name)
+
+
 def build_jobdefinition_name(v, components):
     tmp = []
     for c in components:
@@ -110,11 +144,29 @@ def main(dci_login, dci_password, dci_cs_url):
     ]
 
     for v in versions:
-        # Create Khaleei-tempest test
         components = get_components(v['urls'], v['topic_id'])
         for c in components:
-            r = dci_component.create(ctx, **c)
-            print(r.status_code)
+            dci_component.create(ctx, **c)
+            r = dci_component.get(ctx, c['name'], embed='file')
+            if r.status_code == 401:
+                continue
+            if r.status_code == 404:
+                print('Component %s not found' % c['name'])
+                exit(1)
+            component = r.json()['component']
+            r_current_components = dci_component.list_files(
+                ctx, id=component['id'])
+            if len(r_current_components.json()['component_files']):
+                print('%s already has its data. Skipped.' % component['name'])
+                continue
+
+            prepare_archive(component)
+            print('Uploading bits...')
+            r = dci_component.upload_file(
+                ctx, id=component['id'], file_path='archive.tar')
+            if r.status_code != 201:
+                print('Upload failed for component %s' % component['name'])
+                exit(1)
 
 
 if __name__ == '__main__':

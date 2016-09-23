@@ -43,5 +43,26 @@ def get(context, id, where=None, embed=None):
     return base.get(context, RESOURCE, id=id, where=where, embed=embed)
 
 
+def update(context, id=None, etag=None, name=None, content=None):
+    return base.update(context, RESOURCE, id=id, etag=etag, name=name,
+                       content=content)
+
+
 def delete(context, id):
     return base.delete(context, RESOURCE, id=id)
+
+
+def upload_file(context, id, file_path):
+    uri = '%s/%s/%s/files' % (context.dci_cs_api, RESOURCE, id)
+    with open(file_path, 'rb') as f:
+        return context.session.post(uri, data=f)
+
+
+def list_files(context, id):
+    uri = '%s/%s/%s/files' % (context.dci_cs_api, RESOURCE, id)
+    return context.session.get(uri)
+
+
+def delete_file(context, id, file_id):
+    uri = '%s/%s/%s/files/%s' % (context.dci_cs_api, RESOURCE, id, file_id)
+    return context.session.delete(uri)
