@@ -24,6 +24,7 @@ from six.moves.urllib.parse import urlparse
 import click
 import configparser
 import requests
+import subprocess
 
 
 def get_repo_information(repo_file):
@@ -112,9 +113,41 @@ def main(dci_login, dci_password, dci_cs_url):
     for v in versions:
         # Create Khaleei-tempest test
         components = get_components(v['urls'], v['topic_id'])
+        from pprint import pprint
         for c in components:
+            pprint(c['data'])
+            config = configparser.ConfigParser()
+            project_name = c['canonical_project_name']
+            config[project_name] = {
+                'name': project_name,
+                'baseurl': c['url'],
+                'gpgcheck': 1,
+                'enabled': 1
+            }
+            with open('yum.conf', 'w') as fd:
+                config.write(fd)
+            #subprocess.check_call(['reposync', '-c', 'yum.conf', '--download-metadata', '--norepopath', '-r', project_name, '-p', 'heer'])
+#            subprocess.check_call(['createrepo', project_name])
+            import tarfile
+
+            archive = 'RH7-RHOS-10.0.tar'
+            #with tarfile.open(project_name + '.tar', 'w') as tar:
+            #    tar.add(project_name)
             r = dci_component.create(ctx, **c)
             print(r.status_code)
+            r = dci_component.get(ctx, c['name'])
+            if r.status_code == 401:
+                continue
+            component = r.json()['component']
+            print(component)
+            print(dci_component.upload(ctx, id=component['id'], file_path='/home/goneri/Downloads/elasticsearch-2.4.0.rpm').text)
+#            print(r.text)
+#            print(r.status_code)
+            break
+
+        # for c in components:
+        #     r = dci_component.create(ctx, **c)
+        #     print(r.status_code)
 
 
 if __name__ == '__main__':

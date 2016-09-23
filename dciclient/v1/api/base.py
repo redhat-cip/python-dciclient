@@ -66,6 +66,7 @@ def update(context, resource, **kwargs):
     id = kwargs.pop('id')
     data = utils.sanitize_kwargs(**kwargs)
     uri = '%s/%s/%s' % (context.dci_cs_api, resource, id)
+    print(data)
     r = context.session.put(uri, headers={'If-match': etag}, json=data)
     return r
 
