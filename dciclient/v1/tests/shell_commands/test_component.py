@@ -135,3 +135,47 @@ def test_show(runner):
     component = json.loads(result.output)['component']
 
     assert component['name'] == 'foo'
+
+
+def test_file_support(runner, tmpdir):
+    td = tmpdir
+    p = td.join("hello.txt")
+    p.write("content")
+    topic = runner.invoke(['topic-create', '--name', 'osp'])
+    topic = json.loads(topic.output)['topic']
+
+    component = runner.invoke(['component-create', '--name', 'foo',
+                               '--type', 'foobar', '--topic_id', topic['id'],
+                               '--export_control'])
+    component = json.loads(component.output)['component']
+
+    # upload
+    result = runner.invoke(['component-file-upload', '--id', component['id'],
+                            '--path', p.strpath])
+    new_f = json.loads(result.output)['component_file']
+    assert new_f['size'] == 7
+
+    # show
+    result = runner.invoke(['component-file-show', '--id', component['id'],
+                            '--file_id', new_f['id']])
+    new_f = json.loads(result.output)['component_file']
+    assert new_f['size'] == 7
+
+    # download
+    result = runner.invoke(['component-file-download', '--id', component['id'],
+                            '--file_id', new_f['id'],
+                            '--target', td.strpath + '/my_file'])
+    assert open(td.strpath + '/my_file', 'r').read() == 'content'
+
+    # list
+    result = runner.invoke(['component-file-list', '--id', component['id']])
+    my_list = json.loads(result.output)['component_files']
+    assert len(my_list) == 1
+    assert my_list[0]['size'] == 7
+
+    # delete
+    result = runner.invoke(['component-file-delete', '--id', component['id'],
+                            '--file_id', new_f['id']])
+    result = runner.invoke(['component-file-show', '--id', component['id'],
+                            '--file_id', new_f['id']])
+    assert json.loads(result.output)['status_code'] == 404
