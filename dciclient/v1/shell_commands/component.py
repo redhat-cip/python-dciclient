@@ -45,7 +45,6 @@ def list(context, topic_id):
 @cli.command("component-create", help="Create a component.")
 @click.option("--name", required=True, help='Name of component')
 @click.option("--type", required=True, help='Type of component')
-@click.option("--topic_id", required=True, help='Topic ID')
 @click.option("--canonical_project_name", help='Canonical project name')
 @click.option("--data", default='{}', help='Data to pass (in JSON)')
 @click.option("--sha", help='SHA hash')
@@ -54,12 +53,13 @@ def list(context, topic_id):
 @click.option("--url", help='URL to look for the component')
 @click.option("--git", help='Git reference for the component')
 @click.option("--ref", help='External reference for the component')
-@click.option("--export_control", is_flag=True, help='Component visibility')
+@click.option("--topic_id", required=True, help='Topic ID')
+@click.option("--export_control/--no-export_control", default='false',
+              help='has the export_control been done')
 @click.pass_obj
 def create(context, name, type, canonical_project_name, data, sha,
            title, message, url, git, ref, topic_id, export_control):
-    """create(context, name, type, canonical_project_name, data, sha, title,
-message, url, git, ref, topic_id, export_control)
+    """create(context, name, type, canonical_project_name, data, sha, title, message, url, git, ref, topic_id, export_control)  # noqa
 
     Create a component.
 
@@ -76,7 +76,7 @@ message, url, git, ref, topic_id, export_control)
     :param string url: URL resource to monitor
     :param string git: Git resource to monitor
     :param string ref: Reference resource to monitor
-    :parma bool export_control: Set the component visible for users
+    :parma string export_control: Set the component visible for users
     """
     data = json.loads(data)
     result = component.create(
@@ -122,3 +122,94 @@ def show(context, id):
     result = component.get(context, id=id)
     utils.format_output(result, context.format, component.RESOURCE[:-1],
                         component.TABLE_HEADERS)
+
+
+@cli.command("component-file-upload", help="Attach a file to a component.")
+@click.option("--id", required=True)
+@click.option("--path", required=True)
+@click.pass_obj
+def file_upload(context, id, path):
+    """file_upload(context, id, path)
+
+    Upload a file in a component
+
+    >>> dcictl component-file-upload [OPTIONS]
+
+    :param string id: ID of the component to show [required]
+    :param string path: Path to the file to upload [required]
+    """
+    result = component.file_upload(context, id=id, file_path=path)
+    utils.format_output(result, context.format, 'component_file',
+                        component.TABLE_FILE_HEADERS)
+
+
+@cli.command("component-file-show", help="Attach a file to a component.")
+@click.option("--id", required=True)
+@click.option("--file_id", required=True)
+@click.pass_obj
+def file_show(context, id, file_id):
+    """file_show(context, id, path)
+
+    Show a component file
+
+    >>> dcictl component-file-show [OPTIONS]
+
+    :param string id: ID of the component to show [required]
+    :param string file_id: ID of the file to show up [required]
+    """
+    result = component.file_get(context, id=id, file_id=file_id)
+    utils.format_output(result, context.format, 'component_file',
+                        component.TABLE_FILE_HEADERS)
+
+
+@cli.command("component-file-download", help="Retrieve a component file.")
+@click.option("--id", required=True)
+@click.option("--file_id", required=True)
+@click.option("--target", required=True)
+@click.pass_obj
+def file_download(context, id, file_id, target):
+    """file_download(context, id, path)
+
+    Show a component file
+
+    >>> dcictl component-file-show [OPTIONS]
+
+    :param string id: ID of the component to show [required]
+    :param string file_id: ID of the component file to download [required]
+    :param string path: Destination file [required]
+    """
+    component.file_download(context, id=id, file_id=file_id, target=target)
+
+
+@cli.command("component-file-list", help="List files attached to a component.")
+@click.option("--id", required=True)
+@click.pass_obj
+def file_list(context, id):
+    """file_list(context, id, path)
+
+    Show a component file
+
+    >>> dcictl component-file-list [OPTIONS]
+
+    :param string id: ID of the component to show [required]
+    """
+    result = component.file_list(context, id=id)
+    utils.format_output(result, context.format, 'component_files',
+                        component.TABLE_FILE_HEADERS)
+
+
+@cli.command("component-file-delete", help="Delete a component file.")
+@click.option("--id", required=True)
+@click.option("--file_id", required=True)
+@click.pass_obj
+def file_delete(context, id, file_id):
+    """file_delete(context, id, path)
+
+    Show a component file
+
+    >>> dcictl component-file-list [OPTIONS]
+
+    :param string id: ID of the component to show [required]
+    :param string file_id: ID for the file to delete [required]
+    """
+    return component.file_delete(context, id=id, file_id=file_id)
