@@ -45,3 +45,29 @@ def get(context, id, where=None, embed=None):
 
 def delete(context, id):
     return base.delete(context, RESOURCE, id=id)
+
+
+def upload_file(context, id, file_path):
+    uri = '%s/%s/%s/files' % (context.dci_cs_api, RESOURCE, id)
+    with open(file_path, 'rb') as f:
+        print('OO %s' % f)
+        return context.session.post(uri, data=f)
+
+
+def download_file(context, id, file_id, target):
+    uri = '%s/%s/%s/files/%s' % (context.dci_cs_api, RESOURCE, id, file_id)
+    r = context.session.get(uri, stream=True)
+    with open(target, 'wb') as f:
+        for chunk in r.iter_content(chunk_size=1024):
+            if chunk:
+                f.write(chunk)
+
+
+def list_files(context, id):
+    uri = '%s/%s/%s/files' % (context.dci_cs_api, RESOURCE, id)
+    return context.session.get(uri)
+
+
+def delete_file(context, id, file_id):
+    uri = '%s/%s/%s/files/%s' % (context.dci_cs_api, RESOURCE, id, file_id)
+    return context.session.delete(uri)

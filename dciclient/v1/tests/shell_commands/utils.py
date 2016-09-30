@@ -54,6 +54,10 @@ class FlaskHTTPAdapter(requests.adapters.HTTPAdapter):
 
         content_type = request.headers.pop('Content-Type', None)
         content_length = request.headers.pop('Content-Length', None)
+        # https://github.com/pallets/werkzeug/pull/1011
+        if isinstance(request.body, file):
+            request.body = request.body.read()
+
         response = self.client.open(request.path_url,
                                     method=request.method.lower(),
                                     data=request.body,
