@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3ac1b152_7dcf0bb1",
+        "filename": "feeders/feeders/osp.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-09-30T13:29:55Z",
+      "side": 1,
+      "message": "cwd is the local directory.",
+      "parentUuid": "3ac1b152_dae4a5ae",
+      "revId": "f39cbcc1f79a69f272eb50e1e122f13271c2ff9a",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ac1b152_fae1619b",
         "filename": "feeders/feeders/osp.py",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-30T06:50:47Z",
       "side": 1,
       "message": "Can we remove the archive.tar file at this point (and before the exit(1) above, so we don\u0027t leave those archive in the filesystem.\n\nActually not just the archive.tar, but also the yum.conf file and the folder in which the repo were sync to",
+      "revId": "f39cbcc1f79a69f272eb50e1e122f13271c2ff9a",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ac1b152_9dc3078a",
+        "filename": "feeders/feeders/osp.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-09-30T13:29:55Z",
+      "side": 1,
+      "message": "agreed, I will prepare a clean_up() function.",
+      "parentUuid": "3ac1b152_fae1619b",
       "revId": "f39cbcc1f79a69f272eb50e1e122f13271c2ff9a",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
