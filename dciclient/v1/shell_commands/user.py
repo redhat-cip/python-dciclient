@@ -25,7 +25,9 @@ from dciclient.v1.api import user
 @cli.command("user-list", help="List all users.")
 @click.pass_obj
 def list(context):
-    """List all users.
+    """list(context)
+
+    List all users.
 
     >>> dcictl user-list
     """

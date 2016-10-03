@@ -25,7 +25,9 @@ from dciclient.v1.api import team
 @cli.command("team-list", help="List all teams.")
 @click.pass_obj
 def list(context):
-    """List all teams.
+    """list(context)
+
+    List all teams.
 
     >>> dcictl team list
     """
