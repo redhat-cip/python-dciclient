@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ac1b152_c83bff36",
+        "filename": "dciclient/v1/api/component.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2016-10-03T16:47:25Z",
+      "side": 1,
+      "message": "The update is only for export_control flag:\n\nhttps://github.com/redhat-cip/dci-control-server/blob/master/dci/common/schemas.py#L202",
+      "revId": "ab0861d8b7454776988030e0aa2a0c10b47eda8d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ac1b152_e848bbce",
+        "filename": "dciclient/v1/api/component.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2016-10-03T16:47:25Z",
+      "side": 1,
+      "message": "why not using the file\u0027s name directly ?",
+      "revId": "ab0861d8b7454776988030e0aa2a0c10b47eda8d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ac1b152_0846d7bf",
+        "filename": "dciclient/v1/api/file.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2016-10-03T16:47:25Z",
+      "side": 1,
+      "message": "We can remove this function since there is no update on files.\n\nhttps://github.com/redhat-cip/dci-control-server/blob/master/dci/api/v1/files.py",
+      "revId": "ab0861d8b7454776988030e0aa2a0c10b47eda8d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
