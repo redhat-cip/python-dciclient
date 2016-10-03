@@ -48,18 +48,15 @@ def list(context, topic_id):
 @click.option("--topic_id", required=True, help='Topic ID')
 @click.option("--canonical_project_name", help='Canonical project name')
 @click.option("--data", default='{}', help='Data to pass (in JSON)')
-@click.option("--sha", help='SHA hash')
 @click.option("--title", help='Title of component')
 @click.option("--message", help='Component message')
 @click.option("--url", help='URL to look for the component')
-@click.option("--git", help='Git reference for the component')
-@click.option("--ref", help='External reference for the component')
 @click.option("--export_control", is_flag=True, help='Component visibility')
 @click.pass_obj
-def create(context, name, type, canonical_project_name, data, sha,
-           title, message, url, git, ref, topic_id, export_control):
-    """create(context, name, type, canonical_project_name, data, sha, title,
-message, url, git, ref, topic_id, export_control)
+def create(context, name, type, canonical_project_name, data,
+           title, message, url, topic_id, export_control):
+    """create(context, name, type, canonical_project_name, data, title,
+message, url, topic_id, export_control)
 
     Create a component.
 
@@ -70,19 +67,16 @@ message, url, git, ref, topic_id, export_control)
     :param string topic_id: ID of the topic to associate with [required]
     :param string canonical_project_name: Project name
     :param json data: JSON to pass to the component
-    :param string sha: SHA hash
     :param string title: Title of the component
     :param string message: Message for the component
     :param string url: URL resource to monitor
-    :param string git: Git resource to monitor
-    :param string ref: Reference resource to monitor
     :parma bool export_control: Set the component visible for users
     """
     data = json.loads(data)
     result = component.create(
         context, name=name, type=type,
-        canonical_project_name=canonical_project_name, data=data, sha=sha,
-        title=title, message=message, url=url, git=git, ref=ref,
+        canonical_project_name=canonical_project_name, data=data,
+        title=title, message=message, url=url,
         topic_id=topic_id, export_control=export_control
     )
     utils.format_output(result, context.format, component.RESOURCE[:-1])

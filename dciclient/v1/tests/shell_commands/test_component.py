@@ -53,20 +53,23 @@ def test_prettytable_output(runner):
     header = ' '.join(output[1].split())
     data = ' '.join(output[3].split())
 
-    expected_data = (component['id'], component['name'],
+    expected_data = (component['id'],
+                     component['name'],
                      component['canonical_project_name'],
-                     component['type'], component['sha'],
-                     component['title'], component['message'],
-                     component['url'], component['git'], component['ref'],
-                     component['created_at'], component['export_control'],
+                     component['type'],
+                     component['title'],
+                     component['message'],
+                     component['url'],
+                     component['created_at'],
+                     component['export_control'],
                      component['updated_at'])
 
     assert header == ('| id | name | canonical_project_name '
-                      '| type | sha | title | message | url | git '
-                      '| ref | data | created_at | export_control '
+                      '| type | title | message | url '
+                      '| data | created_at | export_control '
                       '| updated_at |')
 
-    assert data == ('| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s | {} '
+    assert data == ('| %s | %s | %s | %s | %s | %s | %s | {} '
                     '| %s | %s | %s |' % expected_data)
 
 

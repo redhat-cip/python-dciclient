@@ -20,8 +20,8 @@ import json
 
 RESOURCE = 'components'
 TABLE_HEADERS = ['id', 'name', 'canonical_project_name',
-                 'type', 'sha', 'title', 'message', 'url',
-                 'git', 'ref', 'data', 'created_at', 'export_control',
+                 'type', 'title', 'message', 'url',
+                 'data', 'created_at', 'export_control',
                  'updated_at']
 
 GIT_COMMIT = 'git_commit'
@@ -30,13 +30,12 @@ SNAPSHOT = 'snapshot'
 
 
 def create(context, name, type, topic_id, canonical_project_name=None, data={},
-           sha=None, title=None, message=None, url=None, git=None, ref=None,
-           export_control=False):
+           title=None, message=None, url=None, export_control=False):
     return base.create(context, RESOURCE, name=name, type=type,
                        canonical_project_name=canonical_project_name,
-                       data=json.dumps(data), sha=sha, title=title,
-                       message=message, url=url, git=git, ref=ref,
-                       topic_id=topic_id, export_control=export_control)
+                       data=json.dumps(data), title=title, message=message,
+                       url=url, topic_id=topic_id,
+                       export_control=export_control)
 
 
 def get(context, id, where=None, embed=None):
