@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3ac1b152_6883cbcc",
+        "filename": "dciclient/v1/api/component.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-10-03T19:35:21Z",
+      "side": 1,
+      "message": "What is the problem? We still need to be able to adjust the export_control? Do you want this to be done in another patch?",
+      "parentUuid": "3ac1b152_c83bff36",
+      "revId": "ab0861d8b7454776988030e0aa2a0c10b47eda8d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ac1b152_e848bbce",
         "filename": "dciclient/v1/api/component.py",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "3ac1b152_487e0fe6",
+        "filename": "dciclient/v1/api/component.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-10-03T19:35:21Z",
+      "side": 1,
+      "message": "If a download is interrupted, we wont end up with a truncated file on the hard drive.",
+      "parentUuid": "3ac1b152_e848bbce",
+      "revId": "ab0861d8b7454776988030e0aa2a0c10b47eda8d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ac1b152_0846d7bf",
         "filename": "dciclient/v1/api/file.py",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2016-10-03T16:47:25Z",
       "side": 1,
       "message": "We can remove this function since there is no update on files.\n\nhttps://github.com/redhat-cip/dci-control-server/blob/master/dci/api/v1/files.py",
+      "revId": "ab0861d8b7454776988030e0aa2a0c10b47eda8d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ac1b152_48f36f73",
+        "filename": "dciclient/v1/api/file.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-10-03T19:35:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ac1b152_0846d7bf",
       "revId": "ab0861d8b7454776988030e0aa2a0c10b47eda8d",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
