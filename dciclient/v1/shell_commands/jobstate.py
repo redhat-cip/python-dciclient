@@ -25,7 +25,9 @@ from dciclient.v1.api import jobstate
 @cli.command("jobstate-list", help="List all jobstates.")
 @click.pass_obj
 def list(context):
-    """List all jobstates.
+    """list(context)
+
+    List all jobstates.
 
     >>> dcictl jobstate-list
     """

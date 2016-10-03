@@ -25,7 +25,9 @@ from dciclient.v1.api import job
 @cli.command("job-list", help="List all jobs.")
 @click.pass_obj
 def list(context):
-    """List all jobs.
+    """list(context)
+
+    List all jobs.
 
     >>> dcictl job-list
     """

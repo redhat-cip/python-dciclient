@@ -27,7 +27,9 @@ import click
 @cli.command("topic-list", help="List all topics.")
 @click.pass_obj
 def list(context):
-    """List all topics.
+    """list(context)
+
+    List all topics.
 
     >>> dcictl topic-list
     """

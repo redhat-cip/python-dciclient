@@ -30,7 +30,9 @@ import json
 @click.option("--team_id", required=False)
 @click.pass_obj
 def list(context, team_id):
-    """List all tests.
+    """list(context, team_id)
+
+    List all tests.
 
     >>> dcictl test list
     """
@@ -46,7 +48,9 @@ def list(context, team_id):
 @click.option("--data", default='{}')
 @click.pass_obj
 def create(context, name, team_id, data):
-    """Create a test.
+    """create(context, name, team_id, data)
+
+    Create a test.
 
     >>> dcictl test-create [OPTIONS]
 
@@ -64,7 +68,9 @@ def create(context, name, team_id, data):
 @click.option("--id", required=True)
 @click.pass_obj
 def delete(context, id):
-    """Delete a test.
+    """delete(context, id)
+
+    Delete a test.
 
     >>> dcictl test-delete [OPTIONS]
 
@@ -82,7 +88,9 @@ def delete(context, id):
 @click.option("--id", required=True)
 @click.pass_obj
 def show(context, id):
-    """Show a test.
+    """show(context, id)
+
+    Show a test.
 
     >>> dcictl test-show [OPTIONS]
 
