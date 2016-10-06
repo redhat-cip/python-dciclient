@@ -17,12 +17,17 @@
 from dciclient.v1.api import base
 
 import json
+import os
+
 
 RESOURCE = 'components'
 TABLE_HEADERS = ['id', 'name', 'canonical_project_name',
                  'type', 'title', 'message', 'url',
                  'data', 'created_at', 'export_control',
                  'updated_at']
+TABLE_FILE_HEADERS = ['id', 'name', 'mime', 'size', 'component_id',
+                      'created_at']
+
 
 GIT_COMMIT = 'git_commit'
 KH_INSTALLER = 'kh_installer'
@@ -42,5 +47,42 @@ def get(context, id, where=None, embed=None):
     return base.get(context, RESOURCE, id=id, where=where, embed=embed)
 
 
+def update(context, id=None, etag=None, name=None, content=None):
+    return base.update(context, RESOURCE, id=id, etag=etag, name=name,
+                       content=content)
+
+
 def delete(context, id):
     return base.delete(context, RESOURCE, id=id)
+
+
+def file_upload(context, id, file_path):
+    uri = '%s/%s/%s/files' % (context.dci_cs_api, RESOURCE, id)
+    with open(file_path, 'rb') as f:
+        return context.session.post(uri, data=f)
+
+
+def file_get(context, id, file_id):
+    uri = '%s/%s/%s/files/%s' % (context.dci_cs_api, RESOURCE, id, file_id)
+    return context.session.get(uri)
+
+
+def file_download(context, id, file_id, target):
+    uri = '%s/%s/%s/files/%s/content' % (
+        context.dci_cs_api, RESOURCE, id, file_id)
+    r = context.session.get(uri, stream=True)
+    with open(target + '.part', 'wb') as f:
+        for chunk in r.iter_content(chunk_size=1024):
+            if chunk:
+                f.write(chunk)
+    os.rename(target + '.part', target)
+
+
+def file_list(context, id):
+    uri = '%s/%s/%s/files' % (context.dci_cs_api, RESOURCE, id)
+    return context.session.get(uri)
+
+
+def file_delete(context, id, file_id):
+    uri = '%s/%s/%s/files/%s' % (context.dci_cs_api, RESOURCE, id, file_id)
+    return context.session.delete(uri)

@@ -31,11 +31,41 @@ import sqlalchemy_utils.functions
 
 import click.testing
 import functools
+import os
 import passlib.apps as passlib_apps
+
+
+class mocked_store_engine(object):
+    files = {}
+
+    def delete(self, filename):
+        del(self.files[filename])
+
+    def get(self, filename):
+        with open('/tmp/swift/' + filename, 'r') as fd:
+            return [None, fd.read()]
+
+    def head(self, filename):
+        return self.files[filename]
+
+    def upload(self, filename, iterable, pseudo_folder=None,
+               create_container=True):
+        file_path = '/tmp/swift/' + filename
+        os.makedirs(os.path.dirname(file_path))
+        with open(file_path, 'wb') as fd:
+            fd.write(iterable)
+        self.files[filename] = {
+            'etag': 'boby',
+            'content-type': 'application/octet-stream',
+            'content-length': os.stat(file_path).st_size}
 
 
 @pytest.fixture(scope='session')
 def engine(request):
+    def mocked_get_store():
+        return mocked_store_engine()
+
+    dci.dci_config.get_store = mocked_get_store
     conf = dci.dci_config.generate_conf()
     db_uri = conf['SQLALCHEMY_DATABASE_URI']
 

@@ -43,11 +43,6 @@ def list(context, where=None, embed=None):
     return base.list(context, RESOURCE, where=where, embed=embed)
 
 
-def update(context, name=None, content=None, mime=None, md5=None):
-    return base.update(context, RESOURCE, name=name, content=content,
-                       mime=mime, md5=md5)
-
-
 def delete(context, id):
     return base.delete(context, RESOURCE, id=id)
 
