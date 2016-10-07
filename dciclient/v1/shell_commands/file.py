@@ -25,7 +25,9 @@ from dciclient.v1.api import file
 @cli.command("file-list", help="List all files.")
 @click.pass_obj
 def list(context):
-    """List all files.
+    """list(context)
+
+    List all files.
 
     >>> dcictl file-list
     """

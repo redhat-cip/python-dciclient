@@ -28,7 +28,9 @@ import json
 @cli.command("remoteci-list", help="List all remotecis.")
 @click.pass_obj
 def list(context):
-    """List all Remote CIs
+    """list(context)
+
+    List all Remote CIs
 
     >>> dcictl remoteci-list
     """
