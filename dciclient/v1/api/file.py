@@ -17,6 +17,8 @@
 from dciclient.v1.api import base
 from dciclient.v1 import utils
 
+import os
+
 
 RESOURCE = 'files'
 TABLE_HEADERS = ['id', 'name', 'mime', 'md5', 'jobstate_id',
@@ -35,6 +37,22 @@ def create(context, name, content, mime='text/plain',
     return context.session.post(uri, headers=headers, data=content)
 
 
+def create_with_stream(context, name, file_path, mime='text/plain',
+           jobstate_id=None, md5=None, job_id=None):
+    headers = {'DCI-NAME': name,
+               'DCI-MIME': mime,
+               'DCI-JOBSTATE-ID': jobstate_id,
+               'DCI-MD5': md5,
+               'DCI-JOB-ID': job_id}
+    headers = utils.sanitize_kwargs(**headers)
+    uri = '%s/%s' % (context.dci_cs_api, RESOURCE)
+
+    if not os.path.exists(file_path):
+        raise FileErrorException()
+    with open(file_path, 'rb') as f:
+        return context.session.post(uri, headers=headers, data=f)
+
+
 def get(context, id, where=None, embed=None):
     return base.get(context, RESOURCE, id=id, where=where, embed=embed)
 
@@ -51,3 +69,8 @@ def content(context, id):
     uri = '%s/%s/%s/content' % (context.dci_cs_api, RESOURCE, id)
     r = context.session.get(uri)
     return r
+
+
+class FileErrorException(Exception):
+    def __init__(self,*args,**kwargs):
+        super(FileErrorException, self).__init__(self,*args,**kwargs)
