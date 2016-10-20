@@ -25,6 +25,7 @@ import mimetypes
 import os
 import subprocess
 
+import os
 import six
 import sys
 import time
@@ -92,10 +93,14 @@ def run_command(context, cmd, cwd=None, jobstate_id=None, team_id=None,
     print('* Processing command: %s' % cmd)
     if cmd:
         print('* Working directory: %s' % cwd)
+    env = os.environ
+    env['DCI_JOB_ID'] = context.last_job_id
+    env['DCI_JOBSTATE_ID'] = jobstate_id
     pipe_process = subprocess.Popen(cmd, cwd=cwd,
                                     stdout=subprocess.PIPE,
                                     stderr=subprocess.STDOUT,
-                                    shell=shell)
+                                    shell=shell,
+                                    env=env)
 
     fcntl.fcntl(pipe_process.stdout.fileno(), fcntl.F_SETFL, os.O_NONBLOCK)
     name = cmd if shell else u'_'.join(cmd)
