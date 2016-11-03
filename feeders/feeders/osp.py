@@ -21,28 +21,36 @@ import dciclient.v1.api.topic as dci_topic
 
 from six.moves.urllib.parse import urlparse
 
+import StringIO
 import click
-import configparser
 import os.path
 import requests
 import shutil
 import subprocess
 import tarfile
 
+try:  # py27
+    import ConfigParser as configparser
+except ImportError:
+    import configparser
+
 
 def get_repo_information(repo_file):
     repo_file_raw_content = requests.get(repo_file).text
+    output = StringIO.StringIO(repo_file_raw_content)
     config = configparser.ConfigParser()
-    config.read_string(repo_file_raw_content)
+    #config.read_string(repo_file_raw_content)
+    config.readfp(output)
     # Only use the first section
     section_name = config.sections()[0]
-    base_url = config[section_name]["baseurl"].replace("$basearch", "x86_64")
+    raw_base_url = config.get(section_name, 'baseurl')
+    base_url = raw_base_url.replace("$basearch", "x86_64")
     try:
-        version = config[section_name]['version']
-    except KeyError:
+        version = config.get(section_name, 'version')
+    except configparser.NoOptionError:
         # extracting the version from the URL
         version = base_url.split('/')[-4]
-    repo_name = config[section_name]['name']
+    repo_name = config.get(section_name, 'name')
     return base_url, version, repo_name
 
 
@@ -86,12 +94,11 @@ def clean_up(component):
 def prepare_archive(component):
     project_name = component['canonical_project_name']
     config = configparser.ConfigParser()
-    config[project_name] = {
-        'name': project_name,
-        'baseurl': component['url'],
-        'gpgcheck': 1,
-        'enabled': 1
-    }
+    config.add_section(project_name)
+    config.set(project_name, 'name', project_name)
+    config.set(project_name, 'baseurl', component['url'])
+    config.set(project_name, 'gpgcheck', 1)
+    config.set(project_name, 'enabled', 1)
 
     with open('yum.conf', 'w') as fd:
         config.write(fd)
@@ -116,16 +123,7 @@ def build_jobdefinition_name(v, components):
     return 'OSP %s - %s' % (v.split('.')[0], '+'.join(tmp))
 
 
-@click.command()
-@click.option('--dci-login', envvar='DCI_LOGIN', required=True,
-              help="DCI username account.")
-@click.option('--dci-password', envvar='DCI_PASSWORD', required=True,
-              help="DCI password account.")
-@click.option('--dci-cs-url', envvar='DCI_CS_URL', required=True,
-              help="DCI CS url.")
-def main(dci_login, dci_password, dci_cs_url):
-    ctx = dci_context.build_dci_context(dci_cs_url, dci_login,
-                                        dci_password)
+def refresh_puddles(ctx):
     versions = [
         {
             'name': '10.0',
@@ -161,7 +159,7 @@ def main(dci_login, dci_password, dci_cs_url):
                 print('Component %s not found' % c['name'])
                 exit(1)
             component = r.json()['component']
-            r_current_components = dci_component.list_files(
+            r_current_components = dci_component.file_list(
                 ctx, id=component['id'])
             if len(r_current_components.json()['component_files']):
                 print('%s already has its data. Skipped.' % component['name'])
@@ -170,7 +168,7 @@ def main(dci_login, dci_password, dci_cs_url):
             clean_up(component)
             prepare_archive(component)
             print('Uploading bits...')
-            r = dci_component.upload_file(
+            r = dci_component.file_upload(
                 ctx, id=component['id'], file_path='archive.tar')
             if r.status_code != 201:
                 print((
@@ -181,6 +179,19 @@ def main(dci_login, dci_password, dci_cs_url):
             else:
                 print('  success: %s' % r.json())
             clean_up(component)
+
+
+@click.command()
+@click.option('--dci-login', envvar='DCI_LOGIN', required=True,
+              help="DCI username account.")
+@click.option('--dci-password', envvar='DCI_PASSWORD', required=True,
+              help="DCI password account.")
+@click.option('--dci-cs-url', envvar='DCI_CS_URL', required=True,
+              help="DCI CS url.")
+def main(dci_login, dci_password, dci_cs_url):
+    ctx = dci_context.build_dci_context(dci_cs_url, dci_login,
+                                        dci_password)
+    refresh_puddles(ctx)
 
 
 if __name__ == '__main__':
