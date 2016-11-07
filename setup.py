@@ -55,7 +55,6 @@ setuptools.setup(
         '#egg=python-tripleo-helper'],
     url='https://github.com/redhat-cip/dci-control-server',
     license='Apache v2.0',
-    include_package_data=True,
     classifiers=[
         'Environment :: Console',
         'Intended Audience :: Developers',
