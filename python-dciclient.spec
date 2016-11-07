@@ -10,7 +10,7 @@ Summary:        Python client for DCI control server
 License:        ASL 2.0
 URL:            https://github.com/redhat-cip/python-dciclient
 
-Source0:        python-dciclient-%{version}.tgz
+Source0:        dciclient-%{version}.tar.gz
 
 BuildArch:      noarch
 
@@ -21,26 +21,27 @@ Python client for DCI control server for the remote CIs.
 Summary:        Python client for DCI control server
 %{?python_provide:%python_provide python2-dciclient}
 
-BuildRequires:  python2-devel
-BuildRequires:  python-setuptools
+BuildRequires:  PyYAML
 BuildRequires:  postgresql
-BuildRequires:  postgresql-devel
 BuildRequires:  postgresql-server
+BuildRequires:  python-click
+BuildRequires:  python-prettytable
 BuildRequires:  python-psycopg2
-BuildRequires:  python-tox
 BuildRequires:  python-requests
+BuildRequires:  python-rpm-macros
+BuildRequires:  python-setuptools
 BuildRequires:  python-six
-BuildRequires:  gcc
-BuildRequires:  libffi-devel
-
-Requires:       python-prettytable
+BuildRequires:  python-tox
+BuildRequires:  python2-rpm-macros
+BuildRequires:  python3-rpm-macros
+Requires:       PyYAML
 Requires:       py-bcrypt
 Requires:       python-click
-Requires:       PyYAML
+Requires:       python-configparser
+Requires:       python-prettytable
 Requires:       python-requests
 Requires:       python-simplejson
 Requires:       python-six
-Requires:       python-configparser
 
 %description -n python2-dciclient
 A Python 2 implementation of the client for DCI control server.
@@ -50,118 +51,64 @@ A Python 2 implementation of the client for DCI control server.
 Summary:        Python client for DCI control server
 %{?python_provide:%python_provide python3-dciclient}
 
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
 BuildRequires:  postgresql
-BuildRequires:  postgresql-devel
 BuildRequires:  postgresql-server
-BuildRequires:  python3-psycopg2
 BuildRequires:  python-tox
+BuildRequires:  python3-PyYAML
+BuildRequires:  python3-click
+BuildRequires:  python3-prettytable
+BuildRequires:  python3-psycopg2
 BuildRequires:  python3-requests
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-six
-BuildRequires:  gcc
-BuildRequires:  libffi-devel
-
+Requires:       python3-PyYAML
+Requires:       python3-click
 Requires:       python3-prettytable
 Requires:       python3-py-bcrypt
-Requires:       python3-click
-Requires:       python3-PyYAML
 Requires:       python3-requests
 Requires:       python3-simplejson
 Requires:       python3-six
+
 
 %description -n python3-dciclient
 A Python 3 implementation of the client for DCI control server.
 %endif
 
-%package -n dci-feeders
-Summary:  DCI feeders
-
-BuildRequires:	systemd
-%if 0%{?with_python3}
-Requires:      python3-dciclient
-Requires:      python3-tqdm
-%else
-Requires:      python2-dciclient
-Requires:      python2-tqdm
-%endif
-
-%description -n dci-feeders
-DCI feeders
-
-%prep -a
-%setup -qc
+%prep
+%autosetup -n dciclient-%{version}
 
 %build
 %py2_build
 %if 0%{?with_python3}
 %py3_build
 %endif
-cp -r feeders build/lib/
 
 %install
 install -d %{buildroot}%{_bindir}
-find feeders/feeders -name '[^_]*py' -exec sh -c 'mv "$0" %{buildroot}%{_bindir}/dci-feeder-$(basename "$0")' {} \;
-find %{buildroot}%{_bindir} -name '*.py' -exec sh -c 'mv "$0" "${0%%.py}"' {} \;
-install -d %{buildroot}%{_unitdir}
-mv feeders/feeders/systemd/* %{buildroot}%{_unitdir}
-mkdir -p %{buildroot}%{_sysconfdir}/sysconfig/dci-feeder-github
 %py2_install
-find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' -exec sed -i '3s/2.7.0/2.6.0/' {} \;
-find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' -exec sed -i '5s/click.*/click/' {} \;
-find %{buildroot}/%{python2_sitelib}/*.egg-info -name 'requires.txt' -exec sed -i '6s/setuptools.*/setuptools/' {} \;
 %if 0%{?with_python3}
 %py3_install
-find %{buildroot}/%{python3_sitelib}/*.egg-info -name 'requires.txt' -exec sed -i '3s/2.7.0/2.6.0/' {} \;
-find %{buildroot}/%{python3_sitelib}/*.egg-info -name 'requires.txt' -exec sed -i '5s/click.*/click/' {} \;
-find %{buildroot}/%{python3_sitelib}/*.egg-info -name 'requires.txt' -exec sed -i '6s/setuptools.*/setuptools/' {} \;
 %endif
-sed -i '3s/2.7.0/2.6.0/' requirements.txt
-sed -i '5s/click.*/click/' requirements.txt
-sed -i '6s/setuptools.*/setuptools/' requirements.txt
-rm -rf feeders
-rm -rf %{buildroot}/%{python2_sitelib}/feeders
-rm -rf %{buildroot}/%{python3_sitelib}/feeders
 
-%post
-for unit in $(ls %{buildroot}%{_unitdir}); do
-    %systemd_post $unit
-done
-
-%preun
-for unit in $(ls %{buildroot}%{_unitdir}); do
-    %systemd_preun $unit
-done
-
-%postun
-for unit in $(ls %{buildroot}%{_unitdir}); do
-    %systemd_postun $unit
-done
-
-%check
-%{__python2} setup.py test
-%if 0%{?with_python3}
-%{__python3} setup.py test
-%endif
+# TODO(Gonéri): test are disabled until we are able to run them
+# in mock chroot.
+# %check
+# %{__python2} setup.py test
+# %if 0%{?with_python3}
+# %{__python3} setup.py test
+# %endif
 
 %files -n python2-dciclient
 %doc
-%{python2_sitelib}/dciclient
-%{python2_sitelib}/*.egg-info
+%{python2_sitelib}/*
 %{_bindir}/dcictl
 
 %if 0%{?with_python3}
 %files -n python3-dciclient
 %doc
-%{python3_sitelib}/dciclient
-%{python3_sitelib}/*.egg-info
+%{python3_sitelib}/*
 %{_bindir}/dcictl
 %endif
-
-%files -n dci-feeders
-%{_bindir}/dci-feeder-*
-%{_unitdir}/dci-feeder-*
-%dir %{_sysconfdir}/sysconfig/dci-feeder-github
 
 
 %changelog
