@@ -71,6 +71,7 @@ def file_download(context, id, file_id, target):
     uri = '%s/%s/%s/files/%s/content' % (
         context.dci_cs_api, RESOURCE, id, file_id)
     r = context.session.get(uri, stream=True)
+    r.raise_for_status()
     with open(target + '.part', 'wb') as f:
         for chunk in r.iter_content(chunk_size=1024):
             if chunk:
