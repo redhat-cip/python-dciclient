@@ -207,3 +207,30 @@ def file_delete(context, id, file_id):
     :param string file_id: ID for the file to delete [required]
     """
     return component.file_delete(context, id=id, file_id=file_id)
+
+
+@cli.command("component-update", help="Update a component.")
+@click.option("--id", required=True)
+@click.option("--export-control/--no-export-control")
+@click.pass_obj
+def update(context, id, export_control):
+    """update(context, id, export_control)
+
+    Update a component
+
+    >>> dcictl component-update [OPTIONS]
+
+    :param string id: ID of the component [required]
+    """
+
+    component_info = component.get(context, id=id)
+
+    etag = component_info.json()['component']['etag']
+    result = component.update(context, id=id, etag=etag,
+                              export_control=export_control)
+
+    if result.status_code == 204:
+        status = 'Enabled' if export_control else 'Disabled'
+        utils.print_json({'id': id, 'message': 'Export Control %s.' % status})
+    else:
+        utils.format_output(result, context.format)

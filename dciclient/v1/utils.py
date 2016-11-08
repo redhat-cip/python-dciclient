@@ -55,7 +55,7 @@ def print_prettytable(data, headers):
 
 
 def sanitize_kwargs(**kwargs):
-    boolean_fields = ['active']
+    boolean_fields = ['active', 'export_control']
     kwargs = dict(
         (k, v) for k, v in six.iteritems(kwargs) if k in boolean_fields or v
     )

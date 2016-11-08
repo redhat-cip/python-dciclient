@@ -47,9 +47,10 @@ def get(context, id, where=None, embed=None):
     return base.get(context, RESOURCE, id=id, where=where, embed=embed)
 
 
-def update(context, id=None, etag=None, name=None, content=None):
+def update(context, id=None, etag=None, name=None, content=None,
+           export_control=None):
     return base.update(context, RESOURCE, id=id, etag=etag, name=name,
-                       content=content)
+                       content=content, export_control=export_control)
 
 
 def delete(context, id):

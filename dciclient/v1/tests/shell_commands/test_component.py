@@ -179,3 +179,42 @@ def test_file_support(runner, tmpdir):
     result = runner.invoke(['component-file-show', '--id', component['id'],
                             '--file_id', new_f['id']])
     assert json.loads(result.output)['status_code'] == 404
+
+
+def test_enable_export_control(runner):
+    topic = runner.invoke(['topic-create', '--name', 'osp'])
+    topic = json.loads(topic.output)['topic']
+
+    result = runner.invoke(['component-create', '--name', 'foo',
+                            '--type', 'bar', '--topic_id', topic['id']])
+    component = json.loads(result.output)['component']
+
+    result = runner.invoke(['component-update', '--id', component['id'],
+                            '--export-control'])
+
+    result = json.loads(result.output)
+
+    assert result['message'] == 'Export Control Enabled.'
+
+
+def test_disable_export_control(runner):
+    topic = runner.invoke(['topic-create', '--name', 'osp'])
+    topic = json.loads(topic.output)['topic']
+
+    result = runner.invoke(['component-create', '--name', 'foo',
+                            '--type', 'bar', '--topic_id', topic['id']])
+    component = json.loads(result.output)['component']
+
+    result = runner.invoke(['component-update', '--id', component['id'],
+                            '--export-control'])
+
+    result = json.loads(result.output)
+
+    assert result['message'] == 'Export Control Enabled.'
+
+    result = runner.invoke(['component-update', '--id', component['id'],
+                            '--no-export-control'])
+
+    result = json.loads(result.output)
+
+    assert result['message'] == 'Export Control Disabled.'
