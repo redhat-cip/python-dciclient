@@ -115,30 +115,30 @@ def server(db_provisioning, engine):
 @pytest.fixture
 def client(server, db_provisioning):
     client = dci_client.DCIClient(
-        end_point='http://dci_server.com/api',
+        end_point='http://dciserver.com/api',
         login='admin', password='admin'
     )
     flask_adapter = utils.FlaskHTTPAdapter(server.test_client())
-    client.s.mount('http://dci_server.com', flask_adapter)
+    client.s.mount('http://dciserver.com', flask_adapter)
     return client
 
 
 @pytest.fixture
 def dci_context(server, db_provisioning):
-    test_context = api.context.DciContext('http://dci_server.com',
+    test_context = api.context.DciContext('http://dciserver.com',
                                           'admin', 'admin')
     flask_adapter = utils.FlaskHTTPAdapter(server.test_client())
-    test_context.session.mount('http://dci_server.com', flask_adapter)
+    test_context.session.mount('http://dciserver.com', flask_adapter)
     return test_context
 
 
 @pytest.fixture
 def dci_context_other_user_agent(server, db_provisioning):
-    test_context = api.context.DciContext('http://dci_server.com',
+    test_context = api.context.DciContext('http://dciserver.com',
                                           'admin', 'admin',
                                           user_agent='myagent-0.1')
     flask_adapter = utils.FlaskHTTPAdapter(server.test_client())
-    test_context.session.mount('http://dci_server.com', flask_adapter)
+    test_context.session.mount('http://dciserver.com', flask_adapter)
     return test_context
 
 
