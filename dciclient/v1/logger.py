@@ -23,14 +23,23 @@ from dciclient.v1.api import file as dci_file
 from dciclient.v1.api import jobstate as dci_jobstate
 
 
+def singleton(cls):
+    instances = {}
+    def getinstance(handler):
+        if cls not in instances:
+            instances[cls] = cls(handler)
+        return instances[cls]
+    return getinstance
+
+
 class DciHandler(logging.Handler):
-    def __init__(self, dci_context, info_as_jobstate=False, interval=30):
+    def __init__(self, dci_context, interval=30):
         logging.Handler.__init__(self)
-        self._info_as_jobstate = info_as_jobstate
         self._dci_context = dci_context
         self._current_log = io.StringIO()
         self._threshold_log = 512 * 1024  # 512K
         self._interval = interval  # seconds
+        self._current_jobstate_id = self._dci_context.last_jobstate_id
         self._start_timer()
 
     def _start_timer(self):
@@ -40,14 +49,15 @@ class DciHandler(logging.Handler):
         self._timer.start()
 
     def _send_log_file(self):
-        jobstate_id = self._dci_context.last_jobstate_id
-        r = dci_file.create(self._dci_context, 'logger.txt',
-                            self._current_log.getvalue(), 'text/plain',
-                            jobstate_id)
-        if r.status_code != 201:
-            raise DciLogPushFailure(r.json()['message'])
-        self._current_log.truncate(0)
-        self._current_log.seek(0)
+        value = self._current_log.getvalue()
+        jobstate_id = self._current_jobstate_id
+        if value and jobstate_id:
+            r = dci_file.create(self._dci_context, 'logger.txt',
+                                value, 'text/plain',
+                                jobstate_id)
+            if r.status_code != 201:
+                raise DciLogPushFailure(r.json()['message'])
+        self._current_log = io.StringIO()
 
     def emit(self, record):
         # if record is None then emit() is actually run by the timer
@@ -62,14 +72,9 @@ class DciHandler(logging.Handler):
             return
 
         msg = u"%s\n" % self.format(record)
-
-        if record.levelno == logging.INFO:
-            if self._info_as_jobstate and self._dci_context.last_job_id:
-                dci_jobstate.create(
-                    self._dci_context,
-                    'running',
-                    msg.rstrip('\n'), self._dci_context.last_job_id)
-                return
+        if self._current_jobstate_id != self._dci_context.last_jobstate_id:
+            self._send_log_file()
+            self._current_jobstate_id = self._dci_context.last_jobstate_id
 
         self._current_log.write(msg)
         #  if its an error then send the log

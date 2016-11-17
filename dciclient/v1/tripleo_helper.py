@@ -85,6 +85,11 @@ def run_tests(context, undercloud_ip, key_filename, remoteci_id,
         msg = 'undercloud deployment failure'
         jobstate.create(context, 'failure', msg, context.last_job_id)
         return
+    jobstate.create(
+        context,
+        'running',
+        'Running tripleo-stack-dump',
+        context.last_job_id)
     push_stack_details(context, undercloud, stack_name=stack_name)
     rcfile = stack_name + 'rc'
     if undercloud.run(
@@ -134,4 +139,5 @@ def run_tests(context, undercloud_ip, key_filename, remoteci_id,
         print(msg)
     else:
         msg = 'test(s) success'
+    dci_handler.emit(None)
     jobstate.create(context, final_status, msg, context.last_job_id)
