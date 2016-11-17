@@ -19,21 +19,6 @@ import logging
 from dciclient.v1.api import jobstate
 import dciclient.v1.logger
 
-import pytest
-
-
-def test_logger_no_context(dci_context):
-    """a jobdefinition should exists first."""
-    my_logger = logging.getLogger('__chainsaw__')
-    handler = dciclient.v1.logger.DciHandler(dci_context)
-    my_logger.addHandler(handler)
-    record = logging.makeLogRecord({
-        'lineno': 1,
-        'levelno': logging.ERROR,
-        'msg': 'bob'})
-    with pytest.raises(dciclient.v1.logger.DciLogPushFailure):
-        handler.emit(record)
-
 
 def test_logger_server(dci_context, job_id):
     jobstate.create(dci_context, 'pre-run', 'comment', job_id)
@@ -45,12 +30,3 @@ def test_logger_server(dci_context, job_id):
         'levelno': logging.ERROR,
         'msg': 'bob'})
     handler.emit(record)
-
-
-def test_logger_info_as_jobstate(dci_context, job_id):
-    my_logger = logging.getLogger('__chainsaw__')
-    handler = dciclient.v1.logger.DciHandler(
-        dci_context, info_as_jobstate=True)
-    my_logger.addHandler(handler)
-    my_logger.info('bob')
-    handler.emit(None)
