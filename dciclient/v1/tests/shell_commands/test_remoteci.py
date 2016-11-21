@@ -28,7 +28,7 @@ def test_prettytable_output(runner):
                             team['id']])
     remoteci = json.loads(result.output)['remoteci']
 
-    result = runner.invoke(['--format', 'table', 'remoteci-show', '--id',
+    result = runner.invoke(['--format', 'table', 'remoteci-show',
                             remoteci['id']])
 
     output = result.output.split('\n')
@@ -97,7 +97,7 @@ def test_update(runner):
                             team['id']])
     remoteci = json.loads(result.output)['remoteci']
 
-    result = runner.invoke(['remoteci-update', '--id', remoteci['id'],
+    result = runner.invoke(['remoteci-update', remoteci['id'],
                             '--etag', remoteci['etag'], '--name', 'bar',
                             '--no-active'])
     result = json.loads(result.output)
@@ -114,7 +114,7 @@ def test_delete(runner):
                             team['id']])
     remoteci = json.loads(result.output)['remoteci']
 
-    result = runner.invoke(['remoteci-delete', '--id', remoteci['id'],
+    result = runner.invoke(['remoteci-delete', remoteci['id'],
                             '--etag', remoteci['etag']])
     result = json.loads(result.output)
 
@@ -128,7 +128,7 @@ def test_show(runner):
                             team['id']])
     remoteci = json.loads(result.output)['remoteci']
 
-    result = runner.invoke(['remoteci-show', '--id', remoteci['id']])
+    result = runner.invoke(['remoteci-show', remoteci['id']])
     remoteci = json.loads(result.output)['remoteci']
 
     assert remoteci['name'] == 'foo'
@@ -141,11 +141,11 @@ def test_get_data(runner):
                             team['id']])
     remoteci = json.loads(result.output)['remoteci']
 
-    result = runner.invoke(['remoteci-get-data', '--id', remoteci['id']])
+    result = runner.invoke(['remoteci-get-data', remoteci['id']])
     assert json.loads(result.output) == {}
-    runner.invoke(['remoteci-update', '--id', remoteci['id'],
+    runner.invoke(['remoteci-update', remoteci['id'],
                    '--etag', remoteci['etag'], '--data', {'foo': 'bar'}])
-    result = runner.invoke(['remoteci-get-data', '--id', remoteci['id']])
+    result = runner.invoke(['remoteci-get-data', remoteci['id']])
     assert json.loads(result.output) == {'foo': 'bar'}
 
 
@@ -157,7 +157,7 @@ def test_get_data_missing_key(runner):
     remoteci = json.loads(result.output)['remoteci']
 
     result = runner.invoke(['remoteci-get-data',
-                            '--id', remoteci['id'],
+                            remoteci['id'],
                             '--keys', 'missing'])
     assert json.loads(result.output) == {}
 

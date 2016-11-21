@@ -65,7 +65,7 @@ def create(context, name, team_id, data):
 
 
 @cli.command("test-delete", help="Delete a test.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.pass_obj
 def delete(context, id):
     """delete(context, id)
@@ -85,7 +85,7 @@ def delete(context, id):
 
 
 @cli.command("test-show", help="Show a test.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.pass_obj
 def show(context, id):
     """show(context, id)

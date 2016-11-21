@@ -55,7 +55,7 @@ def create(context, name):
 
 
 @cli.command("topic-delete", help="Delete a topic.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.pass_obj
 def delete(context, id):
     """delete(context, id)
@@ -74,7 +74,7 @@ def delete(context, id):
 
 
 @cli.command("topic-show", help="Show a topic.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.pass_obj
 def show(context, id):
     """show(context, id)
@@ -91,7 +91,7 @@ def show(context, id):
 
 
 @cli.command("topic-attach-team", help="Attach a team to a topic.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.option("--team_id", required=False)
 @click.pass_obj
 def attach_team(context, id, team_id):
@@ -110,7 +110,7 @@ def attach_team(context, id, team_id):
 
 
 @cli.command("topic-unattach-team", help="Unattach a team from a topic.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.option("--team_id", required=False)
 @click.pass_obj
 def unattach_team(context, id, team_id):
@@ -133,7 +133,7 @@ def unattach_team(context, id, team_id):
 
 
 @cli.command("topic-list-team", help="List teams attached to a topic.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.pass_obj
 def list_attached_team(context, id):
     """list_attached_team(context, id)

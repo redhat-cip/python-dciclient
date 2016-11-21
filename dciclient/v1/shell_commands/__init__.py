@@ -18,6 +18,10 @@ import click
 
 from dciclient.v1.api import context as dci_context
 
+# NOTE(Gonéri): we now ignore the --id parameter, we need this until the
+# transition is done.
+import sys
+sys.argv = [a for a in sys.argv if a != '--id']
 
 click.disable_unicode_literals_warning = True
 _default_dci_cs_url = 'http://127.0.0.1:5000'

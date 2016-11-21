@@ -18,5 +18,5 @@ from __future__ import unicode_literals
 
 
 def test_show(runner, file_id):
-    result = runner.invoke(['file-show', '--id', file_id])
+    result = runner.invoke(['file-show', file_id])
     assert 'testsuite errors' in result.output

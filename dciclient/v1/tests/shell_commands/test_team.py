@@ -22,8 +22,7 @@ def test_prettytable_output(runner):
     result = runner.invoke(['team-create', '--name', 'foo'])
     team = json.loads(result.output)['team']
 
-    result = runner.invoke(['--format', 'table', 'team-show', '--id',
-                            team['id']])
+    result = runner.invoke(['--format', 'table', 'team-show', team['id']])
 
     output = result.output.split('\n')
     # NOTE(spredzy) : The expected output for a table format looks like the
@@ -75,7 +74,7 @@ def test_update(runner):
     result = runner.invoke(['team-create', '--name', 'foo'])
     team = json.loads(result.output)['team']
 
-    result = runner.invoke(['team-update', '--id', team['id'],
+    result = runner.invoke(['team-update', team['id'],
                             '--etag', team['etag'], '--name', 'bar'])
     result = json.loads(result.output)
 
@@ -87,7 +86,7 @@ def test_delete(runner):
     result = runner.invoke(['team-create', '--name', 'foo'])
     team = json.loads(result.output)['team']
 
-    result = runner.invoke(['team-delete', '--id', team['id'],
+    result = runner.invoke(['team-delete', team['id'],
                             '--etag', team['etag']])
     result = json.loads(result.output)
 
@@ -98,7 +97,7 @@ def test_show(runner):
     result = runner.invoke(['team-create', '--name', 'foo'])
     team = json.loads(result.output)['team']
 
-    result = runner.invoke(['team-show', '--id', team['id']])
+    result = runner.invoke(['team-show', team['id']])
     team = json.loads(result.output)['team']
 
     assert team['name'] == 'foo'

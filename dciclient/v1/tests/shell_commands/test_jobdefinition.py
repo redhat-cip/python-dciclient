@@ -23,7 +23,7 @@ def test_prettytable_output(runner, topic_id):
                             '--topic_id', topic_id])
     jobdefinition = json.loads(result.output)['jobdefinition']
 
-    result = runner.invoke(['--format', 'table', 'jobdefinition-show', '--id',
+    result = runner.invoke(['--format', 'table', 'jobdefinition-show',
                             jobdefinition['id']])
 
     output = result.output.split('\n')
@@ -66,7 +66,7 @@ def test_list(runner, topic_id):
     teams = json.loads(result.output)['teams']
     team_id = teams[0]['id']
 
-    topic_team = runner.invoke(['topic-attach-team', '--id', topic_id,
+    topic_team = runner.invoke(['topic-attach-team', topic_id,
                                 '--team_id', team_id])
     topic_team = json.loads(topic_team.output)
 
@@ -96,7 +96,7 @@ def test_delete(runner, topic_id):
                             '--topic_id', topic_id])
     jobdefinition = json.loads(result.output)['jobdefinition']
 
-    result = runner.invoke(['jobdefinition-delete', '--id',
+    result = runner.invoke(['jobdefinition-delete',
                             jobdefinition['id'], '--etag',
                             jobdefinition['etag']])
     result = json.loads(result.output)
@@ -109,7 +109,7 @@ def test_show(runner, topic_id):
                             '--topic_id', topic_id])
     jobdefinition = json.loads(result.output)['jobdefinition']
 
-    result = runner.invoke(['jobdefinition-show', '--id', jobdefinition['id']])
+    result = runner.invoke(['jobdefinition-show', jobdefinition['id']])
     jobdefinition = json.loads(result.output)['jobdefinition']
 
     assert jobdefinition['name'] == 'foo'
@@ -120,14 +120,14 @@ def test_annotate(runner, topic_id):
                             '--topic_id', topic_id])
 
     jd = json.loads(result.output)['jobdefinition']
-    result = runner.invoke(['jobdefinition-annotate', '--id', jd['id'],
+    result = runner.invoke(['jobdefinition-annotate', jd['id'],
                             '--comment', 'This is my annotation', '--etag',
                             jd['etag']])
 
     result = json.loads(result.output)
     assert result['message'] == 'Job Definition updated.'
 
-    result = runner.invoke(['jobdefinition-show', '--id', jd['id']])
+    result = runner.invoke(['jobdefinition-show', jd['id']])
     jobdefinition_comm = json.loads(result.output)['jobdefinition']['comment']
     assert jobdefinition_comm == 'This is my annotation'
 
@@ -138,10 +138,10 @@ def test_active(runner, topic_id):
 
     jd = json.loads(result.output)['jobdefinition']
     result = runner.invoke(['jobdefinition-set-active', '--active', 'False',
-                            '--id', jd['id'], '--etag', jd['etag']])
+                            jd['id'], '--etag', jd['etag']])
 
     result = json.loads(result.output)
     assert result['message'] == 'Job Definition updated.'
-    result = runner.invoke(['jobdefinition-show', '--id', jd['id']])
+    result = runner.invoke(['jobdefinition-show', jd['id']])
     jobdefinition_active = json.loads(result.output)['jobdefinition']['active']
     assert jobdefinition_active is False
