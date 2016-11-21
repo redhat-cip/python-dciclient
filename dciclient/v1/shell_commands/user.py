@@ -61,7 +61,7 @@ def create(context, name, password, role, team_id):
 
 
 @cli.command("user-update", help="Update a user.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.option("--etag", required=True)
 @click.option("--name")
 @click.option("--password")
@@ -90,7 +90,7 @@ def update(context, id, etag, name, password, role):
 
 
 @cli.command("user-delete", help="Delete a user.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.option("--etag", required=True)
 @click.pass_obj
 def delete(context, id, etag):
@@ -112,7 +112,7 @@ def delete(context, id, etag):
 
 
 @cli.command("user-show", help="Show a user.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.pass_obj
 def show(context, id):
     """show(context, id)

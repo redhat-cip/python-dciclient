@@ -24,8 +24,7 @@ def test_prettytable_output(runner, team_id):
                             '--team_id', team_id])
     user = json.loads(result.output)['user']
 
-    result = runner.invoke(['--format', 'table', 'user-show', '--id',
-                            user['id']])
+    result = runner.invoke(['--format', 'table', 'user-show', user['id']])
 
     output = result.output.split('\n')
     # NOTE(spredzy) : The expected output for a table format looks like the
@@ -88,10 +87,10 @@ def test_update(runner, team_id):
                             '--team_id', team_id])
     user = json.loads(result.output)['user']
 
-    runner.invoke(['user-update', '--id', user['id'],
+    runner.invoke(['user-update', user['id'],
                    '--etag', user['etag'], '--name', 'bar',
                    '--role', 'admin'])
-    result = runner.invoke(['user-show', '--id', user['id']])
+    result = runner.invoke(['user-show', user['id']])
     user = json.loads(result.output)['user']
 
     assert user['name'] == 'bar'
@@ -104,7 +103,7 @@ def test_delete(runner, team_id):
                             '--team_id', team_id])
     user = json.loads(result.output)['user']
 
-    result = runner.invoke(['user-delete', '--id', user['id'],
+    result = runner.invoke(['user-delete', user['id'],
                             '--etag', user['etag']])
     result = json.loads(result.output)
     assert result['message'] == 'User deleted.'
@@ -116,7 +115,7 @@ def test_show(runner, team_id):
                             '--team_id', team_id])
     user = json.loads(result.output)['user']
 
-    result = runner.invoke(['user-show', '--id', user['id']])
+    result = runner.invoke(['user-show', user['id']])
     user = json.loads(result.output)['user']
 
     assert user['name'] == 'foo'

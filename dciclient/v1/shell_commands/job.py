@@ -39,7 +39,7 @@ def list(context, limit):
 
 
 @cli.command("job-show", help="Show a job.")
-@click.option("--id", required=True)
+@click.argument('id', required=False)
 @click.pass_obj
 def show(context, id):
     """show(context, id)
@@ -56,7 +56,7 @@ def show(context, id):
 
 
 @cli.command("job-delete", help="Delete a job.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.option("--etag", required=True)
 @click.pass_obj
 def delete(context, id, etag):
@@ -77,7 +77,7 @@ def delete(context, id, etag):
 
 
 @cli.command("job-recheck", help="Recheck a job.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.pass_obj
 def recheck(context, id):
     """recheck(context, id)
@@ -93,7 +93,7 @@ def recheck(context, id):
 
 
 @cli.command("job-results", help="List all job results.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.pass_obj
 def list_results(context, id):
     """list_result(context, id)
@@ -113,7 +113,7 @@ def list_results(context, id):
 
 
 @cli.command("job-attach-issue", help="Attach an issue to a job.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.option("--url", required=True)
 @click.pass_obj
 def attach_issue(context, id, url):
@@ -135,7 +135,7 @@ def attach_issue(context, id, url):
 
 
 @cli.command("job-unattach-issue", help="Unattach an issue from a job.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.option("--issue_id", required=True)
 @click.pass_obj
 def unattach_issue(context, id, issue_id):
@@ -157,7 +157,7 @@ def unattach_issue(context, id, issue_id):
 
 
 @cli.command("job-list-issue", help="List all job attached issues.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.pass_obj
 def list_issues(context, id):
     """list_issues(context, id)

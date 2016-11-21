@@ -27,8 +27,7 @@ def test_prettytable_output(runner):
                             team['id']])
     test = json.loads(result.output)['test']
 
-    result = runner.invoke(['--format', 'table', 'test-show', '--id',
-                            test['id']])
+    result = runner.invoke(['--format', 'table', 'test-show', test['id']])
 
     output = result.output.split('\n')
     # NOTE(spredzy) : The expected output for a table format looks like the
@@ -97,7 +96,7 @@ def test_delete(runner):
                             team['id']])
     test = json.loads(result.output)['test']
 
-    result = runner.invoke(['test-delete', '--id', test['id']])
+    result = runner.invoke(['test-delete', test['id']])
     result = json.loads(result.output)
 
     assert result['message'] == 'Test deleted.'
@@ -112,7 +111,7 @@ def test_show(runner):
                             team['id']])
     test = json.loads(result.output)['test']
 
-    result = runner.invoke(['test-show', '--id', test['id']])
+    result = runner.invoke(['test-show', test['id']])
     test = json.loads(result.output)['test']
 
     assert test['name'] == 'foo'

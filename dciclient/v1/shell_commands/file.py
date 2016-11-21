@@ -37,7 +37,7 @@ def list(context):
 
 
 @cli.command("file-show", help="Show a file.")
-@click.option("--id", required=True, help="ID of the file to show")
+@click.argument("id", required=True)
 @click.pass_obj
 def show(context, id):
     """show(context, id)

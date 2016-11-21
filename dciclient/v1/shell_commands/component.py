@@ -83,7 +83,7 @@ def create(context, name, type, canonical_project_name, data,
 
 
 @cli.command("component-delete", help="Delete a component.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.pass_obj
 def delete(context, id):
     """delete(context, id)
@@ -102,7 +102,7 @@ def delete(context, id):
 
 
 @cli.command("component-show", help="Show a component.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.pass_obj
 def show(context, id):
     """show(context, id)
@@ -119,7 +119,7 @@ def show(context, id):
 
 
 @cli.command("component-file-upload", help="Attach a file to a component.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.option("--path", required=True)
 @click.pass_obj
 def file_upload(context, id, path):
@@ -138,7 +138,7 @@ def file_upload(context, id, path):
 
 
 @cli.command("component-file-show", help="Attach a file to a component.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.option("--file_id", required=True)
 @click.pass_obj
 def file_show(context, id, file_id):
@@ -157,7 +157,7 @@ def file_show(context, id, file_id):
 
 
 @cli.command("component-file-download", help="Retrieve a component file.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.option("--file_id", required=True)
 @click.option("--target", required=True)
 @click.pass_obj
@@ -176,7 +176,7 @@ def file_download(context, id, file_id, target):
 
 
 @cli.command("component-file-list", help="List files attached to a component.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.pass_obj
 def file_list(context, id):
     """file_list(context, id, path)
@@ -193,7 +193,7 @@ def file_list(context, id):
 
 
 @cli.command("component-file-delete", help="Delete a component file.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.option("--file_id", required=True)
 @click.pass_obj
 def file_delete(context, id, file_id):
@@ -210,7 +210,7 @@ def file_delete(context, id, file_id):
 
 
 @cli.command("component-update", help="Update a component.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.option("--export-control/--no-export-control")
 @click.pass_obj
 def update(context, id, export_control):
