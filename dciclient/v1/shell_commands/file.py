@@ -23,15 +23,16 @@ from dciclient.v1.api import file
 
 
 @cli.command("file-list", help="List all files.")
+@click.option("--job-id", required=True)
 @click.pass_obj
-def list(context):
+def list(context, job_id):
     """list(context)
 
     List all files.
 
     >>> dcictl file-list
     """
-    result = file.list(context)
+    result = file.list(context, where='job_id:' + job_id)
     utils.format_output(result, context.format,
                         file.RESOURCE, file.TABLE_HEADERS)
 
