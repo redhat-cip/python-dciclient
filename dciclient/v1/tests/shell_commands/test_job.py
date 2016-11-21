@@ -54,6 +54,18 @@ def test_list(runner, dci_context, remoteci_id):
     assert l_job['jobs'][0]['jobdefinition_id'] == jd['id']
 
 
+def test_list_with_limit(runner, job_factory):
+    for _ in range(6):
+        job_factory()
+    # test --limit XX
+    l_job = runner.invoke(['job-list'])
+    l_job = json.loads(l_job.output)
+    assert len(l_job['jobs']) == 6
+    l_job = runner.invoke(['job-list', '--limit', 1])
+    l_job = json.loads(l_job.output)
+    assert len(l_job['jobs']) == 1
+
+
 def test_delete(runner, job_id):
     l_job = runner.invoke(['job-show', '--id', job_id])
     l_job_etag = json.loads(l_job.output)['job']['etag']

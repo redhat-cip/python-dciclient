@@ -23,8 +23,6 @@ def test_run_command(dci_context, jobstate_id):
         dci_context,
         ['echo', 'bob'],
         jobstate_id=jobstate_id)
-    # temporary debug print to trace an issue with the gate
-    print(dci_file.list(dci_context).json())
     new_file = dci_file.list(dci_context).json()['files'][1]
     assert new_file['size'] == 4
     assert 'bob' in new_file['name']

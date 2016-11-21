@@ -25,7 +25,7 @@ def create(context, resource, **kwargs):
     return r
 
 
-def list(context, resource, **kwargs):
+def list(context, resource, limit=None, **kwargs):
     """List all resources"""
     data = utils.sanitize_kwargs(**kwargs)
     id = data.pop('id', None)
@@ -35,6 +35,10 @@ def list(context, resource, **kwargs):
         uri = '%s/%s/%s/%s' % (context.dci_cs_api, resource, id, subresource)
     else:
         uri = '%s/%s' % (context.dci_cs_api, resource)
+
+    if limit:
+        uri = '%s?limit=%d' % (uri, limit)
+
     r = context.session.get(uri, params=data)
     return r
 

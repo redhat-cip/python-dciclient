@@ -23,15 +23,17 @@ from dciclient.v1.api import job
 
 
 @cli.command("job-list", help="List all jobs.")
+@click.option("--limit", help="Number of jobs to show up.",
+              required=False, default=10)
 @click.pass_obj
-def list(context):
+def list(context, limit):
     """list(context)
 
     List all jobs.
 
     >>> dcictl job-list
     """
-    result = job.list(context)
+    result = job.list(context, limit=limit)
     utils.format_output(result, context.format,
                         job.RESOURCE, job.TABLE_HEADERS)
 

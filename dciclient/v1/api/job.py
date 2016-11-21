@@ -39,8 +39,8 @@ def update(context, **kwargs):
     return base.update(context, RESOURCE, **kwargs)
 
 
-def list(context):
-    return base.list(context, RESOURCE)
+def list(context, limit=None):
+    return base.list(context, RESOURCE, limit=limit)
 
 
 def schedule(context, remoteci_id, topic_id):
@@ -60,8 +60,9 @@ def recheck(context, id):
     return r
 
 
-def get(context, id, where=None, embed=None):
-    return base.get(context, RESOURCE, id=id, where=where, embed=embed)
+def get(context, id, limit=None, where=None, embed=None):
+    return base.get(context, RESOURCE, id=id,
+                    limit=limit, where=where, embed=embed)
 
 
 def list_results(context, id):

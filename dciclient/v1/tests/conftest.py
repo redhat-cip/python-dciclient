@@ -195,9 +195,10 @@ def components(dci_context, topic_id):
 
 
 @pytest.fixture
-def remoteci_id(dci_context):
-    team_id = api.team.create(dci_context, name='tname').json()['team']['id']
-    kwargs = {'name': 'remoteci', 'team_id': team_id}
+def remoteci_id(dci_context, team_id):
+    kwargs = {'name': 'remoteci',
+              'team_id': team_id,
+              'data': {'remoteci': 'remoteci'}}
     rci = api.remoteci.create(dci_context, **kwargs).json()
     return rci['remoteci']['id']
 
@@ -212,7 +213,14 @@ def component_id(dci_context, topic_id):
 
 
 @pytest.fixture
-def job_id(dci_context):
+def job_factory(dci_context, team_id, topic_id, remoteci_id):
+    def create():
+        job = api.job.schedule(dci_context, remoteci_id, topic_id).json()
+        api.file.create(dci_context, name='res_junit.xml',
+                        content=JUNIT, mime='application/junit',
+                        job_id=job['job']['id'])
+        return job
+
     JUNIT = """
     <testsuite errors="0" failures="0" name="pytest" skips="1"
                tests="3" time="46.050">
@@ -231,34 +239,25 @@ def job_id(dci_context):
               name="test_cors_headers" time="0.574683904648"/>
     </testsuite>"""
 
-    topic = api.topic.create(dci_context, name='topic_name').json()['topic']
-    team = api.team.create(dci_context, name='tname').json()['team']
-    team_id = api.team.list(dci_context).json()['teams'][0]['id']
-
-    api.topic.attach_team(dci_context, topic['id'], team_id)
-
-    kwargs = {'name': 'tname', 'team_id': team['id'],
-              'data': {'remoteci': 'remoteci'}}
-    remoteci = api.remoteci.create(dci_context, **kwargs).json()
-    remoteci_id = remoteci['remoteci']['id']
-
-    kwargs = {'name': 'hihi', 'type': 'type_1', 'topic_id': topic['id'],
+    kwargs = {'name': 'hihi', 'type': 'type_1', 'topic_id': topic_id,
               'data': {'component': 'component1'}}
     api.component.create(dci_context, **kwargs).json()
 
-    kwargs = {'name': 'haha', 'type': 'type_2', 'topic_id': topic['id'],
+    kwargs = {'name': 'haha', 'type': 'type_2', 'topic_id': topic_id,
               'data': {'component': 'component2'}}
     api.component.create(dci_context, **kwargs).json()
 
-    kwargs = {'name': 'tname', 'topic_id': topic['id'],
+    kwargs = {'name': 'tname', 'topic_id': topic_id,
               'component_types': ['type_1', 'type_2']}
     api.jobdefinition.create(dci_context, **kwargs).json()
 
-    job = api.job.schedule(dci_context, remoteci_id, topic['id']).json()
-    api.file.create(dci_context, name='res_junit.xml', content=JUNIT,
-                    mime='application/junit', job_id=job['job']['id'])
+    api.topic.attach_team(dci_context, topic_id, team_id)
+    return create
 
-    return job['job']['id']
+
+@pytest.fixture
+def job_id(job_factory):
+    return job_factory()['job']['id']
 
 
 @pytest.fixture
