@@ -15,8 +15,21 @@
 # under the License.
 
 from __future__ import unicode_literals
+import json
 
 
 def test_show(runner, file_id):
     result = runner.invoke(['file-show', file_id])
     assert 'testsuite errors' in result.output
+
+
+def test_list(runner, job_id):
+    result = runner.invoke(['file-list', '--job-id', job_id])
+    files = json.loads(result.output)['files']
+    assert len(files) == 1
+    assert files[0]['name'] == 'res_junit.xml'
+
+
+def test_list_without_job_id(runner):
+    result = runner.invoke(['file-list'])
+    assert 'Error: Missing option "--job-id".' in result.output
