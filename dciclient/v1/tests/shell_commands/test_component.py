@@ -28,7 +28,7 @@ def test_prettytable_output(runner):
                             '--topic_id', topic['id']])
     component = json.loads(result.output)['component']
 
-    result = runner.invoke(['--format', 'table', 'component-show', '--id',
+    result = runner.invoke(['--format', 'table', 'component-show',
                             component['id']])
 
     output = result.output.split('\n')
@@ -81,7 +81,7 @@ def test_list(runner):
     teams = json.loads(result.output)['teams']
     team_id = teams[0]['id']
 
-    topic_team = runner.invoke(['topic-attach-team', '--id', topic['id'],
+    topic_team = runner.invoke(['topic-attach-team', topic['id'],
                                 '--team_id', team_id])
     topic_team = json.loads(topic_team.output)
 
@@ -115,7 +115,7 @@ def test_delete(runner):
                             '--type', 'bar', '--topic_id', topic['id']])
     component = json.loads(result.output)['component']
 
-    result = runner.invoke(['component-delete', '--id', component['id']])
+    result = runner.invoke(['component-delete', component['id']])
     result = json.loads(result.output)
 
     assert result['message'] == 'Component deleted.'
@@ -131,7 +131,7 @@ def test_show(runner):
                             '--topic_id', topic['id']])
     component = json.loads(result.output)['component']
 
-    result = runner.invoke(['component-show', '--id', component['id']])
+    result = runner.invoke(['component-show', component['id']])
     component = json.loads(result.output)['component']
 
     assert component['name'] == 'foo'
@@ -150,33 +150,33 @@ def test_file_support(runner, tmpdir):
     component = json.loads(component.output)['component']
 
     # upload
-    result = runner.invoke(['component-file-upload', '--id', component['id'],
+    result = runner.invoke(['component-file-upload', component['id'],
                             '--path', p.strpath])
     new_f = json.loads(result.output)['component_file']
     assert new_f['size'] == 7
 
     # show
-    result = runner.invoke(['component-file-show', '--id', component['id'],
+    result = runner.invoke(['component-file-show', component['id'],
                             '--file_id', new_f['id']])
     new_f = json.loads(result.output)['component_file']
     assert new_f['size'] == 7
 
     # download
-    result = runner.invoke(['component-file-download', '--id', component['id'],
+    result = runner.invoke(['component-file-download', component['id'],
                             '--file_id', new_f['id'],
                             '--target', td.strpath + '/my_file'])
     assert open(td.strpath + '/my_file', 'r').read() == 'content'
 
     # list
-    result = runner.invoke(['component-file-list', '--id', component['id']])
+    result = runner.invoke(['component-file-list', component['id']])
     my_list = json.loads(result.output)['component_files']
     assert len(my_list) == 1
     assert my_list[0]['size'] == 7
 
     # delete
-    result = runner.invoke(['component-file-delete', '--id', component['id'],
+    result = runner.invoke(['component-file-delete', component['id'],
                             '--file_id', new_f['id']])
-    result = runner.invoke(['component-file-show', '--id', component['id'],
+    result = runner.invoke(['component-file-show', component['id'],
                             '--file_id', new_f['id']])
     assert json.loads(result.output)['status_code'] == 404
 
@@ -189,7 +189,7 @@ def test_enable_export_control(runner):
                             '--type', 'bar', '--topic_id', topic['id']])
     component = json.loads(result.output)['component']
 
-    result = runner.invoke(['component-update', '--id', component['id'],
+    result = runner.invoke(['component-update', component['id'],
                             '--export-control'])
 
     result = json.loads(result.output)
@@ -205,14 +205,14 @@ def test_disable_export_control(runner):
                             '--type', 'bar', '--topic_id', topic['id']])
     component = json.loads(result.output)['component']
 
-    result = runner.invoke(['component-update', '--id', component['id'],
+    result = runner.invoke(['component-update', component['id'],
                             '--export-control'])
 
     result = json.loads(result.output)
 
     assert result['message'] == 'Export Control Enabled.'
 
-    result = runner.invoke(['component-update', '--id', component['id'],
+    result = runner.invoke(['component-update', component['id'],
                             '--no-export-control'])
 
     result = json.loads(result.output)

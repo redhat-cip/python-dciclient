@@ -15,12 +15,12 @@ if [ -z "${TEAM_ID}" ]; then
 fi
 
 #Verify teams is in the topic
-if [ ! $(dcictl topic-list-team --id ${TOPIC_ID} | grep -q ${TEAM_ID})]; then
-  dcictl topic-attach-team --id ${TOPIC_ID} --team_id ${TEAM_ID}
+if [ ! $(dcictl topic-list-team ${TOPIC_ID} | grep -q ${TEAM_ID})]; then
+  dcictl topic-attach-team ${TOPIC_ID} --team_id ${TEAM_ID}
 fi
 ADMIN_TEAM_ID=$(dcictl team-list | awk '/admin/ {print $2}')
-if [ ! $(dcictl topic-list-team --id ${TOPIC_ID} | grep -q ${ADMIN_TEAM_ID}) ]; then
-  dcictl topic-attach-team --id ${TOPIC_ID} --team_id ${ADMIN_TEAM_ID}
+if [ ! $(dcictl topic-list-team ${TOPIC_ID} | grep -q ${ADMIN_TEAM_ID}) ]; then
+  dcictl topic-attach-team ${TOPIC_ID} --team_id ${ADMIN_TEAM_ID}
 fi
 
 #Get or create Remote CI ID

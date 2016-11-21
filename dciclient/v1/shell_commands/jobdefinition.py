@@ -68,7 +68,7 @@ def create(context, name, topic_id, priority, component_types):
 
 
 @cli.command("jobdefinition-delete", help="Delete a jobdefinition.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.option("--etag", required=True)
 @click.pass_obj
 def delete(context, id, etag):
@@ -89,7 +89,7 @@ def delete(context, id, etag):
 
 
 @cli.command("jobdefinition-show", help="Show a jobdefinition.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.pass_obj
 def show(context, id):
     """show(context, id)
@@ -105,7 +105,7 @@ def show(context, id):
 
 
 @cli.command("jobdefinition-annotate", help="Annotate a jobdefinition.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.option("--comment", required=True)
 @click.option("--etag", required=True)
 @click.pass_obj
@@ -128,7 +128,7 @@ def annotate(context, id, comment, etag):
 
 
 @cli.command("jobdefinition-set-active", help="Annotate a jobdefinition.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.option("--active", required=True)
 @click.option("--etag", required=True)
 @click.pass_obj
@@ -152,7 +152,7 @@ def setactive(context, id, active, etag):
 
 @cli.command("jobdefinition-attach-test",
              help="Attach a test to a jobdefinition.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.option("--test_id", required=True)
 @click.pass_obj
 def attach_test(context, id, test_id):
@@ -172,7 +172,7 @@ def attach_test(context, id, test_id):
 
 @cli.command("jobdefinition-list-test",
              help="List tests attached to a jobdefinition.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.pass_obj
 def list_test(context, id):
     """unattach_test(context, id, test_id)
@@ -193,7 +193,7 @@ def list_test(context, id):
 
 @cli.command("jobdefinition-unattach-test",
              help="Unattach a test to a jobdefinition.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.option("--test_id", required=True)
 @click.pass_obj
 def unattach_test(context, id, test_id):

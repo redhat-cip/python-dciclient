@@ -34,7 +34,7 @@ def test_list(runner, dci_context, remoteci_id):
     teams = json.loads(result.output)['teams']
     team_id = teams[0]['id']
 
-    topic_team = runner.invoke(['topic-attach-team', '--id', topic['id'],
+    topic_team = runner.invoke(['topic-attach-team', topic['id'],
                                 '--team_id', team_id])
     topic_team = json.loads(topic_team.output)
 
@@ -67,10 +67,10 @@ def test_list_with_limit(runner, job_factory):
 
 
 def test_delete(runner, job_id):
-    l_job = runner.invoke(['job-show', '--id', job_id])
+    l_job = runner.invoke(['job-show', job_id])
     l_job_etag = json.loads(l_job.output)['job']['etag']
 
-    result = runner.invoke(['job-delete', '--id', job_id,
+    result = runner.invoke(['job-delete', job_id,
                             '--etag', l_job_etag])
     result = json.loads(result.output)
 
@@ -78,50 +78,50 @@ def test_delete(runner, job_id):
 
 
 def test_recheck(runner, job_id):
-    result = runner.invoke(['job-recheck', '--id', job_id])
+    result = runner.invoke(['job-recheck', job_id])
     result = json.loads(result.output)['job']
 
     assert result['status'] == 'new'
 
 
 def test_results(runner, job_id):
-    result = runner.invoke(['job-results', '--id', job_id])
+    result = runner.invoke(['job-results', job_id])
     result = json.loads(result.output)['results'][0]
 
     assert result['filename'] == 'res_junit.xml'
 
 
 def test_attach_issue(runner, job_id):
-    result = runner.invoke(['job-list-issue', '--id', job_id])
+    result = runner.invoke(['job-list-issue', job_id])
     result = json.loads(result.output)['_meta']['count']
     assert result == 0
 
     runner.invoke(
-        ['job-attach-issue', '--id', job_id, '--url',
+        ['job-attach-issue', job_id, '--url',
          'https://github.com/redhat-cip/dci-control-server/issues/2']
     )
-    result = runner.invoke(['job-list-issue', '--id', job_id])
+    result = runner.invoke(['job-list-issue', job_id])
     result = json.loads(result.output)['_meta']['count']
     assert result == 1
 
 
 def test_unattach_issue(runner, job_id):
-    result = runner.invoke(['job-list-issue', '--id', job_id])
+    result = runner.invoke(['job-list-issue', job_id])
     result = json.loads(result.output)['_meta']['count']
     assert result == 0
 
     runner.invoke(
-        ['job-attach-issue', '--id', job_id, '--url',
+        ['job-attach-issue', job_id, '--url',
          'https://github.com/redhat-cip/dci-control-server/issues/2']
     )
-    result = runner.invoke(['job-list-issue', '--id', job_id])
+    result = runner.invoke(['job-list-issue', job_id])
     res = json.loads(result.output)['_meta']['count']
     issue_id = json.loads(result.output)['issues'][0]['id']
     assert res == 1
 
     runner.invoke(
-        ['job-unattach-issue', '--id', job_id, '--issue_id', issue_id]
+        ['job-unattach-issue', job_id, '--issue_id', issue_id]
     )
-    result = runner.invoke(['job-list-issue', '--id', job_id])
+    result = runner.invoke(['job-list-issue', job_id])
     result = json.loads(result.output)['_meta']['count']
     assert result == 0

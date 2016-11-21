@@ -37,7 +37,7 @@ def list(context):
 
 
 @cli.command("jobstate-show", help="Show a jobstate.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.pass_obj
 def show(context, id):
     """show(context, id)

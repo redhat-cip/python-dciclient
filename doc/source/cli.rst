@@ -36,7 +36,7 @@ values before the API will allow you to update that resource.
 The ``ID`` field is the unique identifier of the resource you are looking to
 update. You will reference this ``ID`` value when also looking up information
 for a resource. For example, if you needed to look up information about a team,
-then you could run ``dcictl team-show --id <UUID>``, and information about the
+then you could run ``dcictl team-show <UUID>``, and information about the
 team with the ID you passed to the API server would be returned.
 
 Part of the information returned would be the ``etag`` or *Entity Tag*. An

@@ -67,7 +67,7 @@ def create(context, name, team_id, data, active):
 
 
 @cli.command("remoteci-update", help="Update a remoteci.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.option("--etag", required=True)
 @click.option("--name")
 @click.option("--team_id")
@@ -98,7 +98,7 @@ def update(context, id, etag, name, team_id, data, active):
 
 
 @cli.command("remoteci-delete", help="Delete a remoteci.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.option("--etag", required=True)
 @click.pass_obj
 def delete(context, id, etag):
@@ -120,7 +120,7 @@ def delete(context, id, etag):
 
 
 @cli.command("remoteci-show", help="Show a remoteci.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.pass_obj
 def show(context, id):
     """show(context, id)
@@ -137,7 +137,7 @@ def show(context, id):
 
 
 @cli.command("remoteci-get-data", help="Retrieve data field from a remoteci.")
-@click.option("--id", required=True)
+@click.argument("id")
 @click.option("--keys")
 @click.pass_obj
 def get_data(context, id, keys):
