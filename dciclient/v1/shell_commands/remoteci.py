@@ -154,4 +154,4 @@ def get_data(context, id, keys):
     if keys:
         keys = keys.split(',')
     result = remoteci.get_data(context, id=id, keys=keys)
-    utils.format_output(result, context.format)
+    utils.format_output(result, context.format, None, keys)

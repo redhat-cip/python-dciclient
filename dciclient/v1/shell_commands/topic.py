@@ -106,7 +106,7 @@ def attach_team(context, id, team_id):
     """
     team_id = team_id or user.get(context.login).json()['team_id']
     result = topic.attach_team(context, id=id, team_id=team_id)
-    utils.format_output(result, context.format)
+    utils.format_output(result, context.format, user.RESOURCE[:-1])
 
 
 @cli.command("topic-unattach-team", help="Unattach a team from a topic.")

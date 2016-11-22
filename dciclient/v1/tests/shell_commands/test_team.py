@@ -15,14 +15,12 @@
 # under the License.
 
 from __future__ import unicode_literals
-import json
 
 
 def test_prettytable_output(runner):
-    result = runner.invoke(['team-create', '--name', 'foo'])
-    team = json.loads(result.output)['team']
+    team = runner.invoke(['team-create', '--name', 'foo'])['team']
 
-    result = runner.invoke(['--format', 'table', 'team-show', team['id']])
+    result = runner.invoke_raw(['--format', 'table', 'team-show', team['id']])
 
     output = result.output.split('\n')
     # NOTE(spredzy) : The expected output for a table format looks like the
@@ -57,47 +55,39 @@ def test_prettytable_output(runner):
 def test_list(runner):
     runner.invoke(['team-create', '--name', 'foo'])
     runner.invoke(['team-create', '--name', 'bar'])
-    result = runner.invoke(['team-list'])
-    teams = json.loads(result.output)['teams']
+    teams = runner.invoke(['team-list'])['teams']
     # NOTE (spredzy): We put 4 because of the 2 creates plus
     # admin and user provisionned during server test
     assert len(teams) == 4
 
 
 def test_create(runner):
-    result = runner.invoke(['team-create', '--name', 'foo'])
-    team = json.loads(result.output)['team']
+    team = runner.invoke(['team-create', '--name', 'foo'])['team']
     assert team['name'] == 'foo'
 
 
 def test_update(runner):
-    result = runner.invoke(['team-create', '--name', 'foo'])
-    team = json.loads(result.output)['team']
+    team = runner.invoke(['team-create', '--name', 'foo'])['team']
 
     result = runner.invoke(['team-update', team['id'],
                             '--etag', team['etag'], '--name', 'bar'])
-    result = json.loads(result.output)
 
     assert result['message'] == 'Team updated.'
     assert result['id'] == team['id']
 
 
 def test_delete(runner):
-    result = runner.invoke(['team-create', '--name', 'foo'])
-    team = json.loads(result.output)['team']
+    team = runner.invoke(['team-create', '--name', 'foo'])['team']
 
     result = runner.invoke(['team-delete', team['id'],
                             '--etag', team['etag']])
-    result = json.loads(result.output)
 
     assert result['message'] == 'Team deleted.'
 
 
 def test_show(runner):
-    result = runner.invoke(['team-create', '--name', 'foo'])
-    team = json.loads(result.output)['team']
+    team = runner.invoke(['team-create', '--name', 'foo'])['team']
 
-    result = runner.invoke(['team-show', team['id']])
-    team = json.loads(result.output)['team']
+    team = runner.invoke(['team-show', team['id']])['team']
 
     assert team['name'] == 'foo'

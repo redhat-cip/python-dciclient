@@ -15,17 +15,14 @@
 # under the License.
 
 from __future__ import unicode_literals
-import json
 
 
 def test_prettytable_output(runner, team_id):
-    result = runner.invoke(['user-create', '--name', 'foo',
-                            '--password', 'pass', '--role', 'user',
-                            '--team_id', team_id])
-    user = json.loads(result.output)['user']
+    user = runner.invoke(['user-create', '--name', 'foo',
+                          '--password', 'pass', '--role', 'user',
+                          '--team_id', team_id])['user']
 
-    result = runner.invoke(['--format', 'table', 'user-show', user['id']])
-
+    result = runner.invoke_raw(['--format', 'table', 'user-show', user['id']])
     output = result.output.split('\n')
     # NOTE(spredzy) : The expected output for a table format looks like the
     #                 following :
@@ -58,10 +55,9 @@ def test_prettytable_output(runner, team_id):
 
 
 def test_create(runner, team_id):
-    result = runner.invoke(['user-create', '--name', 'foo',
-                            '--password', 'pass', '--role', 'user',
-                            '--team_id', team_id])
-    user = json.loads(result.output)['user']
+    user = runner.invoke(['user-create', '--name', 'foo',
+                          '--password', 'pass', '--role', 'user',
+                          '--team_id', team_id])['user']
     assert user['name'] == 'foo'
     assert user['role'] == 'user'
     assert user['team_id'] == team_id
@@ -74,48 +70,41 @@ def test_list(runner, team_id):
     runner.invoke(['user-create', '--name', 'bar',
                    '--password', 'pass', '--role', 'user',
                    '--team_id', team_id])
-    result = runner.invoke(['user-list'])
-    users = json.loads(result.output)['users']
+    users = runner.invoke(['user-list'])['users']
     # NOTE (spredzy): We put 5 because of the 3 creates plus
     # admin and 2 users provisionned during server test
     assert len(users) == 5
 
 
 def test_update(runner, team_id):
-    result = runner.invoke(['user-create', '--name', 'foo',
-                            '--password', 'pass', '--role', 'user',
-                            '--team_id', team_id])
-    user = json.loads(result.output)['user']
+    user = runner.invoke(['user-create', '--name', 'foo',
+                          '--password', 'pass', '--role', 'user',
+                          '--team_id', team_id])['user']
 
     runner.invoke(['user-update', user['id'],
                    '--etag', user['etag'], '--name', 'bar',
                    '--role', 'admin'])
-    result = runner.invoke(['user-show', user['id']])
-    user = json.loads(result.output)['user']
+    user = runner.invoke(['user-show', user['id']])['user']
 
     assert user['name'] == 'bar'
     assert user['role'] == 'admin'
 
 
 def test_delete(runner, team_id):
-    result = runner.invoke(['user-create', '--name', 'foo',
-                            '--password', 'pass', '--role', 'user',
-                            '--team_id', team_id])
-    user = json.loads(result.output)['user']
+    user = runner.invoke(['user-create', '--name', 'foo',
+                          '--password', 'pass', '--role', 'user',
+                          '--team_id', team_id])['user']
 
     result = runner.invoke(['user-delete', user['id'],
                             '--etag', user['etag']])
-    result = json.loads(result.output)
     assert result['message'] == 'User deleted.'
 
 
 def test_show(runner, team_id):
-    result = runner.invoke(['user-create', '--name', 'foo',
-                            '--password', 'pass', '--role', 'user',
-                            '--team_id', team_id])
-    user = json.loads(result.output)['user']
+    user = runner.invoke(['user-create', '--name', 'foo',
+                          '--password', 'pass', '--role', 'user',
+                          '--team_id', team_id])['user']
 
-    result = runner.invoke(['user-show', user['id']])
-    user = json.loads(result.output)['user']
+    user = runner.invoke(['user-show', user['id']])['user']
 
     assert user['name'] == 'foo'
