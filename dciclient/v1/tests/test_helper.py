@@ -34,6 +34,6 @@ def test_run_command_shell(dci_context, jobstate_id):
         'echo foo bar',
         shell=True)
     files = dci_file.list(dci_context).json()['files']
-    assert files[1]['name'] == 'echo foo bar'
+    assert files[-1]['name'] == 'echo foo bar'
     f = dci_file.content(dci_context, files[-1]['id'])
     assert f.content.decode(encoding='UTF-8') == 'foo bar\n'

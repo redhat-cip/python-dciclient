@@ -59,10 +59,11 @@ def create(context, name, team_id, data):
     :param string team_id: ID of the team to associate with [required]
     :param json data: JSON formatted data block for the test
     """
-    team_id = team_id or user.get(context.login).json()['team_id']
+    if not team_id:
+        team_id = user.get(context, context.login).json()['user']['team_id']
     data = json.loads(data)
     result = test.create(context, name=name, data=data, team_id=team_id)
-    utils.format_output(result, context.format, test.RESOURCE[:-1])
+    utils.format_output(result, context.format, None, test.TABLE_HEADERS)
 
 
 @cli.command("test-delete", help="Delete a test.")

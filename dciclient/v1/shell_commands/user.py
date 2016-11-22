@@ -57,7 +57,7 @@ def create(context, name, password, role, team_id):
     team_id = team_id or user.get(context.login).json()['user']['team_id']
     result = user.create(context, name=name, password=password,
                          role=role, team_id=team_id)
-    utils.format_output(result, context.format, user.RESOURCE[:-1])
+    utils.format_output(result, context.format, None, user.TABLE_HEADERS)
 
 
 @cli.command("user-update", help="Update a user.")

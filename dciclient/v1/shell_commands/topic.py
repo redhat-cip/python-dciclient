@@ -51,7 +51,7 @@ def create(context, name):
     :param string name: Name of the topic [required]
     """
     result = topic.create(context, name=name)
-    utils.format_output(result, context.format, topic.RESOURCE[:-1])
+    utils.format_output(result, context.format, None, topic.TABLE_HEADERS)
 
 
 @cli.command("topic-delete", help="Delete a topic.")
@@ -106,7 +106,7 @@ def attach_team(context, id, team_id):
     """
     team_id = team_id or user.get(context.login).json()['user']['team_id']
     result = topic.attach_team(context, id=id, team_id=team_id)
-    utils.format_output(result, context.format)
+    utils.format_output(result, context.format, user.RESOURCE[:-1])
 
 
 @cli.command("topic-unattach-team", help="Unattach a team from a topic.")

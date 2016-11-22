@@ -31,6 +31,7 @@ import sqlalchemy_utils.functions
 
 import click.testing
 import functools
+import json
 import os
 import passlib.apps as passlib_apps
 
@@ -156,7 +157,33 @@ def runner(dci_context):
     api.context.build_dci_context = lambda **kwargs: dci_context
     runner = click.testing.CliRunner(env={'DCI_LOGIN': '', 'DCI_PASSWORD': '',
                                           'DCI_CLI_OUTPUT_FORMAT': 'json'})
-    runner.invoke = functools.partial(runner.invoke, shell.main)
+    invoke_raw = functools.partial(runner.invoke, shell.main)
+
+    def invoke_json(*kargs):
+        r = invoke_raw(*kargs)
+        try:
+            return json.loads(r.output)
+        except ValueError as e:
+            print('Failed to JSON decode: >>%s<<' % r.output)
+            print('Exit code was: %d' % r.exit_code)
+            raise e
+
+    def invoke_raw_parse(*kargs):
+        r = invoke_raw(['--format', 'table'] + kargs[0])
+        if r.exit_code != 0:
+            return r.output
+        fields = r.output.split('\n')[1].split('|')
+        data = r.output.split('\n')[3].split('|')
+        fields = [i.lstrip(' ').rstrip(' ') for i in fields[1:-1]]
+        data = [i.lstrip(' ').rstrip(' ') for i in data[1:]]
+        result = {}
+        for f in fields:
+            result[f] = data.pop(0)
+        return result
+
+    runner.invoke = invoke_json
+    runner.invoke_raw = invoke_raw
+    runner.invoke_raw_parse = invoke_raw_parse
     return runner
 
 
@@ -220,8 +247,9 @@ def job_factory(dci_context, team_id, topic_id, remoteci_id):
         api.file.create(dci_context, name='res_junit.xml',
                         content=JUNIT, mime='application/junit',
                         job_id=job_id)
-        jobstate_id = api.jobstate.create(
-            dci_context, 'pre-run', 'starting', job_id).json()['jobstate']['id']
+        r = api.jobstate.create(
+            dci_context, 'pre-run', 'starting', job_id)
+        jobstate_id = r.json()['jobstate']['id']
         api.file.create(dci_context, name='pre-run',
                         content='pre-run ongoing', mime='plain/text',
                         jobstate_id=jobstate_id)
