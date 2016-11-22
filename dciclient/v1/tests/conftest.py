@@ -31,6 +31,7 @@ import sqlalchemy_utils.functions
 
 import click.testing
 import functools
+import json
 import os
 import passlib.apps as passlib_apps
 
@@ -156,7 +157,19 @@ def runner(dci_context):
     api.context.build_dci_context = lambda **kwargs: dci_context
     runner = click.testing.CliRunner(env={'DCI_LOGIN': '', 'DCI_PASSWORD': '',
                                           'DCI_CLI_OUTPUT_FORMAT': 'json'})
-    runner.invoke = functools.partial(runner.invoke, shell.main)
+    f = functools.partial(runner.invoke, shell.main)
+
+    def invoke(*kargs):
+        r = f(*kargs)
+        try:
+            return json.loads(r.output)
+        except ValueError as e:
+            print('Failed to JSON decode: >>%s<<' % r.output)
+            print('Exit code was: %d' % r.exit_code)
+            raise e
+
+    runner.invoke = invoke
+    runner.invoke_raw = f
     return runner
 
 
