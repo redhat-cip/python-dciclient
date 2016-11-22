@@ -112,3 +112,8 @@ def attach_issue(context, id, url):
 def unattach_issue(context, id, issue_id):
     uri = '%s/%s/%s/issues/%s' % (context.dci_cs_api, RESOURCE, id, issue_id)
     return context.session.delete(uri)
+
+
+def list_jobstates(context, id):
+    uri = '%s/%s/%s/jobstates' % (context.dci_cs_api, RESOURCE, id)
+    return context.session.get(uri)
