@@ -37,19 +37,12 @@ def print_json(result_json):
 
 
 def print_prettytable(data, headers):
-    DEFAULT_HEADERS = ['Property', 'Value']
-    headers = headers or DEFAULT_HEADERS
     table = prettytable.PrettyTable(headers)
+    if not isinstance(data, list):
+        data = [data]
 
-    if headers == DEFAULT_HEADERS:
-        for item in sorted(six.iteritems(data)):
-            table.add_row(item)
-    else:
-        if not isinstance(data, list):
-            data = [data]
-
-        for record in data:
-            table.add_row([record[item] for item in headers])
+    for record in data:
+        table.add_row([record[item] for item in headers])
 
     click.echo(table)
 
