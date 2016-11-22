@@ -151,3 +151,12 @@ def test_disable_export_control(runner):
     result = runner.invoke(['component-update', component['id'],
                             '--no-export-control'])
     assert result['message'] == 'Export Control Disabled.'
+
+
+def test_component_status(runner, job_id, topic_id):
+
+    status = runner.invoke(['component-status', '--type', 'type_1',
+                            '--topic_id', topic_id])['jobs']
+
+    assert len(status) == 1
+    assert status[0]['job_status'] == 'pre-run'
