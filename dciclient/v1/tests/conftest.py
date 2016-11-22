@@ -31,6 +31,7 @@ import sqlalchemy_utils.functions
 
 import click.testing
 import functools
+import json
 import os
 import passlib.apps as passlib_apps
 
@@ -156,7 +157,19 @@ def runner(dci_context):
     api.context.build_dci_context = lambda **kwargs: dci_context
     runner = click.testing.CliRunner(env={'DCI_LOGIN': '', 'DCI_PASSWORD': '',
                                           'DCI_CLI_OUTPUT_FORMAT': 'json'})
-    runner.invoke = functools.partial(runner.invoke, shell.main)
+    f = functools.partial(runner.invoke, shell.main)
+
+    def invoke(*kargs):
+        r = f(*kargs)
+        try:
+            return json.loads(r.output)
+        except ValueError as e:
+            print('Failed to JSON decode: >>%s<<' % r.output)
+            print('Exit code was: %d' % r.exit_code)
+            raise e
+
+    runner.invoke = invoke
+    runner.invoke_raw = f
     return runner
 
 
@@ -220,8 +233,9 @@ def job_factory(dci_context, team_id, topic_id, remoteci_id):
         api.file.create(dci_context, name='res_junit.xml',
                         content=JUNIT, mime='application/junit',
                         job_id=job_id)
-        jobstate_id = api.jobstate.create(
-            dci_context, 'pre-run', 'starting', job_id).json()['jobstate']['id']
+        r = api.jobstate.create(
+            dci_context, 'pre-run', 'starting', job_id)
+        jobstate_id = r.json()['jobstate']['id']
         api.file.create(dci_context, name='pre-run',
                         content='pre-run ongoing', mime='plain/text',
                         jobstate_id=jobstate_id)
