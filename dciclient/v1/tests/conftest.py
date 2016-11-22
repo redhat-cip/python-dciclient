@@ -216,9 +216,15 @@ def component_id(dci_context, topic_id):
 def job_factory(dci_context, team_id, topic_id, remoteci_id):
     def create():
         job = api.job.schedule(dci_context, remoteci_id, topic_id).json()
+        job_id = job['job']['id']
         api.file.create(dci_context, name='res_junit.xml',
                         content=JUNIT, mime='application/junit',
-                        job_id=job['job']['id'])
+                        job_id=job_id)
+        jobstate = api.jobstate.create(
+            dci_context, 'pre-run', 'starting', job_id).json()['jobstate']
+        api.file.create(dci_context, name='pre-run',
+                        content='pre-run ongoing', mime='plain/text',
+                        jobstate_id=jobstate['id'])
         return job
 
     JUNIT = """

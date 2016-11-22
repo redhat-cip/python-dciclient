@@ -19,6 +19,7 @@ import click
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
+from dciclient.v1.api import file as dci_file
 from dciclient.v1.api import job
 
 
@@ -33,9 +34,14 @@ def list(context, limit):
 
     >>> dcictl job-list
     """
-    result = job.list(context, limit=limit)
+    result = job.list(
+        context, limit=limit, embed='jobdefinition,remoteci,team')
+    headers = ['id', 'status', 'recheck',
+               'jobdefinition/name', 'remoteci/name',
+               'team/name', 'etag', 'created_at', 'updated_at']
+
     utils.format_output(result, context.format,
-                        job.RESOURCE, job.TABLE_HEADERS)
+                        job.RESOURCE, headers)
 
 
 @cli.command("job-show", help="Show a job.")
@@ -172,3 +178,37 @@ def list_issues(context, id):
     result = job.list_issues(context, id=id)
     headers = ['status', 'product', 'component', 'title', 'url']
     utils.format_output(result, context.format, 'issues', headers)
+
+
+@cli.command("job-output", help="Show the job output.")
+@click.argument('id', required=False)
+@click.pass_obj
+def output(context, id):
+    """output(context, id)
+
+    Show a job output.
+
+    >>> dcictl job-output [OPTIONS]
+
+    :param string id: ID of the job to show [required]
+    """
+
+    colors = {
+        'pre-run': '\x1b[6;30;44m',
+        'running': '\x1b[6;30;42m',
+        'post-run': '\x1b[6;30;44m',
+        'failure': '\x1b[6;30;41m'}
+    result = job.list_jobstates(context, id=id)
+    jobstates = result.json()['jobstates']
+
+    for js in jobstates:
+        color = colors.get(js['status'], '')
+        click.echo('%s[%s]\x1b[0m %s' % (
+            color,
+            js['status'],
+            js['comment']))
+        f_l = dci_file.list(
+            context,
+            where='jobstate_id:' + js['id'])
+        for f in f_l.json()['files']:
+            click.echo(dci_file.content(context, id=f['id']).text)
