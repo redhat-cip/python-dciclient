@@ -50,8 +50,8 @@ def test_list(runner, dci_context, remoteci_id):
     l_job = runner.invoke(['job-list'])
     l_job = json.loads(l_job.output)
     assert len(l_job['jobs']) == 1
-    assert l_job['jobs'][0]['remoteci_id'] == remoteci_id
-    assert l_job['jobs'][0]['jobdefinition_id'] == jd['id']
+    assert l_job['jobs'][0]['remoteci']['id'] == remoteci_id
+    assert l_job['jobs'][0]['jobdefinition']['id'] == jd['id']
 
 
 def test_list_with_limit(runner, job_factory):
@@ -125,3 +125,9 @@ def test_unattach_issue(runner, job_id):
     result = runner.invoke(['job-list-issue', job_id])
     result = json.loads(result.output)['_meta']['count']
     assert result == 0
+
+
+def test_job_output(runner, job_id):
+    result = runner.invoke(['job-output', job_id])
+    assert '[pre-run]' in result.output
+    assert 'pre-run ongoing' in result.output
