@@ -27,6 +27,8 @@ TABLE_HEADERS = ['id', 'name', 'canonical_project_name',
                  'updated_at']
 TABLE_FILE_HEADERS = ['id', 'name', 'mime', 'size', 'component_id',
                       'created_at']
+TABLE_STATUS_HEADERS = ['team_name', 'remoteci_name', 'job_status', 'job_id',
+                        'job_created_at']
 
 
 GIT_COMMIT = 'git_commit'
@@ -88,3 +90,9 @@ def file_list(context, id):
 def file_delete(context, id, file_id):
     uri = '%s/%s/%s/files/%s' % (context.dci_cs_api, RESOURCE, id, file_id)
     return context.session.delete(uri)
+
+
+def status(context, type, topic_id):
+    uri = '%s/%s/%s/type/%s/status' % (context.dci_cs_api, 'topics', topic_id,
+                                       type)
+    return context.session.get(uri)
