@@ -19,6 +19,7 @@ import click
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
+from dciclient.v1.api import file as dci_file
 from dciclient.v1.api import job
 
 
@@ -172,3 +173,35 @@ def list_issues(context, id):
     result = job.list_issues(context, id=id)
     headers = ['status', 'product', 'component', 'title', 'url']
     utils.format_output(result, context.format, 'issues', headers)
+
+
+@cli.command("job-output", help="Show the job output.")
+@click.argument('id', required=False)
+@click.pass_obj
+def output(context, id):
+    """output(context, id)
+
+    Show a job output.
+
+    >>> dcictl job-output [OPTIONS]
+
+    :param string id: ID of the job to show [required]
+    """
+
+    colors = {
+        'pre-run': '\x1b[6;30;44m',
+        'running': '\x1b[6;30;42m',
+        'failure': '\x1b[6;30;41m'}
+    result = job.list_jobstates(context, id=id)
+    jobstates = result.json()['jobstates']
+
+    for js in jobstates:
+        click.echo('%s[%s]\x1b[0m %s' % (
+            colors[js['status']],
+            js['status'],
+            js['comment']))
+        f_l = dci_file.list(
+            context,
+            where='jobstate_id:' + js['id'])
+        for f in f_l.json()['files']:
+            click.echo(dci_file.content(context, id=f['id']).text)
