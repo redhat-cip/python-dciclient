@@ -153,7 +153,7 @@ def test_embed(dci_context):
     rci_id = rci['remoteci']['id']
 
     rci_with_embed = remoteci.get(dci_context,
-                                  id=rci_id, embed=['team']).json()
+                                  id=rci_id, embed='team').json()
     embed_team_id = rci_with_embed['remoteci']['team']['id']
 
     assert team_id == embed_team_id

@@ -36,6 +36,15 @@ def print_json(result_json):
     click.echo(formatted_result)
 
 
+def _get_field(record, field_path):
+    cur_field = field_path.pop(0)
+    v = record.get(cur_field)
+    if len(field_path):
+        return _get_field(record[cur_field], field_path)
+    else:
+        return v
+
+
 def print_prettytable(data, headers):
     table = prettytable.PrettyTable(headers)
 
@@ -43,7 +52,10 @@ def print_prettytable(data, headers):
         data = [data]
 
     for record in data:
-        table.add_row([record[item] for item in headers])
+        row = []
+        for item in headers:
+            row.append(_get_field(record, field_path=item.split('/')))
+        table.add_row(row)
 
     click.echo(table)
 
