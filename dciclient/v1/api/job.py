@@ -15,6 +15,7 @@
 # under the License.
 
 from dciclient.v1.api import base
+from dciclient.v1 import utils
 
 import json
 
@@ -112,3 +113,26 @@ def attach_issue(context, id, url):
 def unattach_issue(context, id, issue_id):
     uri = '%s/%s/%s/issues/%s' % (context.dci_cs_api, RESOURCE, id, issue_id)
     return context.session.delete(uri)
+
+
+def create_meta(context, job_id, name, value):
+    uri = '%s/jobs/%s/metas' % (context.dci_cs_api, job_id)
+    data_json = json.dumps({'name': name, 'value': value})
+    return context.session.post(uri, data=data_json)
+
+
+def delete_meta(context, job_id, meta_id):
+    uri = '%s/jobs/%s/metas/%s' % (context.dci_cs_api, job_id, meta_id)
+    return context.session.delete(uri)
+
+
+def get_all_metas_of_job(context, job_id):
+    uri = '%s/jobs/%s/metas' % (context.dci_cs_api, job_id)
+    return context.session.get(uri)
+
+
+def update_meta(context, job_id, meta_id, etag, name=None, value=None):
+    """Update a specific resource"""
+    data = utils.sanitize_kwargs(name=name, value=value)
+    uri = '%s/jobs/%s/metas/%s' % (context.dci_cs_api, job_id, meta_id)
+    return context.session.put(uri, headers={'If-match': etag}, json=data)
