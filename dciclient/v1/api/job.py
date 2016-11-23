@@ -111,3 +111,19 @@ def attach_issue(context, id, url):
 def unattach_issue(context, id, issue_id):
     uri = '%s/%s/%s/issues/%s' % (context.dci_cs_api, RESOURCE, id, issue_id)
     return context.session.delete(uri)
+
+
+def create_meta(context, job_id, name, value):
+    uri = '/jobs/<j_id>/metas' % job_id
+    data_json = json.dumps({'name': name, 'value': value})
+    return context.session.post(uri, data=data_json)
+
+
+def delete_meta(context, job_id, meta_id):
+    uri = '/jobs/<j_id>/metas/<m_id>' % (job_id, meta_id)
+    return context.session.delete(uri)
+
+
+def get_all_metas_of_job(context, job_id):
+    uri = '/jobs/<j_id>/metas' % (job_id)
+    return context.session.get(uri)
