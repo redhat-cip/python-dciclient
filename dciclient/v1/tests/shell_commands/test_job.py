@@ -44,8 +44,8 @@ def test_list(runner, dci_context, remoteci_id):
     job.schedule(dci_context, remoteci_id, topic['id'])
     l_job = runner.invoke(['job-list'])
     assert len(l_job['jobs']) == 1
-    assert l_job['jobs'][0]['remoteci_id'] == remoteci_id
-    assert l_job['jobs'][0]['jobdefinition_id'] == jd['id']
+    assert l_job['jobs'][0]['remoteci']['id'] == remoteci_id
+    assert l_job['jobs'][0]['jobdefinition']['id'] == jd['id']
 
 
 def test_list_with_limit(runner, job_factory):

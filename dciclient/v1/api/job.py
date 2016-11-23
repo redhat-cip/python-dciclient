@@ -39,8 +39,8 @@ def update(context, **kwargs):
     return base.update(context, RESOURCE, **kwargs)
 
 
-def list(context, limit=None):
-    return base.list(context, RESOURCE, limit=limit)
+def list(context, **kwargs):
+    return base.list(context, RESOURCE, **kwargs)
 
 
 def schedule(context, remoteci_id, topic_id):
