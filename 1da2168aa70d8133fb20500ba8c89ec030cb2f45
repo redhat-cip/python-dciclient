@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a890539_f0025e0a",
+        "filename": "dciclient/v1/shell_commands/job.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2016-11-23T10:38:36Z",
+      "side": 1,
+      "message": "All the status should be in here else the client crashes.\n\n\u003e  File \"/home/spredzy/Projects/softwarefactory-project.io/dci-dev-env/python-dciclient/dciclient/v1/shell_commands/job.py\", line 205, in output\n\u003e    colors[js[\u0027status\u0027]],\n\u003e KeyError: u\u0027post-run\u0027",
+      "revId": "1da2168aa70d8133fb20500ba8c89ec030cb2f45",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
