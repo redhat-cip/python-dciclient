@@ -247,9 +247,9 @@ def job_factory(dci_context, team_id, topic_id, remoteci_id):
         api.file.create(dci_context, name='res_junit.xml',
                         content=JUNIT, mime='application/junit',
                         job_id=job_id)
-        r = api.jobstate.create(
-            dci_context, 'pre-run', 'starting', job_id)
-        jobstate_id = r.json()['jobstate']['id']
+        jobstate_id = api.jobstate.create(
+            dci_context, 'pre-run', 'starting',
+            job_id).json()['jobstate']['id']
         api.file.create(dci_context, name='pre-run',
                         content='pre-run ongoing', mime='plain/text',
                         jobstate_id=jobstate_id)
