@@ -34,9 +34,14 @@ def list(context, limit):
 
     >>> dcictl job-list
     """
-    result = job.list(context, limit=limit)
+    result = job.list(
+        context, limit=limit, embed='jobdefinition,remoteci,team')
+    headers = ['id', 'status', 'recheck',
+               'jobdefinition/name', 'remoteci/name',
+               'team/name', 'etag', 'created_at', 'updated_at']
+
     utils.format_output(result, context.format,
-                        job.RESOURCE, job.TABLE_HEADERS)
+                        job.RESOURCE, headers)
 
 
 @cli.command("job-show", help="Show a job.")
