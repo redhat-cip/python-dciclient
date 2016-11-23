@@ -36,14 +36,15 @@ def list(context, resource, **kwargs):
     else:
         uri = '%s/%s' % (context.dci_cs_api, resource)
 
-    r = context.session.get(uri, params=data)
-    return r
+    return context.session.get(uri, params=data)
 
 
 def get(context, resource, **kwargs):
     """List a specific resource"""
     uri = '%s/%s/%s' % (context.dci_cs_api, resource, kwargs.pop('id'))
-    r = context.session.get(uri, params=kwargs)
+    r = context.session.get(
+        uri,
+        params=kwargs)
     return r
 
 
