@@ -155,3 +155,70 @@ def get_data(context, id, keys):
         keys = keys.split(',')
     result = remoteci.get_data(context, id=id, keys=keys)
     utils.format_output(result, context.format, None, keys)
+
+
+@cli.command("remoteci-attach-test",
+             help="Attach a test to a remoteci.")
+@click.argument("id")
+@click.option("--test_id", required=True)
+@click.pass_obj
+def attach_test(context, id, test_id):
+    """attach_test(context, id, test_id)
+
+    Attach a test to a remoteci.
+
+    >>> dcictl remoteci-attach-test [OPTIONS]
+
+    :param string id: ID of the remoteci to attach the test to [required]
+    :param string test_id: ID of the test to attach [required]
+    """
+    result = remoteci.add_test(context, id=id,
+                               test_id=test_id)
+    utils.format_output(result, context.format)
+
+
+@cli.command("remoteci-list-test",
+             help="List tests attached to a remoteci.")
+@click.argument("id")
+@click.pass_obj
+def list_test(context, id):
+    """unattach_test(context, id, test_id)
+
+    Unattach a test from a remoteci.
+
+    >>> dcictl remoteci-unattach-test [OPTIONS]
+
+    :param string id: ID of the remoteci to unattach the test from
+                      [required]
+    :param string test_id: ID of the test to unattach [required]
+    """
+    result = remoteci.get_tests(context, id=id)
+    utils.format_output(result, context.format,
+                        remoteci.RESOURCE,
+                        remoteci.TABLE_HEADERS)
+
+
+@cli.command("remoteci-unattach-test",
+             help="Unattach a test to a remoteci.")
+@click.argument("id")
+@click.option("--test_id", required=True)
+@click.pass_obj
+def unattach_test(context, id, test_id):
+    """unattach_test(context, id, test_id)
+
+    Unattach a test from a remoteci.
+
+    >>> dcictl remoteci-unattach-test [OPTIONS]
+
+    :param string id: ID of the remoteci to unattach the test from
+                      [required]
+    :param string test_id: ID of the test to unattach [required]
+    """
+    result = remoteci.remove_test(context, id=id,
+                                  test_id=test_id)
+    if result.status_code == 204:
+        unattach_msg = 'Test unattached from Remoteci'
+        utils.print_json({'id': id,
+                          'message': unattach_msg})
+    else:
+        utils.format_output(result, context.format)

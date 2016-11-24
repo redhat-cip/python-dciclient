@@ -48,3 +48,19 @@ def update(context, id, etag, name, team_id=None, data=None, active=None):
 
 def delete(context, id, etag):
     return base.delete(context, RESOURCE, id=id, etag=etag)
+
+
+def add_test(context, id, test_id):
+    uri = '%s/%s/%s/tests' % (context.dci_cs_api, RESOURCE, id)
+    return context.session.post(uri, json={'test_id': test_id})
+
+
+def get_tests(context, id):
+    uri = '%s/%s/%s/tests' % (context.dci_cs_api, RESOURCE, id)
+    return context.session.get(uri)
+
+
+def remove_test(context, id, test_id):
+    uri = '%s/%s/%s/tests/%s' % (context.dci_cs_api, RESOURCE, id,
+                                 test_id)
+    return context.session.delete(uri)
