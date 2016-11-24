@@ -167,7 +167,8 @@ def attach_test(context, id, test_id):
     """
     result = jobdefinition.add_test(context, id=id,
                                     test_id=test_id)
-    utils.format_output(result, context.format)
+    utils.format_output(result, context.format,
+                        None, ['jobdefinition_id', 'test_id'])
 
 
 @cli.command("jobdefinition-list-test",
