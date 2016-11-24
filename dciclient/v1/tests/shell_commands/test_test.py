@@ -15,103 +15,59 @@
 # under the License.
 
 from __future__ import unicode_literals
-import json
 
 
 def test_prettytable_output(runner):
-    team = runner.invoke(['team-create', '--name', 'osp'])
-    team = json.loads(team.output)['team']
+    team = runner.invoke_raw_parse(['team-create', '--name', 'osp'])
     assert team['name'] == 'osp'
-
-    result = runner.invoke(['test-create', '--name', 'foo', '--team_id',
-                            team['id']])
-    test = json.loads(result.output)['test']
-
-    result = runner.invoke(['--format', 'table', 'test-show', test['id']])
-
-    output = result.output.split('\n')
-    # NOTE(spredzy) : The expected output for a table format looks like the
-    #                 following :
-    #
-    # +------------
-    # |  id | name
-    # +------------
-    # | id1 | name1
-    # | id2 | name2
-    # | id3 | name3
-    # +------------
-    #
-    # The header variable below represents the header data, when more than one
-    # space is located between the string and the '|' space number is shrink to
-    # one ( this is what ' '.join(string.split()) does
-    #
-    # The data variable below represents the actual data, when more than one
-    # space is located between the string and the '|' space number is shrink to
-    # one ( this is what ' '.join(string.split()) does
-    header = ' '.join(output[1].split())
-    data = ' '.join(output[3].split())
-
-    expected_data = (test['id'], test['name'], test['created_at'])
-
-    assert header == '| id | name | data | created_at |'
-
-    assert data == '| %s | %s | {} | %s |' % expected_data
+    assert team == runner.invoke_raw_parse([
+        'team-show', team['id']])
 
 
 def test_list(runner):
-    team = runner.invoke(['team-create', '--name', 'osp'])
-    team = json.loads(team.output)['team']
+    team = runner.invoke(['team-create', '--name', 'osp'])['team']
     assert team['name'] == 'osp'
 
-    result = runner.invoke(['team-list'])
-    teams = json.loads(result.output)['teams']
+    teams = runner.invoke(['team-list'])['teams']
     team_id = teams[0]['id']
 
     runner.invoke(['test-create', '--name', 'foo', '--team_id', team_id])
     runner.invoke(['test-create', '--name', 'bar', '--team_id', team_id])
-    result = runner.invoke(['test-list', '--team_id', team_id])
-    tests = json.loads(result.output)['tests']
+    tests = runner.invoke(['test-list', '--team_id', team_id])['tests']
     assert len(tests) == 2
     assert tests[0]['name'] == 'foo'
     assert tests[1]['name'] == 'bar'
 
 
 def test_create(runner):
-    team = runner.invoke(['team-create', '--name', 'osp'])
-    team = json.loads(team.output)['team']
+    team = runner.invoke(['team-create', '--name', 'osp'])['team']
     assert team['name'] == 'osp'
 
-    result = runner.invoke(['test-create', '--name', 'foo', '--team_id',
-                            team['id']])
-    test = json.loads(result.output)['test']
+    test = runner.invoke([
+        'test-create', '--name', 'foo', '--team_id',
+        team['id']])['test']
     assert test['name'] == 'foo'
 
 
 def test_delete(runner):
-    team = runner.invoke(['team-create', '--name', 'osp'])
-    team = json.loads(team.output)['team']
+    team = runner.invoke(['team-create', '--name', 'osp'])['team']
     assert team['name'] == 'osp'
 
-    result = runner.invoke(['test-create', '--name', 'foo', '--team_id',
-                            team['id']])
-    test = json.loads(result.output)['test']
+    test = runner.invoke(['test-create', '--name', 'foo', '--team_id',
+                          team['id']])['test']
 
     result = runner.invoke(['test-delete', test['id']])
-    result = json.loads(result.output)
 
     assert result['message'] == 'Test deleted.'
 
 
 def test_show(runner):
-    team = runner.invoke(['team-create', '--name', 'osp'])
-    team = json.loads(team.output)['team']
+    team = runner.invoke(['team-create', '--name', 'osp'])['team']
     assert team['name'] == 'osp'
 
-    result = runner.invoke(['test-create', '--name', 'foo', '--team_id',
-                            team['id']])
-    test = json.loads(result.output)['test']
+    test = runner.invoke(['test-create', '--name', 'foo', '--team_id',
+                          team['id']])['test']
 
-    result = runner.invoke(['test-show', test['id']])
-    test = json.loads(result.output)['test']
+    test = runner.invoke(['test-show', test['id']])['test']
 
     assert test['name'] == 'foo'

@@ -49,7 +49,7 @@ def create(context, name):
     :param string name: Name of the team [required]
     """
     result = team.create(context, name=name)
-    utils.format_output(result, context.format, team.RESOURCE[:-1])
+    utils.format_output(result, context.format, None, team.TABLE_HEADERS)
 
 
 @cli.command("team-update", help="Update a team.")
