@@ -24,7 +24,7 @@ from dciclient.v1.api import test
 
 
 @cli.command("jobdefinition-list", help="List all jobdefinitions.")
-@click.option("--topic_id", required=True)
+@click.option("--topic_id")
 @click.pass_obj
 def list(context, topic_id):
     """list(context, id)
