@@ -59,11 +59,11 @@ def create(context, name, team_id, data, active):
     :param boolean active: Mark remote CI active
     :param boolean no-active: Mark remote CI inactive
     """
-    team_id = team_id or user.get(context.login).json()['team_id']
+    team_id = team_id or user.get(context.login).json()['user']['team_id']
     data = json.loads(data)
     result = remoteci.create(context, name=name, team_id=team_id, data=data,
                              active=active)
-    utils.format_output(result, context.format, remoteci.RESOURCE[:-1])
+    utils.format_output(result, context.format, None, remoteci.TABLE_HEADERS)
 
 
 @cli.command("remoteci-update", help="Update a remoteci.")
@@ -154,4 +154,4 @@ def get_data(context, id, keys):
     if keys:
         keys = keys.split(',')
     result = remoteci.get_data(context, id=id, keys=keys)
-    utils.format_output(result, context.format)
+    utils.format_output(result, context.format, None, keys)
