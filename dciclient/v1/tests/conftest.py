@@ -199,8 +199,8 @@ def topic_id(dci_context):
 
 
 @pytest.fixture
-def test_id(dci_context, topic_id):
-    kwargs = {'name': 'test_name', 'topic_id': topic_id}
+def test_id(dci_context, team_id):
+    kwargs = {'name': 'test_name', 'team_id': team_id}
     return api.test.create(dci_context, **kwargs).json()['test']['id']
 
 
