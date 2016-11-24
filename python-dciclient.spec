@@ -20,8 +20,6 @@ Python client for DCI control server for the remote CIs.
 %package -n python2-dciclient
 Summary:        Python client for DCI control server
 %{?python_provide:%python_provide python2-dciclient}
-Conflicts:      dci-feeders < %{version}
-Obsoletes:      dci-feeders
 BuildRequires:  PyYAML
 BuildRequires:  postgresql
 BuildRequires:  postgresql-server
