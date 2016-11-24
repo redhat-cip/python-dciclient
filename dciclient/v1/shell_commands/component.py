@@ -79,7 +79,7 @@ def create(context, name, type, canonical_project_name, data,
         title=title, message=message, url=url,
         topic_id=topic_id, export_control=export_control
     )
-    utils.format_output(result, context.format, component.RESOURCE[:-1])
+    utils.format_output(result, context.format, None, component.TABLE_HEADERS)
 
 
 @cli.command("component-delete", help="Delete a component.")
@@ -206,7 +206,9 @@ def file_delete(context, id, file_id):
     :param string id: ID of the component to show [required]
     :param string file_id: ID for the file to delete [required]
     """
-    return component.file_delete(context, id=id, file_id=file_id)
+    result = component.file_delete(context, id=id, file_id=file_id)
+    utils.format_output(result, context.format, 'component_files',
+                        component.RESOURCE[:-1])
 
 
 @cli.command("component-update", help="Update a component.")

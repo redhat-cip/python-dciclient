@@ -51,7 +51,7 @@ def create(context, name):
     :param string name: Name of the topic [required]
     """
     result = topic.create(context, name=name)
-    utils.format_output(result, context.format, topic.RESOURCE[:-1])
+    utils.format_output(result, context.format, None, topic.TABLE_HEADERS)
 
 
 @cli.command("topic-delete", help="Delete a topic.")
@@ -104,9 +104,9 @@ def attach_team(context, id, team_id):
     :param string id: ID of the topic to attach to [required]
     :param string team_id: ID of the team to attach to this topic [required]
     """
-    team_id = team_id or user.get(context.login).json()['team_id']
+    team_id = team_id or user.get(context.login).json()['user']['team_id']
     result = topic.attach_team(context, id=id, team_id=team_id)
-    utils.format_output(result, context.format)
+    utils.format_output(result, context.format, user.RESOURCE[:-1])
 
 
 @cli.command("topic-unattach-team", help="Unattach a team from a topic.")
@@ -124,7 +124,7 @@ def unattach_team(context, id, team_id):
     :param string team_id: ID of team to unattach from this topic,
         default is the current user team [optional]
     """
-    team_id = team_id or user.get(context.login).json()['team_id']
+    team_id = team_id or user.get(context.login).json()['user']['team_id']
     result = topic.unattach_team(context, id=id, team_id=team_id)
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Teams has been unattached.'})

@@ -16,8 +16,6 @@
 
 from dciclient.v1.api import job
 
-import json
-
 
 def test_get_full_data(job_id, dci_context):
     full_data_job = job.get_full_data(dci_context, job_id)
@@ -27,28 +25,24 @@ def test_get_full_data(job_id, dci_context):
 
 
 def test_list(runner, dci_context, remoteci_id):
-    topic = runner.invoke(['topic-create', '--name', 'osp'])
-    topic = json.loads(topic.output)['topic']
+    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
 
-    result = runner.invoke(['team-list'])
-    teams = json.loads(result.output)['teams']
+    teams = runner.invoke(['team-list'])['teams']
     team_id = teams[0]['id']
 
-    topic_team = runner.invoke(['topic-attach-team', topic['id'],
-                                '--team_id', team_id])
-    topic_team = json.loads(topic_team.output)
+    runner.invoke(['topic-attach-team', topic['id'], '--team_id', team_id])
 
-    jd = runner.invoke(['jobdefinition-create', '--name', 'foo', '--topic_id',
-                       topic['id'], '--component_types', 'foobar'])
-    jd = json.loads(jd.output)['jobdefinition']
+    jd = runner.invoke(['jobdefinition-create',
+                        '--name', 'foo',
+                        '--topic_id', topic['id'],
+                        '--component_types', 'foobar'])['jobdefinition']
 
-    component = runner.invoke(['component-create', '--name', 'foo',
-                               '--type', 'foobar', '--topic_id', topic['id']])
-    component = json.loads(component.output)['component']
+    runner.invoke(['component-create', '--name', 'foo',
+                   '--type', 'foobar', '--topic_id',
+                   topic['id']])['component']
 
     job.schedule(dci_context, remoteci_id, topic['id'])
     l_job = runner.invoke(['job-list'])
-    l_job = json.loads(l_job.output)
     assert len(l_job['jobs']) == 1
     assert l_job['jobs'][0]['remoteci_id'] == remoteci_id
     assert l_job['jobs'][0]['jobdefinition_id'] == jd['id']
@@ -59,55 +53,47 @@ def test_list_with_limit(runner, job_factory):
         job_factory()
     # test --limit XX
     l_job = runner.invoke(['job-list'])
-    l_job = json.loads(l_job.output)
     assert len(l_job['jobs']) == 6
     l_job = runner.invoke(['job-list', '--limit', 1])
-    l_job = json.loads(l_job.output)
     assert len(l_job['jobs']) == 1
 
 
 def test_delete(runner, job_id):
     l_job = runner.invoke(['job-show', job_id])
-    l_job_etag = json.loads(l_job.output)['job']['etag']
+    l_job_etag = l_job['job']['etag']
 
     result = runner.invoke(['job-delete', job_id,
                             '--etag', l_job_etag])
-    result = json.loads(result.output)
 
     assert result['message'] == 'Job deleted.'
 
 
 def test_recheck(runner, job_id):
-    result = runner.invoke(['job-recheck', job_id])
-    result = json.loads(result.output)['job']
+    result = runner.invoke(['job-recheck', job_id])['job']
 
     assert result['status'] == 'new'
 
 
 def test_results(runner, job_id):
-    result = runner.invoke(['job-results', job_id])
-    result = json.loads(result.output)['results'][0]
+    result = runner.invoke(['job-results', job_id])['results'][0]
 
     assert result['filename'] == 'res_junit.xml'
 
 
 def test_attach_issue(runner, job_id):
-    result = runner.invoke(['job-list-issue', job_id])
-    result = json.loads(result.output)['_meta']['count']
+    result = runner.invoke(['job-list-issue', job_id])['_meta']['count']
     assert result == 0
 
     runner.invoke(
         ['job-attach-issue', job_id, '--url',
          'https://github.com/redhat-cip/dci-control-server/issues/2']
     )
-    result = runner.invoke(['job-list-issue', job_id])
-    result = json.loads(result.output)['_meta']['count']
+    result = runner.invoke(['job-list-issue', job_id])['_meta']['count']
     assert result == 1
 
 
 def test_unattach_issue(runner, job_id):
-    result = runner.invoke(['job-list-issue', job_id])
-    result = json.loads(result.output)['_meta']['count']
+    result = runner.invoke(['job-list-issue', job_id])['_meta']['count']
     assert result == 0
 
     runner.invoke(
@@ -115,19 +101,19 @@ def test_unattach_issue(runner, job_id):
          'https://github.com/redhat-cip/dci-control-server/issues/2']
     )
     result = runner.invoke(['job-list-issue', job_id])
-    res = json.loads(result.output)['_meta']['count']
-    issue_id = json.loads(result.output)['issues'][0]['id']
+    res = result['_meta']['count']
+    issue_id = result['issues'][0]['id']
     assert res == 1
 
     runner.invoke(
         ['job-unattach-issue', job_id, '--issue_id', issue_id]
     )
     result = runner.invoke(['job-list-issue', job_id])
-    result = json.loads(result.output)['_meta']['count']
-    assert result == 0
+    count = result['_meta']['count']
+    assert count == 0
 
 
 def test_job_output(runner, job_id):
-    result = runner.invoke(['job-output', job_id])
+    result = runner.invoke_raw(['job-output', job_id])
     assert '[pre-run]' in result.output
     assert 'pre-run ongoing' in result.output

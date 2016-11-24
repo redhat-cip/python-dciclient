@@ -37,19 +37,18 @@ def print_json(result_json):
 
 
 def print_prettytable(data, headers):
-    DEFAULT_HEADERS = ['Property', 'Value']
-    headers = headers or DEFAULT_HEADERS
     table = prettytable.PrettyTable(headers)
 
-    if headers == DEFAULT_HEADERS:
-        for item in sorted(six.iteritems(data)):
-            table.add_row(item)
-    else:
-        if not isinstance(data, list):
-            data = [data]
+    if isinstance(data, dict):
+        keys = data.keys()
+        if len(keys) == 1:
+            data = data[keys[0]]
 
-        for record in data:
-            table.add_row([record[item] for item in headers])
+    if not isinstance(data, list):
+        data = [data]
+
+    for record in data:
+        table.add_row([record[item] for item in headers])
 
     click.echo(table)
 
@@ -70,7 +69,7 @@ def sanitize_kwargs(**kwargs):
     return kwargs
 
 
-def format_output(result, format, item=None, headers=None,
+def format_output(result, format, item=None, headers=['Property', 'Value'],
                   success_code=(200, 201, 204)):
 
     result_json = result.json()
