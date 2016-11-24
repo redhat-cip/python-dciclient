@@ -54,7 +54,7 @@ def create(context, name, password, role, team_id):
     :param string role: Role of user (admin or user)
     :param string team_id: ID of the team to attach this user to [optional]
     """
-    team_id = team_id or user.get(context.login).json()['team_id']
+    team_id = team_id or user.get(context.login).json()['user']['team_id']
     result = user.create(context, name=name, password=password,
                          role=role, team_id=team_id)
     utils.format_output(result, context.format, user.RESOURCE[:-1])

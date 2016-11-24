@@ -59,7 +59,7 @@ def create(context, name, team_id, data, active):
     :param boolean active: Mark remote CI active
     :param boolean no-active: Mark remote CI inactive
     """
-    team_id = team_id or user.get(context.login).json()['team_id']
+    team_id = team_id or user.get(context.login).json()['user']['team_id']
     data = json.loads(data)
     result = remoteci.create(context, name=name, team_id=team_id, data=data,
                              active=active)

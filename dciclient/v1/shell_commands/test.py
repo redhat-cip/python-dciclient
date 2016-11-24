@@ -36,7 +36,8 @@ def list(context, team_id):
 
     >>> dcictl test list
     """
-    team_id = team_id or user.get(context.login).json()['team_id']
+    if not team_id:
+        team_id = user.get(context, context.login).json()['user']['team_id']
     result = team.list_tests(context, team_id)
     utils.format_output(result, context.format,
                         test.RESOURCE, test.TABLE_HEADERS)
