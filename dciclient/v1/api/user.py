@@ -18,7 +18,7 @@ from dciclient.v1.api import base
 
 
 RESOURCE = 'users'
-TABLE_HEADERS = ['id', 'etag', 'name', 'role', 'team_id',
+TABLE_HEADERS = ['id', 'name', 'role', 'team_id', 'etag',
                  'created_at', 'updated_at']
 
 

@@ -64,7 +64,7 @@ def create(context, name, topic_id, priority, component_types):
                                   topic_id=topic_id,
                                   component_types=component_types)
     utils.format_output(result, context.format,
-                        jobdefinition.RESOURCE[:-1])
+                        None, jobdefinition.TABLE_HEADERS)
 
 
 @cli.command("jobdefinition-delete", help="Delete a jobdefinition.")
