@@ -18,7 +18,7 @@ from dciclient.v1.api import base
 
 
 RESOURCE = 'jobdefinitions'
-TABLE_HEADERS = ['id', 'name', 'priority', 'active', 'comment',
+TABLE_HEADERS = ['id', 'name', 'priority', 'topic_id', 'active', 'comment',
                  'etag', 'created_at', 'updated_at']
 
 
