@@ -36,7 +36,6 @@ topic_id = 'fe145e49-992a-4843-a44f-b058c7a05261'
 # schedule the job and pull down data
 job = dci_job.schedule(dci_context, remoteci_id=remoteci_id, topic_id=topic_id).json()
 job_id = job['job']['id']
-job_full_data = dci_job.get_full_data(dci_context, job_id)
 
 # create initial jobstate of pre-run
 jobstate = dci_jobstate.create(dci_context, 'pre-run', 'Initializing the environment', job_id)
