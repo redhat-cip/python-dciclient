@@ -44,8 +44,8 @@ def test_list(runner):
         'component-list', '--topic_id', topic['id']])['components']
 
     assert len(components) == 2
-    assert components[0]['name'] == 'foo'
-    assert components[1]['name'] == 'bar'
+    assert components[0]['name'] == 'bar'
+    assert components[1]['name'] == 'foo'
 
 
 def test_create(runner):

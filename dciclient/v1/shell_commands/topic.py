@@ -136,8 +136,10 @@ def unattach_team(context, id, team_id):
 
 @cli.command("topic-list-team", help="List teams attached to a topic.")
 @click.argument("id")
+@click.option("--sort", default="-created_at")
+@click.option("--limit", default=50)
 @click.pass_obj
-def list_attached_team(context, id):
+def list_attached_team(context, id, sort, limit):
     """list_attached_team(context, id)
 
     List teams attached to a topic.
@@ -146,6 +148,6 @@ def list_attached_team(context, id):
 
     :param string id: ID of the topic to list teams for [required]
     """
-    result = topic.list_attached_team(context, id=id)
+    result = topic.list_attached_team(context, id=id, sort=sort, limit=limit)
     utils.format_output(result, context.format,
                         team.RESOURCE, team.TABLE_HEADERS)

@@ -82,9 +82,8 @@ def file_download(context, id, file_id, target):
     os.rename(target + '.part', target)
 
 
-def file_list(context, id):
-    uri = '%s/%s/%s/files' % (context.dci_cs_api, RESOURCE, id)
-    return context.session.get(uri)
+def file_list(context, id, **kwargs):
+    return base.list(context, RESOURCE, id=id, subresource='files', **kwargs)
 
 
 def file_delete(context, id, file_id):
