@@ -93,5 +93,7 @@ def format_output(result, format, item=None, headers=['Property', 'Value'],
     if format == 'json' or is_failure:
         print_json(result)
     else:
+        if not item and isinstance(result, dict):
+            result = list(result.values())[0]
         to_display = result[item] if item else result
         print_prettytable(to_display, headers)
