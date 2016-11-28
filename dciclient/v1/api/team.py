@@ -25,22 +25,22 @@ def create(context, name):
     return base.create(context, RESOURCE, name=name)
 
 
-def list(context, where=None, embed=None):
-    return base.list(context, RESOURCE, where=where, embed=embed)
+def list(context, **kwargs):
+    return base.list(context, RESOURCE, **kwargs)
 
 
-def list_tests(context, id, where=None, embed=None):
+def list_tests(context, id, **kwargs):
     return base.list(context, RESOURCE, id=id,
-                     subresource='tests', where=where, embed=embed)
+                     subresource='tests', **kwargs)
 
 
-def get(context, id, where=None, embed=None):
-    return base.get(context, RESOURCE, id=id, where=where, embed=embed)
+def get(context, id, **kwargs):
+    return base.get(context, RESOURCE, id=id, **kwargs)
 
 
-def update(context, id, etag, name):
-    return base.update(context, RESOURCE, id=id, etag=etag, name=name)
+def update(context, id, **kwargs):
+    return base.update(context, RESOURCE, id=id, **kwargs)
 
 
-def delete(context, id, etag):
-    return base.delete(context, RESOURCE, id=id, etag=etag)
+def delete(context, id, **kwargs):
+    return base.delete(context, RESOURCE, id=id, **kwargs)
