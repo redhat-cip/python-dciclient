@@ -47,16 +47,16 @@ def unattach_team(context, id, team_id):
     return context.session.delete(uri)
 
 
-def list_attached_team(context, id):
-    uri = '%s/%s/%s/teams' % (context.dci_cs_api, RESOURCE, id)
-    return context.session.get(uri)
+def list_attached_team(context, id, **kwargs):
+    return base.list(context, RESOURCE, id=id, subresource='teams', **kwargs)
 
 
-def list_components(context, id):
-    return base.list(context, RESOURCE, id=id, subresource='components')
+def list_components(context, id, **kwargs):
+    return base.list(context, RESOURCE, id=id,
+                     subresource='components', **kwargs)
 
 
-def get_jobs_from_components(context, topic_id, component_id):
+def get_jobs_from_components(context, id, component_id, **kwargs):
     uri = '%s/%s/%s/components/%s/jobs' % \
-          (context.dci_cs_api, RESOURCE, topic_id, component_id)
-    return context.session.get(uri)
+          (context.dci_cs_api, RESOURCE, id, component_id)
+    return context.session.get(uri, **kwargs)

@@ -27,8 +27,10 @@ import json
 
 @cli.command("component-list", help="List all components.")
 @click.option("--topic_id", required=True)
+@click.option("--sort", default="-created_at")
+@click.option("--limit", default=50)
 @click.pass_obj
-def list(context, topic_id):
+def list(context, topic_id, sort, limit):
     """list(context, topic_id)
 
     List all components.
@@ -37,7 +39,8 @@ def list(context, topic_id):
 
     :param string topic_id: The topic ID for the list of components to return
     """
-    components = topic.list_components(context, topic_id)
+    components = topic.list_components(context, id=topic_id,
+                                       sort=sort, limit=limit)
     utils.format_output(components, context.format,
                         component.RESOURCE, component.TABLE_HEADERS)
 
@@ -177,8 +180,10 @@ def file_download(context, id, file_id, target):
 
 @cli.command("component-file-list", help="List files attached to a component.")
 @click.argument("id")
+@click.option("--sort", default="-created_at")
+@click.option("--limit", default=50)
 @click.pass_obj
-def file_list(context, id):
+def file_list(context, id, sort, limit):
     """file_list(context, id, path)
 
     Show a component file
@@ -187,7 +192,7 @@ def file_list(context, id):
 
     :param string id: ID of the component to show [required]
     """
-    result = component.file_list(context, id=id)
+    result = component.file_list(context, id=id, sort=sort, limit=limit)
     utils.format_output(result, context.format, 'component_files',
                         component.TABLE_FILE_HEADERS)
 

@@ -25,10 +25,11 @@ from dciclient.v1.api import test
 
 
 @cli.command("job-list", help="List all jobs.")
+@click.option("--sort", default="-created_at")
 @click.option("--limit", help="Number of jobs to show up.",
               required=False, default=10)
 @click.pass_obj
-def list(context, limit):
+def list(context, sort, limit):
     """list(context)
 
     List all jobs.
@@ -36,7 +37,7 @@ def list(context, limit):
     >>> dcictl job-list
     """
     result = job.list(
-        context, limit=limit, embed='jobdefinition,remoteci,team')
+        context, sort=sort, limit=limit, embed='jobdefinition,remoteci,team')
     headers = ['id', 'status', 'recheck',
                'jobdefinition/name', 'remoteci/name',
                'team/name', 'etag', 'created_at', 'updated_at']
@@ -101,8 +102,10 @@ def recheck(context, id):
 
 @cli.command("job-results", help="List all job results.")
 @click.argument("id")
+@click.option("--sort", default="-created_at")
+@click.option("--limit", default=50)
 @click.pass_obj
-def list_results(context, id):
+def list_results(context, id, sort, limit):
     """list_result(context, id)
 
     List all job results.
@@ -114,7 +117,7 @@ def list_results(context, id):
 
     headers = ['filename', 'name', 'total', 'success', 'failures', 'errors',
                'skips', 'time']
-    result = job.list_results(context, id=id)
+    result = job.list_results(context, id=id, sort=sort, limit=limit)
     utils.format_output(result, context.format,
                         'results', headers)
 
@@ -165,8 +168,10 @@ def unattach_issue(context, id, issue_id):
 
 @cli.command("job-list-issue", help="List all job attached issues.")
 @click.argument("id")
+@click.option("--sort", default="-created_at")
+@click.option("--limit", default=50)
 @click.pass_obj
-def list_issues(context, id):
+def list_issues(context, id, sort, limit):
     """list_issues(context, id)
 
     List all job attached issues.
@@ -176,7 +181,7 @@ def list_issues(context, id):
     :param string id: ID of the job to retrieve issues from [required]
     """
 
-    result = job.list_issues(context, id=id)
+    result = job.list_issues(context, id=id, sort=sort, limit=limit)
     headers = ['status', 'product', 'component', 'title', 'url']
     utils.format_output(result, context.format, 'issues', headers)
 
