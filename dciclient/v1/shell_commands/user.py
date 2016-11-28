@@ -32,8 +32,7 @@ def list(context):
     >>> dcictl user-list
     """
     result = user.list(context)
-    utils.format_output(result, context.format,
-                        user.RESOURCE, user.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("user-create", help="Create a user.")
@@ -58,7 +57,7 @@ def create(context, name, password, role, team_id):
         context, context.login).json()['user']['team_id']
     result = user.create(context, name=name, password=password,
                          role=role, team_id=team_id)
-    utils.format_output(result, context.format, None, user.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("user-update", help="Update a user.")
@@ -125,5 +124,4 @@ def show(context, id):
     :param string id: ID of the user to show [required]
     """
     result = user.get(context, id=id)
-    utils.format_output(result, context.format,
-                        user.RESOURCE[:-1], user.TABLE_HEADERS)
+    utils.format_output(result, context.format)
