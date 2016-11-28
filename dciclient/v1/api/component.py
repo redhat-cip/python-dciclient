@@ -87,8 +87,9 @@ def file_list(context, id, **kwargs):
 
 
 def file_delete(context, id, file_id):
-    uri = '%s/%s/%s/files/%s' % (context.dci_cs_api, RESOURCE, id, file_id)
-    return context.session.delete(uri)
+    return base.delete(context, RESOURCE, id,
+                       subresource='files',
+                       subresource_id=file_id)
 
 
 def status(context, type, topic_id):
