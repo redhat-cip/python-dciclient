@@ -60,9 +60,8 @@ def add_test(context, id, test_id):
     return context.session.post(uri, json={'test_id': test_id})
 
 
-def get_tests(context, id):
-    uri = '%s/%s/%s/tests' % (context.dci_cs_api, RESOURCE, id)
-    return context.session.get(uri)
+def list_tests(context, id, **kwargs):
+    return base.list(context, RESOURCE, id=id, subresource='tests', **kwargs)
 
 
 def remove_test(context, id, test_id):

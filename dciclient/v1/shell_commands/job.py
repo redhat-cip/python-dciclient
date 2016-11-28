@@ -101,8 +101,10 @@ def recheck(context, id):
 
 @cli.command("job-results", help="List all job results.")
 @click.argument("id")
+@click.option("--sort", default="-created_at")
+@click.option("--limit", default=50)
 @click.pass_obj
-def list_results(context, id):
+def list_results(context, id, sort, limit):
     """list_result(context, id)
 
     List all job results.
@@ -114,7 +116,7 @@ def list_results(context, id):
 
     headers = ['filename', 'name', 'total', 'success', 'failures', 'errors',
                'skips', 'time']
-    result = job.list_results(context, id=id)
+    result = job.list_results(context, id=id, sort=sort, limit=limit)
     utils.format_output(result, context.format,
                         'results', headers)
 
@@ -165,8 +167,10 @@ def unattach_issue(context, id, issue_id):
 
 @cli.command("job-list-issue", help="List all job attached issues.")
 @click.argument("id")
+@click.option("--sort", default="-created_at")
+@click.option("--limit", default=50)
 @click.pass_obj
-def list_issues(context, id):
+def list_issues(context, id, sort, limit):
     """list_issues(context, id)
 
     List all job attached issues.
@@ -176,7 +180,7 @@ def list_issues(context, id):
     :param string id: ID of the job to retrieve issues from [required]
     """
 
-    result = job.list_issues(context, id=id)
+    result = job.list_issues(context, id=id, sort=sort, limit=limit)
     headers = ['status', 'product', 'component', 'title', 'url']
     utils.format_output(result, context.format, 'issues', headers)
 

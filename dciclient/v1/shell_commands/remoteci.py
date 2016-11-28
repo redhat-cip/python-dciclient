@@ -182,8 +182,10 @@ def attach_test(context, id, test_id):
 @cli.command("remoteci-list-test",
              help="List tests attached to a remoteci.")
 @click.argument("id")
+@click.option("--sort", default="-created_at")
+@click.option("--limit", default=50)
 @click.pass_obj
-def list_test(context, id):
+def list_test(context, id, sort, limit):
     """unattach_test(context, id, test_id)
 
     Unattach a test from a remoteci.
@@ -194,7 +196,7 @@ def list_test(context, id):
                       [required]
     :param string test_id: ID of the test to unattach [required]
     """
-    result = remoteci.get_tests(context, id=id)
+    result = remoteci.list_tests(context, id=id, sort=sort, limit=limit)
     utils.format_output(result, context.format,
                         test.RESOURCE,
                         test.TABLE_HEADERS)
