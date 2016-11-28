@@ -21,8 +21,6 @@ from dciclient.v1 import utils
 
 from dciclient.v1.api import file as dci_file
 from dciclient.v1.api import job
-from dciclient.v1.api import meta
-from dciclient.v1.api import test
 
 
 @cli.command("job-list", help="List all jobs.")
@@ -43,8 +41,7 @@ def list(context, sort, limit):
                'jobdefinition/name', 'remoteci/name',
                'team/name', 'etag', 'created_at', 'updated_at']
 
-    utils.format_output(result, context.format,
-                        job.RESOURCE, headers)
+    utils.format_output(result, context.format, headers)
 
 
 @cli.command("job-show", help="Show a job.")
@@ -60,8 +57,7 @@ def show(context, id):
     :param string id: ID of the job to show [required]
     """
     result = job.get(context, id=id)
-    utils.format_output(result, context.format,
-                        job.RESOURCE[:-1], job.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("job-delete", help="Delete a job.")
@@ -98,7 +94,7 @@ def recheck(context, id):
     :param string id: ID of the job to recheck [required]
     """
     result = job.recheck(context, id=id)
-    utils.format_output(result, context.format, job.RESOURCE[:-1])
+    utils.format_output(result, context.format)
 
 
 @cli.command("job-results", help="List all job results.")
@@ -119,8 +115,7 @@ def list_results(context, id, sort, limit):
     headers = ['filename', 'name', 'total', 'success', 'failures', 'errors',
                'skips', 'time']
     result = job.list_results(context, id=id, sort=sort, limit=limit)
-    utils.format_output(result, context.format,
-                        'results', headers)
+    utils.format_output(result, context.format, headers)
 
 
 @cli.command("job-attach-issue", help="Attach an issue to a job.")
@@ -184,7 +179,7 @@ def list_issues(context, id, sort, limit):
 
     result = job.list_issues(context, id=id, sort=sort, limit=limit)
     headers = ['status', 'product', 'component', 'title', 'url']
-    utils.format_output(result, context.format, 'issues', headers)
+    utils.format_output(result, context.format, headers)
 
 
 @cli.command("job-output", help="Show the job output.")
@@ -226,7 +221,7 @@ def output(context, id):
 @click.pass_obj
 def list_tests(context, id):
     result = job.list_tests(context, id=id)
-    utils.format_output(result, context.format, 'tests', test.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("job-set-meta", help="Attach an meta to a job.")
@@ -290,4 +285,4 @@ def list_metas(context, id, sort, limit):
     """
 
     result = job.list_metas(context, id=id, sort=sort, limit=limit)
-    utils.format_output(result, context.format, None, meta.TABLE_HEADERS)
+    utils.format_output(result, context.format)
