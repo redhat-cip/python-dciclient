@@ -36,8 +36,7 @@ def list(context):
     >>> dcictl remoteci-list
     """
     result = remoteci.list(context)
-    utils.format_output(result, context.format,
-                        remoteci.RESOURCE, remoteci.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("remoteci-create", help="Create a remoteci.")
@@ -64,7 +63,7 @@ def create(context, name, team_id, data, active):
     data = json.loads(data)
     result = remoteci.create(context, name=name, team_id=team_id, data=data,
                              active=active)
-    utils.format_output(result, context.format, None, remoteci.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("remoteci-update", help="Update a remoteci.")
@@ -133,8 +132,7 @@ def show(context, id):
     :param string id: ID of the remote CI to show [required]
     """
     result = remoteci.get(context, id=id)
-    utils.format_output(result, context.format,
-                        remoteci.RESOURCE[:-1], remoteci.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("remoteci-get-data", help="Retrieve data field from a remoteci.")
@@ -155,7 +153,7 @@ def get_data(context, id, keys):
     if keys:
         keys = keys.split(',')
     result = remoteci.get_data(context, id=id, keys=keys)
-    utils.format_output(result, context.format, None, keys)
+    utils.format_output(result, context.format, keys)
 
 
 @cli.command("remoteci-attach-test",
@@ -175,8 +173,7 @@ def attach_test(context, id, test_id):
     """
     result = remoteci.add_test(context, id=id,
                                test_id=test_id)
-    utils.format_output(result, context.format,
-                        None, ['remoteci_id', 'test_id'])
+    utils.format_output(result, context.format, ['remoteci_id', 'test_id'])
 
 
 @cli.command("remoteci-list-test",
@@ -197,9 +194,7 @@ def list_test(context, id, sort, limit):
     :param string test_id: ID of the test to unattach [required]
     """
     result = remoteci.list_tests(context, id=id, sort=sort, limit=limit)
-    utils.format_output(result, context.format,
-                        test.RESOURCE,
-                        test.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("remoteci-unattach-test",
