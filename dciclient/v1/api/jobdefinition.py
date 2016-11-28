@@ -65,6 +65,6 @@ def list_tests(context, id, **kwargs):
 
 
 def remove_test(context, id, test_id):
-    uri = '%s/%s/%s/tests/%s' % (context.dci_cs_api, RESOURCE, id,
-                                 test_id)
-    return context.session.delete(uri)
+    return base.delete(context, RESOURCE, id,
+                       subresource='tests',
+                       subresource_id=test_id)
