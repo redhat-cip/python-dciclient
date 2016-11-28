@@ -173,6 +173,8 @@ def runner(dci_context):
         if r.exit_code != 0:
             return r.output
         fields = r.output.split('\n')[1].split('|')
+        # NOTE(Gonéri): we only return the very first row because
+        # there is no way to know if it a multi-line result
         data = r.output.split('\n')[3].split('|')
         fields = [i.lstrip(' ').rstrip(' ') for i in fields[1:-1]]
         data = [i.lstrip(' ').rstrip(' ') for i in data[1:]]

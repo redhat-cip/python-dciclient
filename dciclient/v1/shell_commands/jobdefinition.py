@@ -20,7 +20,6 @@ from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
 from dciclient.v1.api import jobdefinition
-from dciclient.v1.api import test
 
 
 @cli.command("jobdefinition-list", help="List all jobdefinitions.")
@@ -36,9 +35,7 @@ def list(context, topic_id):
     :param string topic_id: Topic ID [required]
     """
     result = jobdefinition.list(context, topic_id)
-    utils.format_output(result, context.format,
-                        jobdefinition.RESOURCE,
-                        jobdefinition.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("jobdefinition-create", help="Create a jobdefinition.")
@@ -63,8 +60,7 @@ def create(context, name, topic_id, priority, component_types):
     result = jobdefinition.create(context, name=name, priority=priority,
                                   topic_id=topic_id,
                                   component_types=component_types)
-    utils.format_output(result, context.format,
-                        None, jobdefinition.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("jobdefinition-delete", help="Delete a jobdefinition.")
@@ -99,9 +95,7 @@ def show(context, id):
     :param string id: ID of the jobdefinition to show [required]
     """
     result = jobdefinition.get(context, id=id)
-    utils.format_output(result, context.format,
-                        jobdefinition.RESOURCE[:-1],
-                        jobdefinition.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("jobdefinition-annotate", help="Annotate a jobdefinition.")
@@ -168,7 +162,7 @@ def attach_test(context, id, test_id):
     result = jobdefinition.add_test(context, id=id,
                                     test_id=test_id)
     utils.format_output(result, context.format,
-                        None, ['jobdefinition_id', 'test_id'])
+                        ['jobdefinition_id', 'test_id'])
 
 
 @cli.command("jobdefinition-list-test",
@@ -189,9 +183,7 @@ def list_test(context, id, sort, limit):
     :param string test_id: ID of the test to unattach [required]
     """
     result = jobdefinition.list_tests(context, id=id, sort=sort, limit=limit)
-    utils.format_output(result, context.format,
-                        test.RESOURCE,
-                        test.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("jobdefinition-unattach-test",
