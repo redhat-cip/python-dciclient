@@ -30,8 +30,8 @@ def list(context, team_id):
     return base.list(context, RESOURCE, team_id=team_id)
 
 
-def get(context, id, where=None, embed=None):
-    return base.get(context, RESOURCE, id=id, where=where, embed=embed)
+def get(context, id, **kwargs):
+    return base.get(context, RESOURCE, id=id, **kwargs)
 
 
 def delete(context, id):

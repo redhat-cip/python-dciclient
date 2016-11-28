@@ -67,9 +67,9 @@ def get(context, id, limit=None, where=None, embed=None):
                     limit=limit, where=where, embed=embed)
 
 
-def list_results(context, id):
-    uri = '%s/%s/%s/results' % (context.dci_cs_api, RESOURCE, id)
-    return context.session.get(uri)
+def list_results(context, id, **kwargs):
+    return base.list(context, RESOURCE, id=id,
+                     subresource='results', **kwargs)
 
 
 def get_components(context, id):
@@ -81,9 +81,9 @@ def delete(context, id, etag):
     return base.delete(context, RESOURCE, id=id, etag=etag)
 
 
-def list_issues(context, id):
-    uri = '%s/%s/%s/issues' % (context.dci_cs_api, RESOURCE, id)
-    return context.session.get(uri)
+def list_issues(context, id, **kwargs):
+    return base.list(context, RESOURCE, id=id,
+                     subresource='issues', **kwargs)
 
 
 def attach_issue(context, id, url):
@@ -97,16 +97,16 @@ def unattach_issue(context, id, issue_id):
     return context.session.delete(uri)
 
 
-def list_jobstates(context, id):
-    uri = '%s/%s/%s/jobstates' % (context.dci_cs_api, RESOURCE, id)
-    return context.session.get(uri)
+def list_jobstates(context, id, **kwargs):
+    return base.list(context, RESOURCE, id=id,
+                     subresource='jobstates', **kwargs)
 
 
 def list_tests(context, id):
     j = base.get(context, RESOURCE, id=id).json()['job']
     result = {'tests': []}
-    result['tests'] += jobdefinition.get_tests(
+    result['tests'] += jobdefinition.list_tests(
         context, j['jobdefinition_id']).json()['tests']
-    result['tests'] += remoteci.get_tests(
+    result['tests'] += remoteci.list_tests(
         context, j['remoteci_id']).json()['tests']
     return result
