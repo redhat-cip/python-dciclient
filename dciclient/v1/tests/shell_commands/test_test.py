@@ -37,6 +37,8 @@ def test_list(runner):
     assert len(tests) == 2
     assert tests[0]['name'] == 'foo'
     assert tests[1]['name'] == 'bar'
+    output = runner.invoke_raw_parse(['test-list', '--team_id', team_id])
+    assert output['team_id'] == team_id
 
 
 def test_create(runner):
