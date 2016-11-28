@@ -135,3 +135,15 @@ def test_job_list(runner, dci_context, team_id, topic_id,
     assert len(result['tests']) == 2
     assert result['tests'][0]['name'] == 'test_jobdefinition'
     assert result['tests'][1]['name'] == 'test_remoteci'
+
+
+def test_metas(runner, job_id):
+    result = runner.invoke(['job-list-issue', job_id])['_meta']['count']
+    assert result == 0
+    runner.invoke(['job-set-meta', job_id, 'foo', 'var'])
+    metas = runner.invoke(['job-list-meta', job_id])['metas']
+    assert len(metas) == 1
+    assert metas[0]['value'] == 'var'
+    print(runner.invoke(['job-delete-meta', job_id, metas[0]['id']]))
+    metas = runner.invoke(['job-list-meta', job_id])['metas']
+    assert len(metas) == 0
