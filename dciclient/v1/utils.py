@@ -45,13 +45,33 @@ def _get_field(record, field_path):
         return v
 
 
-def print_prettytable(data, headers):
-    table = prettytable.PrettyTable(headers)
+def print_prettytable(data, headers=None):
+    def sort_headers(headers):
+        """Ensure the column order is always the same."""
+        headers = set(headers)
+        sorted_headers = []
+        for i in ['id', 'name', 'etag', 'created_at', 'updated_ata']:
+            if i not in headers:
+                continue
+            headers.remove(i)
+            sorted_headers.append(i)
+        sorted_headers += sorted(headers)
+        return sorted_headers
 
     if isinstance(data, dict):
-        keys = list(data.keys())  # py3
+        keys = [i for i in list(data.keys()) if i != '_meta']
         if len(keys) == 1:
             data = data[keys[0]]
+
+    if not headers:
+        if isinstance(data, list):
+            first_row = data[0] if len(data) else {}
+        else:
+            first_row = data
+        headers = list(first_row.keys())
+
+    headers = sort_headers(headers)
+    table = prettytable.PrettyTable(headers)
 
     if not isinstance(data, list):
         data = [data]
@@ -82,8 +102,8 @@ def sanitize_kwargs(**kwargs):
     return kwargs
 
 
-def format_output(result, format, item=None, headers=['Property', 'Value'],
-                  success_code=(200, 201, 204)):
+def format_output(result, format, headers=None,
+                  success_code=(200, 201, 204), item=None):
 
     is_failure = False
     if hasattr(result, 'json'):
@@ -94,7 +114,11 @@ def format_output(result, format, item=None, headers=['Property', 'Value'],
     if format == 'json' or is_failure:
         print_json(result)
     else:
+        # if our strucutre come with only one root key,
+        # we can assume it's the item type.
         if not item and isinstance(result, dict):
-            result = list(result.values())[0]
+            values = list(result.values())
+            if len(values) == 1:
+                result = values[0]
         to_display = result[item] if item else result
         print_prettytable(to_display, headers)

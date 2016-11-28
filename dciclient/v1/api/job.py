@@ -22,8 +22,6 @@ import json
 
 
 RESOURCE = 'jobs'
-TABLE_HEADERS = ['id', 'status', 'recheck', 'jobdefinition_id', 'remoteci_id',
-                 'team_id', 'etag', 'created_at', 'updated_at']
 
 
 def create(context, recheck, remoteci_id, team_id, jobdefinition_id=None,

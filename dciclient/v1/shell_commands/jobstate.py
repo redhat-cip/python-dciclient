@@ -32,8 +32,7 @@ def list(context):
     >>> dcictl jobstate-list
     """
     result = jobstate.list(context)
-    utils.format_output(result, context.format,
-                        jobstate.RESOURCE, jobstate.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("jobstate-show", help="Show a jobstate.")
@@ -49,5 +48,4 @@ def show(context, id):
     :param string id: ID of the jobstate to show [required]
     """
     result = jobstate.get(context, id=id)
-    utils.format_output(result, context.format,
-                        jobstate.RESOURCE[:-1], jobstate.TABLE_HEADERS)
+    utils.format_output(result, context.format)

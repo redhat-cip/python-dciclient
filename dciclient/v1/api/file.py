@@ -21,8 +21,6 @@ import os
 
 
 RESOURCE = 'files'
-TABLE_HEADERS = ['id', 'name', 'mime', 'md5', 'jobstate_id',
-                 'team_id', 'created_at']
 
 
 def create(context, name, content, mime='text/plain',

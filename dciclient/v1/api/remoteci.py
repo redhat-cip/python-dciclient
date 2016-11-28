@@ -20,8 +20,6 @@ import json
 
 
 RESOURCE = 'remotecis'
-TABLE_HEADERS = ['id', 'name', 'data', 'active', 'team_id', 'etag',
-                 'created_at', 'updated_at']
 
 
 def create(context, name, team_id, data={}, active=True):

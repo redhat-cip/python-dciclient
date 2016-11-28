@@ -41,8 +41,7 @@ def list(context, topic_id, sort, limit):
     """
     components = topic.list_components(context, id=topic_id,
                                        sort=sort, limit=limit)
-    utils.format_output(components, context.format,
-                        component.RESOURCE, component.TABLE_HEADERS)
+    utils.format_output(components, context.format)
 
 
 @cli.command("component-create", help="Create a component.")
@@ -82,7 +81,7 @@ def create(context, name, type, canonical_project_name, data,
         title=title, message=message, url=url,
         topic_id=topic_id, export_control=export_control
     )
-    utils.format_output(result, context.format, None, component.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("component-delete", help="Delete a component.")
@@ -117,8 +116,7 @@ def show(context, id):
     :param string id: ID of the component to show [required]
     """
     result = component.get(context, id=id)
-    utils.format_output(result, context.format, component.RESOURCE[:-1],
-                        component.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("component-status",
@@ -137,8 +135,7 @@ def status(context, type, topic_id):
     :param string topic_id: The topic ID for the list of components to return
     """
     result = component.status(context, type=type, topic_id=topic_id)
-    utils.format_output(result, context.format, 'jobs',
-                        component.TABLE_STATUS_HEADERS)
+    utils.format_output(result, context.format, 'jobs')
 
 
 @cli.command("component-file-upload", help="Attach a file to a component.")
@@ -156,8 +153,7 @@ def file_upload(context, id, path):
     :param string path: Path to the file to upload [required]
     """
     result = component.file_upload(context, id=id, file_path=path)
-    utils.format_output(result, context.format, 'component_file',
-                        component.TABLE_FILE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("component-file-show", help="Show a component file.")
@@ -175,8 +171,7 @@ def file_show(context, id, file_id):
     :param string file_id: ID of the file to show up [required]
     """
     result = component.file_get(context, id=id, file_id=file_id)
-    utils.format_output(result, context.format, 'component_file',
-                        component.TABLE_FILE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("component-file-download", help="Retrieve a component file.")
@@ -213,8 +208,7 @@ def file_list(context, id, sort, limit):
     :param string id: ID of the component to show [required]
     """
     result = component.file_list(context, id=id, sort=sort, limit=limit)
-    utils.format_output(result, context.format, 'component_files',
-                        component.TABLE_FILE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("component-file-delete", help="Delete a component file.")
@@ -232,10 +226,7 @@ def file_delete(context, id, file_id):
     :param string file_id: ID for the file to delete [required]
     """
     result = component.file_delete(context, id=id, file_id=file_id)
-    if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Component file deleted.'})
-    else:
-        utils.format_output(result, context.format)
+    utils.format_output(result, context.format)
 
 
 @cli.command("component-update", help="Update a component.")
