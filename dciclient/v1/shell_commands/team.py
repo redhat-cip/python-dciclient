@@ -32,8 +32,7 @@ def list(context):
     >>> dcictl team list
     """
     result = team.list(context)
-    utils.format_output(result, context.format,
-                        team.RESOURCE, team.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("team-create", help="Create a team.")
@@ -49,7 +48,7 @@ def create(context, name):
     :param string name: Name of the team [required]
     """
     result = team.create(context, name=name)
-    utils.format_output(result, context.format, None, team.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("team-update", help="Update a team.")
@@ -111,5 +110,4 @@ def show(context, id):
     :param string id: ID of the team [required]
     """
     result = team.get(context, id=id)
-    utils.format_output(result, context.format,
-                        team.RESOURCE[:-1], team.TABLE_HEADERS)
+    utils.format_output(result, context.format)

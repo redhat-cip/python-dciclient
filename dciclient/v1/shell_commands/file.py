@@ -33,8 +33,7 @@ def list(context, job_id):
     >>> dcictl file-list
     """
     result = file.list(context, where='job_id:' + job_id)
-    utils.format_output(result, context.format,
-                        file.RESOURCE, file.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("file-show", help="Show a file.")

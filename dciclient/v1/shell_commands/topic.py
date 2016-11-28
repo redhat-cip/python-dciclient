@@ -17,7 +17,6 @@
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
-from dciclient.v1.api import team
 from dciclient.v1.api import topic
 from dciclient.v1.api import user
 
@@ -34,8 +33,7 @@ def list(context):
     >>> dcictl topic-list
     """
     topics = topic.list(context)
-    utils.format_output(topics, context.format,
-                        topic.RESOURCE, topic.TABLE_HEADERS)
+    utils.format_output(topics, context.format)
 
 
 @cli.command("topic-create", help="Create a topic.")
@@ -51,7 +49,7 @@ def create(context, name):
     :param string name: Name of the topic [required]
     """
     result = topic.create(context, name=name)
-    utils.format_output(result, context.format, None, topic.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("topic-delete", help="Delete a topic.")
@@ -86,8 +84,7 @@ def show(context, id):
     :param string id: ID of the topic to return [required]
     """
     result = topic.get(context, id=id)
-    utils.format_output(result, context.format, topic.RESOURCE[:-1],
-                        topic.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("topic-attach-team", help="Attach a team to a topic.")
@@ -107,7 +104,7 @@ def attach_team(context, id, team_id):
     team_id = team_id or user.get(
         context, context.login).json()['user']['team_id']
     result = topic.attach_team(context, id=id, team_id=team_id)
-    utils.format_output(result, context.format, user.RESOURCE[:-1])
+    utils.format_output(result, context.format)
 
 
 @cli.command("topic-unattach-team", help="Unattach a team from a topic.")
@@ -149,5 +146,4 @@ def list_attached_team(context, id, sort, limit):
     :param string id: ID of the topic to list teams for [required]
     """
     result = topic.list_attached_team(context, id=id, sort=sort, limit=limit)
-    utils.format_output(result, context.format,
-                        team.RESOURCE, team.TABLE_HEADERS)
+    utils.format_output(result, context.format)
