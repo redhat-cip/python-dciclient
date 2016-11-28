@@ -21,14 +21,16 @@ from dciclient.v1 import utils
 
 from dciclient.v1.api import file as dci_file
 from dciclient.v1.api import job
+from dciclient.v1.api import meta
 from dciclient.v1.api import test
 
 
 @cli.command("job-list", help="List all jobs.")
+@click.option("--sort", default="-created_at")
 @click.option("--limit", help="Number of jobs to show up.",
               required=False, default=10)
 @click.pass_obj
-def list(context, limit):
+def list(context, sort, limit):
     """list(context)
 
     List all jobs.
@@ -36,7 +38,7 @@ def list(context, limit):
     >>> dcictl job-list
     """
     result = job.list(
-        context, limit=limit, embed='jobdefinition,remoteci,team')
+        context, sort=sort, limit=limit, embed='jobdefinition,remoteci,team')
     headers = ['id', 'status', 'recheck',
                'jobdefinition/name', 'remoteci/name',
                'team/name', 'etag', 'created_at', 'updated_at']
@@ -225,3 +227,67 @@ def output(context, id):
 def list_tests(context, id):
     result = job.list_tests(context, id=id)
     utils.format_output(result, context.format, 'tests', test.TABLE_HEADERS)
+
+
+@cli.command("job-set-meta", help="Attach an meta to a job.")
+@click.argument("id", required=True)
+@click.argument("name", required=True)
+@click.argument("value", required=False, default='')
+@click.pass_obj
+def set_meta(context, id, name, value):
+    """set_meta(context, id, name, value)
+
+    Attach an meta to a job.
+
+    >>> dcictl job-set-meta [OPTIONS]
+
+    :param string id: ID of the job to attach the meta to [required]
+    :param string url: URL of the meta to attach to the job[required]
+    """
+
+    result = job.set_meta(context, id=id, name=name, value=value)
+    if result.status_code == 201:
+        utils.print_json({'id': id, 'message': 'Meta attached.'})
+    else:
+        utils.format_output(result, context.format)
+
+
+@cli.command("job-delete-meta", help="Drop a meta from a job.")
+@click.argument("id")
+@click.argument("meta_id", required=True)
+@click.pass_obj
+def delete_meta(context, id, meta_id):
+    """delete_meta(context, id, meta_id)
+
+    Delete an meta from a job.
+
+    >>> dcictl job-delete-meta [OPTIONS]
+
+    :param string id: ID of the job to attach the meta to [required]
+    :param string meta_id: ID of the meta to unattach from the job[required]
+    """
+
+    result = job.delete_meta(context, id=id, meta_id=meta_id)
+    if result.status_code == 204:
+        utils.print_json({'id': id, 'message': 'Meta unattached.'})
+    else:
+        utils.format_output(result, context.format)
+
+
+@cli.command("job-list-meta", help="List all job attached metas.")
+@click.argument("id")
+@click.option("--sort", default="-created_at")
+@click.option("--limit", default=50)
+@click.pass_obj
+def list_metas(context, id, sort, limit):
+    """list_metas(context, id)
+
+    List all job attached metas.
+
+    >>> dcictl job-list-meta [OPTIONS]
+
+    :param string id: ID of the job to retrieve metas from [required]
+    """
+
+    result = job.list_metas(context, id=id, sort=sort, limit=limit)
+    utils.format_output(result, context.format, None, meta.TABLE_HEADERS)
