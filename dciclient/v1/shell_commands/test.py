@@ -39,8 +39,7 @@ def list(context, team_id):
     if not team_id:
         team_id = user.get(context, context.login).json()['user']['team_id']
     result = team.list_tests(context, team_id)
-    utils.format_output(result, context.format,
-                        test.RESOURCE, test.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("test-create", help="Create a test.")
@@ -63,7 +62,7 @@ def create(context, name, team_id, data):
         team_id = user.get(context, context.login).json()['user']['team_id']
     data = json.loads(data)
     result = test.create(context, name=name, data=data, team_id=team_id)
-    utils.format_output(result, context.format, None, test.TABLE_HEADERS)
+    utils.format_output(result, context.format)
 
 
 @cli.command("test-delete", help="Delete a test.")
@@ -99,5 +98,4 @@ def show(context, id):
     :param string id: ID of the test to return [required]
     """
     result = test.get(context, id=id)
-    utils.format_output(result, context.format,
-                        test.RESOURCE[:-1], test.TABLE_HEADERS)
+    utils.format_output(result, context.format)
