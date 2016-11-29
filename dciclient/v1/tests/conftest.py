@@ -20,7 +20,6 @@ import dci.common.utils as dci_utils
 import dci.dci_config
 
 import dciclient.shell as shell
-import dciclient.v1 as dci_client
 import dciclient.v1.api as api
 import dciclient.v1.tests.shell_commands.utils as utils
 
@@ -128,17 +127,6 @@ def server(db_provisioning, engine):
     app.testing = True
     app.engine = engine
     return app
-
-
-@pytest.fixture
-def client(server, db_provisioning):
-    client = dci_client.DCIClient(
-        end_point='http://dciserver.com/api',
-        login='admin', password='admin'
-    )
-    flask_adapter = utils.FlaskHTTPAdapter(server.test_client())
-    client.s.mount('http://dciserver.com', flask_adapter)
-    return client
 
 
 def context_factory(server, db_provisioning, login, password,
@@ -274,6 +262,13 @@ def remoteci_id(dci_context, team_id):
               'data': {'remoteci': 'remoteci'}}
     rci = api.remoteci.create(dci_context, **kwargs).json()
     return rci['remoteci']['id']
+
+
+@pytest.fixture
+def remoteci_api_secret(dci_context, remoteci_id):
+    rci = api.remoteci.get(dci_context, remoteci_id).json()
+    print(rci['remoteci'].keys())
+    return rci['remoteci']['api_secret']
 
 
 @pytest.fixture
