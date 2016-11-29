@@ -64,3 +64,7 @@ def remove_test(context, id, test_id):
     uri = '%s/%s/%s/tests/%s' % (context.dci_cs_api, RESOURCE, id,
                                  test_id)
     return context.session.delete(uri)
+
+
+def reset_api_secret(context, id, etag):
+    return base.update(context, RESOURCE, id='%s/api_secret' % id, etag=etag)

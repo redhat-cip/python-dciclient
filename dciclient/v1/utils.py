@@ -15,6 +15,7 @@
 # under the License.
 
 import click
+import hmac
 import json
 import prettytable
 import six
@@ -95,3 +96,10 @@ def format_output(result, format, item=None, headers=['Property', 'Value'],
     else:
         to_display = result[item] if item else result
         print_prettytable(to_display, headers)
+
+
+def digest_request(secret, request):
+    h = hmac.new(secret.encode(), digestmod='sha1')
+    h.update(request.url.encode(request.charset or 'utf-8'))
+    h.update(request.data.encode(request.charset or 'utf-8'))
+    request.headers['X-Auth-Signature'] = h.hexdigest()
