@@ -75,3 +75,7 @@ def remove_test(context, id, test_id):
     return base.delete(context, RESOURCE, id,
                        subresource='tests',
                        subresource_id=test_id)
+
+
+def reset_api_secret(context, id, etag):
+    return base.update(context, RESOURCE, id='%s/api_secret' % id, etag=etag)
