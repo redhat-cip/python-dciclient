@@ -36,7 +36,7 @@ def list(context):
 
 
 @cli.command("team-create", help="Create a team.")
-@click.option("--name", required=True)
+@click.argument("name", required=True)
 @click.pass_obj
 def create(context, name):
     """create(context, name)
@@ -53,8 +53,8 @@ def create(context, name):
 
 @cli.command("team-update", help="Update a team.")
 @click.argument("id")
-@click.option("--etag", required=True)
-@click.option("--name", required=True)
+@click.argument("etag", required=True)
+@click.argument("name", required=True)
 @click.pass_obj
 def update(context, id, etag, name):
     """update(context, id, etag, name)
@@ -77,7 +77,7 @@ def update(context, id, etag, name):
 
 @cli.command("team-delete", help="Delete a team.")
 @click.argument("id")
-@click.option("--etag", required=True)
+@click.argument("etag", required=True)
 @click.pass_obj
 def delete(context, id, etag):
     """delete(context, id, etag)
