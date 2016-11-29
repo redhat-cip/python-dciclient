@@ -19,16 +19,15 @@ from __future__ import unicode_literals
 
 def test_prettytable_output(runner, team_id):
     user = runner.invoke_raw_parse([
-        'user-create', '--name', 'foo',
-        '--password', 'pass', '--role', 'user',
+        'user-create', 'foo', 'pass', '--role', 'user',
         '--team_id', team_id])
     assert user['team_id'] == team_id
     assert user == runner.invoke_raw_parse(['user-show', user['id']])
 
 
 def test_create(runner, team_id):
-    user = runner.invoke(['user-create', '--name', 'foo',
-                          '--password', 'pass', '--role', 'user',
+    user = runner.invoke(['user-create', 'foo', 'pass',
+                          '--role', 'user',
                           '--team_id', team_id])['user']
     assert user['name'] == 'foo'
     assert user['role'] == 'user'
@@ -36,11 +35,10 @@ def test_create(runner, team_id):
 
 
 def test_list(runner, team_id):
-    runner.invoke(['user-create', '--name', 'foo',
-                   '--password', 'pass', '--role', 'user',
+    runner.invoke(['user-create', 'foo', 'pass',
+                   '--role', 'user',
                    '--team_id', team_id])
-    runner.invoke(['user-create', '--name', 'bar',
-                   '--password', 'pass', '--role', 'user',
+    runner.invoke(['user-create', 'bar', 'pass', '--role', 'user',
                    '--team_id', team_id])
     users = runner.invoke(['user-list'])['users']
     # NOTE (spredzy): We put 5 because of the 3 creates plus
@@ -49,12 +47,12 @@ def test_list(runner, team_id):
 
 
 def test_update(runner, team_id):
-    user = runner.invoke(['user-create', '--name', 'foo',
-                          '--password', 'pass', '--role', 'user',
+    user = runner.invoke(['user-create', 'foo', 'pass',
+                          '--role', 'user',
                           '--team_id', team_id])['user']
 
     runner.invoke(['user-update', user['id'],
-                   '--etag', user['etag'], '--name', 'bar',
+                   user['etag'], '--name', 'bar',
                    '--role', 'admin'])
     user = runner.invoke(['user-show', user['id']])['user']
 
@@ -63,18 +61,17 @@ def test_update(runner, team_id):
 
 
 def test_delete(runner, team_id):
-    user = runner.invoke(['user-create', '--name', 'foo',
-                          '--password', 'pass', '--role', 'user',
+    user = runner.invoke(['user-create', 'foo', 'pass',
+                          '--role', 'user',
                           '--team_id', team_id])['user']
 
     result = runner.invoke(['user-delete', user['id'],
-                            '--etag', user['etag']])
+                            user['etag']])
     assert result['message'] == 'User deleted.'
 
 
 def test_show(runner, team_id):
-    user = runner.invoke(['user-create', '--name', 'foo',
-                          '--password', 'pass', '--role', 'user',
+    user = runner.invoke(['user-create', 'foo', 'pass', '--role', 'user',
                           '--team_id', team_id])['user']
 
     user = runner.invoke(['user-show', user['id']])['user']

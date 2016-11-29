@@ -39,8 +39,8 @@ def list(context):
 
 
 @cli.command("remoteci-create", help="Create a remoteci.")
-@click.option("--name", required=True)
-@click.option("--team_id", required=False)
+@click.argument("name")
+@click.argument("team_id")
 @click.option("--data", default='{}')
 @click.option("--active/--no-active", default=True)
 @click.pass_obj
@@ -67,7 +67,7 @@ def create(context, name, team_id, data, active):
 
 @cli.command("remoteci-update", help="Update a remoteci.")
 @click.argument("id")
-@click.option("--etag", required=True)
+@click.argument("etag")
 @click.option("--name")
 @click.option("--team_id")
 @click.option("--data")
@@ -98,7 +98,7 @@ def update(context, id, etag, name, team_id, data, active):
 
 @cli.command("remoteci-delete", help="Delete a remoteci.")
 @click.argument("id")
-@click.option("--etag", required=True)
+@click.argument("etag")
 @click.pass_obj
 def delete(context, id, etag):
     """delete(context, id, etag)
@@ -158,7 +158,7 @@ def get_data(context, id, keys):
 @cli.command("remoteci-attach-test",
              help="Attach a test to a remoteci.")
 @click.argument("id")
-@click.option("--test_id", required=True)
+@click.argument("test_id")
 @click.pass_obj
 def attach_test(context, id, test_id):
     """attach_test(context, id, test_id)
@@ -199,7 +199,7 @@ def list_test(context, id, sort, limit):
 @cli.command("remoteci-unattach-test",
              help="Unattach a test to a remoteci.")
 @click.argument("id")
-@click.option("--test_id", required=True)
+@click.argument("test_id")
 @click.pass_obj
 def unattach_test(context, id, test_id):
     """unattach_test(context, id, test_id)
