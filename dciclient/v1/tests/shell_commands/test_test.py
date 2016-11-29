@@ -18,21 +18,21 @@ from __future__ import unicode_literals
 
 
 def test_prettytable_output(runner):
-    team = runner.invoke_raw_parse(['team-create', '--name', 'osp'])
+    team = runner.invoke_raw_parse(['team-create', 'osp'])
     assert team['name'] == 'osp'
     assert team == runner.invoke_raw_parse([
         'team-show', team['id']])
 
 
 def test_list(runner):
-    team = runner.invoke(['team-create', '--name', 'osp'])['team']
+    team = runner.invoke(['team-create', 'osp'])['team']
     assert team['name'] == 'osp'
 
     teams = runner.invoke(['team-list'])['teams']
     team_id = teams[0]['id']
 
-    runner.invoke(['test-create', '--name', 'foo', '--team_id', team_id])
-    runner.invoke(['test-create', '--name', 'bar', '--team_id', team_id])
+    runner.invoke(['test-create', 'foo', '--team_id', team_id])
+    runner.invoke(['test-create', 'bar', '--team_id', team_id])
     tests = runner.invoke(['test-list', '--team_id', team_id])['tests']
     assert len(tests) == 2
     assert tests[0]['name'] == 'bar'
@@ -42,20 +42,20 @@ def test_list(runner):
 
 
 def test_create(runner):
-    team = runner.invoke(['team-create', '--name', 'osp'])['team']
+    team = runner.invoke(['team-create', 'osp'])['team']
     assert team['name'] == 'osp'
 
     test = runner.invoke([
-        'test-create', '--name', 'foo', '--team_id',
+        'test-create', 'foo', '--team_id',
         team['id']])['test']
     assert test['name'] == 'foo'
 
 
 def test_delete(runner):
-    team = runner.invoke(['team-create', '--name', 'osp'])['team']
+    team = runner.invoke(['team-create', 'osp'])['team']
     assert team['name'] == 'osp'
 
-    test = runner.invoke(['test-create', '--name', 'foo', '--team_id',
+    test = runner.invoke(['test-create', 'foo', '--team_id',
                           team['id']])['test']
 
     result = runner.invoke(['test-delete', test['id']])
@@ -64,10 +64,10 @@ def test_delete(runner):
 
 
 def test_show(runner):
-    team = runner.invoke(['team-create', '--name', 'osp'])['team']
+    team = runner.invoke(['team-create', 'osp'])['team']
     assert team['name'] == 'osp'
 
-    test = runner.invoke(['test-create', '--name', 'foo', '--team_id',
+    test = runner.invoke(['test-create', 'foo', '--team_id',
                           team['id']])['test']
 
     test = runner.invoke(['test-show', test['id']])['test']
