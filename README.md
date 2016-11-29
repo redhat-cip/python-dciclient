@@ -31,11 +31,20 @@ export DCI_PASSWORD=bar
 export DCI_CS_URL=https://api.distributed-ci.io
 ```
 
+or using the remoteci api secret:
+
+```
+export DCI_CLIENT_ID=<remoteci_id>
+export DCI_API_SECRET=<api_secret>
+export DCI_CS_URL=https://api.distributed-ci.io
+```
+
 Which will allow the user to run the command: `dcictl team-list`
 
   * At the command line level:
 
 One can pass those informations on the CLI level. Example: `dcictl --dci-login jdoe --dci-password jdoe --dci-cs-url 'https://api.distributed-ci.io' team-list`
+ or `dcictl --dci-client-id <remoteci_id> --dci-api-secret <api_secret> --dci-cs-url 'https://api.distributed-ci.io' team-list`
 
 
 ## List of available commands
@@ -91,6 +100,7 @@ Commands:
   remoteci-get-data            Retrieve data field from a remoteci.
   remoteci-list                List all remotecis.
   remoteci-list-test           List tests attached to a remoteci.
+  remoteci-reset-api-secret    Reset a remoteci api secret.
   remoteci-show                Show a remoteci.
   remoteci-unattach-test       Unattach a test to a remoteci.
   remoteci-update              Update a remoteci.
