@@ -27,8 +27,9 @@ from dciclient.v1.api import job
 @click.option("--sort", default="-created_at")
 @click.option("--limit", help="Number of jobs to show up.",
               required=False, default=10)
+@click.option("--where")
 @click.pass_obj
-def list(context, sort, limit):
+def list(context, sort, limit, where):
     """list(context)
 
     List all jobs.
@@ -36,7 +37,8 @@ def list(context, sort, limit):
     >>> dcictl job-list
     """
     result = job.list(
-        context, sort=sort, limit=limit, embed='jobdefinition,remoteci,team')
+        context, sort=sort, limit=limit, where=where,
+        embed='jobdefinition,remoteci,team')
     headers = ['id', 'status', 'recheck',
                'jobdefinition/name', 'remoteci/name',
                'team/name', 'etag', 'created_at', 'updated_at']
