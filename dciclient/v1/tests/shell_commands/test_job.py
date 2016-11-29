@@ -21,21 +21,20 @@ from dciclient.v1.api import test
 
 
 def test_list(runner, dci_context, remoteci_id):
-    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+    topic = runner.invoke(['topic-create', 'osp'])['topic']
 
     teams = runner.invoke(['team-list'])['teams']
     team_id = teams[0]['id']
 
-    runner.invoke(['topic-attach-team', topic['id'], '--team_id', team_id])
+    runner.invoke(['topic-attach-team', topic['id'], team_id])
 
     jd = runner.invoke(['jobdefinition-create',
-                        '--name', 'foo',
-                        '--topic_id', topic['id'],
-                        '--component_types', 'foobar'])['jobdefinition']
+                        'foo',
+                        topic['id'],
+                        'foobar'])['jobdefinition']
 
-    runner.invoke(['component-create', '--name', 'foo',
-                   '--type', 'foobar', '--topic_id',
-                   topic['id']])['component']
+    runner.invoke(['component-create', 'foo',
+                   topic['id'], 'foobar'])['component']
 
     job.schedule(dci_context, remoteci_id, topic['id'])
     l_job = runner.invoke(['job-list'])
@@ -64,8 +63,7 @@ def test_delete(runner, job_id):
     l_job = runner.invoke(['job-show', job_id])
     l_job_etag = l_job['job']['etag']
 
-    result = runner.invoke(['job-delete', job_id,
-                            '--etag', l_job_etag])
+    result = runner.invoke(['job-delete', job_id, l_job_etag])
 
     assert result['message'] == 'Job deleted.'
 
@@ -87,7 +85,7 @@ def test_attach_issue(runner, job_id):
     assert result == 0
 
     runner.invoke(
-        ['job-attach-issue', job_id, '--url',
+        ['job-attach-issue', job_id,
          'https://github.com/redhat-cip/dci-control-server/issues/2']
     )
     result = runner.invoke(['job-list-issue', job_id])['_meta']['count']
@@ -99,7 +97,7 @@ def test_unattach_issue(runner, job_id):
     assert result == 0
 
     runner.invoke(
-        ['job-attach-issue', job_id, '--url',
+        ['job-attach-issue', job_id,
          'https://github.com/redhat-cip/dci-control-server/issues/2']
     )
     result = runner.invoke(['job-list-issue', job_id])
@@ -108,7 +106,7 @@ def test_unattach_issue(runner, job_id):
     assert res == 1
 
     runner.invoke(
-        ['job-unattach-issue', job_id, '--issue_id', issue_id]
+        ['job-unattach-issue', job_id, issue_id]
     )
     result = runner.invoke(['job-list-issue', job_id])
     count = result['_meta']['count']

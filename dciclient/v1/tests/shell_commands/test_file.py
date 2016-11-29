@@ -23,11 +23,6 @@ def test_show(runner, file_id):
 
 
 def test_list(runner, job_id):
-    files = runner.invoke(['file-list', '--job-id', job_id])['files']
+    files = runner.invoke(['file-list', job_id])['files']
     assert len(files) == 1
     assert files[0]['name'] == 'res_junit.xml'
-
-
-def test_list_without_job_id(runner):
-    result = runner.invoke_raw(['file-list'])
-    assert 'Error: Missing option "--job-id".' in result.output

@@ -23,7 +23,7 @@ from dciclient.v1.api import file
 
 
 @cli.command("file-list", help="List all files.")
-@click.option("--job-id", required=True)
+@click.argument("job-id")
 @click.pass_obj
 def list(context, job_id):
     """list(context)
