@@ -208,3 +208,16 @@ def test_where_on_list(runner, team_id):
                    team_id])
     assert runner.invoke(['remoteci-list', '--where',
                           'name:bar1'])["_meta"]["count"] == 1
+
+
+def test_reset_secret(runner):
+    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    remoteci = runner.invoke(['remoteci-create', '--name', 'foo',
+                              '--team_id', team['id']])['remoteci']
+    api_secret = remoteci['api_secret']
+
+    remoteci = runner.invoke(['remoteci-reset-api-secret', remoteci['id'],
+                              '--etag', remoteci['etag']])
+
+    assert api_secret is not None
+    assert api_secret != remoteci['api_secret']
