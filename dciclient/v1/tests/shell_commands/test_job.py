@@ -104,12 +104,17 @@ def test_attach_issue(runner, job_id):
     result = runner.invoke(['job-list-issue', job_id])['_meta']['count']
     assert result == 0
 
-    runner.invoke(
+    issue = runner.invoke(
         ['job-attach-issue', job_id, '--url',
          'https://github.com/redhat-cip/dci-control-server/issues/2']
     )
-    result = runner.invoke(['job-list-issue', job_id])['_meta']['count']
-    assert result == 1
+    # NOTE(Goneri): until we fix the consistency issue with this endpoint:
+    if 'issue' in issue:
+        issue = issue['issue']
+    else:
+        issue['id'] = issue['issue_id']
+    result = runner.invoke(['job-list-issue', job_id])
+    assert issue['id'] == result['issues'][0]['id']
 
 
 @pytest.mark.skipif(not internet_cnx, reason="internet connection required")
@@ -165,10 +170,11 @@ def test_job_list(runner, dci_context, team_id, topic_id,
 def test_metas(runner, job_id):
     result = runner.invoke(['job-list-issue', job_id])['_meta']['count']
     assert result == 0
-    runner.invoke(['job-set-meta', job_id, 'foo', 'var'])
+    meta = runner.invoke(['job-set-meta', job_id, 'foo', 'var'])['meta']
     metas = runner.invoke(['job-list-meta', job_id])['metas']
     assert len(metas) == 1
+    assert metas[0]['id'] == meta['id']
     assert metas[0]['value'] == 'var'
-    print(runner.invoke(['job-delete-meta', job_id, metas[0]['id']]))
+    runner.invoke(['job-delete-meta', job_id, meta['id']])
     metas = runner.invoke(['job-list-meta', job_id])['metas']
     assert len(metas) == 0
