@@ -26,7 +26,7 @@ import json
 
 
 @cli.command("component-list", help="List all components.")
-@click.option("--topic_id", required=True)
+@click.argument("topic_id")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
 @click.pass_obj
@@ -45,19 +45,19 @@ def list(context, topic_id, sort, limit):
 
 
 @cli.command("component-create", help="Create a component.")
-@click.option("--name", required=True, help='Name of component')
-@click.option("--type", required=True, help='Type of component')
+@click.argument("name")
+@click.argument("topic_id")
+@click.argument("type")
 @click.option("--canonical_project_name", help='Canonical project name')
 @click.option("--data", default='{}', help='Data to pass (in JSON)')
 @click.option("--title", help='Title of component')
 @click.option("--message", help='Component message')
 @click.option("--url", help='URL to look for the component')
-@click.option("--topic_id", required=True, help='Topic ID')
 @click.option("--export_control/--no-export_control", default='true',
               help='has the export_control been done')
 @click.pass_obj
-def create(context, name, type, canonical_project_name, data,
-           title, message, url, topic_id, export_control):
+def create(context, name, topic_id, type, canonical_project_name, data,
+           title, message, url, export_control):
     """create(context, name, type, canonical_project_name, data, title, message, url, topic_id, export_control)  # noqa
 
     Create a component.
@@ -141,7 +141,7 @@ def status(context, type, topic_id):
 
 @cli.command("component-file-upload", help="Attach a file to a component.")
 @click.argument("id")
-@click.option("--path", required=True)
+@click.argument("path")
 @click.pass_obj
 def file_upload(context, id, path):
     """file_upload(context, id, path)
@@ -159,7 +159,7 @@ def file_upload(context, id, path):
 
 @cli.command("component-file-show", help="Show a component file.")
 @click.argument("id")
-@click.option("--file_id", required=True)
+@click.argument("file_id")
 @click.pass_obj
 def file_show(context, id, file_id):
     """file_show(context, id, path)
@@ -177,8 +177,8 @@ def file_show(context, id, file_id):
 
 @cli.command("component-file-download", help="Retrieve a component file.")
 @click.argument("id")
-@click.option("--file_id", required=True)
-@click.option("--target", required=True)
+@click.argument("file_id")
+@click.argument("target")
 @click.pass_obj
 def file_download(context, id, file_id, target):
     """file_download(context, id, path)
@@ -214,7 +214,7 @@ def file_list(context, id, sort, limit):
 
 @cli.command("component-file-delete", help="Delete a component file.")
 @click.argument("id")
-@click.option("--file_id", required=True)
+@click.argument("file_id")
 @click.pass_obj
 def file_delete(context, id, file_id):
     """file_delete(context, id, path)

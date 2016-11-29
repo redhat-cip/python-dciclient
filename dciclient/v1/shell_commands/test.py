@@ -43,7 +43,7 @@ def list(context, team_id):
 
 
 @cli.command("test-create", help="Create a test.")
-@click.option("--name", required=True)
+@click.argument("name")
 @click.option("--team_id", required=False)
 @click.option("--data", default='{}')
 @click.pass_obj

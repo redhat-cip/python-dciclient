@@ -22,19 +22,16 @@ from dciclient.v1.api import team
 
 def test_prettytable_output(runner):
     team = runner.invoke_raw_parse([
-        'team-create',
-        '--name', 'foo'])
+        'team-create', 'foo'])
     assert team['name'] == 'foo'
     assert team == runner.invoke_raw_parse([
         'team-show', team['id']])
 
 
 def test_list(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
-    runner.invoke(['remoteci-create', '--name', 'foo', '--team_id',
-                   team['id']])
-    runner.invoke(['remoteci-create', '--name', 'bar', '--team_id',
-                   team['id']])
+    team = runner.invoke(['team-create', 'foo'])['team']
+    runner.invoke(['remoteci-create', 'foo', team['id']])
+    runner.invoke(['remoteci-create', 'bar', team['id']])
     remotecis = runner.invoke(['remoteci-list'])['remotecis']
 
     assert len(remotecis) == 2
@@ -43,21 +40,19 @@ def test_list(runner):
 
 
 def test_create(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    team = runner.invoke(['team-create', 'foo'])['team']
     remoteci = runner.invoke([
-        'remoteci-create', '--name', 'foo', '--team_id',
-        team['id'], '--active'])['remoteci']
+        'remoteci-create', 'foo', team['id'], '--active'])['remoteci']
     assert remoteci['name'] == 'foo'
     assert remoteci['active'] is True
 
 
 def test_update(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    team = runner.invoke(['team-create', 'foo'])['team']
     remoteci = runner.invoke([
-        'remoteci-create', '--name', 'foo', '--team_id',
-        team['id']])['remoteci']
+        'remoteci-create', 'foo', team['id']])['remoteci']
     result = runner.invoke(['remoteci-update', remoteci['id'],
-                            '--etag', remoteci['etag'], '--name', 'bar',
+                            remoteci['etag'], '--name', 'bar',
                             '--no-active'])
 
     assert result['message'] == 'Remote CI updated.'
@@ -65,23 +60,21 @@ def test_update(runner):
 
 
 def test_delete(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    team = runner.invoke(['team-create', 'foo'])['team']
 
     remoteci = runner.invoke([
-        'remoteci-create', '--name', 'foo', '--team_id',
-        team['id']])['remoteci']
+        'remoteci-create', 'foo', team['id']])['remoteci']
 
     result = runner.invoke(['remoteci-delete', remoteci['id'],
-                            '--etag', remoteci['etag']])
+                            remoteci['etag']])
 
     assert result['message'] == 'Remote CI deleted.'
 
 
 def test_show(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    team = runner.invoke(['team-create', 'foo'])['team']
     remoteci = runner.invoke([
-        'remoteci-create', '--name', 'foo', '--team_id',
-        team['id']])['remoteci']
+        'remoteci-create', 'foo', team['id']])['remoteci']
 
     remoteci = runner.invoke(['remoteci-show', remoteci['id']])['remoteci']
 
@@ -89,24 +82,22 @@ def test_show(runner):
 
 
 def test_get_data(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    team = runner.invoke(['team-create', 'foo'])['team']
     remoteci = runner.invoke([
-        'remoteci-create', '--name', 'foo', '--team_id',
-        team['id']])['remoteci']
+        'remoteci-create', 'foo', team['id']])['remoteci']
 
     result = runner.invoke(['remoteci-get-data', remoteci['id']])
     assert result == {}
     runner.invoke(['remoteci-update', remoteci['id'],
-                   '--etag', remoteci['etag'], '--data', {'foo': 'bar'}])
+                   remoteci['etag'], '--data', {'foo': 'bar'}])
     result = runner.invoke(['remoteci-get-data', remoteci['id']])
     assert result == {'foo': 'bar'}
 
 
 def test_get_data_missing_key(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    team = runner.invoke(['team-create', 'foo'])['team']
     remoteci = runner.invoke([
-        'remoteci-create', '--name', 'foo', '--team_id',
-        team['id']])['remoteci']
+        'remoteci-create', 'foo', team['id']])['remoteci']
 
     result = runner.invoke(['remoteci-get-data',
                             remoteci['id'],
@@ -128,17 +119,16 @@ def test_embed(dci_context):
 
 
 def test_test(runner, test_id):
-    team = runner.invoke(['team-create', '--name', 'osp'])['team']
+    team = runner.invoke(['team-create', 'osp'])['team']
     remoteci = runner.invoke([
-        'remoteci-create', '--name', 'foo', '--team_id',
-        team['id'], '--active'])['remoteci']
+        'remoteci-create', 'foo', team['id'], '--active'])['remoteci']
     result = runner.invoke(['remoteci-attach-test',
-                            remoteci['id'], '--test_id', test_id])
+                            remoteci['id'], test_id])
     tests = runner.invoke(['remoteci-list-test',
                            remoteci['id']])['tests']
     assert len(tests) == 1
     result = runner.invoke(['remoteci-unattach-test',
-                            remoteci['id'], '--test_id', test_id])
+                            remoteci['id'], test_id])
     print(result)
     tests = runner.invoke(['remoteci-list-test',
                            remoteci['id']])['tests']

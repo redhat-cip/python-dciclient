@@ -19,16 +19,15 @@ from __future__ import unicode_literals
 
 def test_prettytable_output(runner):
     team = runner.invoke_raw_parse([
-        'team-create',
-        '--name', 'foo'])
+        'team-create', 'foo'])
     assert team['name'] == 'foo'
     assert team == runner.invoke_raw_parse([
         'team-show', team['id']])
 
 
 def test_list(runner):
-    runner.invoke(['team-create', '--name', 'foo'])
-    runner.invoke(['team-create', '--name', 'bar'])
+    runner.invoke(['team-create', 'foo'])
+    runner.invoke(['team-create', 'bar'])
     teams = runner.invoke(['team-list'])['teams']
     # NOTE (spredzy): We put 4 because of the 2 creates plus
     # admin and user provisionned during server test
@@ -36,31 +35,31 @@ def test_list(runner):
 
 
 def test_create(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    team = runner.invoke(['team-create', 'foo'])['team']
     assert team['name'] == 'foo'
 
 
 def test_update(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    team = runner.invoke(['team-create', 'foo'])['team']
 
     result = runner.invoke(['team-update', team['id'],
-                            '--etag', team['etag'], '--name', 'bar'])
+                            team['etag'], 'bar'])
 
     assert result['message'] == 'Team updated.'
     assert result['id'] == team['id']
 
 
 def test_delete(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    team = runner.invoke(['team-create', 'foo'])['team']
 
     result = runner.invoke(['team-delete', team['id'],
-                            '--etag', team['etag']])
+                            team['etag']])
 
     assert result['message'] == 'Team deleted.'
 
 
 def test_show(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    team = runner.invoke(['team-create', 'foo'])['team']
 
     team = runner.invoke(['team-show', team['id']])['team']
 
