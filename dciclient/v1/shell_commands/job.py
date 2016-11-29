@@ -27,8 +27,10 @@ from dciclient.v1.api import job
 @click.option("--sort", default="-created_at")
 @click.option("--limit", help="Number of jobs to show up.",
               required=False, default=10)
+@click.option("--where", help="An optional filter criteria.",
+              required=False)
 @click.pass_obj
-def list(context, sort, limit):
+def list(context, sort, limit, where):
     """list(context)
 
     List all jobs.
@@ -37,9 +39,11 @@ def list(context, sort, limit):
 
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
+    :param integer where: An optional filter criteria
     """
     result = job.list(
-        context, sort=sort, limit=limit, embed='jobdefinition,remoteci,team')
+        context, sort=sort, limit=limit, where=where,
+        embed='jobdefinition,remoteci,team')
     headers = ['id', 'status', 'recheck',
                'jobdefinition/name', 'remoteci/name',
                'team/name', 'etag', 'created_at', 'updated_at']
