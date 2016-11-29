@@ -36,8 +36,8 @@ def list(context):
 
 
 @cli.command("user-create", help="Create a user.")
-@click.option("--name", required=True)
-@click.option("--password", required=True)
+@click.argument("name")
+@click.argument("password")
 @click.option("--role", default='user', help="'admin' or 'user'")
 @click.option("--team_id", required=False)
 @click.pass_obj
@@ -62,7 +62,7 @@ def create(context, name, password, role, team_id):
 
 @cli.command("user-update", help="Update a user.")
 @click.argument("id")
-@click.option("--etag", required=True)
+@click.argument("etag")
 @click.option("--name")
 @click.option("--password")
 @click.option("--role", help="'admin' or 'user'")
@@ -91,7 +91,7 @@ def update(context, id, etag, name, password, role):
 
 @cli.command("user-delete", help="Delete a user.")
 @click.argument("id")
-@click.option("--etag", required=True)
+@click.argument("etag")
 @click.pass_obj
 def delete(context, id, etag):
     """delete(context, id, etag)
