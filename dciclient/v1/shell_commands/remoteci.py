@@ -263,3 +263,23 @@ def unattach_test(context, id, test_id):
                           'message': unattach_msg})
     else:
         utils.format_output(result, context.format)
+    utils.format_output(result, context.format)
+
+
+@cli.command("remoteci-reset-api-secret", help="Reset a remoteci api secret.")
+@click.option("--id", required=True)
+@click.option("--etag", required=True)
+@click.pass_obj
+def reset_api_secret(context, id, etag):
+    """reset_api_secret(context, id, etag)
+
+    Reset a Remote CI api_secret.
+
+    >>> dcictl remoteci-reset-api-secret [OPTIONS]
+
+    :param string id: ID of the remote CI [required]
+    :param string etag: Entity tag of the remote CI resource [required]
+    """
+    result = remoteci.reset_api_secret(context, id=id, etag=etag)
+    utils.format_output(result, context.format,
+                        headers=['id', 'api_secret', 'etag'])
