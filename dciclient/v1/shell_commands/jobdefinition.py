@@ -39,8 +39,8 @@ def list(context, topic_id):
 
 
 @cli.command("jobdefinition-create", help="Create a jobdefinition.")
-@click.option("--name", required=True)
-@click.option("--topic_id", required=True)
+@click.argument("name", required=True)
+@click.argument("topic_id", required=True)
 @click.option("--priority")
 @click.option("--component_types")
 @click.pass_obj
@@ -65,7 +65,7 @@ def create(context, name, topic_id, priority, component_types):
 
 @cli.command("jobdefinition-delete", help="Delete a jobdefinition.")
 @click.argument("id")
-@click.option("--etag", required=True)
+@click.argument("etag", required=True)
 @click.pass_obj
 def delete(context, id, etag):
     """delete(context, id, etag)
@@ -100,8 +100,8 @@ def show(context, id):
 
 @cli.command("jobdefinition-annotate", help="Annotate a jobdefinition.")
 @click.argument("id")
-@click.option("--comment", required=True)
-@click.option("--etag", required=True)
+@click.argument("comment", required=True)
+@click.argument("etag", required=True)
 @click.pass_obj
 def annotate(context, id, comment, etag):
     """annotate(context, id, comment, etag)
@@ -123,8 +123,8 @@ def annotate(context, id, comment, etag):
 
 @cli.command("jobdefinition-set-active", help="Annotate a jobdefinition.")
 @click.argument("id")
-@click.option("--active", required=True)
-@click.option("--etag", required=True)
+@click.argument("active", required=True)
+@click.argument("etag", required=True)
 @click.pass_obj
 def setactive(context, id, active, etag):
     """setactive(context, id, active, etag)
@@ -147,7 +147,7 @@ def setactive(context, id, active, etag):
 @cli.command("jobdefinition-attach-test",
              help="Attach a test to a jobdefinition.")
 @click.argument("id")
-@click.option("--test_id", required=True)
+@click.argument("test_id", required=True)
 @click.pass_obj
 def attach_test(context, id, test_id):
     """attach_test(context, id, test_id)
@@ -189,7 +189,7 @@ def list_test(context, id, sort, limit):
 @cli.command("jobdefinition-unattach-test",
              help="Unattach a test to a jobdefinition.")
 @click.argument("id")
-@click.option("--test_id", required=True)
+@click.argument("test_id", required=True)
 @click.pass_obj
 def unattach_test(context, id, test_id):
     """unattach_test(context, id, test_id)

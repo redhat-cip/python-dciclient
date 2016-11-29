@@ -26,7 +26,7 @@ import json
 
 
 @cli.command("component-list", help="List all components.")
-@click.option("--topic_id", required=True)
+@click.argument("topic_id", required=True)
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
 @click.pass_obj
@@ -121,7 +121,7 @@ def show(context, id):
 
 @cli.command("component-file-upload", help="Attach a file to a component.")
 @click.argument("id")
-@click.option("--path", required=True)
+@click.argument("path", required=True)
 @click.pass_obj
 def file_upload(context, id, path):
     """file_upload(context, id, path)
@@ -139,7 +139,7 @@ def file_upload(context, id, path):
 
 @cli.command("component-file-show", help="Attach a file to a component.")
 @click.argument("id")
-@click.option("--file_id", required=True)
+@click.argument("file_id", required=True)
 @click.pass_obj
 def file_show(context, id, file_id):
     """file_show(context, id, path)
@@ -157,8 +157,8 @@ def file_show(context, id, file_id):
 
 @cli.command("component-file-download", help="Retrieve a component file.")
 @click.argument("id")
-@click.option("--file_id", required=True)
-@click.option("--target", required=True)
+@click.argument("file_id", required=True)
+@click.argument("target", required=True)
 @click.pass_obj
 def file_download(context, id, file_id, target):
     """file_download(context, id, path)
@@ -194,7 +194,7 @@ def file_list(context, id, sort, limit):
 
 @cli.command("component-file-delete", help="Delete a component file.")
 @click.argument("id")
-@click.option("--file_id", required=True)
+@click.argument("file_id", required=True)
 @click.pass_obj
 def file_delete(context, id, file_id):
     """file_delete(context, id, path)

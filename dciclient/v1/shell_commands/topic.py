@@ -37,7 +37,7 @@ def list(context):
 
 
 @cli.command("topic-create", help="Create a topic.")
-@click.option("--name", required=True)
+@click.argument("name", required=True)
 @click.pass_obj
 def create(context, name):
     """create(context, name)
