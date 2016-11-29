@@ -16,6 +16,24 @@
       "revId": "957a79132f1158ce0923656f2ddfd72f457e454b",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a890539_ac5dd64a",
+        "filename": "dciclient/v1/shell_commands/job.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2016-11-29T14:07:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a890539_2c5e46ea",
+      "revId": "957a79132f1158ce0923656f2ddfd72f457e454b",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
