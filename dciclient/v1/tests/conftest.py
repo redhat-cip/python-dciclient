@@ -20,7 +20,6 @@ import dci.common.utils as dci_utils
 import dci.dci_config
 
 import dciclient.shell as shell
-import dciclient.v1 as dci_client
 import dciclient.v1.api as api
 import dciclient.v1.tests.shell_commands.utils as utils
 
@@ -130,17 +129,6 @@ def server(db_provisioning, engine):
     return app
 
 
-@pytest.fixture
-def client(server, db_provisioning):
-    client = dci_client.DCIClient(
-        end_point='http://dciserver.com/api',
-        login='admin', password='admin'
-    )
-    flask_adapter = utils.FlaskHTTPAdapter(server.test_client())
-    client.s.mount('http://dciserver.com', flask_adapter)
-    return client
-
-
 def context_factory(server, db_provisioning, login, password,
                     url='http://dciserver.com', user_agent=None):
     extras = {}
@@ -180,6 +168,25 @@ def dci_context_broken(server, db_provisioning):
     test_context.last_jobstate_id = 1
     test_context.last_job_id = 1
     return test_context
+
+
+def signature_context_factory(server, db_provisionin, remoteci_id, api_secret,
+                              url='http://dciserver.com', user_agent=None):
+    extras = {}
+    if user_agent:
+        extras['user_agent'] = user_agent
+    test_context = api.context.DciSignatureContext(url, remoteci_id,
+                                                   api_secret, **extras)
+    flask_adapter = utils.FlaskHTTPAdapter(server.test_client())
+    test_context.session.mount(url, flask_adapter)
+    return test_context
+
+
+@pytest.fixture
+def dci_signature_context(server, db_provisioning, remoteci_id,
+                          remoteci_api_secret):
+    return signature_context_factory(server, db_provisioning, remoteci_id,
+                                     remoteci_api_secret)
 
 
 def runner_factory(dci_context):
@@ -274,6 +281,12 @@ def remoteci_id(dci_context, team_id):
               'data': {'remoteci': 'remoteci'}}
     rci = api.remoteci.create(dci_context, **kwargs).json()
     return rci['remoteci']['id']
+
+
+@pytest.fixture
+def remoteci_api_secret(dci_context, remoteci_id):
+    rci = api.remoteci.get(dci_context, remoteci_id).json()
+    return rci['remoteci']['api_secret']
 
 
 @pytest.fixture
