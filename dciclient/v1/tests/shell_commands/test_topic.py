@@ -19,14 +19,14 @@ from __future__ import unicode_literals
 
 def test_prettytable_output(runner):
     topic = runner.invoke_raw_parse([
-        'topic-create', '--name', 'osp'])
+        'topic-create', 'osp'])
     assert topic == runner.invoke_raw_parse([
         'topic-show', topic['id']])
 
 
 def test_list(runner):
-    runner.invoke(['topic-create', '--name', 'osp'])
-    runner.invoke(['topic-create', '--name', 'ovirt'])
+    runner.invoke(['topic-create', 'osp'])
+    runner.invoke(['topic-create', 'ovirt'])
     topics = runner.invoke(['topic-list'])['topics']
 
     assert len(topics) == 2
@@ -35,46 +35,46 @@ def test_list(runner):
 
 
 def test_create(runner):
-    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+    topic = runner.invoke(['topic-create', 'osp'])['topic']
     assert topic['name'] == 'osp'
 
 
 def test_delete(runner):
-    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+    topic = runner.invoke(['topic-create', 'osp'])['topic']
     result = runner.invoke(['topic-delete', topic['id']])
 
     assert result['message'] == 'Topic deleted.'
 
 
 def test_show(runner):
-    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+    topic = runner.invoke(['topic-create', 'osp'])['topic']
     topic = runner.invoke(['topic-show', topic['id']])['topic']
 
     assert topic['name'] == 'osp'
 
 
 def test_attach_team(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    team = runner.invoke(['team-create', 'foo'])['team']
     assert team['name'] == 'foo'
 
-    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+    topic = runner.invoke(['topic-create', 'osp'])['topic']
     assert topic['name'] == 'osp'
 
     topic_team = runner.invoke(['topic-attach-team', topic['id'],
-                                '--team_id', team['id']])
+                                team['id']])
     assert topic_team['team_id'] == team['id']
     assert topic_team['topic_id'] == topic['id']
 
 
 def test_list_team(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    team = runner.invoke(['team-create', 'foo'])['team']
     assert team['name'] == 'foo'
 
-    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+    topic = runner.invoke(['topic-create', 'osp'])['topic']
     assert topic['name'] == 'osp'
 
     topic_team = runner.invoke(['topic-attach-team', topic['id'],
-                                '--team_id', team['id']])
+                                team['id']])
     assert topic_team['team_id'] == team['id']
     assert topic_team['topic_id'] == topic['id']
 
@@ -84,14 +84,14 @@ def test_list_team(runner):
 
 
 def test_unattach_team(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    team = runner.invoke(['team-create', 'foo'])['team']
     assert team['name'] == 'foo'
 
-    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+    topic = runner.invoke(['topic-create', 'osp'])['topic']
     assert topic['name'] == 'osp'
 
     topic_team = runner.invoke(['topic-attach-team', topic['id'],
-                                '--team_id', team['id']])
+                                team['id']])
     assert topic_team['team_id'] == team['id']
     assert topic_team['topic_id'] == topic['id']
 
@@ -100,7 +100,7 @@ def test_unattach_team(runner):
     assert result[0]['name'] == 'foo'
 
     topic_team = runner.invoke(['topic-unattach-team', topic['id'],
-                                '--team_id', team['id']])
+                                team['id']])
 
     teams = runner.invoke(['topic-list-team', topic['id']])['teams']
     assert len(teams) == 0
