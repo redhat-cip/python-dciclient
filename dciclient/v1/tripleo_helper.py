@@ -99,7 +99,7 @@ def run_tests(context, undercloud_ip, key_filename, remoteci_id,
         jobstate.create(context, 'failure', msg, context.last_job_id)
         return
 
-    tests = job.list_tests(context, context.last_job_id).json()['tests']
+    tests = job.list_tests(context, context.last_job_id)
     try:
         for t in tests['tests']:
             if 'url' not in t['data']:
