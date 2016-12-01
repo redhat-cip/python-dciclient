@@ -21,7 +21,6 @@ from dciclient.v1 import utils
 
 from dciclient.v1.api import file as dci_file
 from dciclient.v1.api import job
-from dciclient.v1.api import test
 
 
 @cli.command("job-list", help="List all jobs.")
@@ -213,11 +212,3 @@ def output(context, id):
             where='jobstate_id:' + js['id'])
         for f in f_l.json()['files']:
             click.echo(dci_file.content(context, id=f['id']).text)
-
-
-@cli.command("job-list-test", help="List all tests attached to a job.")
-@click.argument("id")
-@click.pass_obj
-def list_tests(context, id):
-    result = job.list_tests(context, id=id)
-    utils.format_output(result, context.format, 'tests', test.TABLE_HEADERS)

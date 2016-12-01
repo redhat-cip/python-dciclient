@@ -15,8 +15,6 @@
 # under the License.
 
 from dciclient.v1.api import base
-from dciclient.v1.api import jobdefinition
-from dciclient.v1.api import remoteci
 
 import json
 
@@ -72,6 +70,25 @@ def list_results(context, id):
     return context.session.get(uri)
 
 
+def get_full_data(context, id):
+    # Get the job with embed on test and remoteci
+    embed = 'jobdefinition,remoteci'
+    job = base.get(context, RESOURCE, id=id, embed=embed).json()['job']
+    # Get the components of the job
+    job_components = get_components(context, id).json()['components']
+
+    # Aggregate the data of each resource
+    full_data = {'remoteci': job['remoteci'],
+                 'jobdefinition': job['jobdefinition'],
+                 'tests': [],
+                 'components': []}
+
+    for component in job_components:
+        full_data['components'].append(component)
+
+    return full_data
+
+
 def get_components(context, id):
     uri = '%s/%s/%s/components' % (context.dci_cs_api, RESOURCE, id)
     return context.session.get(uri)
@@ -100,13 +117,3 @@ def unattach_issue(context, id, issue_id):
 def list_jobstates(context, id):
     uri = '%s/%s/%s/jobstates' % (context.dci_cs_api, RESOURCE, id)
     return context.session.get(uri)
-
-
-def list_tests(context, id):
-    j = base.get(context, RESOURCE, id=id).json()['job']
-    result = {'tests': []}
-    result['tests'] += jobdefinition.get_tests(
-        context, j['jobdefinition_id']).json()['tests']
-    result['tests'] += remoteci.get_tests(
-        context, j['remoteci_id']).json()['tests']
-    return result

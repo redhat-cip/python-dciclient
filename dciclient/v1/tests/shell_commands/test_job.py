@@ -15,9 +15,13 @@
 # under the License.
 
 from dciclient.v1.api import job
-from dciclient.v1.api import jobdefinition
-from dciclient.v1.api import remoteci
-from dciclient.v1.api import test
+
+
+def test_get_full_data(job_id, dci_context):
+    full_data_job = job.get_full_data(dci_context, job_id)
+    assert full_data_job['remoteci']['data'] == {'remoteci': 'remoteci'}
+    assert full_data_job['jobdefinition']['name'] == 'tname'
+    assert full_data_job['components'][0]['name'] == 'hihi'
 
 
 def test_list(runner, dci_context, remoteci_id):
@@ -113,25 +117,3 @@ def test_job_output(runner, job_id):
     result = runner.invoke_raw(['job-output', job_id])
     assert '[pre-run]' in result.output
     assert 'pre-run ongoing' in result.output
-
-
-def test_job_list(runner, dci_context, team_id, topic_id,
-                  remoteci_id, component_id):
-    kwargs = {'name': 'tname', 'topic_id': topic_id,
-              'component_types': ['git_review']}
-    jd = jobdefinition.create(dci_context, **kwargs).json()
-    jobdefinition_id = jd['jobdefinition']['id']
-
-    kwargs = {'name': 'test_jobdefinition', 'team_id': team_id}
-    test_id = test.create(dci_context, **kwargs).json()['test']['id']
-    jobdefinition.add_test(dci_context, jobdefinition_id, test_id)
-    kwargs = {'name': 'test_remoteci', 'team_id': team_id}
-    test_id = test.create(dci_context, **kwargs).json()['test']['id']
-    remoteci.add_test(dci_context, remoteci_id, test_id)
-
-    job_id = job.schedule(
-        dci_context, remoteci_id, topic_id).json()['job']['id']
-    result = runner.invoke(['job-list-test', job_id])
-    assert len(result['tests']) == 2
-    assert result['tests'][0]['name'] == 'test_jobdefinition'
-    assert result['tests'][1]['name'] == 'test_remoteci'

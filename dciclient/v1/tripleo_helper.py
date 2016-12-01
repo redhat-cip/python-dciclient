@@ -18,6 +18,7 @@ import traceback
 
 from dciclient.v1.api import file
 from dciclient.v1.api import job
+from dciclient.v1.api import jobdefinition
 from dciclient.v1.api import jobstate
 from dciclient.v1.api import remoteci
 from dciclient.v1.logger import DciHandler
@@ -99,7 +100,9 @@ def run_tests(context, undercloud_ip, key_filename, remoteci_id,
         jobstate.create(context, 'failure', msg, context.last_job_id)
         return
 
-    tests = job.list_tests(context, context.last_job_id).json()['tests']
+    j = job.get(context, context.last_job_id).json()['job']
+    tests = jobdefinition.get_tests(
+        context, j['jobdefinition_id']).json()
     try:
         for t in tests['tests']:
             if 'url' not in t['data']:
@@ -122,7 +125,7 @@ def run_tests(context, undercloud_ip, key_filename, remoteci_id,
                 'bash -x run.sh') % (
                     certification_id,
                     remoteci_id,
-                    context.last_job_id,
+                    j['id'],
                     stack_name), user='stack')
             with undercloud.open('result.xml', user='stack') as fd:
                 file.create(
