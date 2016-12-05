@@ -35,7 +35,7 @@ SNAPSHOT = 'snapshot'
 
 
 def create(context, name, type, topic_id, canonical_project_name=None, data={},
-           title=None, message=None, url=None, export_control=False):
+           title=None, message=None, url=None, export_control=True):
     return base.create(context, RESOURCE, name=name, type=type,
                        canonical_project_name=canonical_project_name,
                        data=json.dumps(data), title=title, message=message,

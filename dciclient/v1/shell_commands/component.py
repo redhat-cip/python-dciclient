@@ -51,7 +51,7 @@ def list(context, topic_id):
 @click.option("--message", help='Component message')
 @click.option("--url", help='URL to look for the component')
 @click.option("--topic_id", required=True, help='Topic ID')
-@click.option("--export_control/--no-export_control", default='false',
+@click.option("--export_control/--no-export_control", default='true',
               help='has the export_control been done')
 @click.pass_obj
 def create(context, name, type, canonical_project_name, data,
