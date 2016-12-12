@@ -157,7 +157,7 @@ def file_upload(context, id, path):
                         component.TABLE_FILE_HEADERS)
 
 
-@cli.command("component-file-show", help="Attach a file to a component.")
+@cli.command("component-file-show", help="Show a component file.")
 @click.argument("id")
 @click.option("--file_id", required=True)
 @click.pass_obj
