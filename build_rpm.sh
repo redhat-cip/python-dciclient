@@ -22,7 +22,7 @@ rpmbuild -bs ${HOME}/rpmbuild/SPECS/${PROJ_NAME}.spec
 
 # Build the RPMs in a clean chroot environment with mock to detect missing
 # BuildRequires lines.
-for arch in fedora-23-x86_64 fedora-24-x86_64 epel-7-x86_64; do
+for arch in fedora-25-x86_64 epel-7-x86_64; do
     rpath=$(echo ${arch}|sed s,-,/,g|sed 's,epel,el,')
 
     # NOTE(spredzy): Include the dci repo in mock env
