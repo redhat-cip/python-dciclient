@@ -63,6 +63,33 @@ def create(context, name, topic_id, priority, component_types):
     utils.format_output(result, context.format)
 
 
+@cli.command("jobdefinition-update", help="Update a jobdefinition.")
+@click.argument("id")
+@click.option("--etag", required=True)
+@click.option("--name", required=False)
+@click.option("--priority", required=False)
+@click.pass_obj
+def update(context, id, etag, name, priority):
+    """update(context, id, etag, name)
+
+    Update a jobdefinition.
+
+    >>> dcictl jobdefinition-update [OPTIONS]
+
+    :param string id: ID of the jobdefinition to update [required]
+    :param string etag: Entity tag of the resource [required]
+    :param string name: Name of the jobdefinition
+    :param string priority: Priority of the jobdefinition
+    """
+    result = jobdefinition.update(context, id=id, etag=etag, name=name,
+                                  priority=priority)
+
+    if result.status_code == 204:
+        utils.print_json({'id': id, 'message': 'Job Definition updated.'})
+    else:
+        utils.format_output(result, context.format)
+
+
 @cli.command("jobdefinition-delete", help="Delete a jobdefinition.")
 @click.argument("id")
 @click.option("--etag", required=True)
