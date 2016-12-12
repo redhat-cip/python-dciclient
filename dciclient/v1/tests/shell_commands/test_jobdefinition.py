@@ -65,6 +65,29 @@ def test_delete(runner, topic_id):
     assert result['message'] == 'Job Definition deleted.'
 
 
+def test_update(runner, topic_id):
+    jd = jobdefinition = runner.invoke([
+        'jobdefinition-create', '--name', 'foo',
+        '--topic_id', topic_id])['jobdefinition']
+
+    jobdefinition = runner.invoke([
+        'jobdefinition-show', jd['id']])['jobdefinition']
+    assert jobdefinition['name'] == 'foo'
+    assert jobdefinition['priority'] == 0
+
+    result = runner.invoke([
+        'jobdefinition-update', jd['id'],
+        '--etag', jd['etag'], '--name', 'bar',
+        '--priority', 10])
+
+    assert result['message'] == 'Job Definition updated.'
+
+    jobdefinition = runner.invoke([
+        'jobdefinition-show', jd['id']])['jobdefinition']
+    assert jobdefinition['name'] == 'bar'
+    assert jobdefinition['priority'] == 10
+
+
 def test_show(runner, topic_id):
     jobdefinition = runner.invoke([
         'jobdefinition-create', '--name', 'foo',

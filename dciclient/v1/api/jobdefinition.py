@@ -37,7 +37,8 @@ def get(context, id, where=None, embed=None):
     return base.get(context, RESOURCE, id=id, where=where, embed=embed)
 
 
-def update(context, id, etag, comment=None, active=None, component_types=None):
+def update(context, id, etag, comment=None, active=None, component_types=None,
+           name=None, priority=None):
     if active is not None:
         if active:
             state = 'active'
@@ -47,7 +48,8 @@ def update(context, id, etag, comment=None, active=None, component_types=None):
         state = None
 
     return base.update(context, RESOURCE, id=id, etag=etag, comment=comment,
-                       state=state, component_types=component_types)
+                       state=state, component_types=component_types, name=name,
+                       priority=priority)
 
 
 def delete(context, id, etag):
