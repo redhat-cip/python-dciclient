@@ -28,6 +28,9 @@ def create(context, name, topic_id, priority=None, component_types=None):
     return base.create(context, RESOURCE, name=name, priority=priority,
                        topic_id=topic_id, component_types=component_types)
 
+def update(context, id, etag, name, priority):
+    return base.update(context, RESOURCE, id=id, etag=etag, name=name,
+                       priority=priority)
 
 def list(context, topic_id, embed=None):
     return base.list(context, RESOURCE, topic_id=topic_id, embed=embed)
