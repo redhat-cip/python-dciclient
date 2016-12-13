@@ -84,9 +84,14 @@ def sanitize_kwargs(**kwargs):
 def format_output(result, format, item=None, headers=['Property', 'Value'],
                   success_code=(200, 201, 204)):
 
-    result_json = result.json()
-    if format == 'json' or result.status_code not in success_code:
-        print_json(result_json)
+    is_failure = False
+    if hasattr(result, 'json'):
+        if result.status_code not in success_code:
+            is_failure = True
+        result = result.json()
+
+    if format == 'json' or is_failure:
+        print_json(result)
     else:
-        to_display = result_json[item] if item else result_json
+        to_display = result[item] if item else result
         print_prettytable(to_display, headers)

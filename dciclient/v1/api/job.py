@@ -15,6 +15,8 @@
 # under the License.
 
 from dciclient.v1.api import base
+from dciclient.v1.api import jobdefinition
+from dciclient.v1.api import remoteci
 
 import json
 
@@ -117,3 +119,13 @@ def unattach_issue(context, id, issue_id):
 def list_jobstates(context, id):
     uri = '%s/%s/%s/jobstates' % (context.dci_cs_api, RESOURCE, id)
     return context.session.get(uri)
+
+
+def list_tests(context, id):
+    j = base.get(context, RESOURCE, id=id).json()['job']
+    result = {'tests': []}
+    result['tests'] += jobdefinition.get_tests(
+        context, j['jobdefinition_id']).json()['tests']
+    result['tests'] += remoteci.get_tests(
+        context, j['remoteci_id']).json()['tests']
+    return result
