@@ -221,14 +221,16 @@ def file_delete(context, id, file_id):
 
     Show a component file
 
-    >>> dcictl component-file-list [OPTIONS]
+    >>> dcictl component-file-delete [OPTIONS]
 
-    :param string id: ID of the component to show [required]
+    :param string id: ID of the component [required]
     :param string file_id: ID for the file to delete [required]
     """
     result = component.file_delete(context, id=id, file_id=file_id)
-    utils.format_output(result, context.format, 'component_files',
-                        component.RESOURCE[:-1])
+    if result.status_code == 204:
+        utils.print_json({'id': id, 'message': 'Component file deleted.'})
+    else:
+        utils.format_output(result, context.format)
 
 
 @cli.command("component-update", help="Update a component.")
