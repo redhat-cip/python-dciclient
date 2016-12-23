@@ -50,7 +50,7 @@ class DciHandler(logging.Handler):
         self._timer.start()
 
     def _send_log_file(self):
-        value = self._current_log.getvalue()
+        value = self._current_log.getvalue().encode('UTF-8', 'ignore')
         jobstate_id = self._current_jobstate_id
         if value and jobstate_id:
             r = dci_file.create(self._dci_context, 'logger.txt',
