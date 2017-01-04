@@ -23,7 +23,7 @@ def test_run_command(dci_context, jobstate_id):
         dci_context,
         ['echo', 'bob'],
         jobstate_id=jobstate_id)
-    new_file = dci_file.list(dci_context).json()['files'][-1]
+    new_file = dci_file.list(dci_context).json()['files'][0]
     assert new_file['size'] == 4
     assert 'bob' in new_file['name']
 
@@ -34,6 +34,6 @@ def test_run_command_shell(dci_context, jobstate_id):
         'echo foo bar',
         shell=True)
     files = dci_file.list(dci_context).json()['files']
-    assert files[-1]['name'] == 'echo foo bar'
-    f = dci_file.content(dci_context, files[-1]['id'])
+    assert files[0]['name'] == 'echo foo bar'
+    f = dci_file.content(dci_context, files[0]['id'])
     assert f.content.decode(encoding='UTF-8') == 'foo bar\n'

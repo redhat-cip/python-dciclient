@@ -38,8 +38,8 @@ def test_list(runner):
     remotecis = runner.invoke(['remoteci-list'])['remotecis']
 
     assert len(remotecis) == 2
-    assert remotecis[0]['name'] == 'foo'
-    assert remotecis[1]['name'] == 'bar'
+    assert remotecis[0]['name'] == 'bar'
+    assert remotecis[1]['name'] == 'foo'
 
 
 def test_create(runner):

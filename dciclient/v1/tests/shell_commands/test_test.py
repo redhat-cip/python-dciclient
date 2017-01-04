@@ -35,8 +35,8 @@ def test_list(runner):
     runner.invoke(['test-create', '--name', 'bar', '--team_id', team_id])
     tests = runner.invoke(['test-list', '--team_id', team_id])['tests']
     assert len(tests) == 2
-    assert tests[0]['name'] == 'foo'
-    assert tests[1]['name'] == 'bar'
+    assert tests[0]['name'] == 'bar'
+    assert tests[1]['name'] == 'foo'
 
 
 def test_create(runner):

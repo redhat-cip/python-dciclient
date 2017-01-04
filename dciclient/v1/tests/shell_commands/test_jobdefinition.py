@@ -43,8 +43,8 @@ def test_list(runner, topic_id):
         '--topic_id', topic_id])['jobdefinitions']
 
     assert len(jobdefinitions) == 2
-    assert jobdefinitions[0]['name'] == 'foo'
-    assert jobdefinitions[1]['name'] == 'bar'
+    assert jobdefinitions[0]['name'] == 'bar'
+    assert jobdefinitions[1]['name'] == 'foo'
 
 
 def test_create(runner, topic_id):

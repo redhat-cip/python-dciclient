@@ -296,7 +296,7 @@ def job_id(job_factory):
 
 @pytest.fixture
 def file_id(dci_context, job_id):
-    return api.file.list(dci_context).json()['files'][0]['id']
+    return api.file.list(dci_context).json()['files'][-1]['id']
 
 
 @pytest.fixture
