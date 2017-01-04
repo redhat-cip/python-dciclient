@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa81d914_cd921df6",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2017-01-04T16:09:36Z",
+      "side": 1,
+      "message": "I\u0027m just wondering if we should switch to sha256 instead of sha1. WDYT ?",
+      "range": {
+        "startLine": 102,
+        "startChar": 45,
+        "endLine": 102,
+        "endChar": 49
+      },
+      "revId": "b8c92b70afa58d2e190e3785dbd753647c15b68d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
