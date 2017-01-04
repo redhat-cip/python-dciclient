@@ -43,8 +43,9 @@ def attach_team(context, id, team_id):
 
 
 def unattach_team(context, id, team_id):
-    uri = '%s/%s/%s/teams/%s' % (context.dci_cs_api, RESOURCE, id, team_id)
-    return context.session.delete(uri)
+    return base.delete(context, RESOURCE, id,
+                       subresource='teams',
+                       subresource_id=team_id)
 
 
 def list_attached_team(context, id, **kwargs):

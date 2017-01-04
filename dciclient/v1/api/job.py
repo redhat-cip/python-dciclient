@@ -112,8 +112,9 @@ def attach_issue(context, id, url):
 
 
 def unattach_issue(context, id, issue_id):
-    uri = '%s/%s/%s/issues/%s' % (context.dci_cs_api, RESOURCE, id, issue_id)
-    return context.session.delete(uri)
+    return base.delete(context, RESOURCE, id,
+                       subresource='issues',
+                       subresource_id=issue_id)
 
 
 def list_jobstates(context, id, **kwargs):
@@ -129,3 +130,25 @@ def list_tests(context, id):
     result['tests'] += remoteci.list_tests(
         context, j['remoteci_id']).json()['tests']
     return result
+
+
+def list_metas(context, id, **kwargs):
+    return base.list(context, RESOURCE, id=id,
+                     subresource='metas', **kwargs)
+
+
+def set_meta(context, id, name, value):
+    uri = '%s/%s/%s/metas' % (context.dci_cs_api, RESOURCE, id)
+    data_json = json.dumps({'name': name, 'value': value})
+    return context.session.post(uri, data=data_json)
+
+
+def get_metas(context, id, data):
+    uri = '%s/%s/%s/metas' % (context.dci_cs_api, RESOURCE, id)
+    return context.session.get(uri)
+
+
+def delete_meta(context, id, meta_id):
+    return base.delete(context, RESOURCE, id,
+                       subresource='metas',
+                       subresource_id=meta_id)
