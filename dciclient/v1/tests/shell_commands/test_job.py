@@ -19,6 +19,18 @@ from dciclient.v1.api import jobdefinition
 from dciclient.v1.api import remoteci
 from dciclient.v1.api import test
 
+import pytest
+import requests
+import requests.exceptions
+
+
+try:
+    requests.get('http://google.com')
+except requests.exceptions.ConnectionError:
+    internet_cnx = False
+else:
+    internet_cnx = True
+
 
 def test_get_full_data(job_id, dci_context):
     full_data_job = job.get_full_data(dci_context, job_id)
@@ -83,6 +95,7 @@ def test_results(runner, job_id):
     assert result['filename'] == 'res_junit.xml'
 
 
+@pytest.mark.skipif(not internet_cnx, reason="internet connection required")
 def test_attach_issue(runner, job_id):
     result = runner.invoke(['job-list-issue', job_id])['_meta']['count']
     assert result == 0
@@ -95,6 +108,7 @@ def test_attach_issue(runner, job_id):
     assert result == 1
 
 
+@pytest.mark.skipif(not internet_cnx, reason="internet connection required")
 def test_unattach_issue(runner, job_id):
     result = runner.invoke(['job-list-issue', job_id])['_meta']['count']
     assert result == 0

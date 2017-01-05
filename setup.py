@@ -50,9 +50,6 @@ setuptools.setup(
     description='Python client for DCI Control Server',
     long_description=_get_readme(),
     install_requires=_get_requirements(),
-    dependency_links=[
-        'https://github.com/redhat-openstack/python-tripleo-helper.git'
-        '#egg=python-tripleo-helper'],
     url='https://github.com/redhat-cip/dci-control-server',
     license='Apache v2.0',
     classifiers=[

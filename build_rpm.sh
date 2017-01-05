@@ -38,6 +38,13 @@ gpgcheck=1
 gpgkey=https://packages.distributed-ci.io/RPM-GPG-KEY-distributedci
 enabled=1
 
+[dci-devel]
+name="Distributed CI - Devel - CentOS 7"
+baseurl=http://packages.distributed-ci.io/repos/development/el/7/x86_64/
+gpgcheck=1
+gpgkey=https://packages.distributed-ci.io/RPM-GPG-KEY-distributedci
+enabled=1
+
 [centos-openstack-mitaka]
 name=CentOS-7 - OpenStack mitaka
 baseurl=http://mirror.centos.org/centos/7/cloud/x86_64/openstack-mitaka/
@@ -55,5 +62,5 @@ config_opts['files']['etc/hosts'] = """
 127.0.0.1 pypi.python.org
 """
 EOF
-    mock -r ${HOME}/.mock/${arch}-with-dci-repo.cfg --no-clean --rebuild --resultdir=development/${rpath} ${HOME}/rpmbuild/SRPMS/${PROJ_NAME}*
+    mock --no-cleanup-after -r ${HOME}/.mock/${arch}-with-dci-repo.cfg --rebuild --resultdir=development/${rpath} ${HOME}/rpmbuild/SRPMS/${PROJ_NAME}*
 done
