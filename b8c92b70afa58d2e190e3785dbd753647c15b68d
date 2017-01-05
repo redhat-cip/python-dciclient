@@ -46,6 +46,30 @@
       "revId": "b8c92b70afa58d2e190e3785dbd753647c15b68d",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_d0dab416",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-01-05T15:00:53Z",
+      "side": 1,
+      "message": "The default is *not* sha1, but used to be md5 until python-3.4 …",
+      "parentUuid": "fa81d914_90d03cf9",
+      "range": {
+        "startLine": 102,
+        "startChar": 45,
+        "endLine": 102,
+        "endChar": 49
+      },
+      "revId": "b8c92b70afa58d2e190e3785dbd753647c15b68d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
