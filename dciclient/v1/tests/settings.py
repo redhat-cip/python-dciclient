@@ -15,14 +15,9 @@
 # under the License.
 
 import os
-import uuid
 
 DEBUG = False
 
 LOG_FILE = '/dev/null'
-
-SQLALCHEMY_DATABASE_URI = "postgresql:///%s?host=%s" % (
-    uuid.uuid4(), os.path.abspath(os.environ['DCI_DB_DIR'])
-)
-
+SQLALCHEMY_DATABASE_URI = os.environ['PIFPAF_POSTGRESQL_URL']
 FILES_UPLOAD_FOLDER = '/tmp/dci-control-server'
