@@ -21,16 +21,22 @@ Python client for DCI control server for the remote CIs.
 Summary:        Python client for DCI control server
 %{?python_provide:%python_provide python2-dciclient}
 BuildRequires:  PyYAML
+BuildRequires:  dci-api
 BuildRequires:  postgresql
+BuildRequires:  postgresql-devel
 BuildRequires:  postgresql-server
 BuildRequires:  python-click
+BuildRequires:  python-pifpaf
+BuildRequires:  python-mock
 BuildRequires:  python-prettytable
 BuildRequires:  python-psycopg2
+BuildRequires:  python-pytest
 BuildRequires:  python-requests
 BuildRequires:  python-rpm-macros
 BuildRequires:  python-setuptools
 BuildRequires:  python-six
 BuildRequires:  python-tox
+BuildRequires:  python-tripleo-helper
 BuildRequires:  python2-rpm-macros
 BuildRequires:  python3-rpm-macros
 Requires:       PyYAML
@@ -89,13 +95,10 @@ install -d %{buildroot}%{_bindir}
 %py3_install
 %endif
 
-# TODO(Gonéri): test are disabled until we are able to run them
-# in mock chroot.
-# %check
-# %{__python2} setup.py test
-# %if 0%{?with_python3}
-# %{__python3} setup.py test
-# %endif
+%check
+PYTHONPATH=%{buildroot}%{python2_sitelib} \
+          DCI_SETTINGS_MODULE="dciclient.v1.tests.settings" \
+          pifpaf run postgresql -- py.test -v dciclient
 
 %files -n python2-dciclient
 %doc
