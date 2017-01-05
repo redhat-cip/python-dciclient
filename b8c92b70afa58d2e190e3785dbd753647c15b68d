@@ -22,6 +22,30 @@
       "revId": "b8c92b70afa58d2e190e3785dbd753647c15b68d",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa81d914_90d03cf9",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-01-05T15:00:04Z",
+      "side": 1,
+      "message": "So, the default for hmac is sha1, I wondered why and after some research, there seems to be a consensus that for the purpose of request signing (short lived, secret + varying payload), sha1 is still plenty sufficient.\n\nI\u0027m not opposed to using sha256 or more though as a default value.",
+      "parentUuid": "fa81d914_cd921df6",
+      "range": {
+        "startLine": 102,
+        "startChar": 45,
+        "endLine": 102,
+        "endChar": 49
+      },
+      "revId": "b8c92b70afa58d2e190e3785dbd753647c15b68d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
