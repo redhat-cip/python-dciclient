@@ -24,8 +24,8 @@ def test_show(runner, file_id):
 
 def test_list(runner, job_id):
     files = runner.invoke(['file-list', '--job-id', job_id])['files']
-    assert len(files) == 1
-    assert files[0]['name'] == 'res_junit.xml'
+    assert len(files)
+    assert 'res_junit.xml' in [i['name'] for i in files]
 
 
 def test_list_without_job_id(runner):
