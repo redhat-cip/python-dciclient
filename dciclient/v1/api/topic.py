@@ -33,6 +33,11 @@ def get(context, id, where=None, embed=None):
     return base.get(context, RESOURCE, id=id, where=where, embed=embed)
 
 
+def update(context, id, etag, name=None, label=None):
+    return base.update(context, RESOURCE, id=id, etag=etag, name=name,
+                       label=label)
+
+
 def delete(context, id):
     return base.delete(context, RESOURCE, id=id)
 
