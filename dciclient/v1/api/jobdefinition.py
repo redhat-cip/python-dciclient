@@ -37,6 +37,11 @@ def get(context, id, where=None, embed=None):
     return base.get(context, RESOURCE, id=id, where=where, embed=embed)
 
 
+def update(context, id, etag, comment=None, active=None, component_types=None):
+    return base.update(context, RESOURCE, id=id, etag=etag, comment=comment,
+                       active=active, component_types=component_types)
+
+
 def delete(context, id, etag):
     return base.delete(context, RESOURCE, id=id, etag=etag)
 
