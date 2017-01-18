@@ -35,7 +35,7 @@ def get(context, id, where=None, embed=None):
     return base.get(context, RESOURCE, id=id, where=where, embed=embed)
 
 
-def update(context, id, etag, name, password, role):
+def update(context, id, etag, name=None, password=None, role=None):
     return base.update(context, RESOURCE, id=id, etag=etag, name=name,
                        password=password, role=role)
 
