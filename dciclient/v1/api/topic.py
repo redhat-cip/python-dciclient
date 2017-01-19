@@ -21,8 +21,8 @@ RESOURCE = 'topics'
 TABLE_HEADERS = ['id', 'name', 'etag', 'created_at', 'updated_at']
 
 
-def create(context, name):
-    return base.create(context, RESOURCE, name=name)
+def create(context, name, label=None):
+    return base.create(context, RESOURCE, name=name, label=label)
 
 
 def list(context):
