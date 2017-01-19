@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da86d52c_328f9125",
+        "filename": "dciclient/v1/api/user.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-01-19T14:41:51Z",
+      "side": 1,
+      "message": "What about **kwargs instead?",
+      "revId": "2d0be03247b5d9fdc19cbe0616da1dc5eab52209",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
