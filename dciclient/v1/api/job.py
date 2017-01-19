@@ -74,21 +74,10 @@ def list_results(context, id, **kwargs):
 
 def get_full_data(context, id):
     # Get the job with embed on test and remoteci
-    embed = 'jobdefinition,remoteci'
+    embed = ('jobdefinition,remoteci,remoteci.tests,'
+             'components,jobdefinition.tests')
     job = base.get(context, RESOURCE, id=id, embed=embed).json()['job']
-    # Get the components of the job
-    job_components = get_components(context, id).json()['components']
-
-    # Aggregate the data of each resource
-    full_data = {'remoteci': job['remoteci'],
-                 'jobdefinition': job['jobdefinition'],
-                 'tests': [],
-                 'components': []}
-
-    for component in job_components:
-        full_data['components'].append(component)
-
-    return full_data
+    return job
 
 
 def get_components(context, id):
