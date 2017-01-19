@@ -41,7 +41,7 @@ def get_data(context, id, keys=None):
     return base.get_data(context, RESOURCE, id=id, keys=keys)
 
 
-def update(context, id, etag, name, team_id=None, data=None, active=None):
+def update(context, id, etag, name=None, team_id=None, data=None, active=None):
     return base.update(context, RESOURCE, id=id, etag=etag, name=name,
                        team_id=team_id, data=data, active=active)
 
