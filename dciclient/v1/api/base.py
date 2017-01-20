@@ -39,6 +39,28 @@ def list(context, resource, **kwargs):
     return context.session.get(uri, params=data)
 
 
+def iter(context, resource, **kwargs):
+    """List all resources"""
+    data = utils.sanitize_kwargs(**kwargs)
+    id = data.pop('id', None)
+    subresource = data.pop('subresource', None)
+
+    if subresource:
+        uri = '%s/%s/%s/%s' % (context.dci_cs_api, resource, id, subresource)
+    else:
+        uri = '%s/%s' % (context.dci_cs_api, resource)
+
+    data['offset'] = 0
+    while True:
+        j = context.session.get(uri, params=data).json()
+        if len(j[resource]):
+            for i in j[resource]:
+                data['offset'] += 1
+                yield i
+        else:
+            break
+
+
 def get(context, resource, **kwargs):
     """List a specific resource"""
     uri = '%s/%s/%s' % (context.dci_cs_api, resource, kwargs.pop('id'))

@@ -61,6 +61,10 @@ def list(context, where=None, embed=None):
     return base.list(context, RESOURCE, where=where, embed=embed)
 
 
+def iter(context, where=None, embed=None):
+    return base.iter(context, RESOURCE, where=where, embed=embed)
+
+
 def delete(context, id):
     return base.delete(context, RESOURCE, id=id)
 
