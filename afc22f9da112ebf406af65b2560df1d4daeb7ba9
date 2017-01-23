@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba7be1f8_abcdd55f",
+        "filename": "build_rpm.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-01-23T15:50:23Z",
+      "side": 1,
+      "message": "Since the initial jenkins tests \u0026 after a dependency requirement change in python-tripleo-helper [1] fedora-23 doesn\u0027t pass anymore and is anyway not supported anymore. We should remove fedora-23 \u0026 add fedora-25 instead.u\n\n[1] https://softwarefactory-project.io/r/6004",
+      "revId": "afc22f9da112ebf406af65b2560df1d4daeb7ba9",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
