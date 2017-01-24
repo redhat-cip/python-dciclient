@@ -60,7 +60,10 @@ def create(context, name, team_id, data):
     """
     if not team_id:
         team_id = user.get(context, context.login).json()['user']['team_id']
-    data = json.loads(data)
+    try:
+        data = json.loads(data)
+    except json.decoder.JSONDecodeError:
+        raise click.ClickException('--data expect a valid JSON string.')
     result = test.create(context, name=name, data=data, team_id=team_id)
     utils.format_output(result, context.format)
 

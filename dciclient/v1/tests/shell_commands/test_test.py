@@ -51,6 +51,29 @@ def test_create(runner):
     assert test['name'] == 'foo'
 
 
+def test_create_data(runner):
+    team = runner.invoke(['team-create', 'osp'])['team']
+    assert team['name'] == 'osp'
+
+    test = runner.invoke([
+        'test-create', 'foo',
+        '--team_id', team['id'],
+        '--data', '{"Foo": 2}',])['test']
+    assert test['name'] == 'foo'
+
+
+def test_create_bad_data(runner):
+    team = runner.invoke(['team-create', 'osp'])['team']
+    assert team['name'] == 'osp'
+
+    r = runner.invoke_raw_parse([
+        'test-create', 'foo',
+        '--team_id', team['id'],
+        '--data', '{Foo: 2}',])
+    # TODO(Gonéri): should instead ensure we print the fine message
+    assert r == ''
+
+
 def test_delete(runner):
     team = runner.invoke(['team-create', 'osp'])['team']
     assert team['name'] == 'osp'
