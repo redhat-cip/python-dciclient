@@ -22,8 +22,6 @@ from dciclient.v1 import utils
 from dciclient.v1.api import remoteci
 from dciclient.v1.api import user
 
-import json
-
 
 @cli.command("remoteci-list", help="List all remotecis.")
 @click.pass_obj
@@ -41,7 +39,7 @@ def list(context):
 @cli.command("remoteci-create", help="Create a remoteci.")
 @click.option("--name", required=True)
 @click.option("--team_id", required=False)
-@click.option("--data", default='{}')
+@click.option("--data", default='{}', callback=utils.validate_json)
 @click.option("--active/--no-active", default=True)
 @click.pass_obj
 def create(context, name, team_id, data, active):
@@ -59,8 +57,8 @@ def create(context, name, team_id, data, active):
     :param boolean no-active: Mark remote CI inactive
     """
     team_id = team_id or user.get(context.login).json()['user']['team_id']
-    data = json.loads(data)
-    result = remoteci.create(context, name=name, team_id=team_id, data=data,
+    result = remoteci.create(context, name=name, team_id=team_id,
+                             data=data,
                              active=active)
     utils.format_output(result, context.format)
 
@@ -70,7 +68,7 @@ def create(context, name, team_id, data, active):
 @click.option("--etag", required=True)
 @click.option("--name")
 @click.option("--team_id")
-@click.option("--data")
+@click.option("--data", callback=utils.validate_json)
 @click.option("--active/--no-active")
 @click.pass_obj
 def update(context, id, etag, name, team_id, data, active):
@@ -89,7 +87,8 @@ def update(context, id, etag, name, team_id, data, active):
     :param boolean no-active: Mark remote CI inactive
     """
     result = remoteci.update(context, id=id, etag=etag, name=name,
-                             team_id=team_id, data=data, active=active)
+                             team_id=team_id, data=data,
+                             active=active)
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Remote CI updated.'})
     else:

@@ -22,8 +22,6 @@ from dciclient.v1 import utils
 from dciclient.v1.api import component
 from dciclient.v1.api import topic
 
-import json
-
 
 @cli.command("component-list", help="List all components.")
 @click.option("--topic_id", required=True)
@@ -51,7 +49,8 @@ def list(context, topic_id, sort, limit):
 @click.option("--name", required=True, help='Name of component')
 @click.option("--type", required=True, help='Type of component')
 @click.option("--canonical_project_name", help='Canonical project name')
-@click.option("--data", default='{}', help='Data to pass (in JSON)')
+@click.option("--data", default='{}', callback=utils.validate_json,
+              help='Data to pass (in JSON)')
 @click.option("--title", help='Title of component')
 @click.option("--message", help='Component message')
 @click.option("--url", help='URL to look for the component')
@@ -77,10 +76,10 @@ def create(context, name, type, canonical_project_name, data,
     :param string url: URL resource to monitor
     :param boolean export_control: Set the component visible for users
     """
-    data = json.loads(data)
     result = component.create(
         context, name=name, type=type,
-        canonical_project_name=canonical_project_name, data=data,
+        canonical_project_name=canonical_project_name,
+        data=data,
         title=title, message=message, url=url,
         topic_id=topic_id, export_control=export_control
     )
