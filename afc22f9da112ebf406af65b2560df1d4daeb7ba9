@@ -16,6 +16,24 @@
       "revId": "afc22f9da112ebf406af65b2560df1d4daeb7ba9",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba7be1f8_11a1aea9",
+        "filename": "build_rpm.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-01-24T21:33:10Z",
+      "side": 1,
+      "message": "Problem solved.",
+      "parentUuid": "ba7be1f8_abcdd55f",
+      "revId": "afc22f9da112ebf406af65b2560df1d4daeb7ba9",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
