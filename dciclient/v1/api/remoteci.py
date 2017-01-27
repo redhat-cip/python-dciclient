@@ -23,8 +23,13 @@ RESOURCE = 'remotecis'
 
 
 def create(context, name, team_id, data={}, active=True):
+    if active:
+        state = 'active'
+    else:
+        state = 'inactive'
+
     return base.create(context, RESOURCE, name=name, team_id=team_id,
-                       data=json.dumps(data), active=active)
+                       data=json.dumps(data), state=state)
 
 
 def list(context, where=None, embed=None):
@@ -40,8 +45,16 @@ def get_data(context, id, keys=None):
 
 
 def update(context, id, etag, name=None, team_id=None, data=None, active=None):
+    if active is not None:
+        if active:
+            state = 'active'
+        else:
+            state = 'inactive'
+    else:
+        state = None
+
     return base.update(context, RESOURCE, id=id, etag=etag, name=name,
-                       team_id=team_id, data=data, active=active)
+                       team_id=team_id, data=data, state=state)
 
 
 def delete(context, id, etag):

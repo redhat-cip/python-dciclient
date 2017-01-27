@@ -123,7 +123,7 @@ def annotate(context, id, comment, etag):
 
 @cli.command("jobdefinition-set-active", help="Annotate a jobdefinition.")
 @click.argument("id")
-@click.option("--active", required=True)
+@click.option("--active/--no-active", default=True)
 @click.option("--etag", required=True)
 @click.pass_obj
 def setactive(context, id, active, etag):
