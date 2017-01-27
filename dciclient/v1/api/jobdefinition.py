@@ -36,8 +36,16 @@ def get(context, id, where=None, embed=None):
 
 
 def update(context, id, etag, comment=None, active=None, component_types=None):
+    if active is not None:
+        if active:
+            state = 'active'
+        else:
+            state = 'inactive'
+    else:
+        state = None
+
     return base.update(context, RESOURCE, id=id, etag=etag, comment=comment,
-                       active=active, component_types=component_types)
+                       state=state, component_types=component_types)
 
 
 def delete(context, id, etag):
@@ -49,8 +57,12 @@ def annotate(context, id, comment, etag):
 
 
 def setactive(context, id, active, etag):
-    active_bool = active in ['True', 'true']
-    return base.update(context, RESOURCE, id=id, etag=etag, active=active_bool)
+    if active:
+        state = 'active'
+    else:
+        state = 'inactive'
+
+    return base.update(context, RESOURCE, id=id, etag=etag, state=state)
 
 
 def get_components(context, id):
