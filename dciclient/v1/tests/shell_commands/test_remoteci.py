@@ -48,7 +48,7 @@ def test_create(runner):
         'remoteci-create', '--name', 'foo', '--team_id',
         team['id'], '--active'])['remoteci']
     assert remoteci['name'] == 'foo'
-    assert remoteci['active'] is True
+    assert remoteci['state'] == 'active'
 
 
 def test_update(runner):

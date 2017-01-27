@@ -101,8 +101,8 @@ def test_active(runner, topic_id):
     assert result['message'] == 'Job Definition updated.'
     jobdefinition_active = runner.invoke([
         'jobdefinition-show',
-        jd['id']])['jobdefinition']['active']
-    assert jobdefinition_active is False
+        jd['id']])['jobdefinition']['state']
+    assert jobdefinition_active == 'inactive'
 
 
 def test_test(runner, topic_id, test_id):
