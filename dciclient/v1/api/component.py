@@ -21,16 +21,6 @@ import os
 
 
 RESOURCE = 'components'
-TABLE_HEADERS = ['id', 'name', 'canonical_project_name',
-                 'type', 'title', 'message', 'url',
-                 'data', 'created_at', 'export_control',
-                 'updated_at']
-TABLE_FILE_HEADERS = ['id', 'name', 'mime', 'size', 'component_id',
-                      'created_at']
-TABLE_STATUS_HEADERS = ['team_name', 'remoteci_name', 'job_status', 'job_id',
-                        'job_created_at']
-
-
 GIT_COMMIT = 'git_commit'
 KH_INSTALLER = 'kh_installer'
 SNAPSHOT = 'snapshot'

@@ -18,8 +18,6 @@ from dciclient.v1.api import base
 
 
 RESOURCE = 'jobstates'
-TABLE_HEADERS = ['id', 'status', 'comment', 'job_id', 'team_id',
-                 'created_at']
 
 
 def create(context, status, comment, job_id):

@@ -61,6 +61,9 @@ def test_list(runner, dci_context, remoteci_id):
     assert len(l_job['jobs']) == 1
     assert l_job['jobs'][0]['remoteci']['id'] == remoteci_id
     assert l_job['jobs'][0]['jobdefinition']['id'] == jd['id']
+    output = runner.invoke_raw_parse(['job-list'])
+    assert output['jobdefinition/name'] == 'foo'
+    assert output['id'] == l_job['jobs'][0]['id']
 
 
 def test_list_with_limit(runner, job_factory):

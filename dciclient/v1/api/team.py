@@ -18,7 +18,6 @@ from dciclient.v1.api import base
 
 
 RESOURCE = 'teams'
-TABLE_HEADERS = ['id', 'name', 'etag', 'created_at', 'updated_at']
 
 
 def create(context, name):

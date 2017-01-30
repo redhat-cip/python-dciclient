@@ -18,8 +18,6 @@ from dciclient.v1.api import base
 
 
 RESOURCE = 'jobdefinitions'
-TABLE_HEADERS = ['id', 'name', 'priority', 'topic_id', 'active', 'comment',
-                 'etag', 'created_at', 'updated_at']
 
 
 def create(context, name, topic_id, priority=None, active=None, comment=None,
