@@ -106,3 +106,13 @@ def delete(context, resource, id, **kwargs):
 
     r = context.session.delete(uri, headers={'If-match': etag})
     return r
+
+
+def purge(context, resource, **kwargs):
+    """Purge resource type."""
+    uri = '%s/%s/purge' % (context.dci_cs_api, resource)
+    if 'noop' in kwargs and kwargs['noop']:
+        r = context.session.get(uri)
+    else:
+        r = context.session.post(uri)
+    return r
