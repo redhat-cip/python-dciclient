@@ -106,3 +106,11 @@ def delete(context, resource, id, **kwargs):
 
     r = context.session.delete(uri, headers={'If-match': etag})
     return r
+
+
+def purge(context, resource, **kwargs):
+    """Purge resource type."""
+    data = utils.sanitize_kwargs(**kwargs)
+    uri = '%s/%s/purge' % (context.dci_cs_api, resource)
+    r = context.session.post(uri, data=json.dumps(data))
+    return r
