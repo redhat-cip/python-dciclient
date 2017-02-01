@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba7be1f8_255e69ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-02-01T21:35:04Z",
+      "side": 1,
+      "message": "This is the Git Commit Message Police: Pease, could you try to keep the length of the commit title below the 50 characters limit.",
+      "revId": "4776f41da2952b7563dff2e74e186cf6c01ce4c2",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
