@@ -254,3 +254,69 @@ def update(context, id, export_control):
         utils.print_json({'id': id, 'message': 'Export Control %s.' % status})
     else:
         utils.format_output(result, context.format)
+
+
+@cli.command("component-attach-issue", help="Attach an issue to a component.")
+@click.argument("id")
+@click.option("--url", required=True)
+@click.pass_obj
+def attach_issue(context, id, url):
+    """attach_issue(context, id, url)
+
+    Attach an issue to a component.
+
+    >>> dcictl component-attach-issue [OPTIONS]
+
+    :param string id: ID of the component to attach the issue to [required]
+    :param string url: URL of the issue to attach to the component[required]
+    """
+
+    result = component.attach_issue(context, id=id, url=url)
+    if result.status_code == 201:
+        utils.print_json({'id': id, 'message': 'Issue attached.'})
+    else:
+        utils.format_output(result, context.format)
+
+
+@cli.command("component-unattach-issue",
+             help="Unattach an issue from a component.")
+@click.argument("id")
+@click.option("--issue_id", required=True)
+@click.pass_obj
+def unattach_issue(context, id, issue_id):
+    """unattach_issue(context, id, issue_id)
+
+    Unattach an issue from a component.
+
+    >>> dcictl component-unattach-issue [OPTIONS]
+
+    :param string id: ID of the component to unattach the issue from [required]
+    :param string issue_id: ID of the issue to unattach from the component[required]  # noqa
+    """
+
+    result = component.unattach_issue(context, id=id, issue_id=issue_id)
+    if result.status_code == 204:
+        utils.print_json({'id': id, 'message': 'Issue unattached.'})
+    else:
+        utils.format_output(result, context.format)
+
+
+@cli.command("component-list-issue",
+             help="List all component attached issues.")
+@click.argument("id")
+@click.option("--sort", default="-created_at")
+@click.option("--limit", default=50)
+@click.pass_obj
+def list_issues(context, id, sort, limit):
+    """list_issues(context, id)
+
+    List all component attached issues.
+
+    >>> dcictl component-list-issue [OPTIONS]
+
+    :param string id: ID of the component to retrieve issues from [required]
+    """
+
+    result = component.list_issues(context, id=id, sort=sort, limit=limit)
+    headers = ['status', 'product', 'component', 'title', 'url']
+    utils.format_output(result, context.format, headers)

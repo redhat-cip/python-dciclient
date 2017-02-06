@@ -86,3 +86,20 @@ def status(context, type, topic_id):
     uri = '%s/%s/%s/type/%s/status' % (context.dci_cs_api, 'topics', topic_id,
                                        type)
     return context.session.get(uri)
+
+
+def list_issues(context, id, **kwargs):
+    return base.list(context, RESOURCE, id=id,
+                     subresource='issues', **kwargs)
+
+
+def attach_issue(context, id, url):
+    uri = '%s/%s/%s/issues' % (context.dci_cs_api, RESOURCE, id)
+    data_json = json.dumps({'url': url})
+    return context.session.post(uri, data=data_json)
+
+
+def unattach_issue(context, id, issue_id):
+    return base.delete(context, RESOURCE, id,
+                       subresource='issues',
+                       subresource_id=issue_id)
