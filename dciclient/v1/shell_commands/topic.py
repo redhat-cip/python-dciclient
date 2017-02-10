@@ -144,6 +144,8 @@ def list_attached_team(context, id, sort, limit):
     >>> dcictl topic-list-team
 
     :param string id: ID of the topic to list teams for [required]
+    :param string sort: Field to apply sort
+    :param integer limit: Max number of rows to return
     """
     result = topic.list_attached_team(context, id=id, sort=sort, limit=limit)
     utils.format_output(result, context.format)
