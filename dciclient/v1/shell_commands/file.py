@@ -30,7 +30,9 @@ def list(context, job_id):
 
     List all files.
 
-    >>> dcictl file-list
+    >>> dcictl file-list [OPTIONS]
+
+    :param string job_id: ID of the job [required]
     """
     result = file.list(context, where='job_id:' + job_id)
     utils.format_output(result, context.format)

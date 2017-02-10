@@ -32,7 +32,7 @@ def list(context, topic_id):
 
     >>> dcictl jobdefinition-list [OPTIONS]
 
-    :param string topic_id: Topic ID [required]
+    :param string topic_id: Topic ID
     """
     result = jobdefinition.list(context, topic_id)
     utils.format_output(result, context.format)
@@ -54,6 +54,7 @@ def create(context, name, topic_id, priority, component_types):
     :param string name: Name of the jobdefinition [required]
     :param string topic_id: ID of the topic for this jobdefinition [required]
     :param integer priority: Priority for this jobdefinition
+    :param string component_type: List of component type
     """
     if component_types:
         component_types = component_types.split(',')
@@ -79,7 +80,7 @@ def update(context, id, etag, name, priority):
     :param string id: ID of the jobdefinition to update [required]
     :param string etag: Entity tag of the resource [required]
     :param string name: Name of the jobdefinition
-    :param string priority: Priority of the jobdefinition
+    :param integer priority: Priority of the jobdefinition
     """
     result = jobdefinition.update(context, id=id, etag=etag, name=name,
                                   priority=priority)
@@ -161,7 +162,7 @@ def setactive(context, id, active, etag):
     >>> dcictl jobdefinition-active [OPTIONS]
 
     :param string id: ID of the jobdefinition resource [required]
-    :param string active: Active state of the jobdefinition resource [required]
+    :param boolean active: Active state of the jobdefinition resource
     :param string etag: Entity tag of the jobdefinition resource [required]
     """
     result = jobdefinition.setactive(context, id=id, active=active, etag=etag)
@@ -199,15 +200,16 @@ def attach_test(context, id, test_id):
 @click.option("--limit", default=50)
 @click.pass_obj
 def list_test(context, id, sort, limit):
-    """unattach_test(context, id, test_id)
+    """list_test(context, id, test_id)
 
-    Unattach a test from a jobdefinition.
+    List tests attached to a jobdefinition.
 
-    >>> dcictl jobdefinition-unattach-test [OPTIONS]
+    >>> dcictl jobdefinition-list-test [OPTIONS]
 
     :param string id: ID of the jobdefinition to unattach the test from
                       [required]
-    :param string test_id: ID of the test to unattach [required]
+    :param string sort: Field to apply sort
+    :param integer limit: Max number of rows to return
     """
     result = jobdefinition.list_tests(context, id=id, sort=sort, limit=limit)
     utils.format_output(result, context.format)

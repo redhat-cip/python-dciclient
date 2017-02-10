@@ -38,6 +38,9 @@ def list(context, topic_id, sort, limit):
     >>> dcictl component-list [OPTIONS]
 
     :param string topic_id: The topic ID for the list of components to return
+                            [required]
+    :param string sort: Field to apply sort
+    :param integer limit: Max number of rows to return
     """
     components = topic.list_components(context, id=topic_id,
                                        sort=sort, limit=limit)
@@ -72,7 +75,7 @@ def create(context, name, type, canonical_project_name, data,
     :param string title: Title of the component
     :param string message: Message for the component
     :param string url: URL resource to monitor
-    :parma bool export_control: Set the component visible for users
+    :param boolean export_control: Set the component visible for users
     """
     data = json.loads(data)
     result = component.create(
@@ -131,8 +134,9 @@ def status(context, type, topic_id):
 
     >>> dcictl component-status [OPTIONS]
 
-    :param string type: Type of component to look up status for
+    :param string type: Type of component to look up status for [required]
     :param string topic_id: The topic ID for the list of components to return
+                            [required]
     """
     result = component.status(context, type=type, topic_id=topic_id)
     utils.format_output(result, context.format, 'jobs')
@@ -149,7 +153,7 @@ def file_upload(context, id, path):
 
     >>> dcictl component-file-upload [OPTIONS]
 
-    :param string id: ID of the component to show [required]
+    :param string id: ID of the component to attach file [required]
     :param string path: Path to the file to upload [required]
     """
     result = component.file_upload(context, id=id, file_path=path)
@@ -167,7 +171,7 @@ def file_show(context, id, file_id):
 
     >>> dcictl component-file-show [OPTIONS]
 
-    :param string id: ID of the component to show [required]
+    :param string id: ID of the component to show files [required]
     :param string file_id: ID of the file to show up [required]
     """
     result = component.file_get(context, id=id, file_id=file_id)
@@ -182,13 +186,13 @@ def file_show(context, id, file_id):
 def file_download(context, id, file_id, target):
     """file_download(context, id, path)
 
-    Show a component file
+    Download a component file
 
-    >>> dcictl component-file-show [OPTIONS]
+    >>> dcictl component-file-download [OPTIONS]
 
-    :param string id: ID of the component to show [required]
+    :param string id: ID of the component to download file [required]
     :param string file_id: ID of the component file to download [required]
-    :param string path: Destination file [required]
+    :param string target: Destination file [required]
     """
     component.file_download(context, id=id, file_id=file_id, target=target)
 
@@ -201,11 +205,13 @@ def file_download(context, id, file_id, target):
 def file_list(context, id, sort, limit):
     """file_list(context, id, path)
 
-    Show a component file
+    List component files
 
     >>> dcictl component-file-list [OPTIONS]
 
-    :param string id: ID of the component to show [required]
+    :param string id: ID of the component to list files [required]
+    :param string sort: Field to apply sort
+    :param integer limit: Max number of rows to return
     """
     result = component.file_list(context, id=id, sort=sort, limit=limit)
     utils.format_output(result, context.format)
@@ -218,11 +224,11 @@ def file_list(context, id, sort, limit):
 def file_delete(context, id, file_id):
     """file_delete(context, id, path)
 
-    Show a component file
+    Delete a component file
 
     >>> dcictl component-file-delete [OPTIONS]
 
-    :param string id: ID of the component [required]
+    :param string id: ID of the component to delete file [required]
     :param string file_id: ID for the file to delete [required]
     """
     result = component.file_delete(context, id=id, file_id=file_id)
@@ -241,6 +247,7 @@ def update(context, id, export_control):
     >>> dcictl component-update [OPTIONS]
 
     :param string id: ID of the component [required]
+    :param boolean export-control: Set the component visible for users
     """
 
     component_info = component.get(context, id=id)
