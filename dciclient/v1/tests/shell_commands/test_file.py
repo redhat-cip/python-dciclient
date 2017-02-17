@@ -28,6 +28,11 @@ def test_list(runner, job_id):
     assert 'res_junit.xml' in [i['name'] for i in files]
 
 
+def test_delete(runner, file_id):
+    result = runner.invoke(['file-delete', file_id])
+    assert result['message'] == 'File deleted.'
+
+
 def test_list_without_job_id(runner):
     result = runner.invoke_raw(['file-list'])
     assert 'Error: Missing option "--job-id".' in result.output

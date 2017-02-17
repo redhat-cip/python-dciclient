@@ -50,3 +50,22 @@ def show(context, id):
     """
     content = file.content(context, id=id)
     click.echo(content.text)
+
+@cli.command("file-delete", help="Delete a file.")
+@click.argument("id")
+@click.pass_obj
+def delete(context, id):
+    """delete(context, id)
+
+    Delete a file.
+
+    >>> dcictl file-delete [OPTIONS]
+
+    :param string id: ID of the file to delete [required]
+    """
+    result = file.delete(context, id=id)
+
+    if result.status_code == 204:
+        utils.print_json({'id': id, 'message': 'File deleted.'})
+    else:
+        utils.format_output(result, context.format)
