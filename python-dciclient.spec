@@ -80,6 +80,7 @@ A Python 3 implementation of the client for DCI control server.
 %endif
 
 %prep
+ls -lR /tmp
 %autosetup -n dciclient-%{version}
 
 %build
