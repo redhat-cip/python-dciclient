@@ -182,15 +182,16 @@ def attach_test(context, id, test_id):
 @click.option("--limit", default=50)
 @click.pass_obj
 def list_test(context, id, sort, limit):
-    """unattach_test(context, id, test_id)
+    """list_test(context, id)
 
-    Unattach a test from a remoteci.
+    List tests attached to a remoteci.
 
-    >>> dcictl remoteci-unattach-test [OPTIONS]
+    >>> dcictl remoteci-list-test [OPTIONS]
 
-    :param string id: ID of the remoteci to unattach the test from
+    :param string id: ID of the remoteci to list the test from
                       [required]
-    :param string test_id: ID of the test to unattach [required]
+    :param string sort: Field to apply sort
+    :param integer limit: Max number of rows to return
     """
     result = remoteci.list_tests(context, id=id, sort=sort, limit=limit)
     utils.format_output(result, context.format)

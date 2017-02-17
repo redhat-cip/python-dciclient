@@ -35,6 +35,8 @@ def list(context, team_id):
     List all tests.
 
     >>> dcictl test list
+
+    :param string team_id: ID of the team to list tests [required]
     """
     if not team_id:
         team_id = user.get(context, context.login).json()['user']['team_id']
@@ -55,7 +57,7 @@ def create(context, name, team_id, data):
     >>> dcictl test-create [OPTIONS]
 
     :param string name: Name of the test [required]
-    :param string team_id: ID of the team to associate with [required]
+    :param string team_id: ID of the team to associate with
     :param json data: JSON formatted data block for the test
     """
     if not team_id:
