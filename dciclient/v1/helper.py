@@ -48,7 +48,7 @@ def create_jobdefinition(dci_context, components, test_ids,
         created_cmpt = component.create(dci_context, **cmpt)
         if created_cmpt.status_code == 201:
             at_least_one = True
-        elif created_cmpt.status_code == 422:
+        elif created_cmpt.status_code in [409, 422]:
             created_cmpt = component.get(dci_context, cmpt['name'])
         created_cmpt_name = created_cmpt.json()['component']['name']
         component_ids.append(created_cmpt.json()['component']['id'])
