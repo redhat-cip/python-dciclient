@@ -51,11 +51,12 @@ def iter(context, resource, **kwargs):
         uri = '%s/%s' % (context.dci_cs_api, resource)
 
     data['offset'] = 0
+    data['limit'] = 128
     while True:
         j = context.session.get(uri, params=data).json()
         if len(j[resource]):
             for i in j[resource]:
-                data['offset'] += 1
+                data['offset'] += data['limit']
                 yield i
         else:
             break
