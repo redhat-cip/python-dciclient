@@ -16,6 +16,24 @@
       "revId": "fec3ffb3f3da152891ebf341e981e549042a009a",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a75e904_1217e9ee",
+        "filename": "dciclient/v1/api/base.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2017-02-21T15:12:09Z",
+      "side": 1,
+      "message": "I don\u0027t get the \"consistency\" there since the 20 value is a default value, we can override it.",
+      "parentUuid": "7a75e904_d2f551cc",
+      "revId": "fec3ffb3f3da152891ebf341e981e549042a009a",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
