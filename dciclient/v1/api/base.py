@@ -44,7 +44,7 @@ def iter(context, resource, **kwargs):
     data = utils.sanitize_kwargs(**kwargs)
     id = data.pop('id', None)
     subresource = data.pop('subresource', None)
-    limit = data.pop('limit', 20)
+    data['limit'] = data.get('limit', 20)
 
     if subresource:
         uri = '%s/%s/%s/%s' % (context.dci_cs_api, resource, id, subresource)
@@ -56,10 +56,10 @@ def iter(context, resource, **kwargs):
         j = context.session.get(uri, params=data).json()
         if len(j[resource]):
             for i in j[resource]:
-                data['offset'] += limit
                 yield i
         else:
             break
+        data['offset'] += data['limit']
 
 
 def get(context, resource, **kwargs):

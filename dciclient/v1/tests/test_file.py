@@ -31,5 +31,7 @@ def test_iter(dci_context, job_id):
         seen_names.append(f['name'])
         cpt += 1
     # job already comes with 2 files
+    all_files = len(dci_file.list(dci_context).json()['files'])
+    assert all_files == 100 + 2
     assert cpt == 100 + 2
     assert len(set(seen_names) - set(f_names)) == 2
