@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a75e904_e336fae6",
+        "filename": "run_tests.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-02-27T20:16:08Z",
+      "side": 1,
+      "message": "We can call with this syntax:\n\ntox -e py27 -- a_package::sometestname\n\nI think you should pass the $* at the end of the command line to preserve this behaviour.",
+      "revId": "c603b72690cbab919e507d345d09fe0c30fcdfdc",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
