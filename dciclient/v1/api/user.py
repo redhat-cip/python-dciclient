@@ -25,12 +25,12 @@ def create(context, name, password, team_id, role=None):
                        role=role, team_id=team_id)
 
 
-def list(context, where=None, embed=None):
-    return base.list(context, RESOURCE, where=where, embed=embed)
+def list(context, **kwargs):
+    return base.list(context, RESOURCE, **kwargs)
 
 
-def get(context, id, where=None, embed=None):
-    return base.get(context, RESOURCE, id=id, where=where, embed=embed)
+def get(context, id, **kwargs):
+    return base.get(context, RESOURCE, id=id, **kwargs)
 
 
 def update(context, id, etag, name=None, password=None, role=None):
