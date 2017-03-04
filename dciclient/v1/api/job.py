@@ -60,9 +60,8 @@ def recheck(context, id):
     return r
 
 
-def get(context, id, limit=None, where=None, embed=None):
-    return base.get(context, RESOURCE, id=id,
-                    limit=limit, where=where, embed=embed)
+def get(context, id, **kwargs):
+    return base.get(context, RESOURCE, id=id, **kwargs)
 
 
 def list_results(context, id, **kwargs):

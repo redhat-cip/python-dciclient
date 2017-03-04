@@ -28,12 +28,12 @@ def create(context, status, comment, job_id):
     return jobstate
 
 
-def list(context, where=None, embed=None):
-    return base.list(context, RESOURCE, where=where, embed=embed)
+def list(context, **kwargs):
+    return base.list(context, RESOURCE, **kwargs)
 
 
-def get(context, id, where=None, embed=None):
-    return base.get(context, RESOURCE, id=id, where=where, embed=embed)
+def get(context, id, **kwargs):
+    return base.get(context, RESOURCE, id=id, **kwargs)
 
 
 def delete(context, id):

@@ -24,12 +24,12 @@ def create(context, name, label=None):
     return base.create(context, RESOURCE, name=name, label=label)
 
 
-def list(context):
-    return base.list(context, RESOURCE)
+def list(context, **kwargs):
+    return base.list(context, RESOURCE, **kwargs)
 
 
-def get(context, id, where=None, embed=None):
-    return base.get(context, RESOURCE, id=id, where=where, embed=embed)
+def get(context, id, **kwargs):
+    return base.get(context, RESOURCE, id=id, **kwargs)
 
 
 def update(context, id, etag, name=None, label=None):
