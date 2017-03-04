@@ -51,16 +51,16 @@ def create_with_stream(context, name, file_path, mime='text/plain',
         return context.session.post(uri, headers=headers, data=f)
 
 
-def get(context, id, where=None, embed=None):
-    return base.get(context, RESOURCE, id=id, where=where, embed=embed)
+def get(context, id, **kwargs):
+    return base.get(context, RESOURCE, id=id, **kwargs)
 
 
-def list(context, where=None, embed=None):
-    return base.list(context, RESOURCE, where=where, embed=embed)
+def list(context, **kwargs):
+    return base.list(context, RESOURCE, **kwargs)
 
 
-def iter(context, where=None, embed=None):
-    return base.iter(context, RESOURCE, where=where, embed=embed)
+def iter(context, **kwargs):
+    return base.iter(context, RESOURCE, **kwargs)
 
 
 def delete(context, id):

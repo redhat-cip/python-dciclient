@@ -35,8 +35,8 @@ def create(context, name, type, topic_id, canonical_project_name=None, data={},
                        export_control=export_control)
 
 
-def get(context, id, where=None, embed=None):
-    return base.get(context, RESOURCE, id=id, where=where, embed=embed)
+def get(context, id, **kwargs):
+    return base.get(context, RESOURCE, id=id, **kwargs)
 
 
 def update(context, id=None, etag=None, name=None, content=None,
