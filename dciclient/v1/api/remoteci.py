@@ -32,12 +32,12 @@ def create(context, name, team_id, data={}, active=True):
                        data=json.dumps(data), state=state)
 
 
-def list(context, where=None, embed=None):
-    return base.list(context, RESOURCE, where=where, embed=embed)
+def list(context, **kwargs):
+    return base.list(context, RESOURCE, **kwargs)
 
 
-def get(context, id, where=None, embed=None):
-    return base.get(context, RESOURCE, id=id, where=where, embed=embed)
+def get(context, id, **kwargs):
+    return base.get(context, RESOURCE, id=id, **kwargs)
 
 
 def get_data(context, id, keys=None):

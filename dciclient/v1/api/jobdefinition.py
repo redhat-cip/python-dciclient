@@ -29,12 +29,12 @@ def create(context, name, topic_id, priority=None, active=None, comment=None,
                        component_types=component_types)
 
 
-def list(context, topic_id, embed=None):
-    return base.list(context, RESOURCE, topic_id=topic_id, embed=embed)
+def list(context, topic_id, **kwargs):
+    return base.list(context, RESOURCE, topic_id=topic_id, **kwargs)
 
 
-def get(context, id, where=None, embed=None):
-    return base.get(context, RESOURCE, id=id, where=where, embed=embed)
+def get(context, id, **kwargs):
+    return base.get(context, RESOURCE, id=id, **kwargs)
 
 
 def update(context, id, etag, comment=None, active=None, component_types=None,
