@@ -159,4 +159,4 @@ def test_component_status(runner, job_id, topic_id):
                             '--topic_id', topic_id])['jobs']
 
     assert len(status) == 1
-    assert status[0]['job_status'] == 'pre-run'
+    assert status[0]['job_status'] == 'running'
