@@ -136,8 +136,7 @@ def test_unattach_issue(runner, job_id):
 
 def test_job_output(runner, job_id):
     result = runner.invoke_raw(['job-output', job_id])
-    assert '[pre-run]' in result.output
-    assert 'pre-run ongoing' in result.output
+    assert result.output.startswith('[pre-run]')
 
 
 def test_job_list(runner, dci_context, team_id, topic_id,
