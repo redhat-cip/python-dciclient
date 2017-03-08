@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a75e904_af8300cb",
+        "filename": "dciclient/v1/shell_commands/job.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2017-03-08T21:05:18Z",
+      "side": 1,
+      "message": "intereger really ?",
+      "range": {
+        "startLine": 42,
+        "startChar": 11,
+        "endLine": 42,
+        "endChar": 18
+      },
+      "revId": "49e459da196ff3118df6108a828d1f7af2a5f9e8",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
