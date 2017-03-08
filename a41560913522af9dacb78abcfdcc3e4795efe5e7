@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a75e904_affea069",
+        "filename": "dciclient/v1/shell_commands/job.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2017-03-08T18:32:45Z",
+      "side": 1,
+      "message": "could you update this part and add the where param ?",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 54
+      },
+      "revId": "a41560913522af9dacb78abcfdcc3e4795efe5e7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
