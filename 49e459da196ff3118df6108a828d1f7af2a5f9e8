@@ -46,6 +46,30 @@
       "revId": "49e459da196ff3118df6108a828d1f7af2a5f9e8",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a75e904_ea5de649",
+        "filename": "dciclient/v1/shell_commands/job.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2017-03-09T17:00:14Z",
+      "side": 1,
+      "message": "I don\u0027t see any updates",
+      "parentUuid": "7a75e904_0f517462",
+      "range": {
+        "startLine": 42,
+        "startChar": 11,
+        "endLine": 42,
+        "endChar": 18
+      },
+      "revId": "49e459da196ff3118df6108a828d1f7af2a5f9e8",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
