@@ -33,9 +33,9 @@ BuildRequires:  python-psycopg2
 BuildRequires:  python-pytest
 BuildRequires:  python-requests
 BuildRequires:  python-rpm-macros
-BuildRequires:  python-setuptools
 BuildRequires:  python-six
 BuildRequires:  python-tox
+BuildRequires:  python2-setuptools
 BuildRequires:  python2-tripleo-helper
 BuildRequires:  python2-rpm-macros
 BuildRequires:  python3-rpm-macros
@@ -47,6 +47,7 @@ Requires:       python-prettytable
 Requires:       python-requests
 Requires:       python-simplejson
 Requires:       python-six
+Requires:       python2-setuptools
 
 %description -n python2-dciclient
 A Python 2 implementation of the client for DCI control server.
