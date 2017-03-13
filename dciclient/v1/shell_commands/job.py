@@ -211,7 +211,7 @@ def output(context, id):
         'running': '\x1b[6;30;42m',
         'post-run': '\x1b[6;30;44m',
         'failure': '\x1b[6;30;41m'}
-    result = job.list_jobstates(context, id=id)
+    result = job.list_jobstates(context, id=id, sort='created_at')
     jobstates = result.json()['jobstates']
 
     for js in jobstates:
@@ -222,7 +222,8 @@ def output(context, id):
             js['comment']))
         f_l = dci_file.list(
             context,
-            where='jobstate_id:' + js['id'])
+            where='jobstate_id:' + js['id'],
+            sort='created_at')
         for f in f_l.json()['files']:
             click.echo(dci_file.content(context, id=f['id']).text)
 
