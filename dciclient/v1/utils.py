@@ -122,3 +122,12 @@ def format_output(result, format, headers=None,
                 result = values[0]
         to_display = result[item] if item else result
         print_prettytable(to_display, headers)
+
+
+def validate_json(ctx, param, value):
+    if value is None:
+        return
+    try:
+        return json.loads(value)
+    except ValueError:
+        raise click.BadParameter('this option expects a valid JSON')

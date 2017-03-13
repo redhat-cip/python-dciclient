@@ -23,8 +23,6 @@ from dciclient.v1.api import team
 from dciclient.v1.api import test
 from dciclient.v1.api import user
 
-import json
-
 
 @cli.command("test-list", help="List all tests.")
 @click.option("--team_id", required=False)
@@ -47,7 +45,7 @@ def list(context, team_id):
 @cli.command("test-create", help="Create a test.")
 @click.option("--name", required=True)
 @click.option("--team_id", required=False)
-@click.option("--data", default='{}')
+@click.option("--data", callback=utils.validate_json, default='{}')
 @click.pass_obj
 def create(context, name, team_id, data):
     """create(context, name, team_id, data)
@@ -62,7 +60,6 @@ def create(context, name, team_id, data):
     """
     if not team_id:
         team_id = user.get(context, context.login).json()['user']['team_id']
-    data = json.loads(data)
     result = test.create(context, name=name, data=data, team_id=team_id)
     utils.format_output(result, context.format)
 

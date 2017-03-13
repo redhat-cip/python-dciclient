@@ -97,7 +97,7 @@ def test_get_data(runner):
     result = runner.invoke(['remoteci-get-data', remoteci['id']])
     assert result == {}
     runner.invoke(['remoteci-update', remoteci['id'],
-                   '--etag', remoteci['etag'], '--data', {'foo': 'bar'}])
+                   '--etag', remoteci['etag'], '--data', '{"foo": "bar"}'])
     result = runner.invoke(['remoteci-get-data', remoteci['id']])
     assert result == {'foo': 'bar'}
 
