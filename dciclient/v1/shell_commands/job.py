@@ -143,10 +143,7 @@ def attach_issue(context, id, url):
     """
 
     result = job.attach_issue(context, id=id, url=url)
-    if result.status_code == 201:
-        utils.print_json({'id': id, 'message': 'Issue attached.'})
-    else:
-        utils.format_output(result, context.format)
+    utils.format_output(result, context.format)
 
 
 @cli.command("job-unattach-issue", help="Unattach an issue from a job.")
@@ -264,10 +261,7 @@ def set_meta(context, id, name, value):
     """
 
     result = job.set_meta(context, id=id, name=name, value=value)
-    if result.status_code == 201:
-        utils.print_json({'id': id, 'message': 'Meta attached.'})
-    else:
-        utils.format_output(result, context.format)
+    utils.format_output(result, context.format)
 
 
 @cli.command("job-delete-meta", help="Drop a meta from a job.")
