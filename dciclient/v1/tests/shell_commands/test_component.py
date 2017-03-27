@@ -82,45 +82,45 @@ def test_show(runner):
     assert result['component']['name'] == 'foo'
 
 
-# def test_file_support(runner, tmpdir):
-#     td = tmpdir
-#     p = td.join("hello.txt")
-#     p.write("content")
-#     topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
-#
-#     component = runner.invoke(['component-create', '--name', 'foo',
-#                                '--type', 'foobar', '--topic_id', topic['id'],
-#                                '--export_control'])['component']
-#
-#     # upload
-#     new_f = runner.invoke(['component-file-upload', component['id'],
-#                            '--path', p.strpath])['component_file']
-#     assert new_f['size'] == 7
-#
-#     # show
-#     new_f = runner.invoke(['component-file-show', component['id'],
-#                            '--file_id', new_f['id']])['component_file']
-#     assert new_f['size'] == 7
-#
-#     # download
-#     runner.invoke_raw(['component-file-download', component['id'],
-#                        '--file_id', new_f['id'],
-#                        '--target', td.strpath + '/my_file'])
-#     assert open(td.strpath + '/my_file', 'r').read() == 'content'
-#
-#     # list
-#     my_list = runner.invoke(['component-file-list',
-#                              component['id']])['component_files']
-#     assert len(my_list) == 1
-#     assert my_list[0]['size'] == 7
-#
-#     # delete
-#     runner.invoke_raw([
-#         'component-file-delete', component['id'],
-#         '--file_id', new_f['id']])
-#     result = runner.invoke(['component-file-show', component['id'],
-#                             '--file_id', new_f['id']])
-#     assert result['status_code'] == 404
+def test_file_support(runner, tmpdir):
+    td = tmpdir
+    p = td.join("hello.txt")
+    p.write("content")
+    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+
+    component = runner.invoke(['component-create', '--name', 'foo',
+                               '--type', 'foobar', '--topic_id', topic['id'],
+                               '--export_control'])['component']
+
+    # upload
+    new_f = runner.invoke(['component-file-upload', component['id'],
+                           '--path', p.strpath])['component_file']
+    assert new_f['size'] == 7
+
+    # show
+    new_f = runner.invoke(['component-file-show', component['id'],
+                           '--file_id', new_f['id']])['component_file']
+    assert new_f['size'] == 7
+
+    # download
+    runner.invoke_raw(['component-file-download', component['id'],
+                       '--file_id', new_f['id'],
+                       '--target', td.strpath + '/my_file'])
+    assert open(td.strpath + '/my_file', 'r').read() == 'content'
+
+    # list
+    my_list = runner.invoke(['component-file-list',
+                             component['id']])['component_files']
+    assert len(my_list) == 1
+    assert my_list[0]['size'] == 7
+
+    # delete
+    runner.invoke_raw([
+        'component-file-delete', component['id'],
+        '--file_id', new_f['id']])
+    result = runner.invoke(['component-file-show', component['id'],
+                            '--file_id', new_f['id']])
+    assert result['status_code'] == 404
 
 
 def test_enable_export_control(runner):
