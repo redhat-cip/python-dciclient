@@ -36,8 +36,11 @@ import os
 import passlib.apps as passlib_apps
 
 
-class mocked_store_engine(object):
+class Mocked_store_engine(object):
     files = {}
+
+    def __init__(self, conf):
+        self.container = conf
 
     def delete(self, filename):
         del(self.files[filename])
@@ -63,8 +66,9 @@ class mocked_store_engine(object):
 
 @pytest.fixture(scope='session')
 def engine(request):
-    def mocked_get_store():
-        return mocked_store_engine()
+    def mocked_get_store(conf):
+        store = Mocked_store_engine(conf)
+        return store
 
     dci.dci_config.get_store = mocked_get_store
     conf = dci.dci_config.generate_conf()
