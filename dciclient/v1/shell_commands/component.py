@@ -138,7 +138,7 @@ def status(context, type, topic_id):
                             [required]
     """
     result = component.status(context, type=type, topic_id=topic_id)
-    utils.format_output(result, context.format, 'jobs')
+    utils.format_output(result, context.format)
 
 
 @cli.command("component-file-upload", help="Attach a file to a component.")
