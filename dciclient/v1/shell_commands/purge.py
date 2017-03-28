@@ -46,8 +46,9 @@ def purge(context, resource, noop):
             kwargs = {'noop': noop}
             resource_to_delete = base.purge(context, res, **kwargs)
             if noop:
-                if len(l_resources) > 1:
-                    click.echo('\n%s:\n' % res)
-                utils.format_output(resource_to_delete, context.format)
+                if len(resource_to_delete.json()[res]) > 0:
+                    if len(l_resources) > 1:
+                        click.echo('\n%s:\n' % res)
+                    utils.format_output(resource_to_delete, context.format)
             elif resource_to_delete.status_code == 204:
-                utils.print_json({'message': 'Resources purged.'})
+                utils.print_json({'message': res + ' purged.'})
