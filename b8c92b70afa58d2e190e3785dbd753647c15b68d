@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a72e520_f9d791bd",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-03-28T12:41:10Z",
+      "side": 1,
+      "message": "utils.digest_request(self.api_secret, r)",
+      "revId": "b8c92b70afa58d2e190e3785dbd753647c15b68d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa81d914_cd921df6",
         "filename": "dciclient/v1/utils.py",
         "patchSetId": 1
