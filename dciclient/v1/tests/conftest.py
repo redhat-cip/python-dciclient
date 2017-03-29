@@ -36,8 +36,11 @@ import os
 import passlib.apps as passlib_apps
 
 
-class mocked_store_engine(object):
+class Mocked_store_engine(object):
     files = {}
+
+    def __init__(self, conf):
+        self.container = conf
 
     def delete(self, filename):
         del(self.files[filename])
@@ -60,11 +63,18 @@ class mocked_store_engine(object):
             'content-type': 'application/octet-stream',
             'content-length': os.stat(file_path).st_size}
 
+    def build_file_path(self, root, middle, file_id):
+        root = str(root)
+        middle = str(middle)
+        file_id = str(file_id)
+        return "%s/%s/%s" % (root, middle, file_id)
+
 
 @pytest.fixture(scope='session')
 def engine(request):
-    def mocked_get_store():
-        return mocked_store_engine()
+    def mocked_get_store(conf):
+        store = Mocked_store_engine(conf)
+        return store
 
     dci.dci_config.get_store = mocked_get_store
     conf = dci.dci_config.generate_conf()
