@@ -23,7 +23,7 @@ from dciclient.v1.api import base
 
 
 @cli.command("purge", help="Purge soft-deleted resources.")
-@click.option("--resource", help="Type of resource to purge.")
+@click.option("--resource", help="Comma separated list of resource to purge.")
 @click.option("--noop", is_flag=True, help="Show resource to purge.")
 @click.pass_obj
 def purge(context, resource, noop):
@@ -31,23 +31,51 @@ def purge(context, resource, noop):
 
     Purge soft-deleted resources.
 
-    >>> dcictl purge --resource remoteci
+    >>> dcictl purge --resource remotecis
     """
 
     resources = ['components', 'topics', 'tests', 'teams', 'jobdefinitions',
-                 'remotecis', 'jobs', 'files', 'component_files', 'users']
+                 'remotecis', 'jobs', 'files', 'users']
 
     l_resources = resources if resource is None else resource.split(',')
 
-    for res in l_resources:
-        if res not in resources:
-            click.echo('%s; is an invalid resource' % res)
+    wrong_resources = [res for res in l_resources if res not in resources]
+    if len(wrong_resources) > 0:
+        msg = 'Unkown resource have been specified: %s' % wrong_resources
+        if context.format == 'json':
+            utils.print_json(msg)
         else:
-            kwargs = {'noop': noop}
-            resource_to_delete = base.purge(context, res, **kwargs)
-            if noop:
-                if len(l_resources) > 1:
-                    click.echo('\n%s:\n' % res)
-                utils.format_output(resource_to_delete, context.format)
-            elif resource_to_delete.status_code == 204:
-                utils.print_json({'message': 'Resources purged.'})
+            click.echo(msg)
+
+    else:
+        purged = {}
+        if noop:
+            # If in noop mode. The various endpoints are queried for the
+            # informations about the resources to be purged and displayed.
+            for res in l_resources:
+                resource_to_delete = base.purge(context, res, **{'noop': noop})
+                if resource_to_delete.json()['_meta']['count'] > 0:
+                    purged[res] = resource_to_delete.json()
+            if len(purged.keys()):
+                for item in purged.keys():
+                    if len(l_resources) > 1:
+                        click.echo('\n%s:\n' % item)
+                    utils.format_output(purged[item][item], context.format)
+            else:
+                utils.format_output({}, context.format)
+
+        else:
+            # If not in noop mode. First we retrieve the number of items to be
+            # purged and then we purge them. This allows to presents meaningful
+            # informations to the user that used this command.
+
+            for res in l_resources:
+                item_purged = base.purge(context, res, **{'noop': True}) \
+                                  .json()['_meta']['count']
+                delete = base.purge(context, res, **{'noop': False})
+                if delete.status_code == 204 and item_purged > 0:
+                    purged[res] = '%s item(s) purged' % item_purged
+            if len(purged.keys()):
+                utils.print_json(purged)
+            else:
+                utils.print_json({'message': 'No item to be purged'})
