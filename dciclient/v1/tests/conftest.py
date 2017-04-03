@@ -55,7 +55,8 @@ class Mocked_store_engine(object):
     def upload(self, filename, iterable, pseudo_folder=None,
                create_container=True):
         file_path = '/tmp/swift/' + filename
-        os.makedirs(os.path.dirname(file_path))
+        if not os.path.isdir(os.path.dirname(file_path)):
+            os.makedirs(os.path.dirname(file_path))
         with open(file_path, 'wb') as fd:
             fd.write(iterable)
         self.files[filename] = {
