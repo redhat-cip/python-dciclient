@@ -101,8 +101,8 @@ def attach_team(context, id, team_id):
     :param string id: ID of the topic to attach to [required]
     :param string team_id: ID of the team to attach to this topic [required]
     """
-    team_id = team_id or user.get(
-        context, context.login).json()['user']['team_id']
+    team_id = team_id or user.list(
+        context, where='name:' + context.login).json()['users'][0]['team_id']
     result = topic.attach_team(context, id=id, team_id=team_id)
     utils.format_output(result, context.format)
 
@@ -122,8 +122,8 @@ def unattach_team(context, id, team_id):
     :param string team_id: ID of team to unattach from this topic,
         default is the current user team [optional]
     """
-    team_id = team_id or user.get(
-        context, context.login).json()['user']['team_id']
+    team_id = team_id or user.list(
+        context, where='name:' + context.login).json()['users'][0]['team_id']
     result = topic.unattach_team(context, id=id, team_id=team_id)
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Teams has been unattached.'})
