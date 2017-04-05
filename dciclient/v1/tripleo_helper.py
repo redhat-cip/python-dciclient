@@ -24,6 +24,7 @@ from dciclient.v1.logger import DciHandler
 
 import json
 import logging
+from paramiko import ssh_exception
 import requests.packages.urllib3
 import tripleohelper.undercloud
 
@@ -60,8 +61,8 @@ def run_tests(context, undercloud_ip, key_filename, remoteci_id,
     # Retrieve the certification_id data field. In order to run
     # the rhcert test suite if enabled. If absent set to empty string.
     data = remoteci.get_data(
-        context, remoteci_id, ['certification_id']).json()
-    certification_id = data and data.get('certification_id', '')
+        context, remoteci_id, ['certification_id'])
+    certification_id = data and data.json().get('certification_id', '')
 
     # redirect the log messages to the DCI Control Server
     # https://github.com/shazow/urllib3/issues/523
@@ -114,22 +115,25 @@ def run_tests(context, undercloud_ip, key_filename, remoteci_id,
                 user='stack',
                 filename=rcfile)
             undercloud.run('curl -O ' + url, user='stack')
-            undercloud.run((
-                'DCI_CERTIFICATION_ID=%s '
-                'DCI_REMOTECI_ID=%s '
-                'DCI_JOB_ID=%s '
-                'DCI_OVERCLOUD_STACK_NAME=%s '
-                'bash -x run.sh') % (
-                    certification_id,
-                    remoteci_id,
-                    context.last_job_id,
-                    stack_name), user='stack')
-            with undercloud.open('result.xml', user='stack') as fd:
-                file.create(
-                    context,
-                    t['name'],
-                    fd.read(), mime='application/junit',
-                    job_id=context.last_job_id)
+            try:
+                undercloud.run((
+                    'DCI_CERTIFICATION_ID=%s '
+                    'DCI_REMOTECI_ID=%s '
+                    'DCI_JOB_ID=%s '
+                    'DCI_OVERCLOUD_STACK_NAME=%s '
+                    'bash -x run.sh') % (
+                        certification_id,
+                        remoteci_id,
+                        context.last_job_id,
+                        stack_name), user='stack')
+                with undercloud.open('result.xml', user='stack') as fd:
+                    file.create(
+                        context,
+                        t['name'],
+                        fd.read(), mime='application/junit',
+                        job_id=context.last_job_id)
+            except (ssh_exception.SSHException, IOError):
+                pass
     except Exception:
         msg = traceback.format_exc()
         final_status = 'failure'
