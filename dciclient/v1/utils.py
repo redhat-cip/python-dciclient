@@ -121,7 +121,8 @@ def format_output(result, format, headers=None,
             if len(values) == 1:
                 result = values[0]
         to_display = result[item] if item else result
-        print_prettytable(to_display, headers)
+        if to_display:
+            print_prettytable(to_display, headers)
 
 
 def validate_json(ctx, param, value):

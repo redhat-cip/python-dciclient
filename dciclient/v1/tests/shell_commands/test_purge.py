@@ -15,6 +15,12 @@
 # under the License.
 
 
+def test_purge_wrong_resource(runner, dci_context):
+    wres = runner.invoke(['purge', '--resource', 'wrongresource'])
+    assert 'Unkown resource have been specified:' in wres
+    assert 'wrongresource' in wres
+
+
 def test_purge_noop(runner, dci_context, remoteci_id):
     runner.invoke(['topic-create', '--name', 'osp'])
     runner.invoke(['topic-create', '--name', 'osp2'])
@@ -27,14 +33,14 @@ def test_purge_noop(runner, dci_context, remoteci_id):
     assert len(topics) == 1
 
     purge_res = runner.invoke(['purge', '--resource', 'topics',
-                               '--noop'])['topics']
+                               '--noop'])
     assert purge_res[0]['id'] == topic_id
     assert purge_res[0]['state'] == 'archived'
 
     runner.invoke(['purge', '--resource', 'topics'])
 
     purge_res = runner.invoke(['purge', '--resource', 'topics',
-                               '--noop'])['topics']
+                               '--noop'])
     assert len(purge_res) == 0
 
     topics = runner.invoke(['topic-list'])['topics']
