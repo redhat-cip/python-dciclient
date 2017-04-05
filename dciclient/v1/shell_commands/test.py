@@ -36,8 +36,9 @@ def list(context, team_id):
 
     :param string team_id: ID of the team to list tests [required]
     """
-    if not team_id:
-        team_id = user.get(context, context.login).json()['user']['team_id']
+    team_id = team_id or user.list(
+        context,
+        where='name:' + context.login).json()['users'][0]['team_id']
     result = team.list_tests(context, team_id)
     utils.format_output(result, context.format)
 
@@ -58,8 +59,9 @@ def create(context, name, team_id, data):
     :param string team_id: ID of the team to associate with
     :param json data: JSON formatted data block for the test
     """
-    if not team_id:
-        team_id = user.get(context, context.login).json()['user']['team_id']
+    team_id = team_id or user.list(
+        context,
+        where='name:' + context.login).json()['users'][0]['team_id']
     result = test.create(context, name=name, data=data, team_id=team_id)
     utils.format_output(result, context.format)
 
