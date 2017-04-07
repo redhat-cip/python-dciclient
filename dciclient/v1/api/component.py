@@ -21,9 +21,6 @@ import os
 
 
 RESOURCE = 'components'
-GIT_COMMIT = 'git_commit'
-KH_INSTALLER = 'kh_installer'
-SNAPSHOT = 'snapshot'
 
 
 def create(context, name, type, topic_id, canonical_project_name=None, data={},
