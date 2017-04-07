@@ -36,7 +36,6 @@ BuildRequires:  python-rpm-macros
 BuildRequires:  python-six
 BuildRequires:  python-tox
 BuildRequires:  python2-setuptools
-BuildRequires:  python2-tripleo-helper
 BuildRequires:  python2-rpm-macros
 BuildRequires:  python3-rpm-macros
 Requires:       PyYAML

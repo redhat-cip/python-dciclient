@@ -25,7 +25,11 @@ from dciclient.v1.logger import DciHandler
 import json
 import logging
 import requests.packages.urllib3
-import tripleohelper.undercloud
+
+try:
+    import tripleohelper.undercloud
+except ImportError:
+    raise ImportError('You should install the python-tripleo-helper package')
 
 
 def push_stack_details(context, undercloud, stack_name='overcloud'):
