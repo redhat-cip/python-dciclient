@@ -30,8 +30,8 @@ def test_list(runner):
     topics = runner.invoke(['topic-list'])['topics']
 
     assert len(topics) == 2
-    assert topics[0]['name'] == 'osp'
-    assert topics[1]['name'] == 'ovirt'
+    assert topics[0]['name'] == 'ovirt'
+    assert topics[1]['name'] == 'osp'
 
 
 def test_create(runner):
