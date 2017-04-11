@@ -112,12 +112,7 @@ def test_attach_issue(runner, job_id):
         ['job-attach-issue', job_id, '--url',
          'https://github.com/redhat-cip/dci-control-server/issues/2']
     )
-    # NOTE(Goneri): until we fix the consistency issue with this endpoint:
-    # https://softwarefactory-project.io/r/6863
-    if 'issue' in issue:
-        issue = issue['issue']
-    else:
-        issue['id'] = issue['issue_id']
+    issue['id'] = issue['issue_id']
     result = runner.invoke(['job-list-issue', job_id])
     assert issue['id'] == result['issues'][0]['id']
 
