@@ -58,7 +58,10 @@ class Mocked_store_engine(object):
         if not os.path.isdir(os.path.dirname(file_path)):
             os.makedirs(os.path.dirname(file_path))
         with open(file_path, 'wb') as fd:
-            fd.write(iterable)
+            if hasattr(iterable, "read"):
+                fd.write(iterable.read())
+            else:
+                fd.write(iterable)
         self.files[filename] = {
             'etag': 'boby',
             'content-type': 'application/octet-stream',
