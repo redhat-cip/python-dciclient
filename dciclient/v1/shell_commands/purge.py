@@ -40,12 +40,17 @@ def purge(context, resource, noop):
     l_resources = resources if resource is None else resource.split(',')
 
     wrong_resources = [res for res in l_resources if res not in resources]
+    test_auth = base.purge(context, 'users', **{'noop': True})
+
     if len(wrong_resources) > 0:
         msg = 'Unkown resource have been specified: %s' % wrong_resources
         if context.format == 'json':
             utils.print_json(msg)
         else:
             click.echo(msg)
+
+    elif test_auth.status_code == 401:
+        utils.format_output(test_auth, context.format)
 
     else:
         purged = {}

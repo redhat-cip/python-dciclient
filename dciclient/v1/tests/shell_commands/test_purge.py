@@ -15,13 +15,28 @@
 # under the License.
 
 
-def test_purge_wrong_resource(runner, dci_context):
-    wres = runner.invoke(['purge', '--resource', 'wrongresource'])
-    assert 'Unkown resource have been specified:' in wres
-    assert 'wrongresource' in wres
+def test_purge_wrong_resource(runner):
+    result = runner.invoke(['purge', '--resource', 'wrongresource'])
+    assert 'Unkown resource have been specified:' in result
+    assert 'wrongresource' in result
 
 
-def test_purge_noop(runner, dci_context, remoteci_id):
+def test_purge_success_authorized_admin(runner):
+    result = runner.invoke(['purge', '--noop'])
+    assert result == {}
+
+
+def test_purge_fail_unauthorized_user(runner_user):
+    result = runner_user.invoke(['purge', '--noop'])
+    assert result['status_code'] == 401
+
+
+def test_purge_fail_unauthorized_user_admin(runner_user_admin):
+    result = runner_user_admin.invoke(['purge', '--noop'])
+    assert result['status_code'] == 401
+
+
+def test_purge_noop(runner, remoteci_id):
     runner.invoke(['topic-create', '--name', 'osp'])
     runner.invoke(['topic-create', '--name', 'osp2'])
     topics = runner.invoke(['topic-list'])['topics']
