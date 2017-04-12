@@ -135,23 +135,36 @@ def client(server, db_provisioning):
     return client
 
 
+def context_factory(server, db_provisioning, login, password,
+                    url='http://dciserver.com', user_agent=None):
+    extras = {}
+    if user_agent:
+        extras['user_agent'] = user_agent
+    test_context = api.context.DciContext(url, login, password, **extras)
+    flask_adapter = utils.FlaskHTTPAdapter(server.test_client())
+    test_context.session.mount(url, flask_adapter)
+    return test_context
+
+
 @pytest.fixture
 def dci_context(server, db_provisioning):
-    test_context = api.context.DciContext('http://dciserver.com',
-                                          'admin', 'admin')
-    flask_adapter = utils.FlaskHTTPAdapter(server.test_client())
-    test_context.session.mount('http://dciserver.com', flask_adapter)
-    return test_context
+    return context_factory(server, db_provisioning, 'admin', 'admin')
+
+
+@pytest.fixture
+def dci_context_user_admin(server, db_provisioning):
+    return context_factory(server, db_provisioning, 'user_admin', 'user_admin')
+
+
+@pytest.fixture
+def dci_context_user(server, db_provisioning):
+    return context_factory(server, db_provisioning, 'user', 'user')
 
 
 @pytest.fixture
 def dci_context_other_user_agent(server, db_provisioning):
-    test_context = api.context.DciContext('http://dciserver.com',
-                                          'admin', 'admin',
-                                          user_agent='myagent-0.1')
-    flask_adapter = utils.FlaskHTTPAdapter(server.test_client())
-    test_context.session.mount('http://dciserver.com', flask_adapter)
-    return test_context
+    return context_factory(server, db_provisioning, 'admin', 'admin',
+                           user_agent='myagent-0.1')
 
 
 @pytest.fixture
@@ -163,8 +176,7 @@ def dci_context_broken(server, db_provisioning):
     return test_context
 
 
-@pytest.fixture
-def runner(dci_context):
+def runner_factory(dci_context):
     api.context.build_dci_context = lambda **kwargs: dci_context
     runner = click.testing.CliRunner(env={'DCI_LOGIN': '', 'DCI_PASSWORD': '',
                                           'DCI_CLI_OUTPUT_FORMAT': 'json'})
@@ -198,6 +210,21 @@ def runner(dci_context):
     runner.invoke_raw = invoke_raw
     runner.invoke_raw_parse = invoke_raw_parse
     return runner
+
+
+@pytest.fixture
+def runner(dci_context):
+    return runner_factory(dci_context)
+
+
+@pytest.fixture
+def runner_user_admin(dci_context_user_admin):
+    return runner_factory(dci_context_user_admin)
+
+
+@pytest.fixture
+def runner_user(dci_context_user):
+    return runner_factory(dci_context_user)
 
 
 @pytest.fixture

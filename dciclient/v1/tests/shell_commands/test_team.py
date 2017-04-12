@@ -40,6 +40,16 @@ def test_create(runner):
     assert team['name'] == 'foo'
 
 
+def test_create_fail_unauthorized_user_admin(runner_user_admin):
+    team = runner_user_admin.invoke(['team-create', '--name', 'foo'])
+    assert team['status_code'] == 401
+
+
+def test_create_fail_unauthorized_user(runner_user):
+    team = runner_user.invoke(['team-create', '--name', 'foo'])
+    assert team['status_code'] == 401
+
+
 def test_update(runner):
     team = runner.invoke(['team-create', '--name', 'foo'])['team']
 
