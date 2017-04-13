@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fa963961_6c6ce49c",
+        "filename": "dciclient/v1/shell_commands/component.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2017-04-13T09:07:07Z",
+      "side": 1,
+      "message": "I don\u0027t want to show all the headers here. I really just want to add id so one can easily interact with the specific issue.\n\nAll the headers would include: id, created_at, assignee, closed_at, component, issue_id, product, reporter, status, status_code, title, tracker, updated_at",
+      "parentUuid": "fa963961_091d4a73",
+      "revId": "eb93045dfe6cce5e867de3183eb5009542818a87",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa963961_29180e84",
         "filename": "dciclient/v1/shell_commands/job.py",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-04-12T21:04:35Z",
       "side": 1,
       "message": "Since you actually want to show up all the headers, you can just drop the headers parameter and do:\n\nutils.format_output(result, context.format)",
+      "revId": "eb93045dfe6cce5e867de3183eb5009542818a87",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa963961_2c05bcc1",
+        "filename": "dciclient/v1/shell_commands/job.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2017-04-13T09:07:07Z",
+      "side": 1,
+      "message": "ditto",
+      "parentUuid": "fa963961_29180e84",
       "revId": "eb93045dfe6cce5e867de3183eb5009542818a87",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
