@@ -324,5 +324,5 @@ def list_issues(context, id, sort, limit):
     """
 
     result = component.list_issues(context, id=id, sort=sort, limit=limit)
-    headers = ['status', 'product', 'component', 'title', 'url']
+    headers = ['id', 'status', 'product', 'component', 'title', 'url']
     utils.format_output(result, context.format, headers)
