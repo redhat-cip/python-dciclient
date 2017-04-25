@@ -24,8 +24,9 @@ from dciclient.v1.api import user
 
 
 @cli.command("remoteci-list", help="List all remotecis.")
+@click.option("--hide", required=False, multiple=True, default=['etag', 'created_at', 'updated_at'])
 @click.pass_obj
-def list(context):
+def list(context, hide):
     """list(context)
 
     List all Remote CIs
@@ -33,7 +34,7 @@ def list(context):
     >>> dcictl remoteci-list
     """
     result = remoteci.list(context)
-    utils.format_output(result, context.format)
+    utils.format_output(result, context.format, hide=hide)
 
 
 @cli.command("remoteci-create", help="Create a remoteci.")

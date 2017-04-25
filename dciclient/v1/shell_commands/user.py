@@ -23,8 +23,9 @@ from dciclient.v1.api import user
 
 
 @cli.command("user-list", help="List all users.")
+@click.option("--hide", required=False, multiple=True, default=['etag', 'created_at', 'updated_at'])
 @click.pass_obj
-def list(context):
+def list(context, hide):
     """list(context)
 
     List all users.
@@ -32,7 +33,7 @@ def list(context):
     >>> dcictl user-list
     """
     result = user.list(context)
-    utils.format_output(result, context.format)
+    utils.format_output(result, context.format, hide=hide)
 
 
 @cli.command("user-create", help="Create a user.")

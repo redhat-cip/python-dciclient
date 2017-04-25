@@ -45,7 +45,7 @@ def _get_field(record, field_path):
         return v
 
 
-def print_prettytable(data, headers=None):
+def print_prettytable(data, headers=None, hide=[]):
     def sort_headers(headers):
         """Ensure the column order is always the same."""
         headers = set(headers)
@@ -71,6 +71,7 @@ def print_prettytable(data, headers=None):
         headers = list(first_row.keys())
 
     headers = sort_headers(headers)
+    headers = [i for i in headers if i not in hide]
     table = prettytable.PrettyTable(headers)
 
     if not isinstance(data, list):
@@ -103,7 +104,8 @@ def sanitize_kwargs(**kwargs):
 
 
 def format_output(result, format, headers=None,
-                  success_code=(200, 201, 204), item=None):
+                  success_code=(200, 201, 204),
+                  item=None, hide=[]):
 
     is_failure = False
     if hasattr(result, 'json'):
@@ -122,7 +124,7 @@ def format_output(result, format, headers=None,
                 result = values[0]
         to_display = result[item] if item else result
         if to_display:
-            print_prettytable(to_display, headers)
+            print_prettytable(to_display, headers, hide)
 
 
 def validate_json(ctx, param, value):
