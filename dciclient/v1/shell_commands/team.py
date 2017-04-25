@@ -23,8 +23,10 @@ from dciclient.v1.api import team
 
 
 @cli.command("team-list", help="List all teams.")
+@click.option("--hide", required=False, multiple=True,
+              default=['etag', 'created_at', 'updated_at'])
 @click.pass_obj
-def list(context):
+def list(context, hide):
     """list(context)
 
     List all teams.
@@ -32,7 +34,7 @@ def list(context):
     >>> dcictl team list
     """
     result = team.list(context)
-    utils.format_output(result, context.format)
+    utils.format_output(result, context.format, hide=hide)
 
 
 @cli.command("team-create", help="Create a team.")
