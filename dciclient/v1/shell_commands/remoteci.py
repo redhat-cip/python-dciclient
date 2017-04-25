@@ -24,8 +24,9 @@ from dciclient.v1.api import user
 
 
 @cli.command("remoteci-list", help="List all remotecis.")
+@click.option("--verbose", required=False, default=False)
 @click.pass_obj
-def list(context):
+def list(context, verbose):
     """list(context)
 
     List all Remote CIs
@@ -33,7 +34,7 @@ def list(context):
     >>> dcictl remoteci-list
     """
     result = remoteci.list(context)
-    utils.format_output(result, context.format)
+    utils.format_output(result, context.format, verbose=verbose)
 
 
 @cli.command("remoteci-create", help="Create a remoteci.")

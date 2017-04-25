@@ -26,8 +26,9 @@ from dciclient.v1.api import user
 
 @cli.command("test-list", help="List all tests.")
 @click.option("--team_id", required=False)
+@click.option("--verbose", required=False, default=False)
 @click.pass_obj
-def list(context, team_id):
+def list(context, team_id, hide):
     """list(context, team_id)
 
     List all tests.
@@ -39,7 +40,7 @@ def list(context, team_id):
     team_id = team_id or user.list(
         context, where='name:' + context.login).json()['users'][0]['team_id']
     result = team.list_tests(context, team_id)
-    utils.format_output(result, context.format)
+    utils.format_output(result, context.format, verbose=verbose)
 
 
 @cli.command("test-create", help="Create a test.")

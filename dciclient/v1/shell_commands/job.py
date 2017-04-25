@@ -29,8 +29,9 @@ from dciclient.v1.api import job
               required=False, default=10)
 @click.option("--where", help="An optional filter criteria.",
               required=False)
+@click.option("--verbose", required=False, default=False)
 @click.pass_obj
-def list(context, sort, limit, where):
+def list(context, sort, limit, where, hide):
     """list(context)
 
     List all jobs.
@@ -48,7 +49,7 @@ def list(context, sort, limit, where):
                'jobdefinition/name', 'remoteci/name',
                'team/name', 'etag', 'created_at', 'updated_at']
 
-    utils.format_output(result, context.format, headers)
+    utils.format_output(result, context.format, headers, verbose=verbose)
 
 
 @cli.command("job-show", help="Show a job.")

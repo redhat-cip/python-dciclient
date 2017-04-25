@@ -24,8 +24,9 @@ from dciclient.v1.api import file
 
 @cli.command("file-list", help="List all files.")
 @click.option("--job-id", required=True)
+@click.option("--verbose", required=False, default=False)
 @click.pass_obj
-def list(context, job_id):
+def list(context, job_id, verbose):
     """list(context)
 
     List all files.
@@ -35,7 +36,7 @@ def list(context, job_id):
     :param string job_id: ID of the job [required]
     """
     result = file.list(context, where='job_id:' + job_id)
-    utils.format_output(result, context.format)
+    utils.format_output(result, context.format, verbose=verbose)
 
 
 @cli.command("file-show", help="Show a file.")

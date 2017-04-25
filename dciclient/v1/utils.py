@@ -45,12 +45,15 @@ def _get_field(record, field_path):
         return v
 
 
-def print_prettytable(data, headers=None):
+def print_prettytable(data, headers=None, skip_columns=[]):
     def sort_headers(headers):
         """Ensure the column order is always the same."""
         headers = set(headers)
+        default_order = [
+            'id', 'name', 'etag', 'created_at',
+            'updated_at', 'state', 'data']
         sorted_headers = []
-        for i in ['id', 'name', 'etag', 'created_at', 'updated_ata']:
+        for i in default_order:
             if i not in headers:
                 continue
             headers.remove(i)
@@ -58,23 +61,31 @@ def print_prettytable(data, headers=None):
         sorted_headers += sorted(headers)
         return sorted_headers
 
-    if isinstance(data, dict):
-        keys = [i for i in list(data.keys()) if i != '_meta']
-        if len(keys) == 1:
-            data = data[keys[0]]
+    def tablify_result(data):
+        """Convert the JSON dict structure to a regular list."""
+        if isinstance(data, dict):
+            keys = [i for i in list(data.keys()) if i != '_meta']
+            if len(keys) == 1:
+                data = data[keys[0]]
 
-    if not headers:
+        if not isinstance(data, list):
+            data = [data]
+        return data
+
+    def find_headers_from_data(data):
+        """Return the header names from the data."""
         if isinstance(data, list):
             first_row = data[0] if len(data) else {}
         else:
             first_row = data
-        headers = list(first_row.keys())
+        return list(first_row.keys())
 
+
+    data = tablify_result(data)
+    headers = headers or find_headers_from_data(data)
     headers = sort_headers(headers)
+    headers = [i for i in headers if i not in skip_columns]
     table = prettytable.PrettyTable(headers)
-
-    if not isinstance(data, list):
-        data = [data]
 
     for record in data:
         row = []
@@ -103,7 +114,12 @@ def sanitize_kwargs(**kwargs):
 
 
 def format_output(result, format, headers=None,
-                  success_code=(200, 201, 204), item=None):
+                  success_code=(200, 201, 204),
+                  item=None, verbose=True):
+
+    skip_columns=[]
+    if not verbose:
+        skip_columns=['etag', 'created_at', 'updated_at', 'data']
 
     is_failure = False
     if hasattr(result, 'json'):
@@ -122,7 +138,7 @@ def format_output(result, format, headers=None,
                 result = values[0]
         to_display = result[item] if item else result
         if to_display:
-            print_prettytable(to_display, headers)
+            print_prettytable(to_display, headers, skip_columns)
 
 
 def validate_json(ctx, param, value):
