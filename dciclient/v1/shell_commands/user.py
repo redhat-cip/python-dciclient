@@ -23,8 +23,10 @@ from dciclient.v1.api import user
 
 
 @cli.command("user-list", help="List all users.")
+@click.option("--long", "--verbose", "verbose",
+              required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context):
+def list(context, verbose):
     """list(context)
 
     List all users.
@@ -32,7 +34,7 @@ def list(context):
     >>> dcictl user-list
     """
     result = user.list(context)
-    utils.format_output(result, context.format)
+    utils.format_output(result, context.format, verbose=verbose)
 
 
 @cli.command("user-create", help="Create a user.")
