@@ -24,6 +24,8 @@ def test_prettytable_output(runner, team_id):
         '--team_id', team_id])
     assert user['team_id'] == team_id
     assert user == runner.invoke_raw_parse(['user-show', user['id']])
+    assert 'etag' not in runner.invoke_raw_parse(['user-list'])
+    assert 'etag' in runner.invoke_raw_parse(['user-list', '--long'])
 
 
 def test_create(runner, team_id):

@@ -27,8 +27,10 @@ from dciclient.v1.api import topic
 @click.option("--topic_id", required=True)
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--long", "--verbose", "verbose",
+              required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context, topic_id, sort, limit):
+def list(context, topic_id, sort, limit, verbose):
     """list(context, topic_id)
 
     List all components.
@@ -42,7 +44,7 @@ def list(context, topic_id, sort, limit):
     """
     components = topic.list_components(context, id=topic_id,
                                        sort=sort, limit=limit)
-    utils.format_output(components, context.format)
+    utils.format_output(components, context.format, verbose=verbose)
 
 
 @cli.command("component-create", help="Create a component.")
@@ -200,8 +202,10 @@ def file_download(context, id, file_id, target):
 @click.argument("id")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--long", "--verbose", "verbose",
+              required=False, default=False, is_flag=True)
 @click.pass_obj
-def file_list(context, id, sort, limit):
+def file_list(context, id, sort, limit, verbose):
     """file_list(context, id, path)
 
     List component files
@@ -213,7 +217,7 @@ def file_list(context, id, sort, limit):
     :param integer limit: Max number of rows to return
     """
     result = component.file_list(context, id=id, sort=sort, limit=limit)
-    utils.format_output(result, context.format)
+    utils.format_output(result, context.format, verbose=verbose)
 
 
 @cli.command("component-file-delete", help="Delete a component file.")

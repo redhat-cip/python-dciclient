@@ -32,6 +32,13 @@ else:
     internet_cnx = True
 
 
+def test_prettytable_output(runner, job_id):
+    job_list = runner.invoke_raw_parse(['job-list'])
+    assert job_list['id'] == job_id
+    assert 'etag' not in job_list
+    assert 'etag' in runner.invoke_raw_parse(['job-list', '--long'])
+
+
 def test_get_full_data(job_id, dci_context):
     full_data_job = job.get_full_data(dci_context, job_id)
     assert full_data_job['remoteci']['data'] == {'remoteci': 'remoteci'}
