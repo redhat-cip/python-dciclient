@@ -24,8 +24,10 @@ import click
 
 
 @cli.command("topic-list", help="List all topics.")
+@click.option("--long", "--verbose", "verbose",
+              required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context):
+def list(context, verbose):
     """list(context)
 
     List all topics.
@@ -33,7 +35,7 @@ def list(context):
     >>> dcictl topic-list
     """
     topics = topic.list(context)
-    utils.format_output(topics, context.format)
+    utils.format_output(topics, context.format, verbose=verbose)
 
 
 @cli.command("topic-create", help="Create a topic.")

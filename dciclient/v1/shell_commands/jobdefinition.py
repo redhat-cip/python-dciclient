@@ -24,8 +24,10 @@ from dciclient.v1.api import jobdefinition
 
 @cli.command("jobdefinition-list", help="List all jobdefinitions.")
 @click.option("--topic_id")
+@click.option("--long", "--verbose", "verbose",
+              required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context, topic_id):
+def list(context, topic_id, verbose):
     """list(context, id)
 
     List all jobdefinitions.
@@ -35,7 +37,7 @@ def list(context, topic_id):
     :param string topic_id: Topic ID
     """
     result = jobdefinition.list(context, topic_id)
-    utils.format_output(result, context.format)
+    utils.format_output(result, context.format, verbose=verbose)
 
 
 @cli.command("jobdefinition-create", help="Create a jobdefinition.")
