@@ -80,6 +80,11 @@ A Python 3 implementation of the client for DCI control server.
 %endif
 
 %prep
+cat /etc/yum.repos.d/*
+ls -lR /tmp
+cat /tmp/dependency_repo/development/fedora/25/x86_64/repodata/repomd.xml
+yum reinstall dci-api
+exit 1
 %autosetup -n dciclient-%{version}
 
 %build
