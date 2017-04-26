@@ -20,61 +20,91 @@ from __future__ import unicode_literals
 def test_prettytable_output(runner, team_id):
     user = runner.invoke_raw_parse([
         'user-create', '--name', 'foo',
-        '--password', 'pass', '--role', 'user',
-        '--team_id', team_id])
+        '--password', 'pass', '--team_id', team_id])
     assert user['team_id'] == team_id
     assert user == runner.invoke_raw_parse(['user-show', user['id']])
 
 
-def test_create(runner, team_id):
+def test_success_create_default_role(runner, team_id):
+    roles = runner.invoke(['role-list'])['roles']
+    roles_id = {}
+    for role in roles:
+        roles_id[role['label']] = role['id']
+
     user = runner.invoke(['user-create', '--name', 'foo',
-                          '--password', 'pass', '--role', 'user',
+                          '--password', 'pass',
                           '--team_id', team_id])['user']
     assert user['name'] == 'foo'
-    assert user['role'] == 'user'
+    assert user['role_id'] == roles_id['USER']
     assert user['team_id'] == team_id
 
 
-def test_list(runner, team_id):
+def test_success_create_admin_role(runner, team_id):
+    roles = runner.invoke(['role-list'])['roles']
+    roles_id = {}
+    for role in roles:
+        roles_id[role['label']] = role['id']
+
+    user = runner.invoke(['user-create', '--name', 'foo',
+                          '--password', 'pass',
+                          '--role_id', roles_id['ADMIN'],
+                          '--team_id', team_id])['user']
+    assert user['name'] == 'foo'
+    assert user['role_id'] == roles_id['ADMIN']
+    assert user['team_id'] == team_id
+
+
+def test_success_list(runner, team_id):
+    users_number = len(runner.invoke(['user-list'])['users'])
+
     runner.invoke(['user-create', '--name', 'foo',
-                   '--password', 'pass', '--role', 'user',
+                   '--password', 'pass',
                    '--team_id', team_id])
     runner.invoke(['user-create', '--name', 'bar',
-                   '--password', 'pass', '--role', 'user',
+                   '--password', 'pass',
                    '--team_id', team_id])
-    users = runner.invoke(['user-list'])['users']
-    # NOTE (spredzy): We put 5 because of the 3 creates plus
-    # admin and 2 users provisionned during server test
-    assert len(users) == 5
+
+    users_new_number = len(runner.invoke(['user-list'])['users'])
+    assert users_new_number == users_number + 2
 
 
-def test_update(runner, team_id):
+def test_success_update(runner, team_id):
+    roles = runner.invoke(['role-list'])['roles']
+    roles_id = {}
+    for role in roles:
+        roles_id[role['label']] = role['id']
+
     user = runner.invoke(['user-create', '--name', 'foo',
-                          '--password', 'pass', '--role', 'user',
+                          '--password', 'pass',
                           '--team_id', team_id])['user']
 
     runner.invoke(['user-update', user['id'],
                    '--etag', user['etag'], '--name', 'bar',
-                   '--role', 'admin'])
+                   '--role_id', roles_id['ADMIN']])
+
     user = runner.invoke(['user-show', user['id']])['user']
 
     assert user['name'] == 'bar'
-    assert user['role'] == 'admin'
+    assert user['role_id'] == roles_id['ADMIN']
 
 
-def test_delete(runner, team_id):
+def test_success_delete(runner, team_id):
     user = runner.invoke(['user-create', '--name', 'foo',
-                          '--password', 'pass', '--role', 'user',
+                          '--password', 'pass',
                           '--team_id', team_id])['user']
 
     result = runner.invoke(['user-delete', user['id'],
                             '--etag', user['etag']])
     assert result['message'] == 'User deleted.'
 
+    result = runner.invoke(['user-show', user['id']])
 
-def test_show(runner, team_id):
+    assert result['status_code'] == 404
+
+
+def test_success_show(runner, team_id):
     user = runner.invoke(['user-create', '--name', 'foo',
-                          '--password', 'pass', '--role', 'user',
+                          '--password', 'pass',
                           '--team_id', team_id])['user']
 
     user = runner.invoke(['user-show', user['id']])['user']

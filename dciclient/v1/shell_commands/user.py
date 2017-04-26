@@ -38,11 +38,11 @@ def list(context):
 @cli.command("user-create", help="Create a user.")
 @click.option("--name", required=True)
 @click.option("--password", required=True)
-@click.option("--role", default='user', help="'admin' or 'user'")
+@click.option("--role_id", required=False)
 @click.option("--team_id", required=False)
 @click.pass_obj
-def create(context, name, password, role, team_id):
-    """create(context, name, password, role, team_id)
+def create(context, name, password, role_id, team_id):
+    """create(context, name, password, role_id, t_ideam_id)
 
     Create a user.
 
@@ -50,13 +50,13 @@ def create(context, name, password, role, team_id):
 
     :param string name: Name of the user [required]
     :param string password: Password for the user [required]
-    :param string role: Role of user (admin or user)
+    :param string role_id: Role of user [optional]
     :param string team_id: ID of the team to attach this user to [optional]
     """
     team_id = team_id or user.list(
         context, where='name:' + context.login).json()['users'][0]['team_id']
     result = user.create(context, name=name, password=password,
-                         role=role, team_id=team_id)
+                         role_id=role_id, team_id=team_id)
     utils.format_output(result, context.format)
 
 
@@ -65,10 +65,10 @@ def create(context, name, password, role, team_id):
 @click.option("--etag", required=True)
 @click.option("--name")
 @click.option("--password")
-@click.option("--role", help="'admin' or 'user'")
+@click.option("--role_id")
 @click.pass_obj
-def update(context, id, etag, name, password, role):
-    """update(context, id, etag, name, password, role)
+def update(context, id, etag, name, password, role_id):
+    """update(context, id, etag, name, password, role_id)
 
     Update a user.
 
@@ -78,10 +78,10 @@ def update(context, id, etag, name, password, role):
     :param string etag: Entity tag of the user resource [required]
     :param string name: Name of the user
     :param string password: Password of the user
-    :param string role: Role of the user (admin or user)
+    :param string role_id: Role of the user
     """
     result = user.update(context, id=id, etag=etag, name=name,
-                         password=password, role=role)
+                         password=password, role_id=role_id)
 
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'User updated.'})
