@@ -122,12 +122,39 @@ def provision(db_conn):
     team_admin_id = db_insert(models.TEAMS, name='admin')
     team_user_id = db_insert(models.TEAMS, name='user')
 
-    # Create users
-    db_insert(models.USERS, name='user', role='user', password=user_pw_hash,
-              team_id=team_user_id)
+    # Create the three mandatory roles
+    super_admin_role = {
+        'name': 'Super Admin',
+        'label': 'SUPER_ADMIN',
+        'description': 'Admin of the platform',
+        'team_id': team_admin_id,
+    }
 
-    db_insert(models.USERS, name='user_admin', role='admin',
+    admin_role = {
+        'name': 'Admin',
+        'label': 'ADMIN',
+        'description': 'Admin of a team',
+        'team_id': team_admin_id,
+    }
+
+    user_role = {
+        'name': 'User',
+        'label': 'USER',
+        'description': 'User',
+        'team_id': team_admin_id,
+    }
+
+    admin_role_id = db_insert(models.ROLES, **admin_role)
+    user_role_id = db_insert(models.ROLES, **user_role)
+    super_admin_role_id = db_insert(models.ROLES, **super_admin_role)
+
+    # Create users
+    db_insert(models.USERS, name='user', role_id=user_role_id,
+              password=user_pw_hash, team_id=team_user_id)
+
+    db_insert(models.USERS, name='user_admin', role_id=admin_role_id,
               password=user_admin_pw_hash, team_id=team_user_id)
 
-    db_insert(models.USERS, name='admin', role='admin', password=admin_pw_hash,
+    db_insert(models.USERS, name='admin', role_id=super_admin_role_id,
+              password=admin_pw_hash,
               team_id=team_admin_id)
