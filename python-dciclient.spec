@@ -81,6 +81,8 @@ A Python 3 implementation of the client for DCI control server.
 
 %prep
 %autosetup -n dciclient-%{version}
+ls -lR /tmp
+exit 1
 
 %build
 %py2_build
