@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "da9b358b_c3717de2",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-04-27T14:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a6ff13c_ea4a63ab",
+      "revId": "b8c92b70afa58d2e190e3785dbd753647c15b68d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a6ff13c_0ac7bf13",
         "filename": "dciclient/v1/api/context.py",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "da9b358b_a37799d3",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-04-27T14:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a6ff13c_0ac7bf13",
+      "revId": "b8c92b70afa58d2e190e3785dbd753647c15b68d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a6ff13c_2acc7b35",
         "filename": "dciclient/v1/api/context.py",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2017-03-30T11:29:23Z",
       "side": 1,
       "message": "return session",
+      "revId": "b8c92b70afa58d2e190e3785dbd753647c15b68d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da9b358b_837495cf",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-04-27T14:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a6ff13c_2acc7b35",
       "revId": "b8c92b70afa58d2e190e3785dbd753647c15b68d",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
@@ -105,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "da9b358b_6381918f",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-04-27T14:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a6ff13c_aa506b5f",
+      "revId": "b8c92b70afa58d2e190e3785dbd753647c15b68d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a6ff13c_8a53af6b",
         "filename": "dciclient/v1/api/context.py",
         "patchSetId": 1
@@ -122,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "da9b358b_437e8daf",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-04-27T14:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a6ff13c_8a53af6b",
+      "revId": "b8c92b70afa58d2e190e3785dbd753647c15b68d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a6ff13c_4ad1b7cc",
         "filename": "dciclient/v1/api/context.py",
         "patchSetId": 1
@@ -133,6 +223,24 @@
       "writtenOn": "2017-03-30T11:29:23Z",
       "side": 1,
       "message": "s/remoteci/remoteci_id",
+      "revId": "b8c92b70afa58d2e190e3785dbd753647c15b68d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da9b358b_234a6984",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-04-27T14:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a6ff13c_4ad1b7cc",
       "revId": "b8c92b70afa58d2e190e3785dbd753647c15b68d",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
@@ -221,6 +329,24 @@
       "writtenOn": "2017-03-30T11:29:23Z",
       "side": 1,
       "message": "return h.hexdigest()\n\nWe should set this header on the AuthBase subclass.",
+      "revId": "b8c92b70afa58d2e190e3785dbd753647c15b68d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da9b358b_e36c810a",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-04-27T14:00:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a6ff13c_ca4da7c6",
       "revId": "b8c92b70afa58d2e190e3785dbd753647c15b68d",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
