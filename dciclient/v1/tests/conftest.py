@@ -49,6 +49,9 @@ class Mocked_store_engine(object):
         with open('/tmp/swift/' + filename, 'r') as fd:
             return [None, fd.read()]
 
+    def get_object(self, filename):
+        return self.get(filename)[1]
+
     def head(self, filename):
         return self.files[filename]
 
