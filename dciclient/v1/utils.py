@@ -16,8 +16,19 @@
 
 import click
 import json
+import os
 import prettytable
 import six
+
+
+def download(context, uri, target):
+    r = context.session.get(uri, stream=True)
+    r.raise_for_status()
+    with open(target + '.part', 'wb') as f:
+        for chunk in r.iter_content(chunk_size=1024):
+            if chunk:
+                f.write(chunk)
+    os.rename(target + '.part', target)
 
 
 def flatten(d, prefix=''):

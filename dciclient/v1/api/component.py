@@ -15,9 +15,9 @@
 # under the License.
 
 from dciclient.v1.api import base
+from dciclient.v1 import utils
 
 import json
-import os
 
 
 RESOURCE = 'components'
@@ -60,13 +60,7 @@ def file_get(context, id, file_id):
 def file_download(context, id, file_id, target):
     uri = '%s/%s/%s/files/%s/content' % (
         context.dci_cs_api, RESOURCE, id, file_id)
-    r = context.session.get(uri, stream=True)
-    r.raise_for_status()
-    with open(target + '.part', 'wb') as f:
-        for chunk in r.iter_content(chunk_size=1024):
-            if chunk:
-                f.write(chunk)
-    os.rename(target + '.part', target)
+    utils.download(context, uri, target)
 
 
 def file_list(context, id, **kwargs):

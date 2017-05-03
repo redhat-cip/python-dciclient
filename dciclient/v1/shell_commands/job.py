@@ -307,3 +307,110 @@ def list_metas(context, id, sort, limit):
 
     result = job.list_metas(context, id=id, sort=sort, limit=limit)
     utils.format_output(result, context.format)
+
+
+@cli.command("job-upload-file", help="Attach a file to a job.")
+@click.argument("id")
+@click.option("--name", required=True)
+@click.option("--path", required=True)
+@click.option("--jobstate_id", required=False, default='')
+@click.option("--test_id", required=False, default='')
+@click.pass_obj
+def file_upload(context, id, name, path, jobstate_id, test_id):
+    """file_upload(context, id, path)
+
+    Upload a file in a job
+
+    >>> dcictl job-upload-file [OPTIONS]
+
+    :param string id: ID of the job to attach file to [required]
+    :param string name: Name of the file [required]
+    :param string path: Path to the file to upload [required]
+    :param string jobstate_id: ID of the jobstate to attach the file
+    :param string test_id: ID of the test if the file is a test result
+    """
+    result = dci_file.create_with_stream(context,
+                                         name=name,
+                                         job_id=id,
+                                         file_path=path,
+                                         jobstate_id=jobstate_id,
+                                         test_id=test_id)
+    utils.format_output(result, context.format)
+
+
+@cli.command("job-download-file", help="Retrieve a job file.")
+@click.argument("id")
+@click.option("--file_id", required=True)
+@click.option("--target", required=True)
+@click.pass_obj
+def file_download(context, id, file_id, target):
+    """file_download(context, id, path)
+
+    Download a job file
+
+    >>> dcictl job-download-file [OPTIONS]
+
+    :param string id: ID of the job to download file [required]
+    :param string file_id: ID of the job file to download [required]
+    :param string target: Destination file [required]
+    """
+    dci_file.download(context, id=id, file_id=file_id, target=target)
+
+
+@cli.command("job-show-file", help="Show a job file.")
+@click.argument("id")
+@click.option("--file_id", required=True)
+@click.pass_obj
+def file_show(context, id, file_id):
+    """file_show(context, id, path)
+
+    Show a job file
+
+    >>> dcictl job-show-file [OPTIONS]
+
+    :param string id: ID of the component to show files [required]
+    :param string file_id: ID of the file to show up [required]
+    """
+    result = dci_file.get(context, id=file_id)
+    utils.format_output(result, context.format)
+
+
+@cli.command("job-list-file", help="List files attached to a job.")
+@click.argument("id")
+@click.option("--long", "--verbose", "verbose",
+              required=False, default=False, is_flag=True)
+@click.option("--sort", default="-created_at")
+@click.option("--limit", default=50)
+@click.pass_obj
+def file_list(context, id, sort, limit, verbose):
+    """file_list(context, id, path)
+
+    List job files
+
+    >>> dcictl job-list-file [OPTIONS]
+
+    :param string id: ID of the component to list files [required]
+    :param string sort: Field to apply sort
+    :param integer limit: Max number of rows to return
+    """
+    result = dci_file.list(context, id=id, sort=sort, limit=limit,
+                           verbose=verbose)
+    utils.format_output(result, context.format)
+
+
+@cli.command("job-delete-file", help="Delete a component file.")
+@click.argument("id")
+@click.option("--file_id", required=True)
+@click.pass_obj
+def file_delete(context, id, file_id):
+    """file_delete(context, id, path)
+
+    Delete a job file
+
+    >>> dcictl job-delete-file [OPTIONS]
+
+    :param string id: ID of the job to delete file [required]
+    :param string file_id: ID for the file to delete [required]
+    """
+    result = dci_file.delete(context, id=file_id)
+    utils.format_output(result, context.format)
