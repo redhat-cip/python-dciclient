@@ -189,3 +189,39 @@ def test_metas(runner, job_id):
     runner.invoke(['job-delete-meta', job_id, meta['id']])
     metas = runner.invoke(['job-list-meta', job_id])['metas']
     assert len(metas) == 0
+
+
+def test_file_support(runner, tmpdir, job_id):
+    td = tmpdir
+    p = td.join("hello.txt")
+    p.write("content")
+
+    # upload
+    new_f = runner.invoke(['job-file-upload', job_id, '--name', 'test',
+                           '--path', p.strpath])['file']
+    assert new_f['size'] == 7
+
+    # show
+    new_f = runner.invoke(['job-file-show', job_id,
+                           '--file_id', new_f['id']])['file']
+    assert new_f['size'] == 7
+
+    # download
+    runner.invoke_raw(['job-file-download', job_id,
+                       '--file_id', new_f['id'],
+                       '--target', td.strpath + '/my_file'])
+    assert open(td.strpath + '/my_file', 'r').read() == 'content'
+
+    # list
+    my_list = runner.invoke(['job-file-list',
+                             job_id])['files']
+    assert len(my_list) == 3
+    assert my_list[0]['size'] == 7
+
+    # delete
+    runner.invoke_raw([
+        'job-file-delete', job_id,
+        '--file_id', new_f['id']])
+    result = runner.invoke(['job-file-show', job_id,
+                            '--file_id', new_f['id']])
+    assert result['status_code'] == 404

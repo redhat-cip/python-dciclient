@@ -19,6 +19,7 @@ from dciclient.v1.api import jobdefinition
 from dciclient.v1.api import remoteci
 
 import json
+import os
 
 
 RESOURCE = 'jobs'
