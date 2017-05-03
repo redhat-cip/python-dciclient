@@ -305,3 +305,40 @@ def list_metas(context, id, sort, limit):
 
     result = job.list_metas(context, id=id, sort=sort, limit=limit)
     utils.format_output(result, context.format)
+
+
+cli.command("job-file-upload", help="Attach a file to a job.")
+@click.argument("id")
+@click.option("--path", required=True)
+@click.pass_obj
+def file_upload(context, id, path):
+    """file_upload(context, id, path)
+
+    Upload a file in a component
+
+    >>> dcictl component-file-upload [OPTIONS]
+
+    :param string id: ID of the component to attach file [required]
+    :param string path: Path to the file to upload [required]
+    """
+    result = job.file_upload(context, id=id, file_path=path)
+    utils.format_output(result, context.format)
+
+
+@cli.command("job-file-download", help="Retrieve a job file.")
+@click.argument("id")
+@click.option("--file_id", required=True)
+@click.option("--target", required=True)
+@click.pass_obj
+def file_download(context, id, file_id, target):
+    """file_download(context, id, path)
+
+    Download a component file
+
+    >>> dcictl component-file-download [OPTIONS]
+
+    :param string id: ID of the component to download file [required]
+    :param string file_id: ID of the component file to download [required]
+    :param string target: Destination file [required]
+    """
+    job.file_download(context, id=id, file_id=file_id, target=target)
