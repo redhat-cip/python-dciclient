@@ -305,3 +305,45 @@ def list_metas(context, id, sort, limit):
 
     result = job.list_metas(context, id=id, sort=sort, limit=limit)
     utils.format_output(result, context.format)
+
+
+@cli.command("job-file-upload", help="Attach a file to a job.")
+@click.argument("id")
+@click.option("--path", required=True)
+@click.option("--jobstate_id", required=False)
+@click.option("--test_id", required=False)
+@click.pass_obj
+def file_upload(context, id, path, jobstate_id, test_id):
+    """file_upload(context, id, path)
+
+    Upload a file in a job
+
+    >>> dcictl job-file-upload [OPTIONS]
+
+    :param string id: ID of the component to attach file [required]
+    :param string path: Path to the file to upload [required]
+    :param string jobstate_id: ID of the jobstate to attach the file
+    :param string test_id: ID of the test if the file is a test result
+    """
+    result = job.file_upload(context, id=id, file_path=path,
+                             jobstate_id=jobstate_id, test_id=test_id)
+    utils.format_output(result, context.format)
+
+
+@cli.command("job-file-download", help="Retrieve a job file.")
+@click.argument("id")
+@click.option("--file_id", required=True)
+@click.option("--target", required=True)
+@click.pass_obj
+def file_download(context, id, file_id, target):
+    """file_download(context, id, path)
+
+    Download a job file
+
+    >>> dcictl job-file-download [OPTIONS]
+
+    :param string id: ID of the job to download file [required]
+    :param string file_id: ID of the job file to download [required]
+    :param string target: Destination file [required]
+    """
+    job.file_download(context, id=id, file_id=file_id, target=target)
