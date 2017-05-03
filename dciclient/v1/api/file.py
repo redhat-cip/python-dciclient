@@ -24,24 +24,26 @@ RESOURCE = 'files'
 
 
 def create(context, name, content, mime='text/plain',
-           jobstate_id=None, md5=None, job_id=None):
+           jobstate_id=None, md5=None, job_id=None, test_id=None):
     headers = {'DCI-NAME': name,
                'DCI-MIME': mime,
                'DCI-JOBSTATE-ID': jobstate_id,
                'DCI-MD5': md5,
-               'DCI-JOB-ID': job_id}
+               'DCI-JOB-ID': job_id,
+               'DCI-TEST-ID': test_id}
     headers = utils.sanitize_kwargs(**headers)
     uri = '%s/%s' % (context.dci_cs_api, RESOURCE)
     return context.session.post(uri, headers=headers, data=content)
 
 
 def create_with_stream(context, name, file_path, mime='text/plain',
-                       jobstate_id=None, md5=None, job_id=None):
+                       jobstate_id=None, md5=None, job_id=None, test_id=None):
     headers = {'DCI-NAME': name,
                'DCI-MIME': mime,
                'DCI-JOBSTATE-ID': jobstate_id,
                'DCI-MD5': md5,
-               'DCI-JOB-ID': job_id}
+               'DCI-JOB-ID': job_id,
+               'DCI-TEST-ID': test_id}
     headers = utils.sanitize_kwargs(**headers)
     uri = '%s/%s' % (context.dci_cs_api, RESOURCE)
 
@@ -71,6 +73,16 @@ def content(context, id):
     uri = '%s/%s/%s/content' % (context.dci_cs_api, RESOURCE, id)
     r = context.session.get(uri)
     return r
+
+def download(context, id, file_id, target):
+    uri = '%s/files/%s/content' % (context.dci_cs_api, file_id)
+    r = context.session.get(uri, stream=True)
+    r.raise_for_status()
+    with open(target + '.part', 'wb') as f:
+        for chunk in r.iter_content(chunk_size=1024):
+            if chunk:
+                f.write(chunk)
+    os.rename(target + '.part', target)
 
 
 class FileErrorException(Exception):
