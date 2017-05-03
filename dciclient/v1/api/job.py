@@ -19,6 +19,7 @@ from dciclient.v1.api import jobdefinition
 from dciclient.v1.api import remoteci
 
 import json
+import os
 
 
 RESOURCE = 'jobs'
@@ -138,3 +139,25 @@ def delete_meta(context, id, meta_id):
     return base.delete(context, RESOURCE, id,
                        subresource='metas',
                        subresource_id=meta_id)
+
+def file_upload(context, id, file_path):
+    uri = '%s/%s/%s/files' % (context.dci_cs_api, RESOURCE, id)
+    with open(file_path, 'rb') as f:
+        return context.session.post(uri, data=f)
+
+
+def file_get(context, id, file_id):
+    uri = '%s/%s/%s/files/%s' % (context.dci_cs_api, RESOURCE, id, file_id)
+    return context.session.get(uri)
+
+
+def file_download(context, id, file_id, target):
+    uri = '%s/%s/%s/files/%s/content' % (
+        context.dci_cs_api, RESOURCE, id, file_id)
+    r = context.session.get(uri, stream=True)
+    r.raise_for_status()
+    with open(target + '.part', 'wb') as f:
+        for chunk in r.iter_content(chunk_size=1024):
+            if chunk:
+                f.write(chunk)
+    os.rename(target + '.part', target)
