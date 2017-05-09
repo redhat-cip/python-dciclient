@@ -34,7 +34,7 @@ def get(context, id, **kwargs):
 
 def update(context, id, etag, name=None, label=None):
     return base.update(context, RESOURCE, id=id, etag=etag, name=name,
-                       label=label)
+                       label=label, next_topic=next_topic)
 
 
 def delete(context, id):
