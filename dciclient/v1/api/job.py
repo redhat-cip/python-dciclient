@@ -60,6 +60,15 @@ def recheck(context, id):
     return r
 
 
+def upgrade(context, job_id):
+    uri = '%s/%s/upgrade' % (context.dci_cs_api, RESOURCE)
+    data_json = json.dumps({'job_id': job_id})
+    r = context.session.post(uri, data=data_json)
+    if r.status_code == 201:
+        context.last_job_id = r.json()['job']['id']
+    return r
+
+
 def get(context, id, **kwargs):
     return base.get(context, RESOURCE, id=id, **kwargs)
 
