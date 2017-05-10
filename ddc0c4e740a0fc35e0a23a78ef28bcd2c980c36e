@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da9b358b_83adac8a",
+        "filename": "dciclient/v1/shell_commands/job.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-05-10T15:22:35Z",
+      "side": 1,
+      "message": "Could you please rebase on 7655 and had the hide paramter. E.g:\n\nhttps://softwarefactory-project.io/r/#/c/7655/2/dciclient/v1/shell_commands/file.py",
+      "revId": "ddc0c4e740a0fc35e0a23a78ef28bcd2c980c36e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
