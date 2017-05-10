@@ -101,13 +101,15 @@ PYTHONPATH=%{buildroot}%{python2_sitelib} \
           pifpaf run postgresql -- py.test -v dciclient
 
 %files -n python2-dciclient
-%doc
+%doc README.md
+%license LICENSE
 %{python2_sitelib}/*
 %{_bindir}/dcictl
 
 %if 0%{?with_python3}
 %files -n python3-dciclient
-%doc
+%doc README.md
+%license LICENSE
 %{python3_sitelib}/*
 %{_bindir}/dcictl
 %endif
