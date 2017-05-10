@@ -1,65 +1,127 @@
 # python-dciclient
 
+The `python-dciclient` project provides both the python bindings and a CLI to the [DCI Control Server](https://github.com/redhat-cip/dci-control-server)
+
 ## Installation
 
-One should retrieve the package available at
-https://packages.distributed-ci.io/dci-release.el7.noarch.rpm and install it.
+While the package makes it to the various distributions, the team behind the project offers repositories for the supported distro:
 
-Then simply run `yum install python-dciclient`.
+  * Fedora (only the latest version is supported): https://packages.distributed-ci.io/dci-release.fc25.noarch.rpm
+  * CentOS/Red Hat: https://packages.distributed-ci.io/dci-release.el7.noarch.rpm
 
-## Example
+Then simply run `dnf install python-dciclient` (Fedora) or `yum install python-dciclient` (CentOS/Red Hat)
 
-```python
-#!/usr/bin/env python
-import dciclient.v1.api.context as dci_context
-import dciclient.v1.api.job as dci_job
-import dciclient.v1.api.jobstate as dci_jobstate
-import dciclient.v1.api.file as dci_file
-import io
+As mentioned above, the package provides two things:
 
-# Basic function that simulates a test run and log creation
-def execute_testing(content=None):
-    with io.open('test.log', 'w') as f:
-        f.write(unicode(content))
-    return True
+  * The CLI: a `dcictl` command is provided. For more details `dcictl --help`.
+  * The API: a python module one can use to interact with a control server (`dciclient.v1.api.*`)
 
-# Our DCI connection
-dci_context = dci_context.build_dci_context(
-    'http://127.0.0.1',
-    'remoteci_1',
-    'welcome')
 
-# RemoteCI id and Topic id -- probably better to be dynamically passed in
-remoteci_id = 'fd6c285c-fa57-4aa8-a8b3-c68a4acdfa9c'
-topic_id = 'fe145e49-992a-4843-a44f-b058c7a05261'
+## Credentials
 
-# schedule the job and pull down data
-job = dci_job.schedule(dci_context, remoteci_id=remoteci_id, topic_id=topic_id).json()
-job_id = job['job']['id']
-job_full_data = dci_job.get_full_data(dci_context, job_id)
+Admitting one has valid credentials to use the DCI Control Server platform, there are two way to specify those informations while using dcictl:
 
-# create initial jobstate of pre-run
-jobstate = dci_jobstate.create(dci_context, 'pre-run', 'Initializing the environment', job_id)
-print "This is where we'd do some stuff to init the environment"
+  * A dcirc file:
 
-# update the jobstate to start the job run
-dci_jobstate.create(dci_context, 'running', 'Running the test', job_id)
-jobstate_id = dci_context.last_jobstate_id
-print "This is where we'd run some tests"
-result = execute_testing(content=job_full_data)
+A file where the necessary credentials are stored. This file needs then to be sourced before using `dcictl`. Example:
 
-# read our testing log and push to the DCI control server
-with io.open('test.log', encoding='utf-8') as f:
-    content = f.read(20 * 1024 * 1024) # default file size is 20MB
-    dci_file.create(dci_context, 'test.log', content, 'text/plain', jobstate_id)
-
-# Check if our test passed successfully
-print "Submit result"
-if result:
-    final_status = 'success'
-else:
-    final_status = 'failure'
-
-# Set final job state based on test pass/fail
-dci_jobstate.create(dci_context, final_status,  "Job has been processed.", job_id)
 ```
+export DCI_LOGIN=foo
+export DCI_PASSWORD=bar
+export DCI_CS_URL=https://api.distributed-ci.io
+```
+
+Which will allow the user to run the command: `dcictl team-list`
+
+  * At the command line level:
+
+One can pass those informations on the CLI level. Example: `dcictl --dci-login jdoe --dci-password jdoe --dci-cs-url 'https://api.distributed-ci.io' team-list`
+
+
+## List of available commands
+
+```
+Commands:
+  component-attach-issue       Attach an issue to a component.
+  component-create             Create a component.
+  component-delete             Delete a component.
+  component-file-delete        Delete a component file.
+  component-file-download      Retrieve a component file.
+  component-file-list          List files attached to a component.
+  component-file-show          Show a component file.
+  component-file-upload        Attach a file to a component.
+  component-list               List all components.
+  component-list-issue         List all component attached issues.
+  component-show               Show a component.
+  component-status             Show an overview of the last jobs associated...
+  component-unattach-issue     Unattach an issue from a component.
+  component-update             Update a component.
+  file-delete                  Delete a file.
+  file-list                    List all files.
+  file-show                    Show a file.
+  job-attach-issue             Attach an issue to a job.
+  job-delete                   Delete a job.
+  job-delete-meta              Drop a meta from a job.
+  job-list                     List all jobs.
+  job-list-issue               List all job attached issues.
+  job-list-meta                List all job attached metas.
+  job-list-test                List all tests attached to a job.
+  job-output                   Show the job output.
+  job-recheck                  Recheck a job.
+  job-results                  List all job results.
+  job-set-meta                 Attach an meta to a job.
+  job-show                     Show a job.
+  job-unattach-issue           Unattach an issue from a job.
+  jobdefinition-annotate       Annotate a jobdefinition.
+  jobdefinition-attach-test    Attach a test to a jobdefinition.
+  jobdefinition-create         Create a jobdefinition.
+  jobdefinition-delete         Delete a jobdefinition.
+  jobdefinition-list           List all jobdefinitions.
+  jobdefinition-list-test      List tests attached to a jobdefinition.
+  jobdefinition-set-active     Annotate a jobdefinition.
+  jobdefinition-show           Show a jobdefinition.
+  jobdefinition-unattach-test  Unattach a test to a jobdefinition.
+  jobdefinition-update         Update a jobdefinition.
+  jobstate-list                List all jobstates.
+  jobstate-show                Show a jobstate.
+  purge                        Purge soft-deleted resources.
+  remoteci-attach-test         Attach a test to a remoteci.
+  remoteci-create              Create a remoteci.
+  remoteci-delete              Delete a remoteci.
+  remoteci-get-data            Retrieve data field from a remoteci.
+  remoteci-list                List all remotecis.
+  remoteci-list-test           List tests attached to a remoteci.
+  remoteci-show                Show a remoteci.
+  remoteci-unattach-test       Unattach a test to a remoteci.
+  remoteci-update              Update a remoteci.
+  team-create                  Create a team.
+  team-delete                  Delete a team.
+  team-list                    List all teams.
+  team-show                    Show a team.
+  team-update                  Update a team.
+  test-create                  Create a test.
+  test-delete                  Delete a test.
+  test-list                    List all tests.
+  test-show                    Show a test.
+  topic-attach-team            Attach a team to a topic.
+  topic-create                 Create a topic.
+  topic-delete                 Delete a topic.
+  topic-list                   List all topics.
+  topic-list-team              List teams attached to a topic.
+  topic-show                   Show a topic.
+  topic-unattach-team          Unattach a team from a topic.
+  user-create                  Create a user.
+  user-delete                  Delete a user.
+  user-list                    List all users.
+  user-show                    Show a user.
+  user-update                  Update a user.
+```
+
+## License
+
+Apache 2.0
+
+
+## Author Information
+
+Distributed-CI Team  <distributed-ci@redhat.com>

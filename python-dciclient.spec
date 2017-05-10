@@ -3,7 +3,7 @@
 %endif
 
 Name:           python-dciclient
-Version:        0.0.VERS
+Version:        0.3.VERS
 Release:        1%{?dist}
 
 Summary:        Python client for DCI control server
@@ -114,6 +114,9 @@ PYTHONPATH=%{buildroot}%{python2_sitelib} \
 
 
 %changelog
+* Tue May 09 2017 Yanis Guenane <yguenane@redhat.com> - 0.3.0-1
+- Lots of things
+
 * Tue Mar 08 2016 Brad Watkins <bwatkins@redhat.com> - 0.1-1
 - Add dci-feeder-github sysconfig directory
 
