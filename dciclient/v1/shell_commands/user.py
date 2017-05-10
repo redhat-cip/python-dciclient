@@ -23,15 +23,16 @@ from dciclient.v1.api import user
 
 
 @cli.command("user-list", help="List all users.")
+@click.option("--where", default='')
 @click.pass_obj
-def list(context):
-    """list(context)
+def list(context, where):
+    """list(context, where)
 
     List all users.
 
     >>> dcictl user-list
     """
-    result = user.list(context)
+    result = user.list(context, where)
     utils.format_output(result, context.format)
 
 

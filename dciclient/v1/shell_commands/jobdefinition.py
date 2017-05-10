@@ -24,8 +24,9 @@ from dciclient.v1.api import jobdefinition
 
 @cli.command("jobdefinition-list", help="List all jobdefinitions.")
 @click.option("--topic_id")
+@click.option("--where", default='')
 @click.pass_obj
-def list(context, topic_id):
+def list(context, topic_id, where):
     """list(context, id)
 
     List all jobdefinitions.
@@ -34,7 +35,7 @@ def list(context, topic_id):
 
     :param string topic_id: Topic ID
     """
-    result = jobdefinition.list(context, topic_id)
+    result = jobdefinition.list(context, topic_id=topic_id, where=where)
     utils.format_output(result, context.format)
 
 
@@ -198,8 +199,9 @@ def attach_test(context, id, test_id):
 @click.argument("id")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--where", default='')
 @click.pass_obj
-def list_test(context, id, sort, limit):
+def list_test(context, id, sort, limit, where):
     """list_test(context, id, test_id)
 
     List tests attached to a jobdefinition.
@@ -211,7 +213,8 @@ def list_test(context, id, sort, limit):
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
     """
-    result = jobdefinition.list_tests(context, id=id, sort=sort, limit=limit)
+    result = jobdefinition.list_tests(context, id=id, sort=sort, limit=limit,
+                                      where=where)
     utils.format_output(result, context.format)
 
 

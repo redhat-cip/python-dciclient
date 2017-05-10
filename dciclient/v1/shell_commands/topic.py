@@ -24,15 +24,16 @@ import click
 
 
 @cli.command("topic-list", help="List all topics.")
+@click.option("--where", default='')
 @click.pass_obj
-def list(context):
-    """list(context)
+def list(context, where):
+    """list(context, where)
 
     List all topics.
 
     >>> dcictl topic-list
     """
-    topics = topic.list(context)
+    topics = topic.list(context, where=where)
     utils.format_output(topics, context.format)
 
 

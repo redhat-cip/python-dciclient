@@ -24,15 +24,16 @@ from dciclient.v1.api import user
 
 
 @cli.command("remoteci-list", help="List all remotecis.")
+@click.option("--where", default='')
 @click.pass_obj
-def list(context):
-    """list(context)
+def list(context, where):
+    """list(context, where)
 
     List all Remote CIs
 
     >>> dcictl remoteci-list
     """
-    result = remoteci.list(context)
+    result = remoteci.list(context, where=where)
     utils.format_output(result, context.format)
 
 
@@ -180,8 +181,9 @@ def attach_test(context, id, test_id):
 @click.argument("id")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--where", default='')
 @click.pass_obj
-def list_test(context, id, sort, limit):
+def list_test(context, id, sort, limit, where):
     """list_test(context, id)
 
     List tests attached to a remoteci.
@@ -193,7 +195,8 @@ def list_test(context, id, sort, limit):
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
     """
-    result = remoteci.list_tests(context, id=id, sort=sort, limit=limit)
+    result = remoteci.list_tests(context, id=id, sort=sort, limit=limit,
+                                 where=where)
     utils.format_output(result, context.format)
 
 

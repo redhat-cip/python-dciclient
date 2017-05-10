@@ -26,9 +26,10 @@ from dciclient.v1.api import user
 
 @cli.command("test-list", help="List all tests.")
 @click.option("--team_id", required=False)
+@click.option("--where", default='')
 @click.pass_obj
-def list(context, team_id):
-    """list(context, team_id)
+def list(context, team_id, where):
+    """list(context, team_id, where)
 
     List all tests.
 

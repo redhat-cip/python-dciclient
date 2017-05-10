@@ -23,15 +23,16 @@ from dciclient.v1.api import jobstate
 
 
 @cli.command("jobstate-list", help="List all jobstates.")
+@click.option("--where", default='')
 @click.pass_obj
-def list(context):
+def list(context, where):
     """list(context)
 
     List all jobstates.
 
     >>> dcictl jobstate-list
     """
-    result = jobstate.list(context)
+    result = jobstate.list(context, where=where)
     utils.format_output(result, context.format)
 
 

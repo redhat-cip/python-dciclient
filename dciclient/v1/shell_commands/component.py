@@ -27,9 +27,10 @@ from dciclient.v1.api import topic
 @click.option("--topic_id", required=True)
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--where", default="")
 @click.pass_obj
-def list(context, topic_id, sort, limit):
-    """list(context, topic_id)
+def list(context, topic_id, sort, limit, where):
+    """list(context, topic_id, sort, limit, where)
 
     List all components.
 
@@ -39,9 +40,10 @@ def list(context, topic_id, sort, limit):
                             [required]
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
+    :param string where: String to define some filter on the list
     """
     components = topic.list_components(context, id=topic_id,
-                                       sort=sort, limit=limit)
+                                       sort=sort, limit=limit, where=where)
     utils.format_output(components, context.format)
 
 
@@ -200,8 +202,9 @@ def file_download(context, id, file_id, target):
 @click.argument("id")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--where", default='')
 @click.pass_obj
-def file_list(context, id, sort, limit):
+def file_list(context, id, sort, limit, where):
     """file_list(context, id, path)
 
     List component files
@@ -212,7 +215,8 @@ def file_list(context, id, sort, limit):
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
     """
-    result = component.file_list(context, id=id, sort=sort, limit=limit)
+    result = component.file_list(context, id=id, sort=sort, limit=limit,
+                                 where=where)
     utils.format_output(result, context.format)
 
 
@@ -312,8 +316,9 @@ def unattach_issue(context, id, issue_id):
 @click.argument("id")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--where", default='')
 @click.pass_obj
-def list_issues(context, id, sort, limit):
+def list_issues(context, id, sort, limit, where):
     """list_issues(context, id)
 
     List all component attached issues.
@@ -323,6 +328,7 @@ def list_issues(context, id, sort, limit):
     :param string id: ID of the component to retrieve issues from [required]
     """
 
-    result = component.list_issues(context, id=id, sort=sort, limit=limit)
+    result = component.list_issues(context, id=id, sort=sort, limit=limit,
+                                   where=where)
     headers = ['id', 'status', 'product', 'component', 'title', 'url']
     utils.format_output(result, context.format, headers)

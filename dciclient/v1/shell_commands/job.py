@@ -172,8 +172,9 @@ def unattach_issue(context, id, issue_id):
 @click.argument("id")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--where", default='')
 @click.pass_obj
-def list_issues(context, id, sort, limit):
+def list_issues(context, id, sort, limit, where):
     """list_issues(context, id)
 
     List all job attached issues.
@@ -185,7 +186,8 @@ def list_issues(context, id, sort, limit):
     :param integer limit: Max number of rows to return
     """
 
-    result = job.list_issues(context, id=id, sort=sort, limit=limit)
+    result = job.list_issues(context, id=id, sort=sort, limit=limit,
+                             where=where)
     headers = ['id', 'status', 'product', 'component', 'title', 'url']
     utils.format_output(result, context.format, headers)
 
@@ -227,8 +229,9 @@ def output(context, id):
 
 @cli.command("job-list-test", help="List all tests attached to a job.")
 @click.argument("id")
+@click.option("--where", default='')
 @click.pass_obj
-def list_tests(context, id):
+def list_tests(context, id, where):
     """list_tests(context, id)
 
     List all tests attached to a job.
@@ -238,7 +241,7 @@ def list_tests(context, id):
     :param string id: ID of the job [required]
     """
 
-    result = job.list_tests(context, id=id)
+    result = job.list_tests(context, id=id, where=where)
     utils.format_output(result, context.format)
 
 
@@ -290,8 +293,9 @@ def delete_meta(context, id, meta_id):
 @click.argument("id")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--where", default='')
 @click.pass_obj
-def list_metas(context, id, sort, limit):
+def list_metas(context, id, sort, limit, where):
     """list_metas(context, id)
 
     List all job attached metas.
@@ -303,7 +307,8 @@ def list_metas(context, id, sort, limit):
     :param integer limit: Max number of rows to return
     """
 
-    result = job.list_metas(context, id=id, sort=sort, limit=limit)
+    result = job.list_metas(context, id=id, sort=sort, limit=limit,
+                            where=where)
     utils.format_output(result, context.format)
 
 
@@ -371,8 +376,9 @@ def file_show(context, id, file_id):
 @click.argument("id")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--where", default='')
 @click.pass_obj
-def file_list(context, id, sort, limit):
+def file_list(context, id, sort, limit, where):
     """file_list(context, id, path)
 
     List job files
@@ -383,7 +389,7 @@ def file_list(context, id, sort, limit):
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
     """
-    result = job.file_list(context, id=id, sort=sort, limit=limit)
+    result = job.file_list(context, id=id, sort=sort, limit=limit, where=where)
     utils.format_output(result, context.format)
 
 

@@ -23,15 +23,16 @@ from dciclient.v1.api import team
 
 
 @cli.command("team-list", help="List all teams.")
+@click.option("--where", default='')
 @click.pass_obj
-def list(context):
-    """list(context)
+def list(context, where):
+    """list(context, where)
 
     List all teams.
 
     >>> dcictl team list
     """
-    result = team.list(context)
+    result = team.list(context, where=where)
     utils.format_output(result, context.format)
 
 
