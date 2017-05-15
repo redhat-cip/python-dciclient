@@ -2,6 +2,125 @@
   "comments": [
     {
       "key": {
+        "uuid": "da9b358b_a47436cf",
+        "filename": "dciclient/v1/api/job.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2017-05-15T09:09:23Z",
+      "side": 1,
+      "message": "This should belong to file.py (if it doesn\u0027t already exist or need update)",
+      "revId": "ddc0c4e740a0fc35e0a23a78ef28bcd2c980c36e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da9b358b_04440272",
+        "filename": "dciclient/v1/api/job.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2017-05-15T09:09:23Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "ddc0c4e740a0fc35e0a23a78ef28bcd2c980c36e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da9b358b_444a0a85",
+        "filename": "dciclient/v1/api/job.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2017-05-15T09:09:23Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "ddc0c4e740a0fc35e0a23a78ef28bcd2c980c36e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da9b358b_244f0694",
+        "filename": "dciclient/v1/api/job.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2017-05-15T09:09:23Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "ddc0c4e740a0fc35e0a23a78ef28bcd2c980c36e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da9b358b_e448fe89",
+        "filename": "dciclient/v1/shell_commands/job.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2017-05-15T09:09:23Z",
+      "side": 1,
+      "message": "file.upload() kinda call with the job id passed as a parameter should be better. This way we apply DRY all the way.",
+      "revId": "ddc0c4e740a0fc35e0a23a78ef28bcd2c980c36e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da9b358b_c45e1a45",
+        "filename": "dciclient/v1/shell_commands/job.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2017-05-15T09:09:23Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "ddc0c4e740a0fc35e0a23a78ef28bcd2c980c36e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da9b358b_a45b1654",
+        "filename": "dciclient/v1/shell_commands/job.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2017-05-15T09:09:23Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "ddc0c4e740a0fc35e0a23a78ef28bcd2c980c36e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da9b358b_83adac8a",
         "filename": "dciclient/v1/shell_commands/job.py",
         "patchSetId": 6
@@ -13,6 +132,23 @@
       "writtenOn": "2017-05-10T15:22:35Z",
       "side": 1,
       "message": "Could you please rebase on 7655 and had the hide paramter. E.g:\n\nhttps://softwarefactory-project.io/r/#/c/7655/2/dciclient/v1/shell_commands/file.py",
+      "revId": "ddc0c4e740a0fc35e0a23a78ef28bcd2c980c36e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da9b358b_84581258",
+        "filename": "dciclient/v1/shell_commands/job.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2017-05-15T09:09:23Z",
+      "side": 1,
+      "message": "ditto",
       "revId": "ddc0c4e740a0fc35e0a23a78ef28bcd2c980c36e",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
