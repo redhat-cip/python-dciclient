@@ -24,7 +24,7 @@ import json
 RESOURCE = 'jobs'
 
 
-def create(context, recheck, remoteci_id, team_id, jobdefinition_id=None,
+def create(context, recheck, remoteci_id, team_id=None, jobdefinition_id=None,
            components=None, comment=None):
     job = base.create(context, RESOURCE, recheck=recheck,
                       remoteci_id=remoteci_id, team_id=team_id,
