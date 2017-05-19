@@ -20,13 +20,13 @@ from dciclient.v1.api import jobdefinition
 from dciclient.v1.api import topic
 
 
-def test_job_create(dci_context, remoteci_id, team_id, jobdefinition_factory):
+def test_job_create_as_user(dci_context_user, remoteci_id,
+                            jobdefinition_factory):
     jobdefinition_id = jobdefinition_factory()['jobdefinition']['id']
     j = job.create(
-        dci_context,
+        dci_context_user,
         recheck=None,
         remoteci_id=remoteci_id,
-        team_id=team_id,
         jobdefinition_id=jobdefinition_id,
         components=[]).json()
     assert j['job']['id']
