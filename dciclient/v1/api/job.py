@@ -1,12 +1,12 @@
 # -*- encoding: utf-8 -*-
 #
-# Copyright 2015-2016 Red Hat, Inc.
+# Copyright 2015-2017 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
 # a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#    http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
@@ -24,7 +24,7 @@ import json
 RESOURCE = 'jobs'
 
 
-def create(context, remoteci_id, team_id, jobdefinition_id=None,
+def create(context, remoteci_id, team_id=None, jobdefinition_id=None,
            components=None, comment=None):
     job = base.create(context, RESOURCE, remoteci_id=remoteci_id,
                       team_id=team_id, jobdefinition_id=jobdefinition_id,
