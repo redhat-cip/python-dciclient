@@ -18,7 +18,6 @@ import click
 import json
 import os
 import prettytable
-import six
 
 
 def download(context, uri, target):
@@ -108,16 +107,16 @@ def print_prettytable(data, headers=None, skip_columns=[]):
 
 def sanitize_kwargs(**kwargs):
     boolean_fields = ['active', 'export_control']
-    kwargs = dict(
-        (k, v) for k, v in six.iteritems(kwargs)
-        if (k in boolean_fields and v is not None) or v
-    )
 
+    for k in kwargs.keys():
+        if kwargs[k] is None:
+            if k in boolean_fields:
+                kwargs[k] = bool(kwargs[k])
+            else:
+                del(kwargs[k])
     try:
         kwargs['data'] = json.loads(kwargs['data'])
-    except KeyError:
-        pass
-    except TypeError:
+    except (KeyError, TypeError):
         pass
 
     return kwargs
