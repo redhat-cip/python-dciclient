@@ -20,6 +20,17 @@ from dciclient.v1.api import jobdefinition
 from dciclient.v1.api import topic
 
 
+def test_job_create(dci_context, remoteci_id, team_id, jobdefinition_factory):
+    jobdefinition_id = jobdefinition_factory()['jobdefinition']['id']
+    j = job.create(
+        dci_context,
+        remoteci_id=remoteci_id,
+        team_id=team_id,
+        jobdefinition_id=jobdefinition_id,
+        components=[]).json()
+    assert j['job']['id']
+
+
 def test_job_updated(dci_context, job_id):
     new_configuration = {'foo': 'bar'}
     j = job.get(dci_context, job_id).json()['job']

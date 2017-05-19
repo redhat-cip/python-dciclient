@@ -303,8 +303,8 @@ def list_metas(context, id, sort, limit, where):
 @click.argument("id")
 @click.option("--name", required=True)
 @click.option("--path", required=True)
-@click.option("--jobstate_id", required=False, default='')
-@click.option("--test_id", required=False, default='')
+@click.option("--jobstate_id", required=False)
+@click.option("--test_id", required=False)
 @click.pass_obj
 def file_upload(context, id, name, path, jobstate_id, test_id):
     """file_upload(context, id, path)
