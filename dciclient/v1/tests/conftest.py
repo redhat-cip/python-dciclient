@@ -286,7 +286,25 @@ def component_id(dci_context, topic_id):
 
 
 @pytest.fixture
-def job_factory(dci_context, team_id, topic_id, remoteci_id):
+def jobdefinition_factory(dci_context, topic_id):
+    def create():
+        kwargs = {'name': 'hihi', 'type': 'type_1', 'topic_id': topic_id,
+                  'data': {'component': 'component1'}}
+        api.component.create(dci_context, **kwargs).json()
+
+        kwargs = {'name': 'haha', 'type': 'type_2', 'topic_id': topic_id,
+                  'data': {'component': 'component2'}}
+        api.component.create(dci_context, **kwargs).json()
+
+        kwargs = {'name': 'tname', 'topic_id': topic_id,
+                  'component_types': ['type_1', 'type_2']}
+        return api.jobdefinition.create(dci_context, **kwargs).json()
+    return create
+
+
+@pytest.fixture
+def job_factory(dci_context, team_id, topic_id,
+                remoteci_id, jobdefinition_factory):
     def create():
         job = api.job.schedule(dci_context, remoteci_id, topic_id).json()
         job_id = job['job']['id']
@@ -322,17 +340,7 @@ def job_factory(dci_context, team_id, topic_id, remoteci_id):
               name="test_cors_headers" time="0.574683904648"/>
     </testsuite>"""
 
-    kwargs = {'name': 'hihi', 'type': 'type_1', 'topic_id': topic_id,
-              'data': {'component': 'component1'}}
-    api.component.create(dci_context, **kwargs).json()
-
-    kwargs = {'name': 'haha', 'type': 'type_2', 'topic_id': topic_id,
-              'data': {'component': 'component2'}}
-    api.component.create(dci_context, **kwargs).json()
-
-    kwargs = {'name': 'tname', 'topic_id': topic_id,
-              'component_types': ['type_1', 'type_2']}
-    api.jobdefinition.create(dci_context, **kwargs).json()
+    jobdefinition_factory()
 
     api.topic.attach_team(dci_context, topic_id, team_id)
     return create
