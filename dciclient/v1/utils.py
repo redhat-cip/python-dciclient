@@ -87,9 +87,10 @@ def print_prettytable(data, headers=None):
 
 def sanitize_kwargs(**kwargs):
     boolean_fields = ['active', 'export_control']
+    # Allow empty list as an argument
     kwargs = dict(
         (k, v) for k, v in six.iteritems(kwargs)
-        if (k in boolean_fields and v is not None) or v
+        if (k in boolean_fields and v is not None) or isinstance(v, list) or isinstance(v, dict) or v
     )
 
     try:
