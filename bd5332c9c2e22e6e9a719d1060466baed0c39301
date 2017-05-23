@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_2a26c0ba",
+        "filename": "dciclient/v1/api/file.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-05-23T17:25:12Z",
+      "side": 1,
+      "message": "This block is duplicated with component.py. Could this be moved in a shared place, like utils.py?",
+      "revId": "bd5332c9c2e22e6e9a719d1060466baed0c39301",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_0a2bfc83",
+        "filename": "dciclient/v1/shell_commands/job.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-05-23T17:25:12Z",
+      "side": 1,
+      "message": "the default\u003d\u0027\u0027 should not be necessary here. The same for the line bellow.",
+      "revId": "bd5332c9c2e22e6e9a719d1060466baed0c39301",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_8a370ce3",
+        "filename": "dciclient/v1/shell_commands/job.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-05-23T17:25:12Z",
+      "side": 1,
+      "message": "Could you add:\n\n@click.option(\"--long\", \"--verbose\", \"verbose\",\n              required\u003dFalse, default\u003dFalse, is_flag\u003dTrue)\n\nand reuse the verbose parameter in format_output() like in the other list() functions.",
+      "revId": "bd5332c9c2e22e6e9a719d1060466baed0c39301",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_aa3ad0cb",
+        "filename": "dciclient/v1/tests/shell_commands/test_job.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-05-23T17:25:12Z",
+      "side": 1,
+      "message": "debug print.",
+      "revId": "bd5332c9c2e22e6e9a719d1060466baed0c39301",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
