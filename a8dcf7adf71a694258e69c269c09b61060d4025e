@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_6adba81c",
+        "filename": "dciclient/v1/shell_commands/job.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 405
+      },
+      "writtenOn": "2017-05-24T09:46:24Z",
+      "side": 1,
+      "message": "other cli are formatted like \u003cresource\u003e-\u003caction\u003e-\u003csubresource\u003e (i.e. job-set-meta or job-list-issue)\n\ncan we transform this into job-upload-file?",
+      "revId": "a8dcf7adf71a694258e69c269c09b61060d4025e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_4ad8e41d",
+        "filename": "dciclient/v1/shell_commands/job.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 405
+      },
+      "writtenOn": "2017-05-24T09:46:24Z",
+      "side": 1,
+      "message": "job-download-file",
+      "revId": "a8dcf7adf71a694258e69c269c09b61060d4025e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_2a04807c",
+        "filename": "dciclient/v1/shell_commands/job.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 405
+      },
+      "writtenOn": "2017-05-24T09:46:24Z",
+      "side": 1,
+      "message": "job-show-file",
+      "revId": "a8dcf7adf71a694258e69c269c09b61060d4025e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_0a09bc95",
+        "filename": "dciclient/v1/shell_commands/job.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 405
+      },
+      "writtenOn": "2017-05-24T09:46:24Z",
+      "side": 1,
+      "message": "job-list-file",
+      "revId": "a8dcf7adf71a694258e69c269c09b61060d4025e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_eafd786f",
+        "filename": "dciclient/v1/shell_commands/job.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 405
+      },
+      "writtenOn": "2017-05-24T09:46:24Z",
+      "side": 1,
+      "message": "job-delete-file\n\nhelp and docstring is not good",
+      "revId": "a8dcf7adf71a694258e69c269c09b61060d4025e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
