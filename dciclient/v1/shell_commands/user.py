@@ -23,17 +23,21 @@ from dciclient.v1.api import user
 
 
 @cli.command("user-list", help="List all users.")
+@click.option("--where", help="An optional filter criteria.",
+              required=False)
 @click.option("--long", "--verbose", "verbose",
               required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context, verbose):
+def list(context, verbose, where):
     """list(context)
 
     List all users.
 
     >>> dcictl user-list
+
+    :param string where: An optional filter criteria
     """
-    result = user.list(context)
+    result = user.list(context, where=where)
     utils.format_output(result, context.format, verbose=verbose)
 
 
