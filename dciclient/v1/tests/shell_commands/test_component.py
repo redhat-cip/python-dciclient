@@ -159,3 +159,20 @@ def test_component_status(runner, job_id, topic_id):
                             '--topic_id', topic_id])['jobs']
 
     assert len(status) == 0
+
+
+def test_where_on_list(runner):
+    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+    teams = runner.invoke(['team-list'])['teams']
+    team_id = teams[0]['id']
+
+    runner.invoke(['topic-attach-team', topic['id'],
+                   '--team_id', team_id])
+
+    runner.invoke(['component-create', '--name', 'foo', '--type', 'bar',
+                   '--topic_id', topic['id']])
+    runner.invoke(['component-create', '--name', 'bar', '--type', 'bar2',
+                   '--topic_id', topic['id']])
+
+    assert runner.invoke(['component-list', '--topic_id', topic['id'],
+                          '--where', 'type:bar2'])['_meta']['count'] == 1
