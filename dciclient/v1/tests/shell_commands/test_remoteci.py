@@ -143,3 +143,11 @@ def test_test(runner, test_id):
     tests = runner.invoke(['remoteci-list-test',
                            remoteci['id']])['tests']
     assert len(tests) == 0
+
+def test_where_on_list(runner, team_id):
+    runner.invoke(['remoteci-create', '--name', 'bar1', '--team_id',
+                   team_id])
+    runner.invoke(['remoteci-create', '--name', 'bar2', '--team_id',
+                   team_id])
+    assert runner.invoke(['remoteci-list', '--where',
+                          'name:bar1'])["_meta"]["count"] == 1
