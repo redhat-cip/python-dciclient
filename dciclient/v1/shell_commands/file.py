@@ -23,11 +23,12 @@ from dciclient.v1.api import file
 
 
 @cli.command("file-list", help="List all files.")
-@click.option("--job-id", required=True)
+@click.option("--where", help="An optional filter criteria.",
+              required=False)
 @click.option("--long", "--verbose", "verbose",
               required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context, job_id, verbose):
+def list(context, verbose, where):
     """list(context)
 
     List all files.
@@ -35,8 +36,9 @@ def list(context, job_id, verbose):
     >>> dcictl file-list [OPTIONS]
 
     :param string job_id: ID of the job [required]
+    :param string where: An optional filter criteria
     """
-    result = file.list(context, where='job_id:' + job_id)
+    result = file.list(context, where=where)
     utils.format_output(result, context.format, verbose=verbose)
 
 

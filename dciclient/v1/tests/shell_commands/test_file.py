@@ -23,7 +23,7 @@ def test_show(runner, file_id):
 
 
 def test_list(runner, job_id):
-    files = runner.invoke(['file-list', '--job-id', job_id])['files']
+    files = runner.invoke(['file-list', job_id])['files']
     assert len(files)
     assert 'res_junit.xml' in [i['name'] for i in files]
 
@@ -33,6 +33,6 @@ def test_delete(runner, file_id):
     assert result['message'] == 'File deleted.'
 
 
-def test_list_without_job_id(runner):
-    result = runner.invoke_raw(['file-list'])
-    assert 'Error: Missing option "--job-id".' in result.output
+def test_where_on_list(runner, job_id):
+    assert runner.invoke(['file-list', '--job-id', job_id,
+                          '--where', 'size:785'])['_meta']['count'] == 1
