@@ -75,3 +75,10 @@ def test_show(runner):
     team = runner.invoke(['team-show', team['id']])['team']
 
     assert team['name'] == 'foo'
+
+
+def test_where_on_list(runner):
+    runner.invoke(['team-create', '--name', 'foobar42'])
+
+    assert runner.invoke(['team-list', '--where',
+                          'name:foobar42'])['_meta']['count'] == 1

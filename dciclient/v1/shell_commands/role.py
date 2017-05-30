@@ -23,16 +23,19 @@ from dciclient.v1.api import role
 
 
 @cli.command("role-list", help="List all roles.")
+@click.option("--where", help="An optional filter criteria.",
+              required=False)
 @click.pass_obj
-def list(context):
+def list(context, where):
     """list(context)
 
     List all roles.
 
     >>> dcictl role list
 
+    :param string where: An optional filter criteria
     """
-    result = role.list(context)
+    result = role.list(context, where=where)
     utils.format_output(result, context.format)
 
 

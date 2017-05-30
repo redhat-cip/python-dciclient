@@ -27,10 +27,12 @@ from dciclient.v1.api import topic
 @click.option("--topic_id", required=True)
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--where", help="An optional filter criteria.",
+              required=False)
 @click.option("--long", "--verbose", "verbose",
               required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context, topic_id, sort, limit, verbose):
+def list(context, topic_id, sort, limit, verbose, where):
     """list(context, topic_id)
 
     List all components.
@@ -40,10 +42,11 @@ def list(context, topic_id, sort, limit, verbose):
     :param string topic_id: The topic ID for the list of components to return
                             [required]
     :param string sort: Field to apply sort
+    :param string where: An optional filter criteria
     :param integer limit: Max number of rows to return
     """
     components = topic.list_components(context, id=topic_id,
-                                       sort=sort, limit=limit)
+                                       sort=sort, limit=limit, where=where)
     utils.format_output(components, context.format, verbose=verbose)
 
 
