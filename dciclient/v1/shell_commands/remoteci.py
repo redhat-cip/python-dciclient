@@ -24,17 +24,21 @@ from dciclient.v1.api import user
 
 
 @cli.command("remoteci-list", help="List all remotecis.")
+@click.option("--where", help="An optional filter criteria.",
+              required=False)
 @click.option("--long", "--verbose", "verbose",
               required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context, verbose):
+def list(context, verbose, where):
     """list(context)
 
     List all Remote CIs
 
     >>> dcictl remoteci-list
+
+    :param string where: An optional filter criteria
     """
-    result = remoteci.list(context)
+    result = remoteci.list(context, where=where)
     utils.format_output(result, context.format, verbose=verbose)
 
 

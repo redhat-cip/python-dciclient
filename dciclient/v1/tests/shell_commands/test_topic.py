@@ -134,3 +134,10 @@ def test_update_active(runner):
     )['topic']['state']
 
     assert topic_state == 'active'
+
+
+def test_where_on_list(runner):
+    runner.invoke(['topic-create', '--name', 'osp1'])
+    runner.invoke(['topic-create', '--name', 'osp2'])
+    assert runner.invoke(['topic-list', '--where',
+                          'name:osp1'])["_meta"]["count"]

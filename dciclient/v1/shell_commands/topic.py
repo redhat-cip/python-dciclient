@@ -24,17 +24,21 @@ import click
 
 
 @cli.command("topic-list", help="List all topics.")
+@click.option("--where", help="An optional filter criteria.",
+              required=False)
 @click.option("--long", "--verbose", "verbose",
               required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context, verbose):
+def list(context, verbose, where):
     """list(context)
 
     List all topics.
 
     >>> dcictl topic-list
+
+    :param string where: An optional filter criteria
     """
-    topics = topic.list(context)
+    topics = topic.list(context, where=where)
     utils.format_output(topics, context.format, verbose=verbose)
 
 

@@ -115,3 +115,18 @@ def test_show(runner, team_id):
     user = runner.invoke(['user-show', user['id']])['user']
 
     assert user['name'] == 'foo'
+
+
+def test_where_on_list(runner, team_id):
+    runner.invoke(['user-create', '--name', 'foo',
+                   '--password', 'pass', '--role', 'user',
+                   '--team_id', team_id])
+    runner.invoke(['user-create', '--name', 'foo2',
+                   '--password', 'pass', '--role', 'user',
+                   '--team_id', team_id])
+    runner.invoke(['user-create', '--name', 'foo3',
+                   '--password', 'pass', '--role', 'admin',
+                   '--team_id', team_id])
+    assert runner.invoke(['user-list'])["_meta"]["count"] == 6
+    assert runner.invoke(['user-list', '--where',
+                          'name:foo'])["_meta"]["count"] == 1

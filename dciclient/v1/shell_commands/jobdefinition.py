@@ -24,10 +24,12 @@ from dciclient.v1.api import jobdefinition
 
 @cli.command("jobdefinition-list", help="List all jobdefinitions.")
 @click.option("--topic_id")
+@click.option("--where", help="An optional filter criteria.",
+              required=False)
 @click.option("--long", "--verbose", "verbose",
               required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context, topic_id, verbose):
+def list(context, topic_id, verbose, where):
     """list(context, id)
 
     List all jobdefinitions.
@@ -35,8 +37,9 @@ def list(context, topic_id, verbose):
     >>> dcictl jobdefinition-list [OPTIONS]
 
     :param string topic_id: Topic ID
+    :param string where: An optional filter criteria
     """
-    result = jobdefinition.list(context, topic_id)
+    result = jobdefinition.list(context, topic_id, where=where)
     utils.format_output(result, context.format, verbose=verbose)
 
 
