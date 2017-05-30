@@ -31,6 +31,8 @@ def list(context):
 
     >>> dcictl role list
 
+    :param string where: An optional filter criteria
+    :param string where: An optional filter criteria
     """
     result = role.list(context)
     utils.format_output(result, context.format)

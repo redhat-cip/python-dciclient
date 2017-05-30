@@ -174,8 +174,10 @@ def unattach_issue(context, id, issue_id):
 @click.argument("id")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--where", help="An optional filter criteria.",
+              required=False)
 @click.pass_obj
-def list_issues(context, id, sort, limit):
+def list_issues(context, id, sort, limit, where):
     """list_issues(context, id)
 
     List all job attached issues.
@@ -185,9 +187,11 @@ def list_issues(context, id, sort, limit):
     :param string id: ID of the job to retrieve issues from [required]
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
+    :param string where: An optional filter criteria
     """
 
-    result = job.list_issues(context, id=id, sort=sort, limit=limit)
+    result = job.list_issues(context, id=id, sort=sort, limit=limit,
+                             where=where)
     headers = ['id', 'status', 'product', 'component', 'title', 'url']
     utils.format_output(result, context.format, headers)
 
@@ -292,8 +296,10 @@ def delete_meta(context, id, meta_id):
 @click.argument("id")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--where", help="An optional filter criteria.",
+              required=False)
 @click.pass_obj
-def list_metas(context, id, sort, limit):
+def list_metas(context, id, sort, limit, where):
     """list_metas(context, id)
 
     List all job attached metas.
@@ -305,7 +311,8 @@ def list_metas(context, id, sort, limit):
     :param integer limit: Max number of rows to return
     """
 
-    result = job.list_metas(context, id=id, sort=sort, limit=limit)
+    result = job.list_metas(context, id=id, sort=sort, limit=limit,
+                            where=where)
     utils.format_output(result, context.format)
 
 
@@ -381,8 +388,10 @@ def file_show(context, id, file_id):
               required=False, default=False, is_flag=True)
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--where", help="An optional filter criteria.",
+              required=False)
 @click.pass_obj
-def file_list(context, id, sort, limit, verbose):
+def file_list(context, id, sort, limit, verbose, where):
     """file_list(context, id, path)
 
     List job files
@@ -394,7 +403,7 @@ def file_list(context, id, sort, limit, verbose):
     :param integer limit: Max number of rows to return
     """
     result = dci_file.list(context, id=id, sort=sort, limit=limit,
-                           verbose=verbose)
+                           verbose=verbose, where=where)
     utils.format_output(result, context.format)
 
 
