@@ -36,3 +36,8 @@ def test_delete(runner, file_id):
 def test_list_without_job_id(runner):
     result = runner.invoke_raw(['file-list'])
     assert 'Error: Missing option "--job-id".' in result.output
+
+
+def test_where_on_list(runner, job_id):
+    assert runner.invoke(['file-list', '--job-id', job_id,
+                          '--where', 'size:785'])['_meta']['count'] == 1

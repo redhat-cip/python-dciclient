@@ -104,3 +104,10 @@ def test_unattach_team(runner):
 
     teams = runner.invoke(['topic-list-team', topic['id']])['teams']
     assert len(teams) == 0
+
+
+def test_where_on_list(runner):
+    runner.invoke(['topic-create', '--name', 'osp1'])
+    runner.invoke(['topic-create', '--name', 'osp2'])
+    assert runner.invoke(['topic-list', '--where',
+                          'name:osp1'])["_meta"]["count"]
