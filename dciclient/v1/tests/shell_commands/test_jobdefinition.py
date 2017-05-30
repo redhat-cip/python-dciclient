@@ -143,3 +143,12 @@ def test_test(runner, topic_id, test_id):
     tests = runner.invoke(['jobdefinition-list-test',
                            jd['id']])['tests']
     assert len(tests) == 0
+
+
+def test_where_on_list(runner, topic_id):
+    runner.invoke(['jobdefinition-create', '--name', 'foo1',
+                   '--topic_id', topic_id])
+    runner.invoke(['jobdefinition-create', '--name', 'foo2',
+                   '--topic_id', topic_id])
+    assert runner.invoke(['jobdefinition-list', '--where',
+                          'name:foo1'])["_meta"]["count"] == 1
