@@ -83,7 +83,7 @@ def generate_job(client):
     ).json()
 
     jobdefinition = client.post('/jobdefinitions', {
-        'test_id': test['id'], 'priority': 0
+        'test_id': test['id']
     }).json()
 
     client.post('/jobdefinition_components', {

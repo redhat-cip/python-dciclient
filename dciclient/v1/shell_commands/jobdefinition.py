@@ -43,12 +43,11 @@ def list(context, topic_id, verbose):
 @cli.command("jobdefinition-create", help="Create a jobdefinition.")
 @click.option("--name", required=True)
 @click.option("--topic_id", required=True)
-@click.option("--priority")
 @click.option("--component_types")
 @click.option("--active/--no-active", default=True)
 @click.pass_obj
-def create(context, name, topic_id, priority, component_types, active):
-    """create(context, name, priority, topic_id, active)
+def create(context, name, topic_id, component_types, active):
+    """create(context, name, topic_id, active)
 
     Create a jobdefinition.
 
@@ -56,14 +55,12 @@ def create(context, name, topic_id, priority, component_types, active):
 
     :param string name: Name of the jobdefinition [required]
     :param string topic_id: ID of the topic for this jobdefinition [required]
-    :param integer priority: Priority for this jobdefinition
     :param string component_type: List of component type
     :param boolean active: Set the jobdefinition in the (in)active state
     """
     if component_types:
         component_types = component_types.split(',')
-    result = jobdefinition.create(context, name=name, priority=priority,
-                                  topic_id=topic_id,
+    result = jobdefinition.create(context, name=name, topic_id=topic_id,
                                   component_types=component_types,
                                   active=active)
     utils.format_output(result, context.format)
@@ -73,10 +70,9 @@ def create(context, name, topic_id, priority, component_types, active):
 @click.argument("id")
 @click.option("--etag", required=True)
 @click.option("--name", required=False)
-@click.option("--priority", required=False)
 @click.option("--active/--no-active")
 @click.pass_obj
-def update(context, id, etag, name, priority, active):
+def update(context, id, etag, name, active):
     """update(context, id, etag, name, active)
 
     Update a jobdefinition.
@@ -86,11 +82,10 @@ def update(context, id, etag, name, priority, active):
     :param string id: ID of the jobdefinition to update [required]
     :param string etag: Entity tag of the resource [required]
     :param string name: Name of the jobdefinition
-    :param integer priority: Priority of the jobdefinition
     :param boolean active: Set the jobdefinition in the (in)active state
     """
     result = jobdefinition.update(context, id=id, etag=etag, name=name,
-                                  priority=priority, active=active)
+                                  active=active)
 
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Job Definition updated.'})
