@@ -3,7 +3,7 @@
 %endif
 
 Name:           python-dciclient
-Version:        0.3.0
+Version:        0.3.3
 Release:        1.VERS%{?dist}
 
 Summary:        Python client for DCI control server
@@ -116,6 +116,11 @@ PYTHONPATH=%{buildroot}%{python2_sitelib} \
 
 
 %changelog
+* Wed May 31 2017 Yassine Lamgarchal <yassine.lamgarchal@redhat.com> - 0.3.3-1
+- Add files_events api
+- Add file upload/download api
+- Add roles management in dcictl
+
 * Tue May 09 2017 Yanis Guenane <yguenane@redhat.com> - 0.3.0-1
 - Lots of things
 
