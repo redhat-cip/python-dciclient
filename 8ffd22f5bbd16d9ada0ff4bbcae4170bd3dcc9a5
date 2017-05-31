@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_7817f7ed",
+        "filename": "dciclient/v1/shell_commands/role.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2017-05-31T10:47:39Z",
+      "side": 1,
+      "message": "Missing the where here",
+      "revId": "8ffd22f5bbd16d9ada0ff4bbcae4170bd3dcc9a5",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
