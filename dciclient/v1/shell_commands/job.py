@@ -46,8 +46,7 @@ def list(context, sort, limit, where, verbose):
     result = job.list(
         context, sort=sort, limit=limit, where=where,
         embed='jobdefinition,remoteci,team')
-    headers = ['id', 'status', 'recheck',
-               'jobdefinition/name', 'remoteci/name',
+    headers = ['id', 'status', 'jobdefinition/name', 'remoteci/name',
                'team/name', 'etag', 'created_at', 'updated_at']
 
     utils.format_output(result, context.format, headers, verbose=verbose)
@@ -90,22 +89,6 @@ def delete(context, id, etag):
         utils.format_output(result, context.format)
 
 
-@cli.command("job-recheck", help="Recheck a job.")
-@click.argument("id")
-@click.pass_obj
-def recheck(context, id):
-    """recheck(context, id)
-
-    Recheck a job.
-
-    >>> dcictl job-recheck [OPTIONS]
-
-    :param string id: ID of the job to recheck [required]
-    """
-    result = job.recheck(context, id=id)
-    utils.format_output(result, context.format)
-
-
 @cli.command("job-results", help="List all job results.")
 @click.argument("id")
 @click.option("--sort", default="-created_at")
@@ -118,7 +101,7 @@ def list_results(context, id, sort, limit):
 
     >>> dcictl job-results [OPTIONS]
 
-    :param string id: ID of the job to recheck [required]
+    :param string id: ID of the job to consult result for [required]
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
     """

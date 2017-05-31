@@ -103,7 +103,6 @@ def generate_job(client):
         'team_id': team['id'],
         'jobdefinition_id': jobdefinition['id'],
         'remoteci_id': remoteci['id'],
-        'recheck': False
     }).json()
 
     return job

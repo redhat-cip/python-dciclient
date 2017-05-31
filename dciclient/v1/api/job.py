@@ -24,13 +24,11 @@ import json
 RESOURCE = 'jobs'
 
 
-def create(context, recheck, remoteci_id, team_id, jobdefinition_id=None,
+def create(context, remoteci_id, team_id, jobdefinition_id=None,
            components=None, comment=None):
-    job = base.create(context, RESOURCE, recheck=recheck,
-                      remoteci_id=remoteci_id, team_id=team_id,
-                      jobdefinition_id=jobdefinition_id,
-                      components=components,
-                      comment=comment)
+    job = base.create(context, RESOURCE, remoteci_id=remoteci_id,
+                      team_id=team_id, jobdefinition_id=jobdefinition_id,
+                      components=components, comment=comment)
     context.last_job_id = job.json()['job']['id']
     return job
 
@@ -47,14 +45,6 @@ def schedule(context, remoteci_id, topic_id):
     uri = '%s/%s/schedule' % (context.dci_cs_api, RESOURCE)
     data_json = json.dumps({'remoteci_id': remoteci_id, 'topic_id': topic_id})
     r = context.session.post(uri, data=data_json)
-    if r.status_code == 201:
-        context.last_job_id = r.json()['job']['id']
-    return r
-
-
-def recheck(context, id):
-    uri = '%s/%s/%s/recheck' % (context.dci_cs_api, RESOURCE, id)
-    r = context.session.post(uri)
     if r.status_code == 201:
         context.last_job_id = r.json()['job']['id']
     return r
