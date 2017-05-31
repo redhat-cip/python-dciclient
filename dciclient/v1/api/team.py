@@ -20,8 +20,9 @@ from dciclient.v1.api import base
 RESOURCE = 'teams'
 
 
-def create(context, name):
-    return base.create(context, RESOURCE, name=name)
+def create(context, name, active=True):
+    state = 'active' if active else 'inactive'
+    return base.create(context, RESOURCE, name=name, state=state)
 
 
 def list(context, **kwargs):
@@ -38,6 +39,10 @@ def get(context, id, **kwargs):
 
 
 def update(context, id, **kwargs):
+    kwargs['state'] = None
+    if kwargs['active'] is not None:
+        kwargs['state'] = 'active' if kwargs['active'] else 'inactive'
+    kwargs.pop('active')
     return base.update(context, RESOURCE, id=id, **kwargs)
 
 

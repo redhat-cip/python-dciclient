@@ -48,9 +48,10 @@ def list(context, team_id, verbose):
 @click.option("--name", required=True)
 @click.option("--team_id", required=False)
 @click.option("--data", callback=utils.validate_json, default='{}')
+@click.option("--active/--no-active", default=True)
 @click.pass_obj
-def create(context, name, team_id, data):
-    """create(context, name, team_id, data)
+def create(context, name, team_id, data, active):
+    """create(context, name, team_id, data, active)
 
     Create a test.
 
@@ -59,11 +60,44 @@ def create(context, name, team_id, data):
     :param string name: Name of the test [required]
     :param string team_id: ID of the team to associate with
     :param json data: JSON formatted data block for the test
+    :param boolean active: Set the test in the (in)active state
     """
     team_id = team_id or user.list(
         context, where='name:' + context.login).json()['users'][0]['team_id']
-    result = test.create(context, name=name, data=data, team_id=team_id)
+    result = test.create(context, name=name, data=data, team_id=team_id,
+                         active=active)
     utils.format_output(result, context.format)
+
+
+@cli.command("test-update", help="Update a test.")
+@click.argument("id")
+@click.option("--etag", required=True)
+@click.option("--name")
+@click.option("--team_id")
+@click.option("--data", callback=utils.validate_json)
+@click.option("--active/--no-active")
+@click.pass_obj
+def update(context, id, name, etag, team_id, data, active):
+    """update(context, id, etag, name, team_id, data, active)
+
+    Update a Test
+
+    >>> dcictl test-update [OPTIONS]
+
+    :param string id: ID of the Test [required]
+    :param string name: Name of the Test
+    :param string etag: Entity tag of the resource [required]
+    :param string team_id: ID of the team to associate this Test with
+    :param string data: JSON data to pass during Test update
+    :param boolean active: Set the test in the (in)active state
+    """
+    result = test.update(context, id=id, name=name, etag=etag,
+                         team_id=team_id, data=data,
+                         active=active)
+    if result.status_code == 204:
+        utils.print_json({'id': id, 'message': 'Test updated.'})
+    else:
+        utils.format_output(result, context.format)
 
 
 @cli.command("test-delete", help="Delete a test.")

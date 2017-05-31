@@ -39,27 +39,30 @@ def list(context, verbose):
 
 @cli.command("team-create", help="Create a team.")
 @click.option("--name", required=True)
+@click.option("--active/--no-active", default=True)
 @click.pass_obj
-def create(context, name):
-    """create(context, name)
+def create(context, name, active):
+    """create(context, name, active)
 
     Create a team.
 
     >>> dcictl team-create [OPTIONS]
 
     :param string name: Name of the team [required]
+    :param boolean active: Set the team in the (in)active state
     """
-    result = team.create(context, name=name)
+    result = team.create(context, name=name, active=active)
     utils.format_output(result, context.format)
 
 
 @cli.command("team-update", help="Update a team.")
 @click.argument("id")
 @click.option("--etag", required=True)
-@click.option("--name", required=True)
+@click.option("--name")
+@click.option("--active/--no-active")
 @click.pass_obj
-def update(context, id, etag, name):
-    """update(context, id, etag, name)
+def update(context, id, etag, name, active):
+    """update(context, id, etag, name, active)
 
     Update a team.
 
@@ -68,8 +71,9 @@ def update(context, id, etag, name):
     :param string id: ID of the team to update [required]
     :param string etag: Entity tag of the resource [required]
     :param string name: Name of the team [required]
+    :param boolean active: Set the team in the (in)active state
     """
-    result = team.update(context, id=id, etag=etag, name=name)
+    result = team.update(context, id=id, etag=etag, name=name, active=active)
 
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Team updated.'})

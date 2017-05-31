@@ -20,8 +20,9 @@ from dciclient.v1.api import base
 RESOURCE = 'topics'
 
 
-def create(context, name, label=None):
-    return base.create(context, RESOURCE, name=name, label=label)
+def create(context, name, label=None, active=True):
+    state = 'active' if active else 'inactive'
+    return base.create(context, RESOURCE, name=name, label=label, state=state)
 
 
 def list(context, **kwargs):
@@ -32,9 +33,13 @@ def get(context, id, **kwargs):
     return base.get(context, RESOURCE, id=id, **kwargs)
 
 
-def update(context, id, etag, name=None, label=None, next_topic=None):
+def update(context, id, etag, name=None, label=None, next_topic=None,
+           active=None):
+    state = None
+    if active is not None:
+        state = 'active' if active else 'inactive'
     return base.update(context, RESOURCE, id=id, etag=etag, name=name,
-                       label=label, next_topic=next_topic)
+                       label=label, next_topic=next_topic, state=state)
 
 
 def delete(context, id):

@@ -57,6 +57,15 @@ def test_create(runner):
     assert component['name'] == 'foo'
 
 
+def test_create_inactive(runner):
+    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+
+    component = runner.invoke(['component-create', '--name', 'foo',
+                               '--type', 'foobar', '--topic_id',
+                               topic['id'], '--no-active'])['component']
+    assert component['state'] == 'inactive'
+
+
 def test_delete(runner):
     topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
     component = runner.invoke(['component-create', '--name', 'foo',
@@ -123,7 +132,36 @@ def test_file_support(runner, tmpdir):
     assert result['status_code'] == 404
 
 
-def test_enable_export_control(runner):
+def test_update_active(runner):
+    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+
+    component = runner.invoke([
+        'component-create', '--name', 'foo',
+        '--type', 'bar', '--topic_id',
+        topic['id']])['component']
+
+    assert component['state'] == 'active'
+
+    result = runner.invoke(['component-update', component['id'],
+                            '--no-active'])
+    assert result['message'] == 'Component updated.'
+    component_state = runner.invoke(
+        ['component-show', component['id']]
+    )['component']['state']
+
+    assert component_state == 'inactive'
+
+    result = runner.invoke(['component-update', component['id'],
+                            '--active'])
+    assert result['message'] == 'Component updated.'
+    component_state = runner.invoke(
+        ['component-show', component['id']]
+    )['component']['state']
+
+    assert component_state == 'active'
+
+
+def test_update_export_control(runner):
     topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
 
     component = runner.invoke([
@@ -133,24 +171,21 @@ def test_enable_export_control(runner):
 
     result = runner.invoke(['component-update', component['id'],
                             '--export-control'])
-    assert result['message'] == 'Export Control Enabled.'
+    assert result['message'] == 'Component updated.'
+    component_export_control = runner.invoke(
+        ['component-show', component['id']]
+    )['component']['export_control']
 
-
-def test_disable_export_control(runner):
-    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
-
-    component = runner.invoke([
-        'component-create', '--name', 'foo',
-        '--type', 'bar', '--topic_id',
-        topic['id']])['component']
-
-    result = runner.invoke(['component-update', component['id'],
-                            '--export-control'])
-    assert result['message'] == 'Export Control Enabled.'
+    assert component_export_control is True
 
     result = runner.invoke(['component-update', component['id'],
                             '--no-export-control'])
-    assert result['message'] == 'Export Control Disabled.'
+    assert result['message'] == 'Component updated.'
+    component_export_control = runner.invoke(
+        ['component-show', component['id']]
+    )['component']['export_control']
+
+    assert component_export_control is False
 
 
 def test_component_status(runner, job_id, topic_id):

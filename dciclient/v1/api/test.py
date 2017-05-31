@@ -20,9 +20,10 @@ from dciclient.v1.api import base
 RESOURCE = 'tests'
 
 
-def create(context, name, team_id=None, data={}):
+def create(context, name, team_id=None, data={}, active=True):
+    state = 'active' if active else 'inactive'
     return base.create(context, RESOURCE, name=name,
-                       team_id=team_id, data=data)
+                       team_id=team_id, data=data, state=state)
 
 
 def list(context, team_id, **kwargs):
@@ -35,3 +36,12 @@ def get(context, id, **kwargs):
 
 def delete(context, id):
     return base.delete(context, RESOURCE, id=id)
+
+
+def update(context, id, name=None, etag=None, team_id=None, data=None,
+           active=None):
+    state = None
+    if active is not None:
+        state = 'active' if active else 'inactive'
+    return base.update(context, RESOURCE, id=id, name=name, etag=etag,
+                       team_id=team_id, data=data, state=state)
