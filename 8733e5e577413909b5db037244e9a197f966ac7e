@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_5b378db0",
+        "filename": "dciclient/v1/shell_commands/file.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-05-31T18:26:19Z",
+      "side": 1,
+      "message": "You should drop the --job-id parameter if its value is not used anymore.",
+      "revId": "8733e5e577413909b5db037244e9a197f966ac7e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_3b3cc992",
+        "filename": "dciclient/v1/shell_commands/role.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-05-31T18:26:19Z",
+      "side": 1,
+      "message": "The docstring does not match the parameters of the function. why there is no where for this one?",
+      "revId": "8733e5e577413909b5db037244e9a197f966ac7e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
