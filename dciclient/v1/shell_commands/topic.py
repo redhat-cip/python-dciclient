@@ -40,18 +40,58 @@ def list(context, verbose):
 
 @cli.command("topic-create", help="Create a topic.")
 @click.option("--name", required=True)
+@click.option("--active/--no-active", default=True)
 @click.pass_obj
-def create(context, name):
-    """create(context, name)
+def create(context, name, active):
+    """create(context, name, active)
 
     Create a topic.
 
     >>> dcictl topic-create [OPTIONS]
 
     :param string name: Name of the topic [required]
+    :param boolean active: Set the topic in the (in)active state
     """
-    result = topic.create(context, name=name)
+
+    state = 'active' if active else 'inactive'
+    result = topic.create(context, name=name, state=state)
     utils.format_output(result, context.format)
+
+
+@cli.command("topic-update", help="Update a topic.")
+@click.argument("id")
+@click.option("--etag", required=True)
+@click.option("--name")
+@click.option("--label")
+@click.option("--next_topic")
+@click.option("--active/--no-active")
+@click.pass_obj
+def update(context, id, etag, name, label, next_topic, active):
+    """update(context, id, etag, name, label, next_topic, active)
+
+    Update a Topic.
+
+    >>> dcictl topic-update [OPTIONS]
+
+    :param string id: ID of the Topic [required]
+    :param string etag: Entity tag of the Topic resource [required]
+    :param string name: Name of the Topic
+    :param string label: Label of the Topic
+    :param string data: JSON data to pass during remote CI update
+    :param boolean active: Set the topic in the (in)active state
+    """
+
+    state = None
+    if active is not None:
+        state = 'active' if active else 'inactive'
+
+    result = topic.update(context, id=id, etag=etag, name=name,
+                          label=label, next_topic=next_topic,
+                          state=state)
+    if result.status_code == 204:
+        utils.print_json({'id': id, 'message': 'Topic updated.'})
+    else:
+        utils.format_output(result, context.format)
 
 
 @cli.command("topic-delete", help="Delete a topic.")

@@ -46,9 +46,17 @@ def test_create(runner):
     team = runner.invoke(['team-create', '--name', 'foo'])['team']
     remoteci = runner.invoke([
         'remoteci-create', '--name', 'foo', '--team_id',
-        team['id'], '--active'])['remoteci']
+        team['id']])['remoteci']
     assert remoteci['name'] == 'foo'
     assert remoteci['state'] == 'active'
+
+
+def test_create_inactive(runner):
+    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    remoteci = runner.invoke([
+        'remoteci-create', '--name', 'foo', '--team_id',
+        team['id'], '--no-active'])['remoteci']
+    assert remoteci['state'] == 'inactive'
 
 
 def test_update(runner):
@@ -62,6 +70,36 @@ def test_update(runner):
 
     assert result['message'] == 'Remote CI updated.'
     assert result['id'] == remoteci['id']
+
+
+def test_update_active(runner):
+    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    remoteci = runner.invoke([
+        'remoteci-create', '--name', 'foo', '--team_id',
+        team['id']])['remoteci']
+
+    assert remoteci['state'] == 'active'
+
+    result = runner.invoke(['remoteci-update', remoteci['id'],
+                            '--etag', remoteci['etag'], '--no-active'])
+
+    assert result['message'] == 'Remote CI updated.'
+    assert result['id'] == remoteci['id']
+
+    remoteci = runner.invoke(
+        ['remoteci-show', remoteci['id']]
+    )['remoteci']
+
+    assert remoteci['state'] == 'inactive'
+    result = runner.invoke(['remoteci-update', remoteci['id'],
+                            '--etag', remoteci['etag'], '--active'])
+
+    assert result['message'] == 'Remote CI updated.'
+    remoteci_state = runner.invoke(
+        ['remoteci-show', remoteci['id']]
+    )['remoteci']['state']
+
+    assert remoteci_state == 'active'
 
 
 def test_delete(runner):

@@ -51,6 +51,16 @@ def test_create(runner):
     assert test['name'] == 'foo'
 
 
+def test_create_inactive(runner):
+    team = runner.invoke(['team-create', '--name', 'osp'])['team']
+    assert team['name'] == 'osp'
+
+    test = runner.invoke([
+        'test-create', '--name', 'foo', '--team_id',
+        team['id'], '--no-active'])['test']
+    assert test['state'] == 'inactive'
+
+
 def test_create_data(runner):
     team = runner.invoke(['team-create', '--name', 'osp'])['team']
     assert team['name'] == 'osp'
@@ -73,6 +83,38 @@ def test_create_bad_data(runner):
         '--data', '{Foo: 2}'])
     # TODO(Gonéri): should instead ensure we print the fine message
     assert '"--data": this option expects a valid JSON' in r
+
+
+def test_update_active(runner):
+    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    test = runner.invoke([
+        'test-create',
+        '--name', 'foo',
+        '--team_id', team['id'],
+        '--data', '{"Foo": 2}'])['test']
+
+    assert test['state'] == 'active'
+
+    result = runner.invoke(['test-update', test['id'], '--etag', test['etag'],
+                            '--no-active'])
+
+    assert result['message'] == 'Test updated.'
+    assert result['id'] == test['id']
+
+    test = runner.invoke(
+        ['test-show', test['id']]
+    )['test']
+
+    assert test['state'] == 'inactive'
+    result = runner.invoke(['test-update', test['id'], '--etag', test['etag'],
+                            '--active'])
+
+    assert result['message'] == 'Test updated.'
+    test_state = runner.invoke(
+        ['test-show', test['id']]
+    )['test']['state']
+
+    assert test_state == 'active'
 
 
 def test_delete(runner):

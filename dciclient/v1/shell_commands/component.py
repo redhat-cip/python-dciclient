@@ -59,10 +59,11 @@ def list(context, topic_id, sort, limit, verbose):
 @click.option("--topic_id", required=True, help='Topic ID')
 @click.option("--export_control/--no-export_control", default='true',
               help='has the export_control been done')
+@click.option("--active/--no-active", default=True)
 @click.pass_obj
 def create(context, name, type, canonical_project_name, data,
-           title, message, url, topic_id, export_control):
-    """create(context, name, type, canonical_project_name, data, title, message, url, topic_id, export_control)  # noqa
+           title, message, url, topic_id, export_control, active):
+    """create(context, name, type, canonical_project_name, data, title, message, url, topic_id, export_control, active)  # noqa
 
     Create a component.
 
@@ -77,13 +78,17 @@ def create(context, name, type, canonical_project_name, data,
     :param string message: Message for the component
     :param string url: URL resource to monitor
     :param boolean export_control: Set the component visible for users
+    :param boolean active: Set the component in the (in)active state
     """
+
+    state = 'active' if active else 'inactive'
     result = component.create(
         context, name=name, type=type,
         canonical_project_name=canonical_project_name,
         data=data,
         title=title, message=message, url=url,
-        topic_id=topic_id, export_control=export_control
+        topic_id=topic_id, export_control=export_control,
+        state=state
     )
     utils.format_output(result, context.format)
 
@@ -241,9 +246,10 @@ def file_delete(context, id, file_id):
 @cli.command("component-update", help="Update a component.")
 @click.argument("id")
 @click.option("--export-control/--no-export-control")
+@click.option("--active/--no-active")
 @click.pass_obj
-def update(context, id, export_control):
-    """update(context, id, export_control)
+def update(context, id, export_control, active):
+    """update(context, id, export_control, active)
 
     Update a component
 
@@ -251,17 +257,21 @@ def update(context, id, export_control):
 
     :param string id: ID of the component [required]
     :param boolean export-control: Set the component visible for users
+    :param boolean active: Set the component in the (in)active state
     """
 
     component_info = component.get(context, id=id)
 
     etag = component_info.json()['component']['etag']
+    state = None
+    if active is not None:
+        state = 'active' if active else 'inactive'
+
     result = component.update(context, id=id, etag=etag,
-                              export_control=export_control)
+                              export_control=export_control, state=state)
 
     if result.status_code == 204:
-        status = 'Enabled' if export_control else 'Disabled'
-        utils.print_json({'id': id, 'message': 'Export Control %s.' % status})
+        utils.print_json({'id': id, 'message': 'Component updated.'})
     else:
         utils.format_output(result, context.format)
 

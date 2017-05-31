@@ -39,6 +39,12 @@ def test_create(runner):
     assert topic['name'] == 'osp'
 
 
+def test_create_inactive(runner):
+    topic = runner.invoke(['topic-create', '--name', 'osp',
+                           '--no-active'])['topic']
+    assert topic['state'] == 'inactive'
+
+
 def test_delete(runner):
     topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
     result = runner.invoke(['topic-delete', topic['id']])
@@ -104,3 +110,27 @@ def test_unattach_team(runner):
 
     teams = runner.invoke(['topic-list-team', topic['id']])['teams']
     assert len(teams) == 0
+
+
+def test_update_active(runner):
+    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+    assert topic['state'] == 'active'
+
+    result = runner.invoke(['topic-update', topic['id'],
+                            '--etag', topic['etag'], '--no-active'])
+
+    assert result['message'] == 'Topic updated.'
+    assert result['id'] == topic['id']
+
+    topic = runner.invoke(['topic-show', topic['id']])['topic']
+
+    assert topic['state'] == 'inactive'
+    result = runner.invoke(['topic-update', topic['id'],
+                            '--etag', topic['etag'], '--active'])
+
+    assert result['message'] == 'Topic updated.'
+    topic_state = runner.invoke(
+        ['topic-show', topic['id']]
+    )['topic']['state']
+
+    assert topic_state == 'active'

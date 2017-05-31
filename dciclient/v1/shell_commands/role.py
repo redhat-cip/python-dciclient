@@ -40,10 +40,10 @@ def list(context):
 @click.option("--name", required=True)
 @click.option("--label", required=False)
 @click.option("--description", required=False)
-@click.option("--state", required=False)
+@click.option("--active/--no-active", default=True)
 @click.pass_obj
-def create(context, name, label, description, state):
-    """create(context, name, label, description, state)
+def create(context, name, label, description, active):
+    """create(context, name, label, description, active)
 
     Create a role.
 
@@ -52,8 +52,10 @@ def create(context, name, label, description, state):
     :param string name: Name of the role [required]
     :param string label: Label of the role [optional]
     :param string description: Description of the role [optional]
-    :param string state: State of the role [optional]
+    :param boolean active: Set the role in the (in)active state
     """
+
+    state = 'active' if active else 'inactive'
     result = role.create(context, name=name, label=label,
                          description=description, state=state)
     utils.format_output(result, context.format)
@@ -64,10 +66,10 @@ def create(context, name, label, description, state):
 @click.option("--etag", required=True)
 @click.option("--name", required=False)
 @click.option("--description", required=False)
-@click.option("--state", required=False)
+@click.option("--active/--no-active")
 @click.pass_obj
-def update(context, id, etag, name, description, state):
-    """update(context, id, etag, name, description, state)
+def update(context, id, etag, name, description, active):
+    """update(context, id, etag, name, description, active)
 
     Update a role.
 
@@ -77,8 +79,13 @@ def update(context, id, etag, name, description, state):
     :param string etag: Entity tag of the resource [required]
     :param string name: New name of the role [required]
     :param string description: New description of the role [required]
-    :param string state: New state of the role [required]
+    :param boolean active: Set the role in the (in)active state
     """
+
+    state = None
+    if active is not None:
+        state = 'active' if active else 'inactive'
+
     result = role.update(context, id=id, etag=etag, name=name,
                          description=description, state=state)
 

@@ -22,12 +22,7 @@ import json
 RESOURCE = 'remotecis'
 
 
-def create(context, name, team_id, data={}, active=True):
-    if active:
-        state = 'active'
-    else:
-        state = 'inactive'
-
+def create(context, name, team_id, data={}, state='active'):
     return base.create(context, RESOURCE, name=name, team_id=team_id,
                        data=json.dumps(data), state=state)
 
@@ -44,15 +39,7 @@ def get_data(context, id, keys=None):
     return base.get_data(context, RESOURCE, id=id, keys=keys)
 
 
-def update(context, id, etag, name=None, team_id=None, data=None, active=None):
-    if active is not None:
-        if active:
-            state = 'active'
-        else:
-            state = 'inactive'
-    else:
-        state = None
-
+def update(context, id, etag, name=None, team_id=None, data=None, state=None):
     return base.update(context, RESOURCE, id=id, etag=etag, name=name,
                        team_id=team_id, data=data, state=state)
 

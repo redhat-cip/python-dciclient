@@ -20,8 +20,8 @@ from dciclient.v1.api import base
 RESOURCE = 'teams'
 
 
-def create(context, name):
-    return base.create(context, RESOURCE, name=name)
+def create(context, name, state='active'):
+    return base.create(context, RESOURCE, name=name, state=state)
 
 
 def list(context, **kwargs):

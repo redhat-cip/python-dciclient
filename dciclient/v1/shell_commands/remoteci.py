@@ -58,11 +58,13 @@ def create(context, name, team_id, data, active):
     :param boolean active: Mark remote CI active
     :param boolean no-active: Mark remote CI inactive
     """
+
+    state = 'active' if active else 'inactive'
     team_id = team_id or user.list(
         context, where='name:' + context.login).json()['users'][0]['team_id']
     result = remoteci.create(context, name=name, team_id=team_id,
                              data=data,
-                             active=active)
+                             state=state)
     utils.format_output(result, context.format)
 
 
@@ -89,9 +91,14 @@ def update(context, id, etag, name, team_id, data, active):
     :param boolean active: Mark remote CI active
     :param boolean no-active: Mark remote CI inactive
     """
+
+    state = None
+    if active is not None:
+        state = 'active' if active else 'inactive'
+
     result = remoteci.update(context, id=id, etag=etag, name=name,
                              team_id=team_id, data=data,
-                             active=active)
+                             state=state)
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Remote CI updated.'})
     else:

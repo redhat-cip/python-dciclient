@@ -24,12 +24,13 @@ RESOURCE = 'components'
 
 
 def create(context, name, type, topic_id, canonical_project_name=None, data={},
-           title=None, message=None, url=None, export_control=True):
+           title=None, message=None, url=None, export_control=True,
+           state='active'):
     return base.create(context, RESOURCE, name=name, type=type,
                        canonical_project_name=canonical_project_name,
                        data=json.dumps(data), title=title, message=message,
                        url=url, topic_id=topic_id,
-                       export_control=export_control)
+                       export_control=export_control, state=state)
 
 
 def get(context, id, **kwargs):
@@ -37,9 +38,10 @@ def get(context, id, **kwargs):
 
 
 def update(context, id=None, etag=None, name=None, content=None,
-           export_control=None):
+           export_control=None, state=None):
     return base.update(context, RESOURCE, id=id, etag=etag, name=name,
-                       content=content, export_control=export_control)
+                       content=content, export_control=export_control,
+                       state=state)
 
 
 def delete(context, id):
