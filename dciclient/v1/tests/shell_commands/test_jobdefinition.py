@@ -80,19 +80,16 @@ def test_update(runner, topic_id):
     jobdefinition = runner.invoke([
         'jobdefinition-show', jd['id']])['jobdefinition']
     assert jobdefinition['name'] == 'foo'
-    assert jobdefinition['priority'] == 0
 
     result = runner.invoke([
         'jobdefinition-update', jd['id'],
-        '--etag', jd['etag'], '--name', 'bar',
-        '--priority', 10])
+        '--etag', jd['etag'], '--name', 'bar'])
 
     assert result['message'] == 'Job Definition updated.'
 
     jobdefinition = runner.invoke([
         'jobdefinition-show', jd['id']])['jobdefinition']
     assert jobdefinition['name'] == 'bar'
-    assert jobdefinition['priority'] == 10
 
 
 def test_show(runner, topic_id):
