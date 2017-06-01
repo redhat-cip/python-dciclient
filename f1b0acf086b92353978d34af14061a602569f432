@@ -16,6 +16,24 @@
       "revId": "f1b0acf086b92353978d34af14061a602569f432",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_26d83053",
+        "filename": "test-requirements.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2017-06-01T13:05:12Z",
+      "side": 1,
+      "message": "I guess left-overs from test with tox from the container and not using git add -p.",
+      "parentUuid": "baa041b7_06264c68",
+      "revId": "f1b0acf086b92353978d34af14061a602569f432",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
