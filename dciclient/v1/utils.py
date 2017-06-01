@@ -15,6 +15,7 @@
 # under the License.
 
 import click
+from datetime import datetime
 import json
 import os
 import prettytable
@@ -158,3 +159,8 @@ def validate_json(ctx, param, value):
         return json.loads(value)
     except ValueError:
         raise click.BadParameter('this option expects a valid JSON')
+
+
+def str2date(str_date):
+    dateformat = '%Y-%m-%dT%H:%M:%S.%f'
+    return datetime.strptime(str_date, dateformat)
