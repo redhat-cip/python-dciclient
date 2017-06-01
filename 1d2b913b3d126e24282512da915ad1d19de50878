@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_a6920056",
+        "filename": "dciclient/v1/api/team.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-06-01T13:24:51Z",
+      "side": 1,
+      "message": "what if we pass a value through the \u0027state\u0027 key.",
+      "revId": "1d2b913b3d126e24282512da915ad1d19de50878",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_869ffc5e",
+        "filename": "dciclient/v1/api/test.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-06-01T13:24:51Z",
+      "side": 1,
+      "message": "the same",
+      "revId": "1d2b913b3d126e24282512da915ad1d19de50878",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_669cf869",
+        "filename": "dciclient/v1/api/topic.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-06-01T13:24:51Z",
+      "side": 1,
+      "message": "the same",
+      "revId": "1d2b913b3d126e24282512da915ad1d19de50878",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_4688d422",
+        "filename": "dciclient/v1/api/user.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-06-01T13:24:51Z",
+      "side": 1,
+      "message": "the same",
+      "revId": "1d2b913b3d126e24282512da915ad1d19de50878",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_268dd031",
+        "filename": "dciclient/v1/shell_commands/component.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-06-01T13:24:51Z",
+      "side": 1,
+      "message": "Since we follow the naming convention of the CS, the should be something like --state\u003dactive/inactive IMO.",
+      "revId": "1d2b913b3d126e24282512da915ad1d19de50878",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_0682cc00",
+        "filename": "dciclient/v1/shell_commands/component.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-06-01T13:24:51Z",
+      "side": 1,
+      "message": "the same",
+      "revId": "1d2b913b3d126e24282512da915ad1d19de50878",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_e686c812",
+        "filename": "dciclient/v1/shell_commands/jobdefinition.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-06-01T13:24:51Z",
+      "side": 1,
+      "message": "the same.",
+      "revId": "1d2b913b3d126e24282512da915ad1d19de50878",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
