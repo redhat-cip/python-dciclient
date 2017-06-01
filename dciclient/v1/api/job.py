@@ -42,6 +42,10 @@ def list(context, **kwargs):
     return base.list(context, RESOURCE, **kwargs)
 
 
+def iter(context, **kwargs):
+    return base.iter(context, RESOURCE, **kwargs)
+
+
 def schedule(context, remoteci_id, topic_id, components=None):
     uri = '%s/%s/schedule' % (context.dci_cs_api, RESOURCE)
     data = {'remoteci_id': remoteci_id, 'topic_id': topic_id,
