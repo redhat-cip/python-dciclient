@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_06264c68",
+        "filename": "test-requirements.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-06-01T12:58:58Z",
+      "side": 1,
+      "message": "Not sure we need that. Actually I don\u0027t like the first one too since we push our release on pypi.",
+      "revId": "f1b0acf086b92353978d34af14061a602569f432",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
