@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_a6232005",
+        "filename": "dciclient/v1/shell_commands/component.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2017-06-01T14:09:47Z",
+      "side": 1,
+      "message": "Well, the ctl is a human interface. There are 2 states active/inactive (archived not being supposed to be setup). An (no-)active boolean seems more human friendly to me thant --state active and --state inactive.\n\nI\u0027ll ask other team member their feedbacks, and change if we all decide to go to the --state form",
+      "parentUuid": "baa041b7_268dd031",
+      "revId": "1d2b913b3d126e24282512da915ad1d19de50878",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_0682cc00",
         "filename": "dciclient/v1/shell_commands/component.py",
         "patchSetId": 1
