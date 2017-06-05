@@ -20,12 +20,12 @@ from dciclient.v1.api import base
 RESOURCE = 'jobdefinitions'
 
 
-def create(context, name, topic_id, priority=None, active=None, comment=None,
-           component_types=None):
+def create(context, name, topic_id, priority=None, state='active',
+           comment=None, component_types=None):
     if component_types is None:
         component_types = []
     return base.create(context, RESOURCE, name=name, priority=priority,
-                       active=active, comment=comment, topic_id=topic_id,
+                       state=state, comment=comment, topic_id=topic_id,
                        component_types=component_types)
 
 
@@ -37,16 +37,8 @@ def get(context, id, **kwargs):
     return base.get(context, RESOURCE, id=id, **kwargs)
 
 
-def update(context, id, etag, comment=None, active=None, component_types=None,
+def update(context, id, etag, comment=None, state=None, component_types=None,
            name=None, priority=None):
-    if active is not None:
-        if active:
-            state = 'active'
-        else:
-            state = 'inactive'
-    else:
-        state = None
-
     return base.update(context, RESOURCE, id=id, etag=etag, comment=comment,
                        state=state, component_types=component_types, name=name,
                        priority=priority)
@@ -58,15 +50,6 @@ def delete(context, id, etag):
 
 def annotate(context, id, comment, etag):
     return base.update(context, RESOURCE, id=id, etag=etag, comment=comment)
-
-
-def setactive(context, id, active, etag):
-    if active:
-        state = 'active'
-    else:
-        state = 'inactive'
-
-    return base.update(context, RESOURCE, id=id, etag=etag, state=state)
 
 
 def get_components(context, id):

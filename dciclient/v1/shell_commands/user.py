@@ -40,11 +40,12 @@ def list(context, verbose):
 @cli.command("user-create", help="Create a user.")
 @click.option("--name", required=True)
 @click.option("--password", required=True)
+@click.option("--active/--no-active", default=True)
 @click.option("--role", default='user', help="'admin' or 'user'")
 @click.option("--team_id", required=False)
 @click.pass_obj
-def create(context, name, password, role, team_id):
-    """create(context, name, password, role, team_id)
+def create(context, name, password, role, team_id, active):
+    """create(context, name, password, role, team_id, active)
 
     Create a user.
 
@@ -54,11 +55,13 @@ def create(context, name, password, role, team_id):
     :param string password: Password for the user [required]
     :param string role: Role of user (admin or user)
     :param string team_id: ID of the team to attach this user to [optional]
+    :param boolean active: Set the user in the (in)active state
     """
     team_id = team_id or user.list(
         context, where='name:' + context.login).json()['users'][0]['team_id']
+    state = 'active' if active else 'inactive'
     result = user.create(context, name=name, password=password,
-                         role=role, team_id=team_id)
+                         role=role, team_id=team_id, state=state)
     utils.format_output(result, context.format)
 
 
@@ -68,9 +71,10 @@ def create(context, name, password, role, team_id):
 @click.option("--name")
 @click.option("--password")
 @click.option("--role", help="'admin' or 'user'")
+@click.option("--active/--no-active")
 @click.pass_obj
-def update(context, id, etag, name, password, role):
-    """update(context, id, etag, name, password, role)
+def update(context, id, etag, name, password, role, active):
+    """update(context, id, etag, name, password, role, active)
 
     Update a user.
 
@@ -81,9 +85,15 @@ def update(context, id, etag, name, password, role):
     :param string name: Name of the user
     :param string password: Password of the user
     :param string role: Role of the user (admin or user)
+    :param boolean active: Set the user in the (in)active state
     """
+
+    state = None
+    if active is not None:
+        state = 'active' if active else 'inactive'
+
     result = user.update(context, id=id, etag=etag, name=name,
-                         password=password, role=role)
+                         password=password, role=role, state=state)
 
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'User updated.'})

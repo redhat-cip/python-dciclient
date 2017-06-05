@@ -33,12 +33,18 @@ def test_success_create_basic(runner):
 
 def test_success_create_full(runner):
     role = runner.invoke(['role-create', '--name', 'myrole', '--label',
-                          'MYROLE', '--description', 'myrole', '--state',
-                          'active'])['role']
+                          'MYROLE', '--description', 'myrole',
+                          '--active'])['role']
     assert role['name'] == 'myrole'
     assert role['label'] == 'MYROLE'
     assert role['description'] == 'myrole'
     assert role['state'] == 'active'
+
+
+def test_create_inactive(runner, team_id):
+    role = runner.invoke(['role-create', '--name', 'myrole',
+                          '--no-active'])['role']
+    assert role['state'] == 'inactive'
 
 
 def test_list(runner):
@@ -77,6 +83,30 @@ def test_success_update(runner):
 
     assert role['name'] == 'bar'
     assert role['description'] == 'bar_desc'
+
+
+def test_update_active(runner, team_id):
+    role = runner.invoke(['role-create', '--name', 'myrole'])['role']
+    assert role['state'] == 'active'
+
+    result = runner.invoke(['role-update', role['id'],
+                            '--etag', role['etag'], '--no-active'])
+
+    assert result['message'] == 'Role updated.'
+    assert result['id'] == role['id']
+
+    role = runner.invoke(['role-show', role['id']])['role']
+
+    assert role['state'] == 'inactive'
+    result = runner.invoke(['role-update', role['id'],
+                            '--etag', role['etag'], '--active'])
+
+    assert result['message'] == 'Role updated.'
+    role_state = runner.invoke(
+        ['role-show', role['id']]
+    )['role']['state']
+
+    assert role_state == 'active'
 
 
 def test_delete(runner):

@@ -37,6 +37,13 @@ def test_create(runner, team_id):
     assert user['team_id'] == team_id
 
 
+def test_create_inactive(runner, team_id):
+    user = runner.invoke(['user-create', '--name', 'foo',
+                          '--password', 'pass', '--role', 'user',
+                          '--team_id', team_id, '--no-active'])['user']
+    assert user['state'] == 'inactive'
+
+
 def test_list(runner, team_id):
     runner.invoke(['user-create', '--name', 'foo',
                    '--password', 'pass', '--role', 'user',
@@ -62,6 +69,32 @@ def test_update(runner, team_id):
 
     assert user['name'] == 'bar'
     assert user['role'] == 'admin'
+
+
+def test_update_active(runner, team_id):
+    user = runner.invoke(['user-create', '--name', 'foo',
+                          '--password', 'pass', '--role', 'user',
+                          '--team_id', team_id])['user']
+    assert user['state'] == 'active'
+
+    result = runner.invoke(['user-update', user['id'],
+                            '--etag', user['etag'], '--no-active'])
+
+    assert result['message'] == 'User updated.'
+    assert result['id'] == user['id']
+
+    user = runner.invoke(['user-show', user['id']])['user']
+
+    assert user['state'] == 'inactive'
+    result = runner.invoke(['user-update', user['id'],
+                            '--etag', user['etag'], '--active'])
+
+    assert result['message'] == 'User updated.'
+    user_state = runner.invoke(
+        ['user-show', user['id']]
+    )['user']['state']
+
+    assert user_state == 'active'
 
 
 def test_delete(runner, team_id):

@@ -40,6 +40,12 @@ def test_create(runner):
     assert team['name'] == 'foo'
 
 
+def test_create_inactive(runner):
+    team = runner.invoke(['team-create', '--name', 'foo',
+                          '--no-active'])['team']
+    assert team['state'] == 'inactive'
+
+
 def test_create_fail_unauthorized_user_admin(runner_user_admin):
     team = runner_user_admin.invoke(['team-create', '--name', 'foo'])
     assert team['status_code'] == 401
@@ -58,6 +64,30 @@ def test_update(runner):
 
     assert result['message'] == 'Team updated.'
     assert result['id'] == team['id']
+
+
+def test_update_active(runner):
+    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    assert team['state'] == 'active'
+
+    result = runner.invoke(['team-update', team['id'],
+                            '--etag', team['etag'], '--no-active'])
+
+    assert result['message'] == 'Team updated.'
+    assert result['id'] == team['id']
+
+    team = runner.invoke(['team-show', team['id']])['team']
+
+    assert team['state'] == 'inactive'
+    result = runner.invoke(['team-update', team['id'],
+                            '--etag', team['etag'], '--active'])
+
+    assert result['message'] == 'Team updated.'
+    team_state = runner.invoke(
+        ['team-show', team['id']]
+    )['team']['state']
+
+    assert team_state == 'active'
 
 
 def test_delete(runner):

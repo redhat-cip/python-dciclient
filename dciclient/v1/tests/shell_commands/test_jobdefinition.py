@@ -54,6 +54,13 @@ def test_create(runner, topic_id):
     assert jobdefinition['name'] == 'foo'
 
 
+def test_create_inactive(runner, topic_id):
+    jobdefinition = runner.invoke([
+        'jobdefinition-create', '--name', 'foo', '--no-active',
+        '--topic_id', topic_id])['jobdefinition']
+    assert jobdefinition['state'] == 'inactive'
+
+
 def test_delete(runner, topic_id):
     jobdefinition = runner.invoke([
         'jobdefinition-create', '--name', 'foo',
@@ -114,18 +121,28 @@ def test_annotate(runner, topic_id):
     assert jobdefinition_comm == 'This is my annotation'
 
 
-def test_active(runner, topic_id):
+def test_update_active(runner, topic_id):
     jd = runner.invoke(['jobdefinition-create', '--name', 'foo',
                         '--topic_id', topic_id])['jobdefinition']
 
-    result = runner.invoke(['jobdefinition-set-active', '--no-active',
+    assert jd['state'] == 'active'
+
+    result = runner.invoke(['jobdefinition-update', '--no-active',
                             jd['id'], '--etag', jd['etag']])
 
     assert result['message'] == 'Job Definition updated.'
-    jobdefinition_active = runner.invoke([
+
+    jd = runner.invoke(['jobdefinition-show', jd['id']])['jobdefinition']
+    assert jd['state'] == 'inactive'
+
+    result = runner.invoke(['jobdefinition-update', '--active',
+                            jd['id'], '--etag', jd['etag']])
+
+    assert result['message'] == 'Job Definition updated.'
+    jobdefinition_state = runner.invoke([
         'jobdefinition-show',
         jd['id']])['jobdefinition']['state']
-    assert jobdefinition_active == 'inactive'
+    assert jobdefinition_state == 'active'
 
 
 def test_test(runner, topic_id, test_id):
