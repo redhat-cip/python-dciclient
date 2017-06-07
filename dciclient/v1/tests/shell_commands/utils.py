@@ -140,16 +140,19 @@ def provision(db_conn):
         'description': 'Regular User',
     }
 
-    db_insert(models.ROLES, **admin_role)
-    db_insert(models.ROLES, **user_role)
-    db_insert(models.ROLES, **super_admin_role)
+    super_admin_role_id = db_insert(models.ROLES, **admin_role)
+    admin_role_id = db_insert(models.ROLES, **user_role)
+    user_role_id = db_insert(models.ROLES, **super_admin_role)
 
     # Create users
-    db_insert(models.USERS, name='user', role='user', password=user_pw_hash,
+    db_insert(models.USERS, name='user', role='user',
+              role_id=user_role_id, password=user_pw_hash,
               team_id=team_user_id)
 
     db_insert(models.USERS, name='user_admin', role='admin',
-              password=user_admin_pw_hash, team_id=team_user_id)
+              role_id=admin_role_id, password=user_admin_pw_hash,
+              team_id=team_user_id)
 
-    db_insert(models.USERS, name='admin', role='admin', password=admin_pw_hash,
+    db_insert(models.USERS, name='admin', role='admin',
+              role_id=super_admin_role_id, password=admin_pw_hash,
               team_id=team_admin_id)
