@@ -16,6 +16,24 @@
       "revId": "372c49dffecaa2354cceaa294979d9bc70dddffb",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_3241830c",
+        "filename": "sample/list_broken_jobs.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-06-07T15:34:33Z",
+      "side": 1,
+      "message": "Good point.",
+      "parentUuid": "baa041b7_ef20d84b",
+      "revId": "372c49dffecaa2354cceaa294979d9bc70dddffb",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
