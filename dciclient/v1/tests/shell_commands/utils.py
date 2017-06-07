@@ -121,6 +121,29 @@ def provision(db_conn):
     team_admin_id = db_insert(models.TEAMS, name='admin')
     team_user_id = db_insert(models.TEAMS, name='user')
 
+    # Create the three mandatory roles
+    super_admin_role = {
+        'name': 'Super Admin',
+        'label': 'SUPER_ADMIN',
+        'description': 'Admin of the platform',
+    }
+
+    admin_role = {
+        'name': 'Admin',
+        'label': 'ADMIN',
+        'description': 'Admin of a team',
+    }
+
+    user_role = {
+        'name': 'User',
+        'label': 'USER',
+        'description': 'Regular User',
+    }
+
+    db_insert(models.ROLES, **admin_role)
+    db_insert(models.ROLES, **user_role)
+    db_insert(models.ROLES, **super_admin_role)
+
     # Create users
     db_insert(models.USERS, name='user', role='user', password=user_pw_hash,
               team_id=team_user_id)
