@@ -361,3 +361,21 @@ def jobstate_id(dci_context, job_id):
     kwargs = {'job_id': job_id, 'status': 'running', 'comment': 'some comment'}
     jobstate = api.jobstate.create(dci_context, **kwargs).json()
     return jobstate['jobstate']['id']
+
+
+@pytest.fixture
+def role_super_admin(dci_context):
+    return api.role.list(dci_context,
+                         where='label:SUPER_ADMIN').json()['roles'][0]
+
+
+@pytest.fixture
+def role_admin(dci_context):
+    return api.role.list(dci_context,
+                         where='label:ADMIN').json()['roles'][0]
+
+
+@pytest.fixture
+def role_user(dci_context):
+    return api.role.list(dci_context,
+                         where='label:USER').json()['roles'][0]
