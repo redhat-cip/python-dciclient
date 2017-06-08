@@ -20,61 +20,78 @@ from __future__ import unicode_literals
 def test_prettytable_output(runner, team_id):
     user = runner.invoke_raw_parse([
         'user-create', '--name', 'foo',
-        '--password', 'pass', '--role', 'user',
-        '--team_id', team_id])
+        '--password', 'pass', '--team_id', team_id])
     assert user['team_id'] == team_id
     assert user == runner.invoke_raw_parse(['user-show', user['id']])
     assert 'etag' not in runner.invoke_raw_parse(['user-list'])
     assert 'etag' in runner.invoke_raw_parse(['user-list', '--long'])
 
 
-def test_create(runner, team_id):
+def test_create_user(runner, team_id, role_user):
     user = runner.invoke(['user-create', '--name', 'foo',
-                          '--password', 'pass', '--role', 'user',
+                          '--password', 'pass', '--team_id', team_id])['user']
+    assert user['name'] == 'foo'
+    assert user['role'] == 'user'
+    assert user['team_id'] == team_id
+    assert user['role_id'] == role_user['id']
+
+
+def test_create_admin(runner, team_id, role_admin):
+    user = runner.invoke(['user-create', '--name', 'foo',
+                          '--password', 'pass', '--role_id', role_admin['id'],
                           '--team_id', team_id])['user']
     assert user['name'] == 'foo'
     assert user['role'] == 'user'
     assert user['team_id'] == team_id
+    assert user['role_id'] == role_admin['id']
+
+
+def test_create_super_admin(runner, team_id, role_super_admin):
+    user = runner.invoke(['user-create', '--name', 'foo',
+                          '--password', 'pass', '--role_id',
+                          role_super_admin['id'],
+                          '--team_id', team_id])['user']
+    assert user['name'] == 'foo'
+    assert user['role'] == 'user'
+    assert user['team_id'] == team_id
+    assert user['role_id'] == role_super_admin['id']
 
 
 def test_create_inactive(runner, team_id):
     user = runner.invoke(['user-create', '--name', 'foo',
-                          '--password', 'pass', '--role', 'user',
+                          '--password', 'pass',
                           '--team_id', team_id, '--no-active'])['user']
     assert user['state'] == 'inactive'
 
 
 def test_list(runner, team_id):
     runner.invoke(['user-create', '--name', 'foo',
-                   '--password', 'pass', '--role', 'user',
-                   '--team_id', team_id])
+                   '--password', 'pass', '--team_id', team_id])
     runner.invoke(['user-create', '--name', 'bar',
-                   '--password', 'pass', '--role', 'user',
-                   '--team_id', team_id])
+                   '--password', 'pass', '--team_id', team_id])
     users = runner.invoke(['user-list'])['users']
     # NOTE (spredzy): We put 5 because of the 3 creates plus
     # admin and 2 users provisionned during server test
     assert len(users) == 5
 
 
-def test_update(runner, team_id):
+def test_update(runner, team_id, role_admin, role_user):
     user = runner.invoke(['user-create', '--name', 'foo',
-                          '--password', 'pass', '--role', 'user',
-                          '--team_id', team_id])['user']
+                          '--password', 'pass', '--team_id', team_id])['user']
 
+    assert user['role_id'] == role_user['id']
     runner.invoke(['user-update', user['id'],
                    '--etag', user['etag'], '--name', 'bar',
-                   '--role', 'admin'])
+                   '--role_id', role_admin['id']])
     user = runner.invoke(['user-show', user['id']])['user']
 
     assert user['name'] == 'bar'
-    assert user['role'] == 'admin'
+    assert user['role_id'] == role_admin['id']
 
 
 def test_update_active(runner, team_id):
     user = runner.invoke(['user-create', '--name', 'foo',
-                          '--password', 'pass', '--role', 'user',
-                          '--team_id', team_id])['user']
+                          '--password', 'pass', '--team_id', team_id])['user']
     assert user['state'] == 'active'
 
     result = runner.invoke(['user-update', user['id'],
@@ -99,8 +116,7 @@ def test_update_active(runner, team_id):
 
 def test_delete(runner, team_id):
     user = runner.invoke(['user-create', '--name', 'foo',
-                          '--password', 'pass', '--role', 'user',
-                          '--team_id', team_id])['user']
+                          '--password', 'pass', '--team_id', team_id])['user']
 
     result = runner.invoke(['user-delete', user['id'],
                             '--etag', user['etag']])
@@ -109,8 +125,7 @@ def test_delete(runner, team_id):
 
 def test_show(runner, team_id):
     user = runner.invoke(['user-create', '--name', 'foo',
-                          '--password', 'pass', '--role', 'user',
-                          '--team_id', team_id])['user']
+                          '--password', 'pass', '--team_id', team_id])['user']
 
     user = runner.invoke(['user-show', user['id']])['user']
 
@@ -119,13 +134,10 @@ def test_show(runner, team_id):
 
 def test_where_on_list(runner, team_id):
     runner.invoke(['user-create', '--name', 'foo',
-                   '--password', 'pass', '--role', 'user',
-                   '--team_id', team_id])
+                   '--password', 'pass', '--team_id', team_id])
     runner.invoke(['user-create', '--name', 'foo2',
-                   '--password', 'pass', '--role', 'user',
-                   '--team_id', team_id])
-    runner.invoke(['user-create', '--name', 'foo3',
-                   '--password', 'pass', '--role', 'admin',
+                   '--password', 'pass', '--team_id', team_id])
+    runner.invoke(['user-create', '--name', 'foo3', '--password', 'pass',
                    '--team_id', team_id])
     assert runner.invoke(['user-list'])["_meta"]["count"] == 6
     assert runner.invoke(['user-list', '--where',
