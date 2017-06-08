@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_cd863cb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2017-06-08T13:06:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_0d11c4ac",
+      "range": {
+        "startLine": 7,
+        "startChar": 11,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "020a6e32ca4ca8ecccb7d25dae083ea5634fd95c",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_cd23dc04",
         "filename": "dciclient/v1/shell_commands/user.py",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "baa041b7_ad93f8f9",
+        "filename": "dciclient/v1/shell_commands/user.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2017-06-08T13:06:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_cd23dc04",
+      "range": {
+        "startLine": 60,
+        "startChar": 66,
+        "endLine": 60,
+        "endChar": 75
+      },
+      "revId": "020a6e32ca4ca8ecccb7d25dae083ea5634fd95c",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baa041b7_8d1dd4bf",
         "filename": "dciclient/v1/shell_commands/user.py",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2017-06-08T12:23:27Z",
       "side": 1,
       "message": "ooooops!",
+      "range": {
+        "startLine": 91,
+        "startChar": 66,
+        "endLine": 91,
+        "endChar": 75
+      },
+      "revId": "020a6e32ca4ca8ecccb7d25dae083ea5634fd95c",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_8d9034ee",
+        "filename": "dciclient/v1/shell_commands/user.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2017-06-08T13:06:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa041b7_8d1dd4bf",
       "range": {
         "startLine": 91,
         "startChar": 66,
