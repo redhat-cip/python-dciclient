@@ -31,7 +31,6 @@ def test_create_user(runner, team_id, role_user):
     user = runner.invoke(['user-create', '--name', 'foo',
                           '--password', 'pass', '--team_id', team_id])['user']
     assert user['name'] == 'foo'
-    assert user['role'] == 'user'
     assert user['team_id'] == team_id
     assert user['role_id'] == role_user['id']
 
@@ -41,7 +40,6 @@ def test_create_admin(runner, team_id, role_admin):
                           '--password', 'pass', '--role_id', role_admin['id'],
                           '--team_id', team_id])['user']
     assert user['name'] == 'foo'
-    assert user['role'] == 'user'
     assert user['team_id'] == team_id
     assert user['role_id'] == role_admin['id']
 
@@ -52,7 +50,6 @@ def test_create_super_admin(runner, team_id, role_super_admin):
                           role_super_admin['id'],
                           '--team_id', team_id])['user']
     assert user['name'] == 'foo'
-    assert user['role'] == 'user'
     assert user['team_id'] == team_id
     assert user['role_id'] == role_super_admin['id']
 
