@@ -384,5 +384,6 @@ def role_user(dci_context):
 @pytest.fixture
 def test_user(runner, team_id):
     return runner.invoke([
-        'user-create', '--name', 'foo',
-        '--password', 'pass', '--team_id', team_id])['user']
+        'user-create', '--name', 'foo', '--email', 'foo@example.tld',
+        '--fullname', 'Foo Bar', '--password', 'pass', '--team_id',
+        team_id])['user']
