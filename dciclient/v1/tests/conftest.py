@@ -379,3 +379,10 @@ def role_admin(dci_context):
 def role_user(dci_context):
     return api.role.list(dci_context,
                          where='label:USER').json()['roles'][0]
+
+
+@pytest.fixture
+def test_user(runner, team_id):
+    return runner.invoke([
+        'user-create', '--name', 'foo',
+        '--password', 'pass', '--team_id', team_id])['user']
