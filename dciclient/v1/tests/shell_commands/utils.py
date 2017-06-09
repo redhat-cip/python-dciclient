@@ -146,10 +146,13 @@ def provision(db_conn):
 
     # Create users
     db_insert(models.USERS, name='user', role_id=user_role_id,
-              password=user_pw_hash, team_id=team_user_id)
+              password=user_pw_hash, team_id=team_user_id,
+              fullname='User', email='user@example.tld')
 
     db_insert(models.USERS, name='user_admin', role_id=admin_role_id,
-              password=user_admin_pw_hash, team_id=team_user_id)
+              password=user_admin_pw_hash, team_id=team_user_id,
+              fullname='User Admin', email='user_admin@example.tld')
 
     db_insert(models.USERS, name='admin', role_id=super_admin_role_id,
-              password=admin_pw_hash, team_id=team_admin_id)
+              password=admin_pw_hash, team_id=team_admin_id,
+              fullname='Admin', email='admin@example.tld')
