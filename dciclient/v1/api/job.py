@@ -107,8 +107,8 @@ def list_jobstates(context, id, **kwargs):
                      subresource='jobstates', **kwargs)
 
 
-def list_tests(context, id):
-    j = base.get(context, RESOURCE, id=id).json()['job']
+def list_tests(context, id, **kwargs):
+    j = base.get(context, RESOURCE, id=id, **kwargs).json()['job']
     result = {'tests': []}
     result['tests'] += jobdefinition.list_tests(
         context, j['jobdefinition_id']).json()['tests']
