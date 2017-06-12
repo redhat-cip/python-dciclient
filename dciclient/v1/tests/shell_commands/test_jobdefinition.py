@@ -132,6 +132,14 @@ def test_update_active(runner, topic_id):
     jd = runner.invoke(['jobdefinition-show', jd['id']])['jobdefinition']
     assert jd['state'] == 'inactive'
 
+    result = runner.invoke(['jobdefinition-update', '--name', 'foobar',
+                            jd['id'], '--etag', jd['etag']])
+
+    assert result['message'] == 'Job Definition updated.'
+
+    jd = runner.invoke(['jobdefinition-show', jd['id']])['jobdefinition']
+    assert jd['state'] == 'inactive'
+
     result = runner.invoke(['jobdefinition-update', '--active',
                             jd['id'], '--etag', jd['etag']])
 
