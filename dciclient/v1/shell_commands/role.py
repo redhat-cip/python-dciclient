@@ -69,10 +69,11 @@ def create(context, name, label, description, active):
 @click.option("--etag", required=True)
 @click.option("--name", required=False)
 @click.option("--description", required=False)
-@click.option("--active/--no-active")
+@click.option("--active", is_flag=True)
+@click.option("--no-active", is_flag=True)
 @click.pass_obj
-def update(context, id, etag, name, description, active):
-    """update(context, id, etag, name, description, active)
+def update(context, id, etag, name, description, active, no_active):
+    """update(context, id, etag, name, description, active, no_active)
 
     Update a role.
 
@@ -82,12 +83,15 @@ def update(context, id, etag, name, description, active):
     :param string etag: Entity tag of the resource [required]
     :param string name: New name of the role [required]
     :param string description: New description of the role [required]
-    :param boolean active: Set the role in the (in)active state
+    :param boolean active: Set the role in the active state
+    :param boolean no_active: Set the role in the inactive state
     """
 
     state = None
-    if active is not None:
-        state = 'active' if active else 'inactive'
+    if active:
+        state = 'active'
+    elif no_active:
+        state = 'inactive'
 
     result = role.update(context, id=id, etag=etag, name=name,
                          description=description, state=state)

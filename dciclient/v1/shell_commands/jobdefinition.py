@@ -75,10 +75,11 @@ def create(context, name, topic_id, component_types, active):
 @click.argument("id")
 @click.option("--etag", required=True)
 @click.option("--name", required=False)
-@click.option("--active/--no-active")
+@click.option("--active", is_flag=True)
+@click.option("--no-active", is_flag=True)
 @click.pass_obj
-def update(context, id, etag, name, active):
-    """update(context, id, etag, name, active)
+def update(context, id, etag, name, active, no_active):
+    """update(context, id, etag, name, active, no_active)
 
     Update a jobdefinition.
 
@@ -87,12 +88,15 @@ def update(context, id, etag, name, active):
     :param string id: ID of the jobdefinition to update [required]
     :param string etag: Entity tag of the resource [required]
     :param string name: Name of the jobdefinition
-    :param boolean active: Set the jobdefinition in the (in)active state
+    :param boolean active: Set the jobdefinition in the active state
+    :param boolean no_active: Set the jobdefinition in the inactive state
     """
 
     state = None
-    if active is not None:
-        state = 'active' if active else 'inactive'
+    if active:
+        state = 'active'
+    elif no_active:
+        state = 'inactive'
 
     result = jobdefinition.update(context, id=id, etag=etag, name=name,
                                   state=state)

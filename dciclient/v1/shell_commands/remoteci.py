@@ -78,10 +78,11 @@ def create(context, name, team_id, data, active):
 @click.option("--name")
 @click.option("--team_id")
 @click.option("--data", callback=utils.validate_json)
-@click.option("--active/--no-active")
+@click.option("--active", is_flag=True)
+@click.option("--no-active", is_flag=True)
 @click.pass_obj
-def update(context, id, etag, name, team_id, data, active):
-    """update(context, id, etag, name, team_id, data, active)
+def update(context, id, etag, name, team_id, data, active, no_active):
+    """update(context, id, etag, name, team_id, data, active, no_active)
 
     Update a Remote CI.
 
@@ -97,8 +98,10 @@ def update(context, id, etag, name, team_id, data, active):
     """
 
     state = None
-    if active is not None:
-        state = 'active' if active else 'inactive'
+    if active:
+        state = 'active'
+    elif no_active:
+        state = 'inactive'
 
     result = remoteci.update(context, id=id, etag=etag, name=name,
                              team_id=team_id, data=data,
