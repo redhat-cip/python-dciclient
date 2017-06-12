@@ -91,15 +91,27 @@ def test_update_active(runner, test_user, team_id):
     assert result['message'] == 'User updated.'
     assert result['id'] == test_user['id']
 
-    user = runner.invoke(['user-show', test_user['id']])['user']
+    test_user = runner.invoke(['user-show', test_user['id']])['user']
 
-    assert user['state'] == 'inactive'
-    result = runner.invoke(['user-update', user['id'],
-                            '--etag', user['etag'], '--active'])
+    assert test_user['state'] == 'inactive'
+
+    result = runner.invoke(['user-update', test_user['id'],
+                            '--etag', test_user['etag'], '--name', 'foobar'])
+
+    assert result['message'] == 'User updated.'
+    assert result['id'] == test_user['id']
+
+    test_user = runner.invoke(['user-show', test_user['id']])['user']
+
+    assert test_user['state'] == 'inactive'
+    assert test_user['name'] == 'foobar'
+
+    result = runner.invoke(['user-update', test_user['id'],
+                            '--etag', test_user['etag'], '--active'])
 
     assert result['message'] == 'User updated.'
     user_state = runner.invoke(
-        ['user-show', user['id']]
+        ['user-show', test_user['id']]
     )['user']['state']
 
     assert user_state == 'active'

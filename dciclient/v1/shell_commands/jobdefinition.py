@@ -70,7 +70,7 @@ def create(context, name, topic_id, component_types, active):
     if component_types:
         component_types = component_types.split(',')
 
-    state = 'active' if active else 'inactive'
+    state = utils.active_string(active)
     result = jobdefinition.create(context, name=name, topic_id=topic_id,
                                   component_types=component_types,
                                   state=state)
@@ -81,7 +81,7 @@ def create(context, name, topic_id, component_types, active):
 @click.argument("id")
 @click.option("--etag", required=True)
 @click.option("--name", required=False)
-@click.option("--active/--no-active")
+@click.option("--active/--no-active", default=None)
 @click.pass_obj
 def update(context, id, etag, name, active):
     """update(context, id, etag, name, active)
@@ -93,15 +93,11 @@ def update(context, id, etag, name, active):
     :param string id: ID of the jobdefinition to update [required]
     :param string etag: Entity tag of the resource [required]
     :param string name: Name of the jobdefinition
-    :param boolean active: Set the jobdefinition in the (in)active state
+    :param boolean active: Set the jobdefinition in the active state
     """
 
-    state = None
-    if active is not None:
-        state = 'active' if active else 'inactive'
-
     result = jobdefinition.update(context, id=id, etag=etag, name=name,
-                                  state=state)
+                                  state=utils.active_string(active))
 
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Job Definition updated.'})

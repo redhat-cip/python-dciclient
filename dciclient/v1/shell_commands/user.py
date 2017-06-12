@@ -68,7 +68,7 @@ def create(context, name, password, role_id, team_id, active):
     """
     team_id = team_id or user.list(
         context, where='name:' + context.login).json()['users'][0]['team_id']
-    state = 'active' if active else 'inactive'
+    state = utils.active_string(active)
     result = user.create(context, name=name, password=password,
                          role_id=role_id, team_id=team_id, state=state)
     utils.format_output(result, context.format)
@@ -80,7 +80,7 @@ def create(context, name, password, role_id, team_id, active):
 @click.option("--name")
 @click.option("--password")
 @click.option("--role_id")
-@click.option("--active/--no-active")
+@click.option("--active/--no-active", default=None)
 @click.pass_obj
 def update(context, id, etag, name, password, role_id, active):
     """update(context, id, etag, name, password, role_id, active)
@@ -94,15 +94,12 @@ def update(context, id, etag, name, password, role_id, active):
     :param string name: Name of the user
     :param string password: Password of the user
     :param string role_id: ID of the role to attach this user to [optional]
-    :param boolean active: Set the user in the (in)active state
+    :param boolean active: Set the user in the active state
     """
 
-    state = None
-    if active is not None:
-        state = 'active' if active else 'inactive'
-
     result = user.update(context, id=id, etag=etag, name=name,
-                         password=password, role_id=role_id, state=state)
+                         password=password, role_id=role_id,
+                         state=utils.active_string(active))
 
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'User updated.'})

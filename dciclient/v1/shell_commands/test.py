@@ -72,7 +72,7 @@ def create(context, name, team_id, data, active):
     :param boolean active: Set the test in the (in)active state
     """
 
-    state = 'active' if active else 'inactive'
+    state = utils.active_string(active)
     team_id = team_id or user.list(
         context, where='name:' + context.login).json()['users'][0]['team_id']
     result = test.create(context, name=name, data=data, team_id=team_id,
@@ -86,7 +86,7 @@ def create(context, name, team_id, data, active):
 @click.option("--name")
 @click.option("--team_id")
 @click.option("--data", callback=utils.validate_json)
-@click.option("--active/--no-active")
+@click.option("--active/--no-active", default=None)
 @click.pass_obj
 def update(context, id, name, etag, team_id, data, active):
     """update(context, id, etag, name, team_id, data, active)
@@ -100,16 +100,12 @@ def update(context, id, name, etag, team_id, data, active):
     :param string etag: Entity tag of the resource [required]
     :param string team_id: ID of the team to associate this Test with
     :param string data: JSON data to pass during Test update
-    :param boolean active: Set the test in the (in)active state
+    :param boolean active: Set the test in the active state
     """
-
-    state = None
-    if active is not None:
-        state = 'active' if active else 'inactive'
 
     result = test.update(context, id=id, name=name, etag=etag,
                          team_id=team_id, data=data,
-                         state=state)
+                         state=utils.active_string(active))
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Test updated.'})
     else:

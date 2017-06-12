@@ -62,7 +62,7 @@ def create(context, name, active):
     :param boolean active: Set the topic in the (in)active state
     """
 
-    state = 'active' if active else 'inactive'
+    state = utils.active_string(active)
     result = topic.create(context, name=name, state=state)
     utils.format_output(result, context.format)
 
@@ -73,7 +73,7 @@ def create(context, name, active):
 @click.option("--name")
 @click.option("--label")
 @click.option("--next_topic")
-@click.option("--active/--no-active")
+@click.option("--active/--no-active", default=None)
 @click.pass_obj
 def update(context, id, etag, name, label, next_topic, active):
     """update(context, id, etag, name, label, next_topic, active)
@@ -87,16 +87,12 @@ def update(context, id, etag, name, label, next_topic, active):
     :param string name: Name of the Topic
     :param string label: Label of the Topic
     :param string data: JSON data to pass during remote CI update
-    :param boolean active: Set the topic in the (in)active state
+    :param boolean active: Set the topic in the active state
     """
-
-    state = None
-    if active is not None:
-        state = 'active' if active else 'inactive'
 
     result = topic.update(context, id=id, etag=etag, name=name,
                           label=label, next_topic=next_topic,
-                          state=state)
+                          state=utils.active_string(active))
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Topic updated.'})
     else:
