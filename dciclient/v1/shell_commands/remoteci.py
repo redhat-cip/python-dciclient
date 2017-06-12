@@ -87,11 +87,12 @@ def create(context, name, team_id, data, active, allow_upgrade_job):
 @click.option("--name")
 @click.option("--team_id")
 @click.option("--data", callback=utils.validate_json)
-@click.option("--active/--no-active")
+@click.option("--active", is_flag=True)
+@click.option("--no-active", is_flag=True)
 @click.option("--allow-upgrade-job", is_flag=True)
 @click.option("--no-allow-upgrade-job", is_flag=True)
 @click.pass_obj
-def update(context, id, etag, name, team_id, data, active,
+def update(context, id, etag, name, team_id, data, active, no_active,
            allow_upgrade_job, no_allow_upgrade_job):
     """update(context, id, etag, name, team_id, data, active,
               allow_upgrade_job, no_allow_upgrade_job)
@@ -113,8 +114,10 @@ def update(context, id, etag, name, team_id, data, active,
     """
 
     state = None
-    if active is not None:
-        state = 'active' if active else 'inactive'
+    if active:
+        state = 'active'
+    elif no_active:
+        state = 'inactive'
 
     allow_upgrade = None
     if allow_upgrade_job:

@@ -79,11 +79,15 @@ def create(context, name, country, email, notification, active):
 @click.option("--name")
 @click.option("--country")
 @click.option("--email")
-@click.option("--notification/--no-notification")
-@click.option("--active/--no-active")
+@click.option("--notification", is_flag=True)
+@click.option("--no-notification", is_flag=True)
+@click.option("--active", is_flag=True)
+@click.option("--no-active", is_flag=True)
 @click.pass_obj
-def update(context, id, etag, name, country, email, notification, active):
-    """update(context, id, etag, name, country, email, notification, active)
+def update(context, id, etag, name, country, email, notification,
+           no_notification, active, no_active):
+    """update(context, id, etag, name, country, email, notification,
+              no_notification, active, no_active)
 
     Update a team.
 
@@ -99,11 +103,20 @@ def update(context, id, etag, name, country, email, notification, active):
     """
 
     state = None
-    if active is not None:
-        state = 'active' if active else 'inactive'
+    if active:
+        state = 'active'
+    elif no_active:
+        state = 'inactive'
+
+    notif = None
+    if notification:
+        notif = True
+    elif no_notification:
+        notif = False
+
     result = team.update(context, id=id, etag=etag, name=name, state=state,
                          country=country, email=email,
-                         notification=notification)
+                         notification=notif)
 
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Team updated.'})

@@ -86,10 +86,11 @@ def create(context, name, team_id, data, active):
 @click.option("--name")
 @click.option("--team_id")
 @click.option("--data", callback=utils.validate_json)
-@click.option("--active/--no-active")
+@click.option("--active", is_flag=True)
+@click.option("--no-active", is_flag=True)
 @click.pass_obj
-def update(context, id, name, etag, team_id, data, active):
-    """update(context, id, etag, name, team_id, data, active)
+def update(context, id, name, etag, team_id, data, active, no_active):
+    """update(context, id, etag, name, team_id, data, active, no_active)
 
     Update a Test
 
@@ -100,12 +101,15 @@ def update(context, id, name, etag, team_id, data, active):
     :param string etag: Entity tag of the resource [required]
     :param string team_id: ID of the team to associate this Test with
     :param string data: JSON data to pass during Test update
-    :param boolean active: Set the test in the (in)active state
+    :param boolean active: Set the test in the active state
+    :param boolean no_active: Set the test in the inactive state
     """
 
     state = None
-    if active is not None:
-        state = 'active' if active else 'inactive'
+    if active:
+        state = 'active'
+    elif no_active:
+        state = 'inactive'
 
     result = test.update(context, id=id, name=name, etag=etag,
                          team_id=team_id, data=data,
