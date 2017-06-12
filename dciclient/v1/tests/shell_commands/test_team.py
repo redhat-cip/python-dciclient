@@ -40,6 +40,15 @@ def test_create(runner):
     assert team['name'] == 'foo'
 
 
+def test_create_with_country_and_email(runner):
+    team = runner.invoke(['team-create', '--name', 'foo',
+                          '--country', 'FR', '--email',
+                          'foo@example.tld'])['team']
+    assert team['name'] == 'foo'
+    assert team['country'] == 'FR'
+    assert team['email'] == 'foo@example.tld'
+
+
 def test_create_inactive(runner):
     team = runner.invoke(['team-create', '--name', 'foo',
                           '--no-active'])['team']
@@ -60,10 +69,16 @@ def test_update(runner):
     team = runner.invoke(['team-create', '--name', 'foo'])['team']
 
     result = runner.invoke(['team-update', team['id'],
-                            '--etag', team['etag'], '--name', 'bar'])
+                            '--etag', team['etag'], '--name', 'bar',
+                            '--country', 'JP'])
 
     assert result['message'] == 'Team updated.'
     assert result['id'] == team['id']
+
+    team = runner.invoke(['team-show', team['id']])['team']
+
+    assert team['name'] == 'bar'
+    assert team['country'] == 'JP'
 
 
 def test_update_active(runner):

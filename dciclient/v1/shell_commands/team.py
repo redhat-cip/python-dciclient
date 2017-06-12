@@ -43,21 +43,28 @@ def list(context, verbose, where):
 
 @cli.command("team-create", help="Create a team.")
 @click.option("--name", required=True)
+@click.option("--country")
+@click.option("--email")
+@click.option("--notification/--no-notification", default=False)
 @click.option("--active/--no-active", default=True)
 @click.pass_obj
-def create(context, name, active):
-    """create(context, name, active)
+def create(context, name, country, email, notification, active):
+    """create(context, name, country, email, notification, active)
 
     Create a team.
 
     >>> dcictl team-create [OPTIONS]
 
     :param string name: Name of the team [required]
+    :param string country: Country code where the team is based
+    :param string email: Email contact for the team
+    :param boolean notification: Enable or not notification on team's job run
     :param boolean active: Set the team in the (in)active state
     """
 
     state = 'active' if active else 'inactive'
-    result = team.create(context, name=name, state=state)
+    result = team.create(context, name=name, country=country, email=email,
+                         notification=notification, state=state)
     utils.format_output(result, context.format)
 
 
@@ -65,10 +72,13 @@ def create(context, name, active):
 @click.argument("id")
 @click.option("--etag", required=True)
 @click.option("--name")
+@click.option("--country")
+@click.option("--email")
+@click.option("--notification/--no-notification")
 @click.option("--active/--no-active")
 @click.pass_obj
-def update(context, id, etag, name, active):
-    """update(context, id, etag, name, active)
+def update(context, id, etag, name, country, email, notification, active):
+    """update(context, id, etag, name, country, email, notification, active)
 
     Update a team.
 
@@ -77,13 +87,18 @@ def update(context, id, etag, name, active):
     :param string id: ID of the team to update [required]
     :param string etag: Entity tag of the resource [required]
     :param string name: Name of the team [required]
+    :param string country: Country code where the team is based
+    :param string email: Email contact for the team
+    :param boolean notification: Enable or not notification on team's job run
     :param boolean active: Set the team in the (in)active state
     """
 
     state = None
     if active is not None:
         state = 'active' if active else 'inactive'
-    result = team.update(context, id=id, etag=etag, name=name, state=state)
+    result = team.update(context, id=id, etag=etag, name=name, state=state,
+                         country=country, email=email,
+                         notification=notification)
 
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Team updated.'})
