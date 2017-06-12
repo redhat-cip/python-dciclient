@@ -86,7 +86,8 @@ def test_update_active(runner):
     assert team['state'] == 'active'
 
     result = runner.invoke(['team-update', team['id'],
-                            '--etag', team['etag'], '--no-active'])
+                            '--etag', team['etag'], '--no-active',
+                            '--no-notification'])
 
     assert result['message'] == 'Team updated.'
     assert result['id'] == team['id']
@@ -94,6 +95,19 @@ def test_update_active(runner):
     team = runner.invoke(['team-show', team['id']])['team']
 
     assert team['state'] == 'inactive'
+    assert team['notification'] is False
+
+    result = runner.invoke(['team-update', team['id'],
+                            '--etag', team['etag'], '--name', 'foobar'])
+
+    assert result['message'] == 'Team updated.'
+    assert result['id'] == team['id']
+
+    team = runner.invoke(['team-show', team['id']])['team']
+
+    assert team['state'] == 'inactive'
+    assert team['notification'] is False
+
     result = runner.invoke(['team-update', team['id'],
                             '--etag', team['etag'], '--active'])
 

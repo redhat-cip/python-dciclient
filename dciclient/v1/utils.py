@@ -157,3 +157,7 @@ def validate_json(ctx, param, value):
         return json.loads(value)
     except ValueError:
         raise click.BadParameter('this option expects a valid JSON')
+
+
+def active_string(value):
+    return {None: None, True: 'active', False: 'inactive'}[value]

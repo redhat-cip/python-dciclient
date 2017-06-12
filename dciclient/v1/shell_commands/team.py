@@ -67,7 +67,7 @@ def create(context, name, country, email, notification, active):
     :param boolean active: Set the team in the (in)active state
     """
 
-    state = 'active' if active else 'inactive'
+    state = utils.active_string(active)
     result = team.create(context, name=name, country=country, email=email,
                          notification=notification, state=state)
     utils.format_output(result, context.format)
@@ -79,8 +79,8 @@ def create(context, name, country, email, notification, active):
 @click.option("--name")
 @click.option("--country")
 @click.option("--email")
-@click.option("--notification/--no-notification")
-@click.option("--active/--no-active")
+@click.option("--notification/--no-notification", default=None)
+@click.option("--active/--no-active", default=None)
 @click.pass_obj
 def update(context, id, etag, name, country, email, notification, active):
     """update(context, id, etag, name, country, email, notification, active)
@@ -98,10 +98,8 @@ def update(context, id, etag, name, country, email, notification, active):
     :param boolean active: Set the team in the (in)active state
     """
 
-    state = None
-    if active is not None:
-        state = 'active' if active else 'inactive'
-    result = team.update(context, id=id, etag=etag, name=name, state=state,
+    result = team.update(context, id=id, etag=etag, name=name,
+                         state=utils.active_string(active),
                          country=country, email=email,
                          notification=notification)
 
