@@ -32,8 +32,8 @@ from dciclient.v1.api import topic
 @click.option("--long", "--verbose", "verbose",
               required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context, topic_id, sort, limit, verbose, where):
-    """list(context, topic_id)
+def list(context, topic_id, sort, limit, where, verbose):
+    """list(context, topic_id, sort, limit, where, verbose)
 
     List all components.
 
@@ -42,8 +42,9 @@ def list(context, topic_id, sort, limit, verbose, where):
     :param string topic_id: The topic ID for the list of components to return
                             [required]
     :param string sort: Field to apply sort
-    :param string where: An optional filter criteria
     :param integer limit: Max number of rows to return
+    :param string where: An optional filter criteria
+    :param boolean verbose: Display verbose output
     """
     components = topic.list_components(context, id=topic_id,
                                        sort=sort, limit=limit, where=where)

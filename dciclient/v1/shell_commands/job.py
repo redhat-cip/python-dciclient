@@ -33,7 +33,7 @@ from dciclient.v1.api import job
               required=False, default=False, is_flag=True)
 @click.pass_obj
 def list(context, sort, limit, where, verbose):
-    """list(context)
+    """list(context, sort, limit, where, verbose)
 
     List all jobs.
 
@@ -42,6 +42,7 @@ def list(context, sort, limit, where, verbose):
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
     :param string where: An optional filter criteria
+    :param boolean verbose: Display verbose output
     """
     result = job.list(
         context, sort=sort, limit=limit, where=where,

@@ -23,21 +23,26 @@ from dciclient.v1.api import role
 
 
 @cli.command("role-list", help="List all roles.")
+@click.option("--sort", default="-created_at")
+@click.option("--limit", default=50)
 @click.option("--where", help="An optional filter criteria.",
               required=False)
 @click.option("--long", "--verbose", "verbose",
               required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context, where, verbose):
-    """list(context, where, verbose)
+def list(context, sort, limit, where, verbose):
+    """list(context, sort, limit, where, verbose)
 
     List all roles.
 
     >>> dcictl role list
 
+    :param string sort: Field to apply sort
+    :param integer limit: Max number of rows to return
     :param string where: An optional filter criteria
+    :param boolean verbose: Display verbose output
     """
-    result = role.list(context, where=where)
+    result = role.list(context, sort=sort, limit=limit, where=where)
     utils.format_output(result, context.format, verbose=verbose)
 
 
