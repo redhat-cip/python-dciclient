@@ -99,6 +99,16 @@ def test_update_active(runner, team_id):
 
     assert role['state'] == 'inactive'
     result = runner.invoke(['role-update', role['id'],
+                            '--etag', role['etag'], '--name', 'foobar'])
+
+    assert result['message'] == 'Role updated.'
+    role = runner.invoke(
+        ['role-show', role['id']]
+    )['role']
+
+    assert role['state'] == 'inactive'
+
+    result = runner.invoke(['role-update', role['id'],
                             '--etag', role['etag'], '--active'])
 
     assert result['message'] == 'Role updated.'

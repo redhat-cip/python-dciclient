@@ -68,10 +68,11 @@ def create(context, name, active):
 @click.option("--name")
 @click.option("--label")
 @click.option("--next_topic")
-@click.option("--active/--no-active")
+@click.option("--active", is_flag=True)
+@click.option("--no-active", is_flag=True)
 @click.pass_obj
-def update(context, id, etag, name, label, next_topic, active):
-    """update(context, id, etag, name, label, next_topic, active)
+def update(context, id, etag, name, label, next_topic, active, no_active):
+    """update(context, id, etag, name, label, next_topic, active, no_active)
 
     Update a Topic.
 
@@ -82,12 +83,15 @@ def update(context, id, etag, name, label, next_topic, active):
     :param string name: Name of the Topic
     :param string label: Label of the Topic
     :param string data: JSON data to pass during remote CI update
-    :param boolean active: Set the topic in the (in)active state
+    :param boolean active: Set the topic in the active state
+    :param boolean no_active: Set the topic in the inactive state
     """
 
     state = None
-    if active is not None:
-        state = 'active' if active else 'inactive'
+    if active:
+        state = 'active'
+    elif no_active:
+        state = 'inactive'
 
     result = topic.update(context, id=id, etag=etag, name=name,
                           label=label, next_topic=next_topic,

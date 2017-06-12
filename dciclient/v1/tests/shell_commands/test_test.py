@@ -106,6 +106,20 @@ def test_update_active(runner):
     )['test']
 
     assert test['state'] == 'inactive'
+
+    result = runner.invoke(['test-update', test['id'], '--etag', test['etag'],
+                            '--name', 'foobar'])
+
+    assert result['message'] == 'Test updated.'
+    assert result['id'] == test['id']
+
+    test = runner.invoke(
+        ['test-show', test['id']]
+    )['test']
+
+    assert test['state'] == 'inactive'
+    assert test['name'] == 'foobar'
+
     result = runner.invoke(['test-update', test['id'], '--etag', test['etag'],
                             '--active'])
 

@@ -91,6 +91,19 @@ def test_update_active(runner):
     )['remoteci']
 
     assert remoteci['state'] == 'inactive'
+
+    result = runner.invoke(['remoteci-update', remoteci['id'],
+                            '--etag', remoteci['etag'], '--name', 'foobar'])
+
+    assert result['message'] == 'Remote CI updated.'
+    assert result['id'] == remoteci['id']
+
+    remoteci = runner.invoke(
+        ['remoteci-show', remoteci['id']]
+    )['remoteci']
+
+    assert remoteci['state'] == 'inactive'
+
     result = runner.invoke(['remoteci-update', remoteci['id'],
                             '--etag', remoteci['etag'], '--active'])
 

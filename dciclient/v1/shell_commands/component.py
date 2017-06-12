@@ -248,11 +248,14 @@ def file_delete(context, id, file_id):
 
 @cli.command("component-update", help="Update a component.")
 @click.argument("id")
-@click.option("--export-control/--no-export-control")
-@click.option("--active/--no-active")
+@click.option("--export-control", is_flag=True)
+@click.option("--no-export-control", is_flag=True)
+@click.option("--active", is_flag=True)
+@click.option("--no-active", is_flag=True)
 @click.pass_obj
-def update(context, id, export_control, active):
-    """update(context, id, export_control, active)
+def update(context, id, export_control, no_export_control, active, no_active):
+    """update(context, id, export_control, no_export_control, active,
+              no_active)
 
     Update a component
 
@@ -260,18 +263,28 @@ def update(context, id, export_control, active):
 
     :param string id: ID of the component [required]
     :param boolean export-control: Set the component visible for users
-    :param boolean active: Set the component in the (in)active state
+    :param boolean active: Set the component in the active state
+    :param boolean active: Set the component in the inactive state
     """
 
     component_info = component.get(context, id=id)
 
     etag = component_info.json()['component']['etag']
+
     state = None
-    if active is not None:
-        state = 'active' if active else 'inactive'
+    if active:
+        state = 'active'
+    elif no_active:
+        state = 'inactive'
+
+    exp_control = None
+    if export_control:
+        exp_control = True
+    elif no_export_control:
+        exp_control = False
 
     result = component.update(context, id=id, etag=etag,
-                              export_control=export_control, state=state)
+                              export_control=exp_control, state=state)
 
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Component updated.'})

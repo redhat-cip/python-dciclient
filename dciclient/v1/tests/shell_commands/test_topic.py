@@ -125,6 +125,18 @@ def test_update_active(runner):
     topic = runner.invoke(['topic-show', topic['id']])['topic']
 
     assert topic['state'] == 'inactive'
+
+    result = runner.invoke(['topic-update', topic['id'],
+                            '--etag', topic['etag'], '--name', 'foobar'])
+
+    assert result['message'] == 'Topic updated.'
+    assert result['id'] == topic['id']
+
+    topic = runner.invoke(['topic-show', topic['id']])['topic']
+
+    assert topic['state'] == 'inactive'
+    assert topic['name'] == 'foobar'
+
     result = runner.invoke(['topic-update', topic['id'],
                             '--etag', topic['etag'], '--active'])
 
