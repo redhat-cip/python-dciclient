@@ -24,21 +24,26 @@ import click
 
 
 @cli.command("topic-list", help="List all topics.")
+@click.option("--sort", default="-created_at")
+@click.option("--limit", default=50)
 @click.option("--where", help="An optional filter criteria.",
               required=False)
 @click.option("--long", "--verbose", "verbose",
               required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context, verbose, where):
-    """list(context)
+def list(context, sort, limit, where, verbose):
+    """list(context, sort, limit. where. verbose)
 
     List all topics.
 
     >>> dcictl topic-list
 
+    :param string sort: Field to apply sort
+    :param integer limit: Max number of rows to return
     :param string where: An optional filter criteria
+    :param boolean verbose: Display verbose output
     """
-    topics = topic.list(context, where=where)
+    topics = topic.list(context, sort=sort, limit=limit, where=where)
     utils.format_output(topics, context.format, verbose=verbose)
 
 
@@ -181,9 +186,13 @@ def unattach_team(context, id, team_id):
 @click.argument("id")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--where", help="An optional filter criteria.",
+              required=False)
+@click.option("--long", "--verbose", "verbose",
+              required=False, default=False, is_flag=True)
 @click.pass_obj
-def list_attached_team(context, id, sort, limit):
-    """list_attached_team(context, id)
+def list_attached_team(context, id, sort, limit, where, verbose):
+    """list_attached_team(context, id, sort, limit. where. verbose)
 
     List teams attached to a topic.
 
@@ -192,6 +201,9 @@ def list_attached_team(context, id, sort, limit):
     :param string id: ID of the topic to list teams for [required]
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
+    :param string where: An optional filter criteria
+    :param boolean verbose: Display verbose output
     """
-    result = topic.list_attached_team(context, id=id, sort=sort, limit=limit)
-    utils.format_output(result, context.format)
+    result = topic.list_attached_team(context, id=id, sort=sort, limit=limit,
+                                      where=where)
+    utils.format_output(result, context.format, verbose=verbose)
