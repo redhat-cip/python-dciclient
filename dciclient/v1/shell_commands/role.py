@@ -25,9 +25,11 @@ from dciclient.v1.api import role
 @cli.command("role-list", help="List all roles.")
 @click.option("--where", help="An optional filter criteria.",
               required=False)
+@click.option("--long", "--verbose", "verbose",
+              required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context, where):
-    """list(context)
+def list(context, where, verbose):
+    """list(context, where, verbose)
 
     List all roles.
 
@@ -36,7 +38,7 @@ def list(context, where):
     :param string where: An optional filter criteria
     """
     result = role.list(context, where=where)
-    utils.format_output(result, context.format)
+    utils.format_output(result, context.format, verbose=verbose)
 
 
 @cli.command("role-create", help="Create a role.")

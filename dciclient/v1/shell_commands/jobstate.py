@@ -25,9 +25,11 @@ from dciclient.v1.api import jobstate
 @cli.command("jobstate-list", help="List all jobstates.")
 @click.option("--where", help="An optional filter criteria.",
               required=False)
+@click.option("--long", "--verbose", "verbose",
+              required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context, where):
-    """list(context)
+def list(context, where, verbose):
+    """list(context, where, verbose)
 
     List all jobstates.
 
@@ -36,7 +38,7 @@ def list(context, where):
     :param string where: An optional filter criteria
     """
     result = jobstate.list(context, where=where)
-    utils.format_output(result, context.format)
+    utils.format_output(result, context.format, verbose=verbose)
 
 
 @cli.command("jobstate-show", help="Show a jobstate.")

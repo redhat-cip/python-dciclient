@@ -24,6 +24,8 @@ def test_prettytable_output(runner):
     assert role['name'] == 'foo'
     assert role == runner.invoke_raw_parse([
         'role-show', role['id']])
+    assert 'etag' not in runner.invoke_raw_parse(['role-list'])
+    assert 'etag' in runner.invoke_raw_parse(['role-list', '--long'])
 
 
 def test_success_create_basic(runner):
