@@ -26,21 +26,30 @@ from dciclient.v1.api import user
 
 @cli.command("test-list", help="List all tests.")
 @click.option("--team_id", required=False)
+@click.option("--sort", default="-created_at")
+@click.option("--limit", default=50)
+@click.option("--where", help="An optional filter criteria.",
+              required=False)
 @click.option("--long", "--verbose", "verbose",
               required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context, team_id, verbose):
-    """list(context, team_id)
+def list(context, team_id, sort, limit, where, verbose):
+    """list(context, team_id, sort, limit, where, verbose)
 
     List all tests.
 
     >>> dcictl test list
 
     :param string team_id: ID of the team to list tests [required]
+    :param string sort: Field to apply sort
+    :param integer limit: Max number of rows to return
+    :param string where: An optional filter criteria
+    :param boolean verbose: Display verbose output
     """
     team_id = team_id or user.list(
         context, where='name:' + context.login).json()['users'][0]['team_id']
-    result = team.list_tests(context, team_id)
+    result = team.list_tests(context, team_id, sort=sort, limit=limit,
+                             where=where)
     utils.format_output(result, context.format, verbose=verbose)
 
 

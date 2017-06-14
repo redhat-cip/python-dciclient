@@ -24,12 +24,14 @@ from dciclient.v1.api import jobdefinition
 
 @cli.command("jobdefinition-list", help="List all jobdefinitions.")
 @click.option("--topic_id")
+@click.option("--sort", default="-created_at")
+@click.option("--limit", default=50)
 @click.option("--where", help="An optional filter criteria.",
               required=False)
 @click.option("--long", "--verbose", "verbose",
               required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context, topic_id, verbose, where):
+def list(context, topic_id, sort, limit, where, verbose):
     """list(context, id)
 
     List all jobdefinitions.
@@ -37,9 +39,13 @@ def list(context, topic_id, verbose, where):
     >>> dcictl jobdefinition-list [OPTIONS]
 
     :param string topic_id: Topic ID
+    :param string sort: Field to apply sort
+    :param integer limit: Max number of rows to return
     :param string where: An optional filter criteria
+    :param boolean verbose: Display verbose output
     """
-    result = jobdefinition.list(context, topic_id, where=where)
+    result = jobdefinition.list(context, topic_id, sort=sort,
+                                limit=limit, where=where)
     utils.format_output(result, context.format, verbose=verbose)
 
 
@@ -187,9 +193,13 @@ def attach_test(context, id, test_id):
 @click.argument("id")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--where", help="An optional filter criteria.",
+              required=False)
+@click.option("--long", "--verbose", "verbose",
+              required=False, default=False, is_flag=True)
 @click.pass_obj
-def list_test(context, id, sort, limit):
-    """list_test(context, id, test_id)
+def list_test(context, id, sort, limit, where, verbose):
+    """list_test(context, id, sort, limit, where, verbose)
 
     List tests attached to a jobdefinition.
 
@@ -199,9 +209,12 @@ def list_test(context, id, sort, limit):
                       [required]
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
+    :param string where: An optional filter criteria
+    :param boolean verbose: Display verbose output
     """
-    result = jobdefinition.list_tests(context, id=id, sort=sort, limit=limit)
-    utils.format_output(result, context.format)
+    result = jobdefinition.list_tests(context, id=id, sort=sort, limit=limit,
+                                      where=where)
+    utils.format_output(result, context.format, verbose=verbose)
 
 
 @cli.command("jobdefinition-unattach-test",

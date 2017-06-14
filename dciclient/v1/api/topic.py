@@ -53,7 +53,7 @@ def unattach_team(context, id, team_id):
                        subresource_id=team_id)
 
 
-def list_attached_team(context, id, **kwargs):
+def list_teams(context, id, **kwargs):
     return base.list(context, RESOURCE, id=id, subresource='teams', **kwargs)
 
 
