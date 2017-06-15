@@ -49,6 +49,7 @@ def test_create(runner):
         team['id']])['remoteci']
     assert remoteci['name'] == 'foo'
     assert remoteci['state'] == 'active'
+    assert remoteci['allow_upgrade_job'] is False
 
 
 def test_create_inactive(runner):
@@ -59,17 +60,34 @@ def test_create_inactive(runner):
     assert remoteci['state'] == 'inactive'
 
 
+def test_create_allow_upgrade_job(runner):
+    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    remoteci = runner.invoke([
+        'remoteci-create', '--name', 'foo', '--team_id',
+        team['id'], '--allow-upgrade-job'])['remoteci']
+    assert remoteci['allow_upgrade_job'] is True
+
+
 def test_update(runner):
     team = runner.invoke(['team-create', '--name', 'foo'])['team']
     remoteci = runner.invoke([
         'remoteci-create', '--name', 'foo', '--team_id',
         team['id']])['remoteci']
+
+    assert remoteci['allow_upgrade_job'] is False
+
     result = runner.invoke(['remoteci-update', remoteci['id'],
                             '--etag', remoteci['etag'], '--name', 'bar',
-                            '--no-active'])
+                            '--no-active', '--allow-upgrade-job'])
 
     assert result['message'] == 'Remote CI updated.'
     assert result['id'] == remoteci['id']
+
+    remoteci = runner.invoke(
+        ['remoteci-show', remoteci['id']]
+    )['remoteci']
+
+    assert remoteci['allow_upgrade_job'] is True
 
 
 def test_update_active(runner):

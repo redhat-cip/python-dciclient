@@ -52,9 +52,10 @@ def list(context, sort, limit, where, verbose):
 @click.option("--team_id", required=False)
 @click.option("--data", default='{}', callback=utils.validate_json)
 @click.option("--active/--no-active", default=True)
+@click.option("--allow-upgrade-job/--no-allow-upgrade-job", default=False)
 @click.pass_obj
-def create(context, name, team_id, data, active):
-    """create(context, name, team_id, data, active)
+def create(context, name, team_id, data, active, allow_upgrade_job):
+    """create(context, name, team_id, data, active, allow_upgrade_job)
 
     Create a Remote CI
 
@@ -66,13 +67,16 @@ def create(context, name, team_id, data, active):
     :param string data: JSON data to pass during remote CI creation
     :param boolean active: Mark remote CI active
     :param boolean no-active: Mark remote CI inactive
+    :param boolean allow-upgrade-job: Enable possibility to run Upgrade Jobs
+    :param boolean no-allow-upgrade-job: Disable possibility to run Upgrade
+                                         Jobs
     """
 
     state = 'active' if active else 'inactive'
     team_id = team_id or user.list(
         context, where='name:' + context.login).json()['users'][0]['team_id']
     result = remoteci.create(context, name=name, team_id=team_id,
-                             data=data,
+                             data=data, allow_upgrade_job=allow_upgrade_job,
                              state=state)
     utils.format_output(result, context.format)
 
@@ -84,9 +88,13 @@ def create(context, name, team_id, data, active):
 @click.option("--team_id")
 @click.option("--data", callback=utils.validate_json)
 @click.option("--active/--no-active")
+@click.option("--allow-upgrade-job", is_flag=True)
+@click.option("--no-allow-upgrade-job", is_flag=True)
 @click.pass_obj
-def update(context, id, etag, name, team_id, data, active):
-    """update(context, id, etag, name, team_id, data, active)
+def update(context, id, etag, name, team_id, data, active,
+           allow_upgrade_job, no_allow_upgrade_job):
+    """update(context, id, etag, name, team_id, data, active,
+              allow_upgrade_job, no_allow_upgrade_job)
 
     Update a Remote CI.
 
@@ -99,15 +107,24 @@ def update(context, id, etag, name, team_id, data, active):
     :param string data: JSON data to pass during remote CI update
     :param boolean active: Mark remote CI active
     :param boolean no-active: Mark remote CI inactive
+    :param boolean allow-upgrade-job: Enable possibility to run Upgrade Jobs
+    :param boolean no-allow-upgrade-job: Disable possibility to run Upgrade
+                                         Jobs
     """
 
     state = None
     if active is not None:
         state = 'active' if active else 'inactive'
 
+    allow_upgrade = None
+    if allow_upgrade_job:
+        allow_upgrade = True
+    elif no_allow_upgrade_job:
+        allow_upgrade = False
+
     result = remoteci.update(context, id=id, etag=etag, name=name,
                              team_id=team_id, data=data,
-                             state=state)
+                             state=state, allow_upgrade_job=allow_upgrade)
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Remote CI updated.'})
     else:

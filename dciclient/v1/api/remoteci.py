@@ -22,9 +22,11 @@ import json
 RESOURCE = 'remotecis'
 
 
-def create(context, name, team_id, data={}, state='active'):
+def create(context, name, team_id, data={}, state='active',
+           allow_upgrade_job=False):
     return base.create(context, RESOURCE, name=name, team_id=team_id,
-                       data=json.dumps(data), state=state)
+                       data=json.dumps(data), state=state,
+                       allow_upgrade_job=allow_upgrade_job)
 
 
 def list(context, **kwargs):
@@ -39,9 +41,11 @@ def get_data(context, id, keys=None):
     return base.get_data(context, RESOURCE, id=id, keys=keys)
 
 
-def update(context, id, etag, name=None, team_id=None, data=None, state=None):
+def update(context, id, etag, name=None, team_id=None, data=None, state=None,
+           allow_upgrade_job=None):
     return base.update(context, RESOURCE, id=id, etag=etag, name=name,
-                       team_id=team_id, data=data, state=state)
+                       team_id=team_id, data=data, state=state,
+                       allow_upgrade_job=allow_upgrade_job)
 
 
 def delete(context, id, etag):
