@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9aa53dc9_bf9e9705",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-06-20T13:48:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9aa53dc9_7f024f40",
+      "revId": "a4ce1320dc2596347211cddeeb47444127941941",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9aa53dc9_5fff8b34",
         "filename": "dciclient/v1/api/context.py",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2017-06-20T13:33:20Z",
       "side": 1,
       "message": "I don\u0027t think a lib should call exit() by itself. Yes we are already doing that line 75 ... Could you just raise an error instead?",
+      "revId": "a4ce1320dc2596347211cddeeb47444127941941",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa53dc9_9fa3d34f",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-06-20T13:48:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9aa53dc9_5fff8b34",
       "revId": "a4ce1320dc2596347211cddeeb47444127941941",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
@@ -118,6 +154,24 @@
       "writtenOn": "2017-06-20T13:33:20Z",
       "side": 1,
       "message": "print()",
+      "revId": "a4ce1320dc2596347211cddeeb47444127941941",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa53dc9_df995b21",
+        "filename": "dciclient/v1/tests/shell_commands/test_job.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-06-20T13:48:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9aa53dc9_3ffcc73d",
       "revId": "a4ce1320dc2596347211cddeeb47444127941941",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
