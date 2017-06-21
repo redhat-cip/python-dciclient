@@ -253,13 +253,13 @@ def test_id(dci_context, team_id):
 @pytest.fixture
 def components(dci_context, topic_id):
     component1 = {'name': 'component1',
-                  'type': 'git_commit',
+                  'type': 'type_1',
                   'data': {},
                   'canonical_project_name': 'component 1',
                   'topic_id': topic_id}
 
     component2 = {'name': 'component2',
-                  'type': 'git_commit',
+                  'type': 'type_2',
                   'data': {},
                   'canonical_project_name': 'component 2',
                   'topic_id': topic_id}
@@ -307,6 +307,7 @@ def job_factory(dci_context, team_id, topic_id,
                 remoteci_id, jobdefinition_factory):
     def create():
         job = api.job.schedule(dci_context, remoteci_id, topic_id).json()
+        print(job)
         job_id = job['job']['id']
         api.file.create(dci_context, name='res_junit.xml',
                         content=JUNIT, mime='application/junit',
@@ -347,7 +348,7 @@ def job_factory(dci_context, team_id, topic_id,
 
 
 @pytest.fixture
-def job_id(job_factory):
+def job_id(job_factory, components):
     return job_factory()['job']['id']
 
 
