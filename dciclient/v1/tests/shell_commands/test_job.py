@@ -44,11 +44,12 @@ def test_get_full_data(job_id, dci_context):
     assert full_data_job['remoteci']['data'] == {'remoteci': 'remoteci'}
     assert full_data_job['jobdefinition']['name'] == 'tname'
     cpt_names = set([i['name'] for i in full_data_job['components']])
-    assert cpt_names == set(['hihi', 'haha'])
+    assert cpt_names == set(['component1', 'component2'])
 
 
 def test_list(runner, dci_context, remoteci_id):
-    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+    topic = runner.invoke(['topic-create', '--name', 'osp',
+                           '--component_types', 'type_1'])['topic']
 
     teams = runner.invoke(['team-list'])['teams']
     team_id = teams[0]['id']
@@ -58,10 +59,10 @@ def test_list(runner, dci_context, remoteci_id):
     jd = runner.invoke(['jobdefinition-create',
                         '--name', 'foo',
                         '--topic_id', topic['id'],
-                        '--component_types', 'foobar'])['jobdefinition']
+                        '--component_types', 'type_1'])['jobdefinition']
 
     runner.invoke(['component-create', '--name', 'foo',
-                   '--type', 'foobar', '--topic_id',
+                   '--type', 'type_1', '--topic_id',
                    topic['id']])['component']
 
     job.schedule(dci_context, remoteci_id, topic['id'])
@@ -151,9 +152,9 @@ def test_job_output(runner, job_id):
 
 
 def test_job_list(runner, dci_context, team_id, topic_id,
-                  remoteci_id, component_id):
+                  remoteci_id, components_ids):
     kwargs = {'name': 'tname', 'topic_id': topic_id,
-              'component_types': ['git_review']}
+              'component_types': ['type_1']}
     jd = jobdefinition.create(dci_context, **kwargs).json()
     jobdefinition_id = jd['jobdefinition']['id']
 
@@ -164,8 +165,9 @@ def test_job_list(runner, dci_context, team_id, topic_id,
     test_id = test.create(dci_context, **kwargs).json()['test']['id']
     remoteci.add_test(dci_context, remoteci_id, test_id)
 
-    job_id = job.schedule(
-        dci_context, remoteci_id, topic_id).json()['job']['id']
+    job_scheduled = job.schedule(
+        dci_context, remoteci_id, topic_id).json()
+    job_id = job_scheduled['job']['id']
     result = runner.invoke(['job-list-test', job_id])
     assert len(result['tests']) == 2
     assert result['tests'][0]['name'] == 'test_jobdefinition'
