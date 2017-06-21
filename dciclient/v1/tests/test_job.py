@@ -51,7 +51,7 @@ def test_get_full_data(dci_context, job_id):
 
 def test_job_upgraded(dci_context, job_id, topic_id):
     old = topic.get(dci_context, id=topic_id).json()['topic']
-    new = topic.create(dci_context, 'bar_topic')
+    new = topic.create(dci_context, 'bar_topic', ['type_1'])
     t = new.json()['topic']
     component.create(dci_context, 'bar_component', 'type_1', t['id'])
     jobdefinition.create(dci_context, 'bar_jobdef', t['id'],

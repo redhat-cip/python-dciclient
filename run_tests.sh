@@ -20,7 +20,7 @@ set -x -e
 
 # if the database is already running we do not want to run this script
 if [ -z "$DISABLE_DB_START" ]; then
-    pifpaf run postgresql -- py.test -v --cov-report html --cov dciclient $*
+    pifpaf run postgresql -- py.test -vv --cov-report html --cov dciclient $*
 else
-    PIFPAF_POSTGRESQL_URL='' py.test -v --cov-report html --cov dciclient $*
+    PIFPAF_POSTGRESQL_URL='' py.test -vv --cov-report html --cov dciclient $*
 fi
