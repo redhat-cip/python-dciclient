@@ -49,21 +49,26 @@ def list(context, sort, limit, where, verbose):
 
 @cli.command("topic-create", help="Create a topic.")
 @click.option("--name", required=True)
+@click.option("--component_types", help="Component types separated by commas.")
 @click.option("--active/--no-active", default=True)
 @click.pass_obj
-def create(context, name, active):
-    """create(context, name, active)
+def create(context, name, component_types, active):
+    """create(context, name, component_types, active)
 
     Create a topic.
 
     >>> dcictl topic-create [OPTIONS]
 
     :param string name: Name of the topic [required]
+    :param string component_types: list of component types separated by commas
     :param boolean active: Set the topic in the (in)active state
     """
+    if component_types:
+        component_types = component_types.split(',')
 
     state = 'active' if active else 'inactive'
-    result = topic.create(context, name=name, state=state)
+    result = topic.create(context, name=name, component_types=component_types,
+                          state=state)
     utils.format_output(result, context.format)
 
 

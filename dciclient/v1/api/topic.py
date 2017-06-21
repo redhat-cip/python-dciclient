@@ -20,8 +20,9 @@ from dciclient.v1.api import base
 RESOURCE = 'topics'
 
 
-def create(context, name, label=None, state='active'):
-    return base.create(context, RESOURCE, name=name, label=label, state=state)
+def create(context, name, component_types, label=None, state='active'):
+    return base.create(context, RESOURCE, name=name, label=label, state=state,
+                       component_types=component_types)
 
 
 def list(context, **kwargs):
