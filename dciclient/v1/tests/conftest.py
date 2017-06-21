@@ -307,6 +307,7 @@ def job_factory(dci_context, team_id, topic_id,
                 remoteci_id, jobdefinition_factory):
     def create():
         job = api.job.schedule(dci_context, remoteci_id, topic_id).json()
+        print(job)
         job_id = job['job']['id']
         api.file.create(dci_context, name='res_junit.xml',
                         content=JUNIT, mime='application/junit',
