@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9aa53dc9_148fa224",
+        "filename": "dciclient/v1/shell_commands/remoteci.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2017-06-27T14:57:07Z",
+      "side": 1,
+      "message": "it should be @click.argument(\"id\")\n\nRight now it produces an error :\n\n# dcictl remoteci-reset-api-secret --id xxx --etag xxx\nUsage: dcictl remoteci-reset-api-secret [OPTIONS]\n\nError: Missing option \"--id\".",
+      "revId": "53e77f061b32fb668742650ac16e44fd1697164d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
