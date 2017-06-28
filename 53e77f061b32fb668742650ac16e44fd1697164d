@@ -16,6 +16,24 @@
       "revId": "53e77f061b32fb668742650ac16e44fd1697164d",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa53dc9_c8e19e00",
+        "filename": "dciclient/v1/shell_commands/remoteci.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-06-28T16:21:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9aa53dc9_148fa224",
+      "revId": "53e77f061b32fb668742650ac16e44fd1697164d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
