@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9aa53dc9_cbe19800",
+        "filename": "dciclient/v1/tests/conftest.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-06-29T13:53:56Z",
+      "side": 1,
+      "message": "should use example.org as in other tests from the control-server.",
+      "range": {
+        "startLine": 387,
+        "startChar": 64,
+        "endLine": 387,
+        "endChar": 67
+      },
+      "revId": "f5258a800cd83daa4dc02d79d95b56e9c6ccfba1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
