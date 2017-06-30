@@ -68,6 +68,29 @@
       "revId": "14edc6f070ea3fedf307820cac3b853ed5639a2a",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa53dc9_3ee4c039",
+        "filename": "dciclient/v1/shell_commands/user.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-06-30T09:26:43Z",
+      "side": 1,
+      "message": "Could use:\n   `@click.option(\"--active/--no-active\", default\u003dNone)`\n\ninstead. WDYT ?",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 42
+      },
+      "revId": "14edc6f070ea3fedf307820cac3b853ed5639a2a",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
