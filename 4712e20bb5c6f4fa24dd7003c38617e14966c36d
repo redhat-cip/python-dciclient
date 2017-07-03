@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9aa53dc9_e16c7d0a",
+        "filename": "dciclient/v1/shell_commands/topic.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-07-03T09:40:42Z",
+      "side": 1,
+      "message": "Could you add a help message explaining that it should be a coma separated list of component [names|ids] ?",
+      "revId": "4712e20bb5c6f4fa24dd7003c38617e14966c36d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aa53dc9_c17179e2",
+        "filename": "dciclient/v1/shell_commands/topic.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-07-03T09:40:42Z",
+      "side": 1,
+      "message": "Missing docstring for component_types.",
+      "revId": "4712e20bb5c6f4fa24dd7003c38617e14966c36d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
