@@ -49,12 +49,14 @@ def list(context, sort, limit, where, verbose):
 @cli.command("user-create", help="Create a user.")
 @click.option("--name", required=True)
 @click.option("--password", required=True)
+@click.option("--email", required=True)
+@click.option("--fullname")
 @click.option("--active/--no-active", default=True)
 @click.option("--role_id")
 @click.option("--team_id")
 @click.pass_obj
-def create(context, name, password, role_id, team_id, active):
-    """create(context, name, password, role_id, team_id, active)
+def create(context, name, password, role_id, team_id, active, email, fullname):
+    """create(context, name, password, role_id, team_id, active, email, fullname)
 
     Create a user.
 
@@ -62,6 +64,8 @@ def create(context, name, password, role_id, team_id, active):
 
     :param string name: Name of the user [required]
     :param string password: Password for the user [required]
+    :param string email: Email of the user [required]
+    :param string fullname: Full name of the user [optional]
     :param string role_id: ID of the role to attach this user to [optional]
     :param string team_id: ID of the team to attach this user to [optional]
     :param boolean active: Set the user in the (in)active state
@@ -69,8 +73,10 @@ def create(context, name, password, role_id, team_id, active):
     team_id = team_id or user.list(
         context, where='name:' + context.login).json()['users'][0]['team_id']
     state = 'active' if active else 'inactive'
+    fullname = fullname or name
     result = user.create(context, name=name, password=password,
-                         role_id=role_id, team_id=team_id, state=state)
+                         role_id=role_id, team_id=team_id, state=state,
+                         email=email, fullname=fullname)
     utils.format_output(result, context.format)
 
 
@@ -79,11 +85,14 @@ def create(context, name, password, role_id, team_id, active):
 @click.option("--etag", required=True)
 @click.option("--name")
 @click.option("--password")
+@click.option("--email")
+@click.option("--fullname")
 @click.option("--role_id")
 @click.option("--active/--no-active")
 @click.pass_obj
-def update(context, id, etag, name, password, role_id, active):
-    """update(context, id, etag, name, password, role_id, active)
+def update(context, id, etag, name, password, role_id, active, email,
+           fullname):
+    """update(context, id, etag, name, password, role_id, active, email, fullname)
 
     Update a user.
 
@@ -93,6 +102,8 @@ def update(context, id, etag, name, password, role_id, active):
     :param string etag: Entity tag of the user resource [required]
     :param string name: Name of the user
     :param string password: Password of the user
+    :param string email: Email of the user
+    :param string fullname: Full name of the user
     :param string role_id: ID of the role to attach this user to [optional]
     :param boolean active: Set the user in the (in)active state
     """
@@ -102,7 +113,8 @@ def update(context, id, etag, name, password, role_id, active):
         state = 'active' if active else 'inactive'
 
     result = user.update(context, id=id, etag=etag, name=name,
-                         password=password, role_id=role_id, state=state)
+                         password=password, role_id=role_id, state=state,
+                         email=email, fullname=fullname)
 
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'User updated.'})

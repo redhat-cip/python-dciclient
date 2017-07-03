@@ -20,9 +20,11 @@ from dciclient.v1.api import base
 RESOURCE = 'users'
 
 
-def create(context, name, password, team_id, role_id=None, state='active'):
+def create(context, name, password, team_id, email, fullname, role_id=None,
+           state='active'):
     return base.create(context, RESOURCE, name=name, password=password,
-                       role_id=role_id, team_id=team_id, state=state)
+                       role_id=role_id, team_id=team_id, state=state,
+                       email=email, fullname=fullname)
 
 
 def list(context, **kwargs):
@@ -34,9 +36,10 @@ def get(context, id, **kwargs):
 
 
 def update(context, id, etag, name=None, password=None, role_id=None,
-           state=None):
+           state=None, email=None, fullname=None):
     return base.update(context, RESOURCE, id=id, etag=etag, name=name,
-                       password=password, role_id=role_id, state=state)
+                       password=password, role_id=role_id, state=state,
+                       email=email, fullname=fullname)
 
 
 def delete(context, id, etag):
