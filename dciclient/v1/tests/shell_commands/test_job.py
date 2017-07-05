@@ -78,20 +78,6 @@ def test_list(runner, dci_context, remoteci_id):
     assert len(l_job['jobs']) == 1
 
 
-def test_list_as_remoteci(job, remoteci_id, runner_remoteci):
-    l_job = runner_remoteci.invoke(['job-list'])
-    assert len(l_job['jobs']) == 1
-    assert l_job['jobs'][0]['remoteci']['id'] == remoteci_id
-    assert l_job['jobs'][0]['jobdefinition']['id'] == job['jobdefinition_id']
-    output = runner_remoteci.invoke_raw_parse(['job-list'])
-    assert output['jobdefinition/name'] == 'tname'
-    assert output['id'] == job['id']
-
-    l_job = runner_remoteci.invoke(['job-list', '--where',
-                                    'remoteci_id:' + remoteci_id])
-    assert len(l_job['jobs']) == 1
-
-
 def test_list_with_limit(runner, job_factory):
     for _ in range(6):
         job_factory()
@@ -232,40 +218,4 @@ def test_file_support(runner, tmpdir, job_id):
         '--file_id', new_f['id']])
     result = runner.invoke(['job-show-file', job_id,
                             '--file_id', new_f['id']])
-    assert result['status_code'] == 404
-
-
-def test_file_support_as_remoteci(runner_remoteci, tmpdir, job_id):
-    td = tmpdir
-    p = td.join("remoteci.txt")
-    p.write("remoteci content")
-
-    # upload
-    new_f = runner_remoteci.invoke(['job-upload-file', job_id, '--name',
-                                    'testrci', '--path', p.strpath])['file']
-    assert new_f['size'] == 16
-
-    # show
-    new_f = runner_remoteci.invoke(['job-show-file', job_id,
-                                    '--file_id', new_f['id']])['file']
-    assert new_f['size'] == 16
-
-    # download
-    runner_remoteci.invoke_raw(['job-download-file', job_id,
-                                '--file_id', new_f['id'],
-                                '--target', td.strpath + '/my_file'])
-    assert open(td.strpath + '/my_file', 'r').read() == 'remoteci content'
-
-    # list
-    my_list = runner_remoteci.invoke(['job-list-file',
-                                      job_id])['files']
-    assert len(my_list) == 1
-    assert my_list[0]['size'] == 16
-
-    # delete
-    runner_remoteci.invoke_raw([
-        'job-delete-file', job_id,
-        '--file_id', new_f['id']])
-    result = runner_remoteci.invoke(['job-show-file', job_id,
-                                     '--file_id', new_f['id']])
     assert result['status_code'] == 404

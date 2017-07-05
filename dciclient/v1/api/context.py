@@ -12,31 +12,33 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from datetime import datetime
 import os
+import sys
 
 import requests
 from requests.adapters import HTTPAdapter
-from requests.auth import AuthBase
-from requests.compat import urlparse
 from requests.packages.urllib3.util.retry import Retry
 
-from dciclient.v1 import auth
 from dciclient import version
 
 
-class DciContextBase(object):
+class DciContext(object):
     API_VERSION = 'api/v1'
 
-    def __init__(self, dci_cs_url, max_retries=0, user_agent=None):
-        super(DciContextBase, self).__init__()
-        self.session = self._build_http_session(user_agent, max_retries)
+    def __init__(self, dci_cs_url, login, password, max_retries=0,
+                 user_agent=None):
+        self.session = self._build_http_session(login, password, user_agent)
+        retries = Retry(total=max_retries,
+                        backoff_factor=0.1)
+        self.login = login
+        self.session.mount('http://', HTTPAdapter(max_retries=retries))
+        self.session.mount('https://', HTTPAdapter(max_retries=retries))
         self.dci_cs_api = '%s/%s' % (dci_cs_url, DciContext.API_VERSION)
         self.last_jobstate_id = None
         self.last_job_id = None
 
     @staticmethod
-    def _build_http_session(user_agent, max_retries):
+    def _build_http_session(login, password, user_agent):
         session = requests.Session()
         session.headers.setdefault('Content-Type', 'application/json')
         if not user_agent:
@@ -45,95 +47,20 @@ class DciContextBase(object):
         session.headers['Client-Version'] = (
             'python-dciclient_%s' % version.__version__
         )
-        retries = Retry(total=max_retries,
-                        backoff_factor=0.1)
-        session.mount('http://', HTTPAdapter(max_retries=retries))
-        session.mount('https://', HTTPAdapter(max_retries=retries))
-
+        session.auth = (login, password)
         return session
 
 
-class DciContext(DciContextBase):
-    def __init__(self, dci_cs_url, login, password, max_retries=0,
-                 user_agent=None):
-        super(DciContext, self).__init__(dci_cs_url, max_retries, user_agent)
-        self.login = login
-        self.session.auth = (login, password)
-
-
 def build_dci_context(dci_cs_url=None, dci_login=None, dci_password=None,
-                      dci_api_secret=None, user_agent=None, max_retries=80):
+                      user_agent=None, max_retries=80):
     dci_cs_url = dci_cs_url or os.environ.get('DCI_CS_URL', '')
     dci_login = dci_login or os.environ.get('DCI_LOGIN', '')
     dci_password = dci_password or os.environ.get('DCI_PASSWORD', '')
 
     if not dci_cs_url or not dci_login or not dci_password:
-        msg = "Environment variables required: DCI_CS_URL=%s, " \
-              "DCI_LOGIN=%s, DCI_PASSWORD=%s" % \
-              (dci_cs_url, dci_login, dci_password)
-        raise Exception(msg)
+        print("Environment variables required: DCI_CS_URL=%s, "
+              "DCI_LOGIN=%s, DCI_PASSWORD=%s" %
+              (dci_cs_url, dci_login, dci_password))
+        sys.exit(1)
     return DciContext(dci_cs_url, dci_login, dci_password,
                       user_agent=user_agent, max_retries=max_retries)
-
-
-class DciSignatureAuth(AuthBase):
-    """Signs the request for DCI API with signature authentication"""
-    def __init__(self, client_id, api_secret):
-        self.client_id = client_id
-        self.api_secret = api_secret
-        self.client_info = None
-        self.timestamp = None
-
-    def __call__(self, r):
-        content_type = r.headers.get('Content-Type', '')
-        url_p = urlparse(r.url)
-
-        self.refresh_client_info()
-        sig = auth.sign(secret=self.api_secret,
-                        http_verb=r.method,
-                        content_type=content_type,
-                        timestamp=self.timestamp,
-                        url=url_p.path,
-                        query_string=url_p.query,
-                        payload=r.body)
-        r.headers.update(self.build_headers(self.client_info, sig))
-        r.prepare_headers(r.headers)
-
-        return r
-
-    def refresh_client_info(self):
-        self.timestamp = datetime.utcnow()
-        self.client_info = '%s/remoteci/%s' % (
-            self.timestamp.strftime('%Y-%m-%d %H:%M:%SZ'),
-            self.client_id
-        )
-
-    @staticmethod
-    def build_headers(client_info, sig):
-        return {
-            'DCI-Client-Info': client_info,
-            'DCI-Auth-Signature': sig,
-        }
-
-
-class DciSignatureContext(DciContextBase):
-    def __init__(self, dci_cs_url, client_id, api_secret, max_retries=0,
-                 user_agent=None):
-        super(DciSignatureContext, self).__init__(dci_cs_url, max_retries,
-                                                  user_agent)
-        self.session.auth = DciSignatureAuth(client_id, api_secret)
-
-
-def build_signature_context(dci_cs_url=None, dci_client_id=None,
-                            dci_api_secret=None,
-                            user_agent=None, max_retries=80):
-    dci_cs_url = dci_cs_url or os.environ.get('DCI_CS_URL', '')
-    dci_client_id = dci_client_id or os.environ.get('DCI_CLIENT_ID', '')
-    dci_api_secret = dci_api_secret or os.environ.get('DCI_API_SECRET', '')
-
-    if not dci_cs_url or not dci_client_id or not dci_api_secret:
-        msg = "Environment variables required: DCI_CS_URL, " \
-              "DCI_CLIENT_ID, DCI_API_SECRET"
-        raise Exception(msg)
-    return DciSignatureContext(dci_cs_url, dci_client_id, dci_api_secret,
-                               user_agent=user_agent, max_retries=max_retries)
