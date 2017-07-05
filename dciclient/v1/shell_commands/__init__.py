@@ -47,9 +47,13 @@ click.core.command = command
 
 
 @click.group()
-@click.option('--dci-login', envvar='DCI_LOGIN', required=True,
+@click.option('--dci-login', envvar='DCI_LOGIN',
               help="DCI login or 'DCI_LOGIN' environment variable.")
-@click.option('--dci-password', envvar='DCI_PASSWORD', required=True,
+@click.option('--dci-password', envvar='DCI_PASSWORD',
+              help="DCI password or 'DCI_PASSWORD' environment variable.")
+@click.option('--dci-client-id', envvar='DCI_CLIENT_ID',
+              help="DCI login or 'DCI_LOGIN' environment variable.")
+@click.option('--dci-api-secret', envvar='DCI_API_SECRET',
               help="DCI password or 'DCI_PASSWORD' environment variable.")
 @click.option('--dci-cs-url', envvar='DCI_CS_URL', default=_default_dci_cs_url,
               help="DCI control server url, default to '%s'." %
@@ -57,10 +61,22 @@ click.core.command = command
 @click.option('--format', envvar='DCI_CLI_OUTPUT_FORMAT', required=False,
               default='table', help="DCI CLI output format.")
 @click.pass_context
-def cli(ctx, dci_login, dci_password, dci_cs_url, format):
-    context = dci_context.build_dci_context(dci_login=dci_login,
-                                            dci_password=dci_password,
-                                            dci_cs_url=dci_cs_url)
+def cli(ctx, dci_login, dci_password, dci_client_id, dci_api_secret,
+        dci_cs_url, format):
+    if dci_login is not None and dci_password is not None:
+        context = dci_context.build_dci_context(dci_login=dci_login,
+                                                dci_password=dci_password,
+                                                dci_cs_url=dci_cs_url)
+    elif dci_client_id is not None and dci_api_secret is not None:
+        context = dci_context.build_signature_context(
+            dci_client_id=dci_client_id,
+            dci_api_secret=dci_api_secret,
+            dci_cs_url=dci_cs_url)
+    else:
+        raise click.UsageError(
+            'Missing options --dci-login and --dci-password or '
+            '--dci-client-id and dci-api-secret.')
+
     context.format = format
     ctx.obj = context
 
