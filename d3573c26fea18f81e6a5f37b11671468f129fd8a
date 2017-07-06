@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9aa53dc9_0d1790a4",
+        "filename": "dciclient/v1/tests/shell_commands/test_job.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-07-06T14:04:14Z",
+      "side": 1,
+      "message": "debug print",
+      "revId": "d3573c26fea18f81e6a5f37b11671468f129fd8a",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
