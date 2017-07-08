@@ -46,8 +46,8 @@ def list(context, sort, limit, where, verbose):
     """
     result = job.list(
         context, sort=sort, limit=limit, where=where,
-        embed='jobdefinition,remoteci,team')
-    headers = ['id', 'status', 'jobdefinition/name', 'remoteci/name',
+        embed='topic,remoteci,team')
+    headers = ['id', 'status', 'topic/name', 'remoteci/name',
                'team/name', 'etag', 'created_at', 'updated_at']
 
     utils.format_output(result, context.format, headers, verbose=verbose)
