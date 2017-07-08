@@ -15,8 +15,8 @@
 # under the License.
 
 from dciclient.v1.api import base
-from dciclient.v1.api import jobdefinition
 from dciclient.v1.api import remoteci
+from dciclient.v1.api import topic
 
 import json
 
@@ -70,8 +70,8 @@ def list_results(context, id, **kwargs):
 
 def get_full_data(context, id):
     # Get the job with embed on test and remoteci
-    embed = ('jobdefinition,remoteci,remoteci.tests,'
-             'components,jobdefinition.tests')
+    embed = ('topic,topic.tests,remoteci,remoteci.tests,'
+             'components')
     job = base.get(context, RESOURCE, id=id, embed=embed).json()['job']
     return job
 
@@ -110,8 +110,8 @@ def list_jobstates(context, id, **kwargs):
 def list_tests(context, id, **kwargs):
     j = base.get(context, RESOURCE, id=id, **kwargs).json()['job']
     result = {'tests': []}
-    result['tests'] += jobdefinition.list_tests(
-        context, j['jobdefinition_id']).json()['tests']
+    result['tests'] += topic.list_tests(
+        context, j['topic_id']).json()['tests']
     result['tests'] += remoteci.list_tests(
         context, j['remoteci_id']).json()['tests']
     return result

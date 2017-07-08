@@ -15,9 +15,9 @@
 # under the License.
 
 from dciclient.v1.api import job
-from dciclient.v1.api import jobdefinition
 from dciclient.v1.api import remoteci
 from dciclient.v1.api import test
+from dciclient.v1.api import topic
 
 import pytest
 import requests
@@ -39,10 +39,10 @@ def test_prettytable_output(runner, job_id):
     assert 'etag' in runner.invoke_raw_parse(['job-list', '--long'])
 
 
-def test_get_full_data(job_id, dci_context):
+def test_get_full_data(job_id, dci_context, topic_id):
     full_data_job = job.get_full_data(dci_context, job_id)
     assert full_data_job['remoteci']['data'] == {'remoteci': 'remoteci'}
-    assert full_data_job['jobdefinition']['name'] == 'tname'
+    assert full_data_job['topic']['name'] == 'foo_topic'
     cpt_names = set([i['name'] for i in full_data_job['components']])
     assert cpt_names == set(['component1', 'component2'])
 
@@ -56,11 +56,6 @@ def test_list(runner, dci_context, remoteci_id):
 
     runner.invoke(['topic-attach-team', topic['id'], '--team_id', team_id])
 
-    jd = runner.invoke(['jobdefinition-create',
-                        '--name', 'foo',
-                        '--topic_id', topic['id'],
-                        '--component_types', 'type_1'])['jobdefinition']
-
     runner.invoke(['component-create', '--name', 'foo',
                    '--type', 'type_1', '--topic_id',
                    topic['id']])['component']
@@ -69,9 +64,9 @@ def test_list(runner, dci_context, remoteci_id):
     l_job = runner.invoke(['job-list'])
     assert len(l_job['jobs']) == 1
     assert l_job['jobs'][0]['remoteci']['id'] == remoteci_id
-    assert l_job['jobs'][0]['jobdefinition']['id'] == jd['id']
+    assert l_job['jobs'][0]['topic']['id'] == topic['id']
     output = runner.invoke_raw_parse(['job-list'])
-    assert output['jobdefinition/name'] == 'foo'
+    assert output['topic/name'] == 'osp'
     assert output['id'] == l_job['jobs'][0]['id']
 
     l_job = runner.invoke(['job-list', '--where',
@@ -83,9 +78,9 @@ def test_list_as_remoteci(job, remoteci_id, runner_remoteci):
     l_job = runner_remoteci.invoke(['job-list'])
     assert len(l_job['jobs']) == 1
     assert l_job['jobs'][0]['remoteci']['id'] == remoteci_id
-    assert l_job['jobs'][0]['jobdefinition']['id'] == job['jobdefinition_id']
+    assert l_job['jobs'][0]['topic']['id'] == job['topic_id']
     output = runner_remoteci.invoke_raw_parse(['job-list'])
-    assert output['jobdefinition/name'] == 'tname'
+    assert output['topic/name'] == 'foo_topic'
     assert output['id'] == job['id']
 
     l_job = runner_remoteci.invoke(['job-list', '--where',
@@ -167,14 +162,10 @@ def test_job_output(runner, job_id):
 
 def test_job_list(runner, dci_context, team_id, topic_id,
                   remoteci_id, components_ids):
-    kwargs = {'name': 'tname', 'topic_id': topic_id,
-              'component_types': ['type_1']}
-    jd = jobdefinition.create(dci_context, **kwargs).json()
-    jobdefinition_id = jd['jobdefinition']['id']
 
-    kwargs = {'name': 'test_jobdefinition', 'team_id': team_id}
+    kwargs = {'name': 'test_topic', 'team_id': team_id}
     test_id = test.create(dci_context, **kwargs).json()['test']['id']
-    jobdefinition.add_test(dci_context, jobdefinition_id, test_id)
+    topic.add_test(dci_context, topic_id, test_id)
     kwargs = {'name': 'test_remoteci', 'team_id': team_id}
     test_id = test.create(dci_context, **kwargs).json()['test']['id']
     remoteci.add_test(dci_context, remoteci_id, test_id)
@@ -184,7 +175,7 @@ def test_job_list(runner, dci_context, team_id, topic_id,
     job_id = job_scheduled['job']['id']
     result = runner.invoke(['job-list-test', job_id])
     assert len(result['tests']) == 2
-    assert result['tests'][0]['name'] == 'test_jobdefinition'
+    assert result['tests'][0]['name'] == 'test_topic'
     assert result['tests'][1]['name'] == 'test_remoteci'
 
 
