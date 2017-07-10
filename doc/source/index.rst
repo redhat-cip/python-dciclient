@@ -11,6 +11,7 @@ Welcome to python-dciclient's documentation!
 
    cli
    api
+   authentication
 
 Indices and tables
 ==================
