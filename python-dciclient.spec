@@ -31,7 +31,7 @@ BuildRequires:  python-mock
 BuildRequires:  python-prettytable
 BuildRequires:  python-psycopg2
 BuildRequires:  python-pytest
-BuildRequires:  python-requests
+BuildRequires:  python-requests >= 2.6
 BuildRequires:  python-rpm-macros
 BuildRequires:  python-six
 BuildRequires:  python-tox
@@ -43,7 +43,7 @@ Requires:       py-bcrypt
 Requires:       python-click
 Requires:       python-configparser
 Requires:       python-prettytable
-Requires:       python-requests
+Requires:       python-requests >= 2.6
 Requires:       python-simplejson
 Requires:       python-six
 Requires:       python2-setuptools
