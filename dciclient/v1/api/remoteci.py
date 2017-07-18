@@ -70,3 +70,19 @@ def remove_test(context, id, test_id):
 
 def reset_api_secret(context, id, etag):
     return base.update(context, RESOURCE, id='%s/api_secret' % id, etag=etag)
+
+
+def add_user(context, id, user_id):
+    uri = '%s/%s/%s/users' % (context.dci_cs_api, RESOURCE, id)
+    return context.session.post(uri, json={'user_id': user_id})
+
+
+def list_users(context, id, **kwargs):
+    return base.list(context, RESOURCE, id=id,
+                     subresource='users', **kwargs)
+
+
+def remove_user(context, id, user_id):
+    return base.delete(context, RESOURCE, id,
+                       subresource='users',
+                       subresource_id=user_id)
