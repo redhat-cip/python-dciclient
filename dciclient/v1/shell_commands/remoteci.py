@@ -269,3 +269,77 @@ def reset_api_secret(context, id, etag):
     result = remoteci.reset_api_secret(context, id=id, etag=etag)
     utils.format_output(result, context.format,
                         headers=['id', 'api_secret', 'etag'])
+
+
+@cli.command("remoteci-attach-user",
+             help="Attach a user to a remoteci.")
+@click.argument("id")
+@click.option("--user-id", required=True)
+@click.pass_obj
+def attach_user(context, id, user_id):
+    """attach_user(context, id, user_id)
+
+    Attach a user to a remoteci.
+
+    >>> dcictl remoteci-attach-user [OPTIONS]
+
+    :param string id: ID of the remoteci to attach the user to [required]
+    :param string user_id: ID of the user to attach [required]
+    """
+    result = remoteci.add_user(context, id=id,
+                               user_id=user_id)
+    utils.format_output(result, context.format, ['remoteci_id', 'user_id'])
+
+
+@cli.command("remoteci-list-user",
+             help="List users attached to a remoteci.")
+@click.argument("id")
+@click.option("--sort", default="-created_at")
+@click.option("--limit", default=50)
+@click.option("--where", help="An optional filter criteria.",
+              required=False)
+@click.option("--long", "--verbose", "verbose",
+              required=False, default=False, is_flag=True)
+@click.pass_obj
+def list_user(context, id, sort, limit, where, verbose):
+    """list_user(context, id, sort, limit, where, verbose)
+
+    List users attached to a remoteci.
+
+    >>> dcictl remoteci-list-user [OPTIONS]
+
+    :param string id: ID of the remoteci to list the user from
+                      [required]
+    :param string sort: Field to apply sort
+    :param integer limit: Max number of rows to return
+    :param string where: An optional filter criteria
+    :param boolean verbose: Display verbose output
+    """
+    result = remoteci.list_users(context, id=id, sort=sort, limit=limit,
+                                 where=where)
+    utils.format_output(result, context.format, verbose=verbose)
+
+
+@cli.command("remoteci-unattach-user",
+             help="Unattach a user to a remoteci.")
+@click.argument("id")
+@click.option("--user-id", required=True)
+@click.pass_obj
+def unattach_user(context, id, user_id):
+    """unattach_user(context, id, user_id)
+
+    Unattach a user from a remoteci.
+
+    >>> dcictl remoteci-unattach-user [OPTIONS]
+
+    :param string id: ID of the remoteci to unattach the user from
+                      [required]
+    :param string user_id: ID of the user to unattach [required]
+    """
+    result = remoteci.remove_user(context, id=id,
+                                  user_id=user_id)
+    if result.status_code == 204:
+        utils.print_json({'id': id,
+                          'message': 'User unattached from RemoteCI'})
+    else:
+        utils.format_output(result, context.format)
