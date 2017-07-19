@@ -419,3 +419,22 @@ def file_delete(context, id, file_id):
     """
     result = dci_file.delete(context, id=file_id)
     utils.format_output(result, context.format)
+
+
+@cli.command("job-notify", help="Send a notification for this job")
+@click.argument("id")
+@click.option("--mesg", required=True)
+@click.pass_obj
+def notify(context, id, mesg):
+    """notify(context, id, path)
+
+    Send a notification to user subscribed on the remoteci of this job.
+    You have to specify a custom message to be sent.
+
+    >>> dcictl job-notify [OPTIONS]
+
+    :param string id: ID of the job to notify [required]
+    :param string mesg: message to send [required]
+    """
+    result = dci_job.notify(context, id=job_id, mesg=mesg)
+    utils.format_output(result, context.format)
