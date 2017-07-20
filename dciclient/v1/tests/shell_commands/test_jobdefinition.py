@@ -161,7 +161,6 @@ def test_test(runner, topic_id, test_id):
     assert len(tests) == 1
     result = runner.invoke(['jobdefinition-unattach-test',
                             jd['id'], '--test_id', test_id])
-    print(result)
     tests = runner.invoke(['jobdefinition-list-test',
                            jd['id']])['tests']
     assert len(tests) == 0
