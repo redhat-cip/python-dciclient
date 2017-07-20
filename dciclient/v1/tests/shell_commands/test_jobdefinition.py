@@ -154,14 +154,13 @@ def test_test(runner, topic_id, test_id):
     jd = runner.invoke(['jobdefinition-create', '--name', 'foo',
                         '--topic_id', topic_id])['jobdefinition']
 
-    result = runner.invoke(['jobdefinition-attach-test',
-                            jd['id'], '--test_id', test_id])
+    runner.invoke(['jobdefinition-attach-test',
+                   jd['id'], '--test_id', test_id])
     tests = runner.invoke(['jobdefinition-list-test',
                            jd['id']])['tests']
     assert len(tests) == 1
-    result = runner.invoke(['jobdefinition-unattach-test',
-                            jd['id'], '--test_id', test_id])
-    print(result)
+    runner.invoke(['jobdefinition-unattach-test',
+                   jd['id'], '--test_id', test_id])
     tests = runner.invoke(['jobdefinition-list-test',
                            jd['id']])['tests']
     assert len(tests) == 0

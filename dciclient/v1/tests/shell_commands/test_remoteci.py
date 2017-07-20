@@ -201,14 +201,13 @@ def test_test(runner, test_id):
     remoteci = runner.invoke([
         'remoteci-create', '--name', 'foo', '--team_id',
         team['id'], '--active'])['remoteci']
-    result = runner.invoke(['remoteci-attach-test',
-                            remoteci['id'], '--test_id', test_id])
+    runner.invoke(['remoteci-attach-test',
+                   remoteci['id'], '--test_id', test_id])
     tests = runner.invoke(['remoteci-list-test',
                            remoteci['id']])['tests']
     assert len(tests) == 1
-    result = runner.invoke(['remoteci-unattach-test',
-                            remoteci['id'], '--test_id', test_id])
-    print(result)
+    runner.invoke(['remoteci-unattach-test',
+                   remoteci['id'], '--test_id', test_id])
     tests = runner.invoke(['remoteci-list-test',
                            remoteci['id']])['tests']
     assert len(tests) == 0
