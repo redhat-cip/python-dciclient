@@ -71,3 +71,12 @@ def test_server_url_with_trailing_slash(signature_context_factory, job_id):
 
     r = job.get(dci_context, job_id)
     assert r.status_code == 200
+
+
+def test_get_payload_hash(tmpdir):
+    f = tmpdir.join('test_get_payload_hash.bin')
+    content = u'lälä\x8b'.encode('utf-8')
+    f.write(content, 'wb')
+
+    stream = f.open('rb')
+    assert auth._get_payload_hash(stream) == auth._get_payload_hash(content)

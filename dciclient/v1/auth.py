@@ -29,6 +29,15 @@ def _hash_file(fd):
     return algo.hexdigest()
 
 
+def _get_payload_hash(payload):
+    if hasattr(payload, 'read'):
+        payload_hash = _hash_file(payload)
+        payload.seek(0, os.SEEK_SET)
+    else:
+        payload_hash = hashlib.sha256(payload).hexdigest()
+    return payload_hash
+
+
 def string_to_sign(http_verb, content_type, timestamp, url,
                    query_string, payload_hash):
     """Returns the string used to generate the signature in a correctly
@@ -48,11 +57,7 @@ def sign(secret, http_verb, content_type, timestamp, url,
     if payload is None:
         payload = ""
 
-    if hasattr(payload, 'read'):
-        payload_hash = _hash_file(payload)
-        payload.seek(0, os.SEEK_SET)
-    else:
-        payload_hash = hashlib.sha256(payload.encode('utf-8')).hexdigest()
+    payload_hash = _get_payload_hash(payload)
 
     stringtosign = string_to_sign(
         http_verb,

@@ -240,29 +240,30 @@ def test_file_support(runner, tmpdir, job_id):
 def test_file_support_as_remoteci(runner_remoteci, tmpdir, job_id):
     td = tmpdir
     p = td.join("remoteci.txt")
-    p.write("remoteci content")
+    content = u"remøtecï content".encode('utf-8') + '\x8b'
+    p.write(content, 'wb')
 
     # upload
     new_f = runner_remoteci.invoke(['job-upload-file', job_id, '--name',
                                     'testrci', '--path', p.strpath])['file']
-    assert new_f['size'] == 16
+    assert new_f['size'] == len(content)
 
     # show
     new_f = runner_remoteci.invoke(['job-show-file', job_id,
                                     '--file_id', new_f['id']])['file']
-    assert new_f['size'] == 16
+    assert new_f['size'] == len(content)
 
     # download
     runner_remoteci.invoke_raw(['job-download-file', job_id,
                                 '--file_id', new_f['id'],
                                 '--target', td.strpath + '/my_file'])
-    assert open(td.strpath + '/my_file', 'r').read() == 'remoteci content'
+    assert open(td.strpath + '/my_file', 'r').read() == content
 
     # list
     my_list = runner_remoteci.invoke(['job-list-file',
                                       job_id])['files']
     assert len(my_list) == 1
-    assert my_list[0]['size'] == 16
+    assert my_list[0]['size'] == len(content)
 
     # delete
     runner_remoteci.invoke_raw([
