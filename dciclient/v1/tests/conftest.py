@@ -430,5 +430,5 @@ def role_user(dci_context):
 def test_user(runner, team_id):
     return runner.invoke([
         'user-create', '--name', 'foo', '--email', 'foo@example.org',
-        '--fullname', 'Foo Bar', '--password', 'pass', '--team_id',
+        '--fullname', 'Foo Bar', '--password', 'pass', '--team-id',
         team_id])['user']

@@ -31,13 +31,13 @@ def test_list(runner):
     teams = runner.invoke(['team-list'])['teams']
     team_id = teams[0]['id']
 
-    runner.invoke(['test-create', '--name', 'foo', '--team_id', team_id])
-    runner.invoke(['test-create', '--name', 'bar', '--team_id', team_id])
-    tests = runner.invoke(['test-list', '--team_id', team_id])['tests']
+    runner.invoke(['test-create', '--name', 'foo', '--team-id', team_id])
+    runner.invoke(['test-create', '--name', 'bar', '--team-id', team_id])
+    tests = runner.invoke(['test-list', '--team-id', team_id])['tests']
     assert len(tests) == 2
     assert tests[0]['name'] == 'bar'
     assert tests[1]['name'] == 'foo'
-    output = runner.invoke_raw_parse(['test-list', '--team_id', team_id])
+    output = runner.invoke_raw_parse(['test-list', '--team-id', team_id])
     assert output['team_id'] == team_id
 
 
@@ -46,7 +46,7 @@ def test_create(runner):
     assert team['name'] == 'osp'
 
     test = runner.invoke([
-        'test-create', '--name', 'foo', '--team_id',
+        'test-create', '--name', 'foo', '--team-id',
         team['id']])['test']
     assert test['name'] == 'foo'
 
@@ -56,7 +56,7 @@ def test_create_inactive(runner):
     assert team['name'] == 'osp'
 
     test = runner.invoke([
-        'test-create', '--name', 'foo', '--team_id',
+        'test-create', '--name', 'foo', '--team-id',
         team['id'], '--no-active'])['test']
     assert test['state'] == 'inactive'
 
@@ -68,7 +68,7 @@ def test_create_data(runner):
     test = runner.invoke([
         'test-create',
         '--name', 'foo',
-        '--team_id', team['id'],
+        '--team-id', team['id'],
         '--data', '{"Foo": 2}'])['test']
     assert test['name'] == 'foo'
 
@@ -79,7 +79,7 @@ def test_create_bad_data(runner):
 
     r = runner.invoke_raw_parse([
         'test-create', 'foo',
-        '--team_id', team['id'],
+        '--team-id', team['id'],
         '--data', '{Foo: 2}'])
     # TODO(Gonéri): should instead ensure we print the fine message
     assert '"--data": this option expects a valid JSON' in r
@@ -90,7 +90,7 @@ def test_update_active(runner):
     test = runner.invoke([
         'test-create',
         '--name', 'foo',
-        '--team_id', team['id'],
+        '--team-id', team['id'],
         '--data', '{"Foo": 2}'])['test']
 
     assert test['state'] == 'active'
@@ -135,7 +135,7 @@ def test_delete(runner):
     team = runner.invoke(['team-create', '--name', 'osp'])['team']
     assert team['name'] == 'osp'
 
-    test = runner.invoke(['test-create', '--name', 'foo', '--team_id',
+    test = runner.invoke(['test-create', '--name', 'foo', '--team-id',
                           team['id']])['test']
 
     result = runner.invoke(['test-delete', test['id']])
@@ -147,7 +147,7 @@ def test_show(runner):
     team = runner.invoke(['team-create', '--name', 'osp'])['team']
     assert team['name'] == 'osp'
 
-    test = runner.invoke(['test-create', '--name', 'foo', '--team_id',
+    test = runner.invoke(['test-create', '--name', 'foo', '--team-id',
                           team['id']])['test']
 
     test = runner.invoke(['test-show', test['id']])['test']

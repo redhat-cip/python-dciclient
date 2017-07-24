@@ -54,15 +54,15 @@ def test_list(runner, dci_context, remoteci_id):
     teams = runner.invoke(['team-list'])['teams']
     team_id = teams[0]['id']
 
-    runner.invoke(['topic-attach-team', topic['id'], '--team_id', team_id])
+    runner.invoke(['topic-attach-team', topic['id'], '--team-id', team_id])
 
     jd = runner.invoke(['jobdefinition-create',
                         '--name', 'foo',
-                        '--topic_id', topic['id'],
+                        '--topic-id', topic['id'],
                         '--component_types', 'type_1'])['jobdefinition']
 
     runner.invoke(['component-create', '--name', 'foo',
-                   '--type', 'type_1', '--topic_id',
+                   '--type', 'type_1', '--topic-id',
                    topic['id']])['component']
 
     job.schedule(dci_context, remoteci_id, topic['id'])
@@ -133,7 +133,7 @@ def test_attach_issue(runner, job_id):
     if 'issue' in issue:
         issue = issue['issue']
     else:
-        issue['id'] = issue['issue_id']
+        issue['id'] = issue['issue-id']
     result = runner.invoke(['job-list-issue', job_id])
     assert issue['id'] == result['issues'][0]['id']
 
@@ -153,7 +153,7 @@ def test_unattach_issue(runner, job_id):
     assert res == 1
 
     runner.invoke(
-        ['job-unattach-issue', job_id, '--issue_id', issue_id]
+        ['job-unattach-issue', job_id, '--issue-id', issue_id]
     )
     result = runner.invoke(['job-list-issue', job_id])
     count = result['_meta']['count']
@@ -213,12 +213,12 @@ def test_file_support(runner, tmpdir, job_id):
 
     # show
     new_f = runner.invoke(['job-show-file', job_id,
-                           '--file_id', new_f['id']])['file']
+                           '--file-id', new_f['id']])['file']
     assert new_f['size'] == 7
 
     # download
     runner.invoke_raw(['job-download-file', job_id,
-                       '--file_id', new_f['id'],
+                       '--file-id', new_f['id'],
                        '--target', td.strpath + '/my_file'])
     assert open(td.strpath + '/my_file', 'r').read() == 'content'
 
@@ -231,9 +231,9 @@ def test_file_support(runner, tmpdir, job_id):
     # delete
     runner.invoke_raw([
         'job-delete-file', job_id,
-        '--file_id', new_f['id']])
+        '--file-id', new_f['id']])
     result = runner.invoke(['job-show-file', job_id,
-                            '--file_id', new_f['id']])
+                            '--file-id', new_f['id']])
     assert result['status_code'] == 404
 
 
@@ -250,12 +250,12 @@ def test_file_support_as_remoteci(runner_remoteci, tmpdir, job_id):
 
     # show
     new_f = runner_remoteci.invoke(['job-show-file', job_id,
-                                    '--file_id', new_f['id']])['file']
-    assert new_f['size'] == len(content)
+                                    '--file-id', new_f['id']])['file']
+    assert new_f['size'] == 16
 
     # download
     runner_remoteci.invoke_raw(['job-download-file', job_id,
-                                '--file_id', new_f['id'],
+                                '--file-id', new_f['id'],
                                 '--target', td.strpath + '/my_file'])
     assert open(td.strpath + '/my_file', 'rb').read() == content
 
@@ -268,7 +268,7 @@ def test_file_support_as_remoteci(runner_remoteci, tmpdir, job_id):
     # delete
     runner_remoteci.invoke_raw([
         'job-delete-file', job_id,
-        '--file_id', new_f['id']])
+        '--file-id', new_f['id']])
     result = runner_remoteci.invoke(['job-show-file', job_id,
-                                     '--file_id', new_f['id']])
+                                     '--file-id', new_f['id']])
     assert result['status_code'] == 404

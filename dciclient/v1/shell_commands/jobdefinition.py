@@ -23,7 +23,7 @@ from dciclient.v1.api import jobdefinition
 
 
 @cli.command("jobdefinition-list", help="List all jobdefinitions.")
-@click.option("--topic_id")
+@click.option("--topic-id")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
 @click.option("--where", help="An optional filter criteria.",
@@ -51,7 +51,7 @@ def list(context, topic_id, sort, limit, where, verbose):
 
 @cli.command("jobdefinition-create", help="Create a jobdefinition.")
 @click.option("--name", required=True)
-@click.option("--topic_id", required=True)
+@click.option("--topic-id", required=True)
 @click.option("--component_types")
 @click.option("--active/--no-active", default=True)
 @click.pass_obj
@@ -166,7 +166,7 @@ def annotate(context, id, comment, etag):
 @cli.command("jobdefinition-attach-test",
              help="Attach a test to a jobdefinition.")
 @click.argument("id")
-@click.option("--test_id", required=True)
+@click.option("--test-id", required=True)
 @click.pass_obj
 def attach_test(context, id, test_id):
     """attach_test(context, id, test_id)
@@ -216,7 +216,7 @@ def list_test(context, id, sort, limit, where, verbose):
 @cli.command("jobdefinition-unattach-test",
              help="Unattach a test to a jobdefinition.")
 @click.argument("id")
-@click.option("--test_id", required=True)
+@click.option("--test-id", required=True)
 @click.pass_obj
 def unattach_test(context, id, test_id):
     """unattach_test(context, id, test_id)

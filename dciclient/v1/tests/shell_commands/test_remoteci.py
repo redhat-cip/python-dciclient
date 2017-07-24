@@ -31,9 +31,9 @@ def test_prettytable_output(runner):
 
 def test_list(runner):
     team = runner.invoke(['team-create', '--name', 'foo'])['team']
-    runner.invoke(['remoteci-create', '--name', 'foo', '--team_id',
+    runner.invoke(['remoteci-create', '--name', 'foo', '--team-id',
                    team['id']])
-    runner.invoke(['remoteci-create', '--name', 'bar', '--team_id',
+    runner.invoke(['remoteci-create', '--name', 'bar', '--team-id',
                    team['id']])
     remotecis = runner.invoke(['remoteci-list'])['remotecis']
 
@@ -45,7 +45,7 @@ def test_list(runner):
 def test_create(runner):
     team = runner.invoke(['team-create', '--name', 'foo'])['team']
     remoteci = runner.invoke([
-        'remoteci-create', '--name', 'foo', '--team_id',
+        'remoteci-create', '--name', 'foo', '--team-id',
         team['id']])['remoteci']
     assert remoteci['name'] == 'foo'
     assert remoteci['state'] == 'active'
@@ -55,7 +55,7 @@ def test_create(runner):
 def test_create_inactive(runner):
     team = runner.invoke(['team-create', '--name', 'foo'])['team']
     remoteci = runner.invoke([
-        'remoteci-create', '--name', 'foo', '--team_id',
+        'remoteci-create', '--name', 'foo', '--team-id',
         team['id'], '--no-active'])['remoteci']
     assert remoteci['state'] == 'inactive'
 
@@ -63,7 +63,7 @@ def test_create_inactive(runner):
 def test_create_allow_upgrade_job(runner):
     team = runner.invoke(['team-create', '--name', 'foo'])['team']
     remoteci = runner.invoke([
-        'remoteci-create', '--name', 'foo', '--team_id',
+        'remoteci-create', '--name', 'foo', '--team-id',
         team['id'], '--allow-upgrade-job'])['remoteci']
     assert remoteci['allow_upgrade_job'] is True
 
@@ -71,7 +71,7 @@ def test_create_allow_upgrade_job(runner):
 def test_update(runner):
     team = runner.invoke(['team-create', '--name', 'foo'])['team']
     remoteci = runner.invoke([
-        'remoteci-create', '--name', 'foo', '--team_id',
+        'remoteci-create', '--name', 'foo', '--team-id',
         team['id']])['remoteci']
 
     assert remoteci['allow_upgrade_job'] is False
@@ -93,7 +93,7 @@ def test_update(runner):
 def test_update_active(runner):
     team = runner.invoke(['team-create', '--name', 'foo'])['team']
     remoteci = runner.invoke([
-        'remoteci-create', '--name', 'foo', '--team_id',
+        'remoteci-create', '--name', 'foo', '--team-id',
         team['id']])['remoteci']
 
     assert remoteci['state'] == 'active'
@@ -137,7 +137,7 @@ def test_delete(runner):
     team = runner.invoke(['team-create', '--name', 'foo'])['team']
 
     remoteci = runner.invoke([
-        'remoteci-create', '--name', 'foo', '--team_id',
+        'remoteci-create', '--name', 'foo', '--team-id',
         team['id']])['remoteci']
 
     result = runner.invoke(['remoteci-delete', remoteci['id'],
@@ -149,7 +149,7 @@ def test_delete(runner):
 def test_show(runner):
     team = runner.invoke(['team-create', '--name', 'foo'])['team']
     remoteci = runner.invoke([
-        'remoteci-create', '--name', 'foo', '--team_id',
+        'remoteci-create', '--name', 'foo', '--team-id',
         team['id']])['remoteci']
 
     remoteci = runner.invoke(['remoteci-show', remoteci['id']])['remoteci']
@@ -160,7 +160,7 @@ def test_show(runner):
 def test_get_data(runner):
     team = runner.invoke(['team-create', '--name', 'foo'])['team']
     remoteci = runner.invoke([
-        'remoteci-create', '--name', 'foo', '--team_id',
+        'remoteci-create', '--name', 'foo', '--team-id',
         team['id']])['remoteci']
 
     result = runner.invoke(['remoteci-get-data', remoteci['id']])
@@ -174,7 +174,7 @@ def test_get_data(runner):
 def test_get_data_missing_key(runner):
     team = runner.invoke(['team-create', '--name', 'foo'])['team']
     remoteci = runner.invoke([
-        'remoteci-create', '--name', 'foo', '--team_id',
+        'remoteci-create', '--name', 'foo', '--team-id',
         team['id']])['remoteci']
 
     result = runner.invoke(['remoteci-get-data',
@@ -199,24 +199,24 @@ def test_embed(dci_context):
 def test_test(runner, test_id):
     team = runner.invoke(['team-create', '--name', 'osp'])['team']
     remoteci = runner.invoke([
-        'remoteci-create', '--name', 'foo', '--team_id',
+        'remoteci-create', '--name', 'foo', '--team-id',
         team['id'], '--active'])['remoteci']
     runner.invoke(['remoteci-attach-test',
-                   remoteci['id'], '--test_id', test_id])
+                   remoteci['id'], '--test-id', test_id])
     tests = runner.invoke(['remoteci-list-test',
                            remoteci['id']])['tests']
     assert len(tests) == 1
-    runner.invoke_raw(['remoteci-unattach-test',
-                       remoteci['id'], '--test_id', test_id])
+    runner.invoke(['remoteci-unattach-test',
+                   remoteci['id'], '--test-id', test_id])
     tests = runner.invoke(['remoteci-list-test',
                            remoteci['id']])['tests']
     assert len(tests) == 0
 
 
 def test_where_on_list(runner, team_id):
-    runner.invoke(['remoteci-create', '--name', 'bar1', '--team_id',
+    runner.invoke(['remoteci-create', '--name', 'bar1', '--team-id',
                    team_id])
-    runner.invoke(['remoteci-create', '--name', 'bar2', '--team_id',
+    runner.invoke(['remoteci-create', '--name', 'bar2', '--team-id',
                    team_id])
     assert runner.invoke(['remoteci-list', '--where',
                           'name:bar1'])["_meta"]["count"] == 1

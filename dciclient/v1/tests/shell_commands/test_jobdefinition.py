@@ -21,7 +21,7 @@ def test_prettytable_output(runner, topic_id):
     jobdefinition = runner.invoke_raw_parse([
         'jobdefinition-create',
         '--name', 'foo',
-        '--topic_id', topic_id])
+        '--topic-id', topic_id])
     assert jobdefinition == runner.invoke_raw_parse([
         'jobdefinition-show', jobdefinition['id']])
 
@@ -31,16 +31,16 @@ def test_list(runner, topic_id):
     team_id = teams[0]['id']
 
     runner.invoke(['topic-attach-team', topic_id,
-                   '--team_id', team_id])
+                   '--team-id', team_id])
 
-    runner.invoke(['jobdefinition-create', '--name', 'foo', '--topic_id',
+    runner.invoke(['jobdefinition-create', '--name', 'foo', '--topic-id',
                   topic_id])
-    runner.invoke(['jobdefinition-create', '--name', 'bar', '--topic_id',
+    runner.invoke(['jobdefinition-create', '--name', 'bar', '--topic-id',
                   topic_id])
 
     jobdefinitions = runner.invoke([
         'jobdefinition-list',
-        '--topic_id', topic_id])['jobdefinitions']
+        '--topic-id', topic_id])['jobdefinitions']
 
     assert len(jobdefinitions) == 2
     assert jobdefinitions[0]['name'] == 'bar'
@@ -50,21 +50,21 @@ def test_list(runner, topic_id):
 def test_create(runner, topic_id):
     jobdefinition = runner.invoke([
         'jobdefinition-create', '--name', 'foo',
-        '--topic_id', topic_id])['jobdefinition']
+        '--topic-id', topic_id])['jobdefinition']
     assert jobdefinition['name'] == 'foo'
 
 
 def test_create_inactive(runner, topic_id):
     jobdefinition = runner.invoke([
         'jobdefinition-create', '--name', 'foo', '--no-active',
-        '--topic_id', topic_id])['jobdefinition']
+        '--topic-id', topic_id])['jobdefinition']
     assert jobdefinition['state'] == 'inactive'
 
 
 def test_delete(runner, topic_id):
     jobdefinition = runner.invoke([
         'jobdefinition-create', '--name', 'foo',
-        '--topic_id', topic_id])['jobdefinition']
+        '--topic-id', topic_id])['jobdefinition']
 
     result = runner.invoke(['jobdefinition-delete',
                             jobdefinition['id'], '--etag',
@@ -75,7 +75,7 @@ def test_delete(runner, topic_id):
 def test_update(runner, topic_id):
     jd = jobdefinition = runner.invoke([
         'jobdefinition-create', '--name', 'foo',
-        '--topic_id', topic_id])['jobdefinition']
+        '--topic-id', topic_id])['jobdefinition']
 
     jobdefinition = runner.invoke([
         'jobdefinition-show', jd['id']])['jobdefinition']
@@ -95,7 +95,7 @@ def test_update(runner, topic_id):
 def test_show(runner, topic_id):
     jobdefinition = runner.invoke([
         'jobdefinition-create', '--name', 'foo',
-        '--topic_id', topic_id])['jobdefinition']
+        '--topic-id', topic_id])['jobdefinition']
 
     jobdefinition = runner.invoke([
         'jobdefinition-show',
@@ -107,7 +107,7 @@ def test_show(runner, topic_id):
 def test_annotate(runner, topic_id):
     jd = runner.invoke([
         'jobdefinition-create', '--name', 'foo',
-        '--topic_id', topic_id])['jobdefinition']
+        '--topic-id', topic_id])['jobdefinition']
     result = runner.invoke(['jobdefinition-annotate', jd['id'],
                             '--comment', 'This is my annotation', '--etag',
                             jd['etag']])
@@ -120,7 +120,7 @@ def test_annotate(runner, topic_id):
 
 def test_update_active(runner, topic_id):
     jd = runner.invoke(['jobdefinition-create', '--name', 'foo',
-                        '--topic_id', topic_id])['jobdefinition']
+                        '--topic-id', topic_id])['jobdefinition']
 
     assert jd['state'] == 'active'
 
@@ -152,15 +152,15 @@ def test_update_active(runner, topic_id):
 
 def test_test(runner, topic_id, test_id):
     jd = runner.invoke(['jobdefinition-create', '--name', 'foo',
-                        '--topic_id', topic_id])['jobdefinition']
+                        '--topic-id', topic_id])['jobdefinition']
 
     runner.invoke(['jobdefinition-attach-test',
-                   jd['id'], '--test_id', test_id])
+                   jd['id'], '--test-id', test_id])
     tests = runner.invoke(['jobdefinition-list-test',
                            jd['id']])['tests']
     assert len(tests) == 1
     runner.invoke(['jobdefinition-unattach-test',
-                   jd['id'], '--test_id', test_id])
+                   jd['id'], '--test-id', test_id])
     tests = runner.invoke(['jobdefinition-list-test',
                            jd['id']])['tests']
     assert len(tests) == 0
@@ -168,8 +168,8 @@ def test_test(runner, topic_id, test_id):
 
 def test_where_on_list(runner, topic_id):
     runner.invoke(['jobdefinition-create', '--name', 'foo1',
-                   '--topic_id', topic_id])
+                   '--topic-id', topic_id])
     runner.invoke(['jobdefinition-create', '--name', 'foo2',
-                   '--topic_id', topic_id])
+                   '--topic-id', topic_id])
     assert runner.invoke(['jobdefinition-list', '--where',
                           'name:foo1'])["_meta"]["count"] == 1
