@@ -206,8 +206,8 @@ def test_test(runner, test_id):
     tests = runner.invoke(['remoteci-list-test',
                            remoteci['id']])['tests']
     assert len(tests) == 1
-    runner.invoke(['remoteci-unattach-test',
-                   remoteci['id'], '--test_id', test_id])
+    runner.invoke_raw(['remoteci-unattach-test',
+                       remoteci['id'], '--test_id', test_id])
     tests = runner.invoke(['remoteci-list-test',
                            remoteci['id']])['tests']
     assert len(tests) == 0
