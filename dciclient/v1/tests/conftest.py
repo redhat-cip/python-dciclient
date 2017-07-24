@@ -170,23 +170,27 @@ def dci_context_broken(server, db_provisioning):
     return test_context
 
 
-def signature_context_factory(server, db_provisioning, remoteci_id, api_secret,
-                              url='http://dciserver.com', user_agent=None):
-    extras = {}
-    if user_agent:
-        extras['user_agent'] = user_agent
-    test_context = api.context.DciSignatureContext(url, remoteci_id,
-                                                   api_secret, **extras)
-    flask_adapter = utils.FlaskHTTPAdapter(server.test_client())
-    test_context.session.mount(url, flask_adapter)
-    return test_context
+@pytest.fixture
+def signature_context_factory(server, db_provisioning, remoteci_id,
+                              remoteci_api_secret, url='http://dciserver.com',
+                              user_agent=None):
+    def f(server=server, db_provisioning=db_provisioning,
+          remoteci_id=remoteci_id, remoteci_api_secret=remoteci_api_secret,
+          url=url, user_agent=user_agent):
+        extras = {}
+        if user_agent:
+            extras['user_agent'] = user_agent
+        test_context = api.context.DciSignatureContext(
+            url, remoteci_id, api_secret=remoteci_api_secret)
+        flask_adapter = utils.FlaskHTTPAdapter(server.test_client())
+        test_context.session.mount(url, flask_adapter)
+        return test_context
+    return f
 
 
 @pytest.fixture
-def dci_context_remoteci(server, db_provisioning, remoteci_id,
-                         remoteci_api_secret):
-    return signature_context_factory(server, db_provisioning, remoteci_id,
-                                     remoteci_api_secret)
+def dci_context_remoteci(signature_context_factory):
+    return signature_context_factory()
 
 
 def runner_factory(context):

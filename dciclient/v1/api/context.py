@@ -56,7 +56,8 @@ class DciContextBase(object):
 class DciContext(DciContextBase):
     def __init__(self, dci_cs_url, login, password, max_retries=0,
                  user_agent=None):
-        super(DciContext, self).__init__(dci_cs_url, max_retries, user_agent)
+        super(DciContext, self).__init__(dci_cs_url.rstrip('/'), max_retries,
+                                         user_agent)
         self.login = login
         self.session.auth = (login, password)
 
@@ -72,7 +73,8 @@ def build_dci_context(dci_cs_url=None, dci_login=None, dci_password=None,
               "DCI_LOGIN=%s, DCI_PASSWORD=%s" % \
               (dci_cs_url, dci_login, dci_password)
         raise Exception(msg)
-    return DciContext(dci_cs_url, dci_login, dci_password,
+
+    return DciContext(dci_cs_url.rstrip('/'), dci_login, dci_password,
                       user_agent=user_agent, max_retries=max_retries)
 
 
@@ -119,8 +121,8 @@ class DciSignatureAuth(AuthBase):
 class DciSignatureContext(DciContextBase):
     def __init__(self, dci_cs_url, client_id, api_secret, max_retries=0,
                  user_agent=None):
-        super(DciSignatureContext, self).__init__(dci_cs_url, max_retries,
-                                                  user_agent)
+        super(DciSignatureContext, self).__init__(dci_cs_url.rstrip('/'),
+                                                  max_retries, user_agent)
         self.session.auth = DciSignatureAuth(client_id, api_secret)
 
 

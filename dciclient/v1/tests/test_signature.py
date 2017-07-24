@@ -64,3 +64,10 @@ def test_get_job_with_remoteci_context_succeeds(dci_context_remoteci,
                                                 job_id):
     r = job.get(dci_context_remoteci, job_id)
     assert r.status_code == 200
+
+
+def test_server_url_with_trailing_slash(signature_context_factory, job_id):
+    dci_context = signature_context_factory(url='http://dciserver.com/')
+
+    r = job.get(dci_context, job_id)
+    assert r.status_code == 200
