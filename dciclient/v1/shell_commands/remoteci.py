@@ -49,7 +49,7 @@ def list(context, sort, limit, where, verbose):
 
 @cli.command("remoteci-create", help="Create a remoteci.")
 @click.option("--name", required=True)
-@click.option("--team_id", required=False)
+@click.option("--team-id", required=False)
 @click.option("--data", default='{}', callback=utils.validate_json)
 @click.option("--active/--no-active", default=True)
 @click.option("--allow-upgrade-job/--no-allow-upgrade-job", default=False)
@@ -85,7 +85,7 @@ def create(context, name, team_id, data, active, allow_upgrade_job):
 @click.argument("id")
 @click.option("--etag", required=True)
 @click.option("--name")
-@click.option("--team_id")
+@click.option("--team-id")
 @click.option("--data", callback=utils.validate_json)
 @click.option("--active/--no-active", default=None)
 @click.option("--allow-upgrade-job/--no-allow-upgrade-job", default=None)
@@ -179,7 +179,7 @@ def get_data(context, id, keys):
 @cli.command("remoteci-attach-test",
              help="Attach a test to a remoteci.")
 @click.argument("id")
-@click.option("--test_id", required=True)
+@click.option("--test-id", required=True)
 @click.pass_obj
 def attach_test(context, id, test_id):
     """attach_test(context, id, test_id)
@@ -228,7 +228,7 @@ def list_test(context, id, sort, limit, where, verbose):
 @cli.command("remoteci-unattach-test",
              help="Unattach a test to a remoteci.")
 @click.argument("id")
-@click.option("--test_id", required=True)
+@click.option("--test-id", required=True)
 @click.pass_obj
 def unattach_test(context, id, test_id):
     """unattach_test(context, id, test_id)

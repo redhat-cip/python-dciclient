@@ -134,7 +134,7 @@ def attach_issue(context, id, url):
 
 @cli.command("job-unattach-issue", help="Unattach an issue from a job.")
 @click.argument("id")
-@click.option("--issue_id", required=True)
+@click.option("--issue-id", required=True)
 @click.pass_obj
 def unattach_issue(context, id, issue_id):
     """unattach_issue(context, id, issue_id)
@@ -268,7 +268,7 @@ def set_meta(context, id, name, value):
 
 @cli.command("job-delete-meta", help="Drop a meta from a job.")
 @click.argument("id")
-@click.argument("meta_id", required=True)
+@click.argument("meta-id", required=True)
 @click.pass_obj
 def delete_meta(context, id, meta_id):
     """delete_meta(context, id, meta_id)
@@ -316,8 +316,8 @@ def list_metas(context, id, sort, limit, where):
 @click.argument("id")
 @click.option("--name", required=True)
 @click.option("--path", required=True)
-@click.option("--jobstate_id", required=False)
-@click.option("--test_id", required=False)
+@click.option("--jobstate-id", required=False)
+@click.option("--test-id", required=False)
 @click.pass_obj
 def file_upload(context, id, name, path, jobstate_id, test_id):
     """file_upload(context, id, path)
@@ -343,7 +343,7 @@ def file_upload(context, id, name, path, jobstate_id, test_id):
 
 @cli.command("job-download-file", help="Retrieve a job file.")
 @click.argument("id")
-@click.option("--file_id", required=True)
+@click.option("--file-id", required=True)
 @click.option("--target", required=True)
 @click.pass_obj
 def file_download(context, id, file_id, target):
@@ -362,7 +362,7 @@ def file_download(context, id, file_id, target):
 
 @cli.command("job-show-file", help="Show a job file.")
 @click.argument("id")
-@click.option("--file_id", required=True)
+@click.option("--file-id", required=True)
 @click.pass_obj
 def file_show(context, id, file_id):
     """file_show(context, id, path)
@@ -405,7 +405,7 @@ def file_list(context, id, sort, limit, verbose, where):
 
 @cli.command("job-delete-file", help="Delete a component file.")
 @click.argument("id")
-@click.option("--file_id", required=True)
+@click.option("--file-id", required=True)
 @click.pass_obj
 def file_delete(context, id, file_id):
     """file_delete(context, id, path)

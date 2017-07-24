@@ -22,7 +22,7 @@ def test_prettytable_output(runner, topic_id):
         'component-create',
         '--name', 'osp',
         '--type', 'repo',
-        '--topic_id', topic_id])
+        '--topic-id', topic_id])
     assert component['name'] == 'osp'
     assert component == runner.invoke_raw_parse([
         'component-show', component['id']])
@@ -34,14 +34,14 @@ def test_list(runner):
     team_id = teams[0]['id']
 
     runner.invoke(['topic-attach-team', topic['id'],
-                   '--team_id', team_id])
+                   '--team-id', team_id])
 
     runner.invoke(['component-create', '--name', 'foo', '--type', 'bar',
-                   '--topic_id', topic['id']])
+                   '--topic-id', topic['id']])
     runner.invoke(['component-create', '--name', 'bar', '--type', 'bar2',
-                   '--topic_id', topic['id']])
+                   '--topic-id', topic['id']])
     components = runner.invoke([
-        'component-list', '--topic_id', topic['id']])['components']
+        'component-list', '--topic-id', topic['id']])['components']
 
     assert len(components) == 2
     assert components[0]['name'] == 'bar'
@@ -52,7 +52,7 @@ def test_create(runner):
     topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
 
     component = runner.invoke(['component-create', '--name', 'foo',
-                               '--type', 'foobar', '--topic_id',
+                               '--type', 'foobar', '--topic-id',
                                topic['id']])['component']
     assert component['name'] == 'foo'
 
@@ -61,7 +61,7 @@ def test_create_inactive(runner):
     topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
 
     component = runner.invoke(['component-create', '--name', 'foo',
-                               '--type', 'foobar', '--topic_id',
+                               '--type', 'foobar', '--topic-id',
                                topic['id'], '--no-active'])['component']
     assert component['state'] == 'inactive'
 
@@ -69,7 +69,7 @@ def test_create_inactive(runner):
 def test_delete(runner):
     topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
     component = runner.invoke(['component-create', '--name', 'foo',
-                               '--type', 'bar', '--topic_id',
+                               '--type', 'bar', '--topic-id',
                                topic['id']])['component']
 
     result = runner.invoke(['component-delete', component['id']])
@@ -84,7 +84,7 @@ def test_show(runner):
     component = runner.invoke([
         'component-create', '--name', 'foo',
         '--type', 'bar', '--export_control',
-        '--topic_id', topic['id']])['component']
+        '--topic-id', topic['id']])['component']
 
     result = runner.invoke(['component-show', component['id']])
 
@@ -98,7 +98,7 @@ def test_file_support(runner, tmpdir):
     topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
 
     component = runner.invoke(['component-create', '--name', 'foo',
-                               '--type', 'foobar', '--topic_id', topic['id'],
+                               '--type', 'foobar', '--topic-id', topic['id'],
                                '--export_control'])['component']
 
     # upload
@@ -108,12 +108,12 @@ def test_file_support(runner, tmpdir):
 
     # show
     new_f = runner.invoke(['component-file-show', component['id'],
-                           '--file_id', new_f['id']])['component_file']
+                           '--file-id', new_f['id']])['component_file']
     assert new_f['size'] == 7
 
     # download
     runner.invoke_raw(['component-file-download', component['id'],
-                       '--file_id', new_f['id'],
+                       '--file-id', new_f['id'],
                        '--target', td.strpath + '/my_file'])
     assert open(td.strpath + '/my_file', 'r').read() == 'content'
 
@@ -126,9 +126,9 @@ def test_file_support(runner, tmpdir):
     # delete
     runner.invoke_raw([
         'component-file-delete', component['id'],
-        '--file_id', new_f['id']])
+        '--file-id', new_f['id']])
     result = runner.invoke(['component-file-show', component['id'],
-                            '--file_id', new_f['id']])
+                            '--file-id', new_f['id']])
     assert result['status_code'] == 404
 
 
@@ -137,7 +137,7 @@ def test_update_active(runner):
 
     component = runner.invoke([
         'component-create', '--name', 'foo',
-        '--type', 'bar', '--topic_id',
+        '--type', 'bar', '--topic-id',
         topic['id']])['component']
 
     assert component['state'] == 'active'
@@ -168,7 +168,7 @@ def test_update_export_control(runner):
 
     component = runner.invoke([
         'component-create', '--name', 'foo',
-        '--type', 'bar', '--topic_id',
+        '--type', 'bar', '--topic-id',
         topic['id']])['component']
 
     result = runner.invoke(['component-update', component['id'],
@@ -195,7 +195,7 @@ def test_update_export_control(runner):
 def test_component_status(runner, job_id, topic_id):
 
     status = runner.invoke(['component-status', '--type', 'type_1',
-                            '--topic_id', topic_id])['jobs']
+                            '--topic-id', topic_id])['jobs']
 
     assert len(status) == 0
 
@@ -206,12 +206,12 @@ def test_where_on_list(runner):
     team_id = teams[0]['id']
 
     runner.invoke(['topic-attach-team', topic['id'],
-                   '--team_id', team_id])
+                   '--team-id', team_id])
 
     runner.invoke(['component-create', '--name', 'foo', '--type', 'bar',
-                   '--topic_id', topic['id']])
+                   '--topic-id', topic['id']])
     runner.invoke(['component-create', '--name', 'bar', '--type', 'bar2',
-                   '--topic_id', topic['id']])
+                   '--topic-id', topic['id']])
 
-    assert runner.invoke(['component-list', '--topic_id', topic['id'],
+    assert runner.invoke(['component-list', '--topic-id', topic['id'],
                           '--where', 'type:bar2'])['_meta']['count'] == 1

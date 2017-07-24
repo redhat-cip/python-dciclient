@@ -52,8 +52,8 @@ def list(context, sort, limit, where, verbose):
 @click.option("--email", required=True)
 @click.option("--fullname")
 @click.option("--active/--no-active", default=True)
-@click.option("--role_id")
-@click.option("--team_id")
+@click.option("--role-id")
+@click.option("--team-id")
 @click.pass_obj
 def create(context, name, password, role_id, team_id, active, email, fullname):
     """create(context, name, password, role_id, team_id, active, email, fullname)
@@ -87,7 +87,7 @@ def create(context, name, password, role_id, team_id, active, email, fullname):
 @click.option("--password")
 @click.option("--email")
 @click.option("--fullname")
-@click.option("--role_id")
+@click.option("--role-id")
 @click.option("--active/--no-active", default=None)
 @click.pass_obj
 def update(context, id, etag, name, password, role_id, active, email,

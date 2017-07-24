@@ -148,7 +148,7 @@ def show(context, id):
 
 @cli.command("topic-attach-team", help="Attach a team to a topic.")
 @click.argument("id")
-@click.option("--team_id", required=False)
+@click.option("--team-id", required=False)
 @click.pass_obj
 def attach_team(context, id, team_id):
     """attach_team(context, id, team_id)
@@ -168,7 +168,7 @@ def attach_team(context, id, team_id):
 
 @cli.command("topic-unattach-team", help="Unattach a team from a topic.")
 @click.argument("id")
-@click.option("--team_id", required=False)
+@click.option("--team-id", required=False)
 @click.pass_obj
 def unattach_team(context, id, team_id):
     """unattach_team(context, id, team_id)
