@@ -24,7 +24,7 @@ from dciclient.v1.api import topic
 
 
 @cli.command("component-list", help="List all components.")
-@click.option("--topic_id", required=True)
+@click.option("--topic-id", required=True)
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
 @click.option("--where", help="An optional filter criteria.",
@@ -60,7 +60,7 @@ def list(context, topic_id, sort, limit, where, verbose):
 @click.option("--title", help='Title of component')
 @click.option("--message", help='Component message')
 @click.option("--url", help='URL to look for the component')
-@click.option("--topic_id", required=True, help='Topic ID')
+@click.option("--topic-id", required=True, help='Topic ID')
 @click.option("--export_control/--no-export_control", default='true',
               help='has the export_control been done')
 @click.option("--active/--no-active", default=True)
@@ -135,7 +135,7 @@ def show(context, id):
 @cli.command("component-status",
              help="Show an overview of the last jobs associated to this component type")  # noqa
 @click.option("--type", required=True)
-@click.option("--topic_id", required=True)
+@click.option("--topic-id", required=True)
 @click.pass_obj
 def status(context, type, topic_id):
     """status(context, type, topic_id)
@@ -172,7 +172,7 @@ def file_upload(context, id, path):
 
 @cli.command("component-file-show", help="Show a component file.")
 @click.argument("id")
-@click.option("--file_id", required=True)
+@click.option("--file-id", required=True)
 @click.pass_obj
 def file_show(context, id, file_id):
     """file_show(context, id, path)
@@ -190,7 +190,7 @@ def file_show(context, id, file_id):
 
 @cli.command("component-file-download", help="Retrieve a component file.")
 @click.argument("id")
-@click.option("--file_id", required=True)
+@click.option("--file-id", required=True)
 @click.option("--target", required=True)
 @click.pass_obj
 def file_download(context, id, file_id, target):
@@ -236,7 +236,7 @@ def file_list(context, id, sort, limit, where, verbose):
 
 @cli.command("component-file-delete", help="Delete a component file.")
 @click.argument("id")
-@click.option("--file_id", required=True)
+@click.option("--file-id", required=True)
 @click.pass_obj
 def file_delete(context, id, file_id):
     """file_delete(context, id, path)
@@ -308,7 +308,7 @@ def attach_issue(context, id, url):
 @cli.command("component-unattach-issue",
              help="Unattach an issue from a component.")
 @click.argument("id")
-@click.option("--issue_id", required=True)
+@click.option("--issue-id", required=True)
 @click.pass_obj
 def unattach_issue(context, id, issue_id):
     """unattach_issue(context, id, issue_id)

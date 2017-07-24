@@ -25,7 +25,7 @@ from dciclient.v1.api import user
 
 
 @cli.command("test-list", help="List all tests.")
-@click.option("--team_id", required=False)
+@click.option("--team-id", required=False)
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
 @click.option("--where", help="An optional filter criteria.",
@@ -55,7 +55,7 @@ def list(context, team_id, sort, limit, where, verbose):
 
 @cli.command("test-create", help="Create a test.")
 @click.option("--name", required=True)
-@click.option("--team_id", required=False)
+@click.option("--team-id", required=False)
 @click.option("--data", callback=utils.validate_json, default='{}')
 @click.option("--active/--no-active", default=True)
 @click.pass_obj
@@ -84,7 +84,7 @@ def create(context, name, team_id, data, active):
 @click.argument("id")
 @click.option("--etag", required=True)
 @click.option("--name")
-@click.option("--team_id")
+@click.option("--team-id")
 @click.option("--data", callback=utils.validate_json)
 @click.option("--active/--no-active", default=None)
 @click.pass_obj
