@@ -16,6 +16,24 @@
       "revId": "51c3389c0d90d44436a561b1b6eb773c4cd169b1",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aa745d1_26315ced",
+        "filename": "dciclient/v1/shell_commands/job.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-07-25T15:56:45Z",
+      "side": 1,
+      "message": "Yes, dci_file.delete() does not return any result and the utils.format_output() call resulted in a json decoding error.",
+      "parentUuid": "5aa745d1_863a70cc",
+      "revId": "51c3389c0d90d44436a561b1b6eb773c4cd169b1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
