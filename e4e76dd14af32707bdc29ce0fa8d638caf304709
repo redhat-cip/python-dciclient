@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aa745d1_463468dd",
+        "filename": "dciclient/v1/tests/shell_commands/test_job.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-07-25T15:57:01Z",
+      "side": 1,
+      "message": "you can just do:\n\ncontent \u003d b\"remoteci content\"",
+      "revId": "e4e76dd14af32707bdc29ce0fa8d638caf304709",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
