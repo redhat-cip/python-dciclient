@@ -199,7 +199,8 @@ def runner_factory(context):
                                           'DCI_CLIENT_ID': '',
                                           'DCI_API_SECRET': '',
                                           'DCI_CLI_OUTPUT_FORMAT': 'json'})
-    invoke_raw = functools.partial(runner.invoke, shell.main)
+    invoke_raw = functools.partial(runner.invoke, shell.main,
+                                   catch_exceptions=False)
 
     def invoke_json(*kargs):
         r = invoke_raw(*kargs)

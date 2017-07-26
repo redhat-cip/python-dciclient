@@ -417,5 +417,4 @@ def file_delete(context, id, file_id):
     :param string id: ID of the job to delete file [required]
     :param string file_id: ID for the file to delete [required]
     """
-    result = dci_file.delete(context, id=file_id)
-    utils.format_output(result, context.format)
+    dci_file.delete(context, id=file_id)

@@ -249,7 +249,6 @@ def unattach_test(context, id, test_id):
                           'message': unattach_msg})
     else:
         utils.format_output(result, context.format)
-    utils.format_output(result, context.format)
 
 
 @cli.command("remoteci-reset-api-secret", help="Reset a remoteci api secret.")
