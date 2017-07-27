@@ -42,11 +42,9 @@ def test_create(runner):
 
 def test_create_with_country_and_email(runner):
     team = runner.invoke(['team-create', '--name', 'foo',
-                          '--country', 'FR', '--email',
-                          'foo@example.tld'])['team']
+                          '--country', 'FR'])['team']
     assert team['name'] == 'foo'
     assert team['country'] == 'FR'
-    assert team['email'] == 'foo@example.tld'
 
 
 def test_create_inactive(runner):
@@ -86,8 +84,7 @@ def test_update_active(runner):
     assert team['state'] == 'active'
 
     result = runner.invoke(['team-update', team['id'],
-                            '--etag', team['etag'], '--no-active',
-                            '--no-notification'])
+                            '--etag', team['etag'], '--no-active'])
 
     assert result['message'] == 'Team updated.'
     assert result['id'] == team['id']
@@ -95,7 +92,6 @@ def test_update_active(runner):
     team = runner.invoke(['team-show', team['id']])['team']
 
     assert team['state'] == 'inactive'
-    assert team['notification'] is False
 
     result = runner.invoke(['team-update', team['id'],
                             '--etag', team['etag'], '--name', 'foobar'])
@@ -106,7 +102,6 @@ def test_update_active(runner):
     team = runner.invoke(['team-show', team['id']])['team']
 
     assert team['state'] == 'inactive'
-    assert team['notification'] is False
 
     result = runner.invoke(['team-update', team['id'],
                             '--etag', team['etag'], '--active'])
