@@ -61,12 +61,11 @@ def list(context, topic_id, sort, limit, where, verbose):
 @click.option("--message", help='Component message')
 @click.option("--url", help='URL to look for the component')
 @click.option("--topic_id", required=True, help='Topic ID')
-@click.option("--export_control/--no-export_control", default='true',
+@click.option("--export_control/--no-export_control",
               help='has the export_control been done')
-@click.option("--active/--no-active", default=True)
+@click.option("--active/--no-active", 'state', callback=utils.validate_state)
 @click.pass_obj
-def create(context, name, type, canonical_project_name, data,
-           title, message, url, topic_id, export_control, active):
+def create(context, **kwargs):
     """create(context, name, type, canonical_project_name, data, title, message, url, topic_id, export_control, active)  # noqa
 
     Create a component.
@@ -85,15 +84,11 @@ def create(context, name, type, canonical_project_name, data,
     :param boolean active: Set the component in the (in)active state
     """
 
+    for b in ['export_control', 'state']:
+        if kwargs[b] is None:
+            del(kwargs[b])
     state = utils.active_string(active)
-    result = component.create(
-        context, name=name, type=type,
-        canonical_project_name=canonical_project_name,
-        data=data,
-        title=title, message=message, url=url,
-        topic_id=topic_id, export_control=export_control,
-        state=state
-    )
+    result = component.create(context, **kwargs)
     utils.format_output(result, context.format)
 
 

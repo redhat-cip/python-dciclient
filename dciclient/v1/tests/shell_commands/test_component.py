@@ -49,20 +49,22 @@ def test_list(runner):
 
 
 def test_create(runner):
-    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+    topic = runner.invoke_raw_parse(['topic-create', '--name', 'osp'])['topic']
 
-    component = runner.invoke(['component-create', '--name', 'foo',
-                               '--type', 'foobar', '--topic_id',
-                               topic['id']])['component']
+    component = runner.invoke_raw_parse([
+        'component-create', '--name', 'foo',
+        '--type', 'foobar', '--topic_id',
+        topic['id']])['component']
     assert component['name'] == 'foo'
 
 
 def test_create_inactive(runner):
-    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+    topic = runner.invoke_raw_parse(['topic-create', '--name', 'osp'])['topic']
 
-    component = runner.invoke(['component-create', '--name', 'foo',
-                               '--type', 'foobar', '--topic_id',
-                               topic['id'], '--no-active'])['component']
+    component = runner.invoke_raw_parse([
+        'component-create', '--name', 'foo',
+        '--type', 'foobar', '--topic_id',
+        topic['id'], '--no-active'])['component']
     assert component['state'] == 'inactive'
 
 
