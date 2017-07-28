@@ -39,7 +39,11 @@ BuildRequires:  python2-setuptools
 BuildRequires:  python2-rpm-macros
 BuildRequires:  python3-rpm-macros
 Requires:       PyYAML
+%if 0%{?fedora} >= 26
+Requires:       python2-bcrypt
+%else
 Requires:       py-bcrypt
+%endif
 Requires:       python-click
 Requires:       python-configparser
 Requires:       python-prettytable
@@ -69,7 +73,11 @@ BuildRequires:  python3-six
 Requires:       python3-PyYAML
 Requires:       python3-click
 Requires:       python3-prettytable
+%if 0%{?fedora} >= 26
+Requires:       python3-bcrypt
+%else
 Requires:       python3-py-bcrypt
+%endif
 Requires:       python3-requests
 Requires:       python3-simplejson
 Requires:       python3-six
