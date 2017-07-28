@@ -105,21 +105,22 @@ def print_prettytable(data, headers=None, skip_columns=[]):
     click.echo(table)
 
 
-def sanitize_kwargs(**kwargs):
-    boolean_fields = ['active', 'export_control']
+# def sanitize_kwargs(**kwargs):
+#     raise(DeprecationWarning)
+#     boolean_fields = ['active', 'export_control']
 
-    for k in list(kwargs.keys()):
-        if kwargs[k] is None:
-            if k in boolean_fields:
-                kwargs[k] = bool(kwargs[k])
-            else:
-                del(kwargs[k])
-    try:
-        kwargs['data'] = json.loads(kwargs['data'])
-    except (KeyError, TypeError):
-        pass
+#     for k in list(kwargs.keys()):
+#         if kwargs[k] is None:
+#             if k in boolean_fields:
+#                 kwargs[k] = bool(kwargs[k])
+#             else:
+#                 del(kwargs[k])
+#     try:
+#         kwargs['data'] = json.loads(kwargs['data'])
+#     except (KeyError, TypeError):
+#         pass
 
-    return kwargs
+#     return kwargs
 
 
 def format_output(result, format, headers=None,

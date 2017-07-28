@@ -19,47 +19,44 @@ import json
 
 def create(context, resource, **kwargs):
     """Create a resource"""
-    data = utils.sanitize_kwargs(**kwargs)
     uri = '%s/%s' % (context.dci_cs_api, resource)
-    r = context.session.post(uri, data=json.dumps(data))
+    r = context.session.post(uri, data=json.dumps(kwargs))
     return r
 
 
 def list(context, resource, **kwargs):
     """List all resources"""
-    data = utils.sanitize_kwargs(**kwargs)
-    id = data.pop('id', None)
-    subresource = data.pop('subresource', None)
+    id = kwargs.pop('id', None)
+    subresource = kwargs.pop('subresource', None)
 
     if subresource:
         uri = '%s/%s/%s/%s' % (context.dci_cs_api, resource, id, subresource)
     else:
         uri = '%s/%s' % (context.dci_cs_api, resource)
 
-    return context.session.get(uri, params=data)
+    return context.session.get(uri, params=kwargs)
 
 
 def iter(context, resource, **kwargs):
     """List all resources"""
-    data = utils.sanitize_kwargs(**kwargs)
-    id = data.pop('id', None)
-    subresource = data.pop('subresource', None)
-    data['limit'] = data.get('limit', 20)
+    id = kwargs.pop('id', None)
+    subresource = kwargs.pop('subresource', None)
+    kwargs['limit'] = kwargs.get('limit', 20)
 
     if subresource:
         uri = '%s/%s/%s/%s' % (context.dci_cs_api, resource, id, subresource)
     else:
         uri = '%s/%s' % (context.dci_cs_api, resource)
 
-    data['offset'] = 0
+    kwargs['offset'] = 0
     while True:
-        j = context.session.get(uri, params=data).json()
+        j = context.session.get(uri, params=kwargs).json()
         if len(j[resource]):
             for i in j[resource]:
                 yield i
         else:
             break
-        data['offset'] += data['limit']
+        kwargs['offset'] += kwargs['limit']
 
 
 def get(context, resource, **kwargs):
@@ -87,9 +84,8 @@ def update(context, resource, **kwargs):
     """Update a specific resource"""
     etag = kwargs.pop('etag')
     id = kwargs.pop('id')
-    data = utils.sanitize_kwargs(**kwargs)
     uri = '%s/%s/%s' % (context.dci_cs_api, resource, id)
-    r = context.session.put(uri, headers={'If-match': etag}, json=data)
+    r = context.session.put(uri, headers={'If-match': etag}, json=kwargs)
     return r
 
 

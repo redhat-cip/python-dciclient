@@ -31,7 +31,6 @@ def create(context, name, content, mime='text/plain',
                'DCI-MD5': md5,
                'DCI-JOB-ID': job_id,
                'DCI-TEST-ID': test_id}
-    headers = utils.sanitize_kwargs(**headers)
     uri = '%s/%s' % (context.dci_cs_api, RESOURCE)
     return context.session.post(uri, headers=headers, data=content)
 
@@ -44,7 +43,6 @@ def create_with_stream(context, name, file_path, mime='text/plain',
                'DCI-MD5': md5,
                'DCI-JOB-ID': job_id,
                'DCI-TEST-ID': test_id}
-    headers = utils.sanitize_kwargs(**headers)
     uri = '%s/%s' % (context.dci_cs_api, RESOURCE)
 
     if not os.path.exists(file_path):
