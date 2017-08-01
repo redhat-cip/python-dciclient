@@ -37,6 +37,16 @@ def test_list(runner):
 def test_create(runner):
     topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
     assert topic['name'] == 'osp'
+    assert len(topic['component_types']) == 0
+
+
+def test_create_with_component_types(runner):
+    topic = runner.invoke(['topic-create', '--name', 'osp',
+                           '--component_types', 'foo,bar'])['topic']
+    assert topic['name'] == 'osp'
+    assert len(topic['component_types']) == 2
+    assert topic['component_types'][0] == 'foo'
+    assert topic['component_types'][1] == 'bar'
 
 
 def test_create_inactive(runner):
@@ -146,6 +156,22 @@ def test_update_active(runner):
     )['topic']['state']
 
     assert topic_state == 'active'
+
+
+def test_update_with_component_types(runner):
+    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+    result = runner.invoke(['topic-update', topic['id'],
+                            '--etag', topic['etag'],
+                            '--component_types', 'foo,bar'])
+
+    assert result['message'] == 'Topic updated.'
+    assert result['id'] == topic['id']
+
+    topic = runner.invoke(['topic-show', topic['id']])['topic']
+
+    assert len(topic['component_types']) == 2
+    assert topic['component_types'][0] == 'foo'
+    assert topic['component_types'][1] == 'bar'
 
 
 def test_where_on_list(runner):

@@ -76,11 +76,13 @@ def create(context, name, component_types, active):
 @click.argument("id")
 @click.option("--etag", required=True)
 @click.option("--name")
+@click.option("--component_types", help="Component types separated by commas.")
 @click.option("--label")
 @click.option("--next_topic")
 @click.option("--active/--no-active", default=None)
 @click.pass_obj
-def update(context, id, etag, name, label, next_topic, active):
+def update(context, id, etag, name, component_types,
+           label, next_topic, active):
     """update(context, id, etag, name, label, next_topic, active)
 
     Update a Topic.
@@ -90,12 +92,17 @@ def update(context, id, etag, name, label, next_topic, active):
     :param string id: ID of the Topic [required]
     :param string etag: Entity tag of the Topic resource [required]
     :param string name: Name of the Topic
+    :param string component_types: list of component types separated by commas
     :param string label: Label of the Topic
     :param string data: JSON data to pass during remote CI update
     :param boolean active: Set the topic in the active state
     """
 
+    if component_types:
+        component_types = component_types.split(',')
+
     result = topic.update(context, id=id, etag=etag, name=name,
+                          component_types=component_types,
                           label=label, next_topic=next_topic,
                           state=utils.active_string(active))
     if result.status_code == 204:
