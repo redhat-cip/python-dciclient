@@ -47,6 +47,8 @@ One can pass those informations on the CLI level. Example: `dcictl --dci-login j
  or `dcictl --dci-client-id <remoteci_id> --dci-api-secret <api_secret> --dci-cs-url 'https://api.distributed-ci.io' team-list`
 
 
+For RemoteCI please use the API Secret to authenticate.
+
 ## List of available commands
 
 ```
