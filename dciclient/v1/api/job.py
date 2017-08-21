@@ -137,3 +137,9 @@ def delete_meta(context, id, meta_id):
     return base.delete(context, RESOURCE, id,
                        subresource='metas',
                        subresource_id=meta_id)
+
+
+def notify(context, id, mesg):
+    uri = '%s/%s/%s/notify' % (context.dci_cs_api, RESOURCE, id)
+    data_json = json.dumps({'mesg': mesg})
+    return context.session.post(uri, data=data_json)
