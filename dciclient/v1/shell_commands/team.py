@@ -52,9 +52,10 @@ def list(context, sort, limit, where, verbose):
 @click.option("--email")
 @click.option("--notification/--no-notification", default=False)
 @click.option("--active/--no-active", default=True)
+@click.option("--parent-id")
 @click.pass_obj
-def create(context, name, country, email, notification, active):
-    """create(context, name, country, email, notification, active)
+def create(context, name, country, email, notification, active, parent_id):
+    """create(context, name, country, email, notification, active, parent_id)
 
     Create a team.
 
@@ -65,10 +66,12 @@ def create(context, name, country, email, notification, active):
     :param string email: Email contact for the team
     :param boolean notification: Enable or not notification on team's job run
     :param boolean active: Set the team in the (in)active state
+    :param string parent_id: The ID of the team this team belongs to
     """
 
     state = utils.active_string(active)
-    result = team.create(context, name=name, country=country, email=email,
+    result = team.create(context, name=name, parent_id=parent_id,
+                         country=country, email=email,
                          notification=notification, state=state)
     utils.format_output(result, context.format)
 
@@ -79,11 +82,14 @@ def create(context, name, country, email, notification, active):
 @click.option("--name")
 @click.option("--country")
 @click.option("--email")
+@click.option("--parent-id")
 @click.option("--notification/--no-notification", default=None)
 @click.option("--active/--no-active", default=None)
 @click.pass_obj
-def update(context, id, etag, name, country, email, notification, active):
-    """update(context, id, etag, name, country, email, notification, active)
+def update(context, id, etag, name, country, email, notification, active,
+           parent_id):
+    """update(context, id, etag, name, country, email, notification, active,
+              parent_id)
 
     Update a team.
 
@@ -96,12 +102,13 @@ def update(context, id, etag, name, country, email, notification, active):
     :param string email: Email contact for the team
     :param boolean notification: Enable or not notification on team's job run
     :param boolean active: Set the team in the (in)active state
+    :param string parent_id: The ID of the team this team belongs to [required]
     """
 
     result = team.update(context, id=id, etag=etag, name=name,
                          state=utils.active_string(active),
                          country=country, email=email,
-                         notification=notification)
+                         notification=notification, parent_id=parent_id)
 
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Team updated.'})
