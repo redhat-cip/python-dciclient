@@ -49,11 +49,12 @@ def list(context, sort, limit, where, verbose):
 
 @cli.command("topic-create", help="Create a topic.")
 @click.option("--name", required=True)
+@click.option("--product-id")
 @click.option("--component_types", help="Component types separated by commas.")
 @click.option("--active/--no-active", default=True)
 @click.pass_obj
-def create(context, name, component_types, active):
-    """create(context, name, component_types, active)
+def create(context, name, component_types, active, product_id):
+    """create(context, name, component_types, active, product_id)
 
     Create a topic.
 
@@ -62,13 +63,14 @@ def create(context, name, component_types, active):
     :param string name: Name of the topic [required]
     :param string component_types: list of component types separated by commas
     :param boolean active: Set the topic in the (in)active state
+    :param string product_id: The product the topic belongs to
     """
     if component_types:
         component_types = component_types.split(',')
 
     state = utils.active_string(active)
     result = topic.create(context, name=name, component_types=component_types,
-                          state=state)
+                          state=state, product_id=product_id)
     utils.format_output(result, context.format)
 
 
@@ -80,10 +82,12 @@ def create(context, name, component_types, active):
 @click.option("--label")
 @click.option("--next_topic")
 @click.option("--active/--no-active", default=None)
+@click.option("--product-id")
 @click.pass_obj
 def update(context, id, etag, name, component_types,
-           label, next_topic, active):
-    """update(context, id, etag, name, label, next_topic, active)
+           label, next_topic, active, product_id):
+    """update(context, id, etag, name, label, next_topic, active,
+              product_id)
 
     Update a Topic.
 
@@ -96,6 +100,7 @@ def update(context, id, etag, name, component_types,
     :param string label: Label of the Topic
     :param string data: JSON data to pass during remote CI update
     :param boolean active: Set the topic in the active state
+    :param string product_id: The product the topic belongs to
     """
 
     if component_types:
@@ -104,7 +109,8 @@ def update(context, id, etag, name, component_types,
     result = topic.update(context, id=id, etag=etag, name=name,
                           component_types=component_types,
                           label=label, next_topic=next_topic,
-                          state=utils.active_string(active))
+                          state=utils.active_string(active),
+                          product_id=product_id)
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Topic updated.'})
     else:
