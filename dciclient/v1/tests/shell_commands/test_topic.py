@@ -40,6 +40,14 @@ def test_create(runner):
     assert len(topic['component_types']) == 0
 
 
+def test_create_with_product(runner, product_id):
+    topic = runner.invoke(['topic-create', '--name', 'osp',
+                           '--product-id', product_id])['topic']
+    assert topic['name'] == 'osp'
+    assert topic['product_id'] == product_id
+    assert len(topic['component_types']) == 0
+
+
 def test_create_with_component_types(runner):
     topic = runner.invoke(['topic-create', '--name', 'osp',
                            '--component_types', 'foo,bar'])['topic']
