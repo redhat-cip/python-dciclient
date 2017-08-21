@@ -35,7 +35,7 @@ def purge(context, resource, noop):
     """
 
     resources = ['components', 'topics', 'tests', 'teams', 'jobdefinitions',
-                 'remotecis', 'jobs', 'files', 'users', 'roles']
+                 'remotecis', 'jobs', 'files', 'users', 'roles', 'products']
 
     l_resources = resources if resource is None else resource.split(',')
 
