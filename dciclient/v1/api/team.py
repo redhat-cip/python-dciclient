@@ -44,3 +44,15 @@ def update(context, id, **kwargs):
 
 def delete(context, id, **kwargs):
     return base.delete(context, RESOURCE, id=id, **kwargs)
+
+
+def add_test(context, id, test_id):
+    return base.add_test(context, RESOURCE, id, test_id)
+
+
+def list_tests(context, id, **kwargs):
+    return base.list_tests(context, RESOURCE, id, **kwargs)
+
+
+def remove_test(context, id, test_id):
+    return base.remove_test(context, RESOURCE, id, test_id)
