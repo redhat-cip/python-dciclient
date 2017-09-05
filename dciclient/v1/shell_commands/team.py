@@ -135,3 +135,77 @@ def show(context, id):
     """
     result = team.get(context, id=id)
     utils.format_output(result, context.format)
+
+
+@cli.command("team-attach-test",
+             help="Attach a test to a team.")
+@click.argument("id")
+@click.option("--test-id", required=True)
+@click.pass_obj
+def attach_test(context, id, test_id):
+    """attach_test(context, id, test_id)
+
+    Attach a test to a team.
+
+    >>> dcictl team-attach-test [OPTIONS]
+
+    :param string id: ID of the team to attach the test to [required]
+    :param string test_id: ID of the test to attach [required]
+    """
+    result = team.add_test(context, id=id, test_id=test_id)
+    utils.format_output(result, context.format, ['team_id', 'test_id'])
+
+
+@cli.command("team-list-test",
+             help="List tests attached to a team.")
+@click.argument("id")
+@click.option("--sort", default="-created_at")
+@click.option("--limit", default=50)
+@click.option("--where", help="An optional filter criteria.",
+              required=False)
+@click.option("--long", "--verbose", "verbose",
+              required=False, default=False, is_flag=True)
+@click.pass_obj
+def list_test(context, id, sort, limit, where, verbose):
+    """list_test(context, id, sort, limit, where, verbose)
+
+    List tests attached to a team.
+
+    >>> dcictl team-list-test [OPTIONS]
+
+    :param string id: ID of the team to list the test from
+                      [required]
+    :param string sort: Field to apply sort
+    :param integer limit: Max number of rows to return
+    :param string where: An optional filter criteria
+    :param boolean verbose: Display verbose output
+    """
+    result = team.list_tests(context, id=id, sort=sort, limit=limit,
+                             where=where)
+    utils.format_output(result, context.format, verbose=verbose)
+
+
+@cli.command("team-unattach-test",
+             help="Unattach a test to a team.")
+@click.argument("id")
+@click.option("--test-id", required=True)
+@click.pass_obj
+def unattach_test(context, id, test_id):
+    """unattach_test(context, id, test_id)
+
+    Unattach a test from a team.
+
+    >>> dcictl team-unattach-test [OPTIONS]
+
+    :param string id: ID of the team to unattach the test from
+                      [required]
+    :param string test_id: ID of the test to unattach [required]
+    """
+    result = team.remove_test(context, id=id,
+                              test_id=test_id)
+    if result.status_code == 204:
+        unattach_msg = 'Test unattached from Team'
+        utils.print_json({'id': id,
+                          'message': unattach_msg})
+    else:
+        utils.format_output(result, context.format)

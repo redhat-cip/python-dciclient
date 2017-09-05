@@ -117,3 +117,18 @@ def purge(context, resource, **kwargs):
     else:
         r = context.session.post(uri)
     return r
+
+
+def add_test(context, resource, id, test_id):
+    uri = '%s/%s/%s/tests' % (context.dci_cs_api, resource, id)
+    return context.session.post(uri, json={'test_id': test_id})
+
+
+def list_tests(context, resource, id, **kwargs):
+    return list(context, resource, id=id,
+                subresource='tests', **kwargs)
+
+
+def remove_test(context, resource, id, test_id):
+    return delete(context, resource, id, subresource='tests',
+                  subresource_id=test_id)

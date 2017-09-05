@@ -136,3 +136,22 @@ def test_where_on_list(runner):
 
     assert runner.invoke(['team-list', '--where',
                           'name:foobar42'])['_meta']['count'] == 1
+
+
+def test_success_attach_test(runner, team_id, test_id):
+    tests = runner.invoke(['team-list-test', team_id])['tests']
+    base_count = len(tests)
+
+    runner.invoke(['team-attach-test', team_id, '--test-id', test_id])
+    tests = runner.invoke(['team-list-test', team_id])['tests']
+    assert len(tests) == base_count + 1
+
+
+def test_success_uattach_test(runner, team_id, test_id):
+    runner.invoke(['team-attach-test', team_id, '--test-id', test_id])
+    tests = runner.invoke(['team-list-test', team_id])['tests']
+    base_count = len(tests)
+
+    runner.invoke(['team-unattach-test', team_id, '--test-id', test_id])
+    tests = runner.invoke(['team-list-test', team_id])['tests']
+    assert len(tests) == base_count - 1
