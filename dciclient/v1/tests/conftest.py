@@ -156,6 +156,11 @@ def dci_context_user(server, db_provisioning):
 
 
 @pytest.fixture
+def dci_context_test_user(server, db_provisioning, test_user):
+    return context_factory(server, db_provisioning, 'foo', 'pass')
+
+
+@pytest.fixture
 def dci_context_other_user_agent(server, db_provisioning):
     return context_factory(server, db_provisioning, 'admin', 'admin',
                            user_agent='myagent-0.1')
@@ -245,6 +250,11 @@ def runner_user_admin(dci_context_user_admin):
 @pytest.fixture
 def runner_user(dci_context_user):
     return runner_factory(dci_context_user)
+
+
+@pytest.fixture
+def runner_test_user(dci_context_test_user):
+    return runner_factory(dci_context_test_user)
 
 
 @pytest.fixture
@@ -432,3 +442,9 @@ def test_user(runner, team_id):
         'user-create', '--name', 'foo', '--email', 'foo@example.org',
         '--fullname', 'Foo Bar', '--password', 'pass', '--team-id',
         team_id])['user']
+
+
+@pytest.fixture
+def team_test(dci_context, team_id):
+    test = api.test.create(dci_context, 'sometest', team_id=team_id).json()
+    return test['test']

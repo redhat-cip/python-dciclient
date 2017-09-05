@@ -21,7 +21,6 @@ from dciclient.v1 import utils
 
 from dciclient.v1.api import team
 from dciclient.v1.api import test
-from dciclient.v1.api import user
 
 
 @cli.command("test-list", help="List all tests.")
@@ -46,8 +45,7 @@ def list(context, team_id, sort, limit, where, verbose):
     :param string where: An optional filter criteria
     :param boolean verbose: Display verbose output
     """
-    team_id = team_id or user.list(
-        context, where='name:' + context.login).json()['users'][0]['team_id']
+    team_id = team_id or context.get_team_id()
     result = team.list_tests(context, team_id, sort=sort, limit=limit,
                              where=where)
     utils.format_output(result, context.format, verbose=verbose)
@@ -73,8 +71,7 @@ def create(context, name, team_id, data, active):
     """
 
     state = utils.active_string(active)
-    team_id = team_id or user.list(
-        context, where='name:' + context.login).json()['users'][0]['team_id']
+    team_id = team_id or context.get_team_id()
     result = test.create(context, name=name, data=data, team_id=team_id,
                          state=state)
     utils.format_output(result, context.format)

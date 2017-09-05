@@ -70,8 +70,7 @@ def create(context, name, password, role_id, team_id, active, email, fullname):
     :param string team_id: ID of the team to attach this user to [optional]
     :param boolean active: Set the user in the (in)active state
     """
-    team_id = team_id or user.list(
-        context, where='name:' + context.login).json()['users'][0]['team_id']
+    team_id = team_id or context.get_team_id()
     fullname = fullname or name
     result = user.create(context, name=name, password=password,
                          role_id=role_id, team_id=team_id,

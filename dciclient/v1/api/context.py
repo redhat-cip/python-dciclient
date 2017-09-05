@@ -21,6 +21,8 @@ from requests.auth import AuthBase
 from requests.compat import urlparse
 from requests.packages.urllib3.util.retry import Retry
 
+from dciclient.v1.api import remoteci
+from dciclient.v1.api import user
 from dciclient.v1 import auth
 from dciclient import version
 
@@ -52,6 +54,12 @@ class DciContextBase(object):
 
         return session
 
+    def get_team_id(self):
+        """Each context subclass must implement this method depending on the
+        authentication scheme.
+        """
+        raise NotImplementedError
+
 
 class DciContext(DciContextBase):
     def __init__(self, dci_cs_url, login, password, max_retries=0,
@@ -60,6 +68,10 @@ class DciContext(DciContextBase):
                                          user_agent)
         self.login = login
         self.session.auth = (login, password)
+
+    def get_team_id(self):
+        return user.list(self, where='name:' + self.login)\
+            .json()['users'][0]['team_id']
 
 
 def build_dci_context(dci_cs_url=None, dci_login=None, dci_password=None,
@@ -124,6 +136,11 @@ class DciSignatureContext(DciContextBase):
         super(DciSignatureContext, self).__init__(dci_cs_url.rstrip('/'),
                                                   max_retries, user_agent)
         self.session.auth = DciSignatureAuth(client_id, api_secret)
+
+    def get_team_id(self):
+        return remoteci.get(
+            self,
+            id=self.session.auth.client_id).json()['remoteci']['team_id']
 
 
 def build_signature_context(dci_cs_url=None, dci_client_id=None,

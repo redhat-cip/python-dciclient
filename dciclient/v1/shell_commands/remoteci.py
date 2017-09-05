@@ -20,7 +20,6 @@ from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
 from dciclient.v1.api import remoteci
-from dciclient.v1.api import user
 
 
 @cli.command("remoteci-list", help="List all remotecis.")
@@ -73,8 +72,7 @@ def create(context, name, team_id, data, active, allow_upgrade_job):
     """
 
     state = utils.active_string(active)
-    team_id = team_id or user.list(
-        context, where='name:' + context.login).json()['users'][0]['team_id']
+    team_id = team_id or context.get_team_id()
     result = remoteci.create(context, name=name, team_id=team_id,
                              data=data, allow_upgrade_job=allow_upgrade_job,
                              state=state)
