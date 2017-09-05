@@ -255,3 +255,17 @@ def test_unattach_user_to_remoteci(runner, remoteci_id, test_user):
     user_list = runner.invoke(['remoteci-list-user', remoteci_id])['users']
 
     assert len(user_list) == 0
+
+
+def test_attach_rconfiguration(runner, remoteci_id):
+    user_list = runner.invoke(['remoteci-list-user', remoteci_id])['users']
+
+    assert len(user_list) == 0
+
+    runner.invoke(['remoteci-attach-user', remoteci_id, '--user-id',
+                   test_user['id']])
+
+    user_list = runner.invoke(['remoteci-list-user', remoteci_id])['users']
+
+    assert len(user_list) == 1
+    assert user_list[0]['id'] == test_user['id']
