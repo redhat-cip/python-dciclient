@@ -24,10 +24,11 @@ import json
 RESOURCE = 'jobs'
 
 
-def create(context, remoteci_id, team_id=None, jobdefinition_id=None,
-           components=None, comment=None):
+def create(context, remoteci_id, team_id=None, topic_id=None,
+           jobdefinition_id=None, components=None, comment=None):
     job = base.create(context, RESOURCE, remoteci_id=remoteci_id,
-                      team_id=team_id, jobdefinition_id=jobdefinition_id,
+                      team_id=team_id, topic_id=topic_id,
+                      jobdefinition_id=jobdefinition_id,
                       components=components, comment=comment)
     context.last_job_id = job.json()['job']['id']
     return job
