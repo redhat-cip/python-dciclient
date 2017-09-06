@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dac4157f_2855b31c",
+        "filename": "dciclient/v1/api/job.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2017-09-06T13:00:38Z",
+      "side": 1,
+      "message": "I guess this is for debug purpose and should be remove right ?",
+      "revId": "7e773eb3868e4d4cd9db8b83549aa8a9c6e8e255",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
