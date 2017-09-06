@@ -83,7 +83,6 @@ def cli(ctx, dci_login, dci_password, dci_client_id, dci_api_secret,
 import dciclient.v1.shell_commands.component  # noqa
 import dciclient.v1.shell_commands.file  # noqa
 import dciclient.v1.shell_commands.job  # noqa
-import dciclient.v1.shell_commands.jobdefinition  # noqa
 import dciclient.v1.shell_commands.jobstate  # noqa
 import dciclient.v1.shell_commands.product  # noqa
 import dciclient.v1.shell_commands.purge  # noqa

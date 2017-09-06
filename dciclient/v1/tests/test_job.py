@@ -16,18 +16,19 @@
 
 from dciclient.v1.api import component
 from dciclient.v1.api import job
-from dciclient.v1.api import jobdefinition
 from dciclient.v1.api import topic
 
 
-def test_job_create_as_user(dci_context_user, remoteci_id,
-                            jobdefinition_factory):
-    jobdefinition_id = jobdefinition_factory()['jobdefinition']['id']
+def test_job_create_as_user(dci_context, dci_context_user, remoteci_id,
+                            components_ids, topic_id, team_user_id):
+    topic.attach_team(dci_context, topic_id, team_user_id)
+
     j = job.create(
         dci_context_user,
+        topic_id=topic_id,
+        team_id=team_user_id,
         remoteci_id=remoteci_id,
-        jobdefinition_id=jobdefinition_id,
-        components=[]).json()
+        components=components_ids).json()
     assert j['job']['id']
 
 
@@ -54,8 +55,6 @@ def test_job_upgraded(dci_context, job_id, topic_id):
     new = topic.create(dci_context, 'bar_topic', ['type_1'])
     t = new.json()['topic']
     component.create(dci_context, 'bar_component', 'type_1', t['id'])
-    jobdefinition.create(dci_context, 'bar_jobdef', t['id'],
-                         component_types=['type_1'])
     topic.update(dci_context, id=topic_id, etag=old['etag'],
                  next_topic=t['id'])
     r = job.upgrade(dci_context, job_id=job_id)

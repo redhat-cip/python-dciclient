@@ -17,6 +17,7 @@
 from dciclient.v1.api import base
 from dciclient.v1.api import remoteci
 from dciclient.v1.api import topic
+from dciclient.v1 import utils
 
 import json
 
@@ -24,10 +25,10 @@ import json
 RESOURCE = 'jobs'
 
 
-def create(context, remoteci_id, team_id=None, jobdefinition_id=None,
-           components=None, comment=None):
-    job = base.create(context, RESOURCE, remoteci_id=remoteci_id,
-                      team_id=team_id, jobdefinition_id=jobdefinition_id,
+def create(context, remoteci_id, topic_id, team_id=None, components=None,
+           comment=None):
+    job = base.create(context, RESOURCE, topic_id=topic_id,
+                      remoteci_id=remoteci_id, team_id=team_id,
                       components=components, comment=comment)
     context.last_job_id = job.json()['job']['id']
     return job
@@ -41,10 +42,12 @@ def list(context, **kwargs):
     return base.list(context, RESOURCE, **kwargs)
 
 
-def schedule(context, remoteci_id, topic_id):
+def schedule(context, remoteci_id, topic_id, components=None):
     uri = '%s/%s/schedule' % (context.dci_cs_api, RESOURCE)
-    data_json = json.dumps({'remoteci_id': remoteci_id, 'topic_id': topic_id})
-    r = context.session.post(uri, data=data_json)
+    data = {'remoteci_id': remoteci_id, 'topic_id': topic_id,
+            'components_ids': components}
+    data = utils.sanitize_kwargs(**data)
+    r = context.session.post(uri, data=json.dumps(data))
     if r.status_code == 201:
         context.last_job_id = r.json()['job']['id']
     return r
