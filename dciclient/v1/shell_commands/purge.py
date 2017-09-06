@@ -34,7 +34,7 @@ def purge(context, resource, noop):
     >>> dcictl purge --resource remotecis
     """
 
-    resources = ['components', 'topics', 'tests', 'teams', 'jobdefinitions',
+    resources = ['components', 'topics', 'tests', 'teams',
                  'remotecis', 'jobs', 'files', 'users', 'roles']
 
     l_resources = resources if resource is None else resource.split(',')

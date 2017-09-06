@@ -258,6 +258,12 @@ def team_id(dci_context):
 
 
 @pytest.fixture
+def team_user_id(dci_context):
+    user = api.user.list(dci_context, where='name:user')
+    return user.json()['users'][0]['team_id']
+
+
+@pytest.fixture
 def topic_id(dci_context):
     kwargs = {'name': 'foo_topic', 'component_types': ['type_1', 'type_2']}
     return api.topic.create(dci_context, **kwargs).json()['topic']['id']
@@ -326,25 +332,8 @@ def components_ids(dci_context, topic_id):
 
 
 @pytest.fixture
-def jobdefinition_factory(dci_context, topic_id):
-    def create():
-        kwargs = {'name': 'hihi', 'type': 'type_1', 'topic_id': topic_id,
-                  'data': {'component': 'component1'}}
-        api.component.create(dci_context, **kwargs).json()
-
-        kwargs = {'name': 'haha', 'type': 'type_2', 'topic_id': topic_id,
-                  'data': {'component': 'component2'}}
-        api.component.create(dci_context, **kwargs).json()
-
-        kwargs = {'name': 'tname', 'topic_id': topic_id,
-                  'component_types': ['type_1', 'type_2']}
-        return api.jobdefinition.create(dci_context, **kwargs).json()
-    return create
-
-
-@pytest.fixture
 def job_factory(dci_context, team_id, topic_id,
-                remoteci_id, jobdefinition_factory):
+                remoteci_id, components_ids):
     def create():
         job = api.job.schedule(dci_context, remoteci_id, topic_id).json()
         job_id = job['job']['id']
@@ -357,9 +346,9 @@ def job_factory(dci_context, team_id, topic_id,
         api.file.create(dci_context, name='pre-run',
                         content='pre-run ongoing', mime='plain/text',
                         jobstate_id=jobstate_id)
-        jobstate_id = api.jobstate.create(
+        api.jobstate.create(
             dci_context, 'running', 'starting the build',
-            job_id).json()['jobstate']['id']
+            job_id)
         return job
 
     JUNIT = """
@@ -379,8 +368,6 @@ def job_factory(dci_context, team_id, topic_id,
     <testcase classname="tests.test_app" file="tests/test_app.py" line="42"
               name="test_cors_headers" time="0.574683904648"/>
     </testsuite>"""
-
-    jobdefinition_factory()
 
     api.topic.attach_team(dci_context, topic_id, team_id)
     return create
