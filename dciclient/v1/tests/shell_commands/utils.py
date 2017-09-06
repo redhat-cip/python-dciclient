@@ -71,25 +71,16 @@ def generate_componenttype(client):
     return client.post('/componenttypes', {'name': 'my_component_type'}).json()
 
 
-def generate_job(client):
+def generate_job(client, topic_id):
     componenttype = generate_componenttype(client)
 
-    test = client.post('/tests', {'name': 'my_test'}).json()
+    client.post('/tests', {'name': 'my_test'})
     component = client.post('/components', {
         'name': 'my_component',
         'componenttype_id': componenttype['id'],
         'sha': 'some_sha',
         'canonical_project_name': 'my_project'}
     ).json()
-
-    jobdefinition = client.post('/jobdefinitions', {
-        'test_id': test['id']
-    }).json()
-
-    client.post('/jobdefinition_components', {
-        'jobdefinition_id': jobdefinition['id'],
-        'component_id': component['id']
-    }).json()
 
     team = client.post('/teams', {
         'name': 'my_team'
@@ -99,10 +90,10 @@ def generate_job(client):
         'team_id': team['id']
     }).json()
 
-    job = client.post('/jobs', {
-        'team_id': team['id'],
-        'jobdefinition_id': jobdefinition['id'],
+    job = client.post('/jobs/schedule', {
+        'topic_id': topic_id,
         'remoteci_id': remoteci['id'],
+        'components': [component['id']]
     }).json()
 
     return job
