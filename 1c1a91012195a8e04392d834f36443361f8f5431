@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dac4157f_486c679c",
+        "filename": "dciclient/v1/tests/conftest.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 107
+      },
+      "writtenOn": "2017-09-06T07:47:53Z",
+      "side": 1,
+      "message": "Too much space",
+      "range": {
+        "startLine": 262,
+        "startChar": 10,
+        "endLine": 262,
+        "endChar": 12
+      },
+      "revId": "1c1a91012195a8e04392d834f36443361f8f5431",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
