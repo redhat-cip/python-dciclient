@@ -121,11 +121,17 @@ def provision(db_conn):
     team_admin_id = db_insert(models.TEAMS, name='admin')
     team_user_id = db_insert(models.TEAMS, name='user')
 
-    # Create the three mandatory roles
+    # Create the four mandatory roles
     super_admin_role = {
         'name': 'Super Admin',
         'label': 'SUPER_ADMIN',
         'description': 'Admin of the platform',
+    }
+
+    product_owner_role = {
+        'name': 'Product Owner',
+        'label': 'PRODUCT_OWNER',
+        'description': 'Product Owner',
     }
 
     admin_role = {
@@ -143,6 +149,7 @@ def provision(db_conn):
     super_admin_role_id = db_insert(models.ROLES, **admin_role)
     admin_role_id = db_insert(models.ROLES, **user_role)
     user_role_id = db_insert(models.ROLES, **super_admin_role)
+    db_insert(models.ROLES, **product_owner_role)
 
     # Create users
     db_insert(models.USERS, name='user', role_id=user_role_id,
