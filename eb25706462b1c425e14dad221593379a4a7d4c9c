@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dac4157f_c80e37e5",
+        "filename": "dciclient/v1/shell_commands/team.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 107
+      },
+      "writtenOn": "2017-09-06T07:49:31Z",
+      "side": 1,
+      "message": "You mark here the parent_id as required but it\u0027s not true in param check and create doc / params",
+      "range": {
+        "startLine": 94,
+        "startChar": 69,
+        "endLine": 94,
+        "endChar": 79
+      },
+      "revId": "eb25706462b1c425e14dad221593379a4a7d4c9c",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
