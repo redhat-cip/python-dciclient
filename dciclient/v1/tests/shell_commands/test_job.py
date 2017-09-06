@@ -15,7 +15,6 @@
 # under the License.
 
 from dciclient.v1.api import job
-from dciclient.v1.api import jobdefinition
 from dciclient.v1.api import remoteci
 from dciclient.v1.api import test
 from dciclient.v1.api import topic
@@ -57,18 +56,9 @@ def test_list(runner, dci_context, remoteci_id):
 
     runner.invoke(['topic-attach-team', topic['id'], '--team-id', team_id])
 
-    runner.invoke(['jobdefinition-create',
-                   '--name', 'foo',
-                   '--topic-id', topic['id'],
-                   '--component_types', 'type_1'])['jobdefinition']
-
     runner.invoke(['component-create', '--name', 'foo',
                    '--type', 'type_1', '--topic-id',
                    topic['id']])['component']
-
-    kwargs = {'name': 'tname', 'topic_id': topic['id'],
-              'component_types': ['type_1']}
-    jobdefinition.create(dci_context, **kwargs)
 
     job.schedule(dci_context, remoteci_id, topic['id'])
     l_job = runner.invoke(['job-list'])
@@ -173,10 +163,6 @@ def test_job_output(runner, job_id):
 def test_job_list(runner, dci_context, team_id, topic_id,
                   remoteci_id, components_ids):
 
-    kwargs = {'name': 'tname', 'topic_id': topic_id,
-              'component_types': ['type_1']}
-    jobdefinition.create(dci_context, **kwargs)
-
     kwargs = {'name': 'test_topic', 'team_id': team_id}
     test_id = test.create(dci_context, **kwargs).json()['test']['id']
     topic.add_test(dci_context, topic_id, test_id)
@@ -185,7 +171,7 @@ def test_job_list(runner, dci_context, team_id, topic_id,
     remoteci.add_test(dci_context, remoteci_id, test_id)
 
     job_scheduled = job.schedule(
-        dci_context, remoteci_id, topic_id).json()
+        dci_context, remoteci_id, topic_id, components=components_ids).json()
 
     job_id = job_scheduled['job']['id']
     result = runner.invoke(['job-list-test', job_id])
