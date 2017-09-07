@@ -268,6 +268,12 @@ def team_id(dci_context):
 
 
 @pytest.fixture
+def team_admin_id(dci_context):
+    return api.team.list(dci_context,
+                         where='name:admin').json()['teams'][0]['id']
+
+
+@pytest.fixture
 def topic_id(dci_context):
     kwargs = {'name': 'foo_topic', 'component_types': ['type_1', 'type_2']}
     return api.topic.create(dci_context, **kwargs).json()['topic']['id']
