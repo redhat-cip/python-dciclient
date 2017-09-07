@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dac4157f_d33a6ce7",
+        "filename": "dciclient/v1/tests/shell_commands/utils.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2017-09-07T09:21:24Z",
+      "side": 1,
+      "message": "Job schedule will be the prefered way to create a job, i think the manual creation will be deprecated soon.\n\nThis is also to get free of jobdefinition_id parameter.",
+      "parentUuid": "dac4157f_13d3443a",
+      "range": {
+        "startLine": 93,
+        "startChar": 23,
+        "endLine": 93,
+        "endChar": 37
+      },
+      "revId": "c80d9f5c6848eb581bf6a0fd9e64f6e162b866bd",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dac4157f_331768ef",
         "filename": "dciclient/v1/tests/test_job.py",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2017-09-07T06:25:04Z",
       "side": 1,
       "message": "Oo ?\nI don\u0027t understand",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 71
+      },
+      "revId": "c80d9f5c6848eb581bf6a0fd9e64f6e162b866bd",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dac4157f_b3481889",
+        "filename": "dciclient/v1/tests/test_job.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2017-09-07T09:21:24Z",
+      "side": 1,
+      "message": "The jobdefinition_id is enforced by the server for the \u0027manual\u0027 creation of a job yet.",
+      "parentUuid": "dac4157f_331768ef",
       "range": {
         "startLine": 22,
         "startChar": 0,
