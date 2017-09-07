@@ -425,6 +425,12 @@ def role_super_admin(dci_context):
 
 
 @pytest.fixture
+def role_product_owner(dci_context):
+    return api.role.list(dci_context,
+                         where='label:PRODUCT_OWNER').json()['roles'][0]
+
+
+@pytest.fixture
 def role_admin(dci_context):
     return api.role.list(dci_context,
                          where='label:ADMIN').json()['roles'][0]
