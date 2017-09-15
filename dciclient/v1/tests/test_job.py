@@ -33,14 +33,13 @@ def test_job_create_as_user(dci_context, dci_context_user, remoteci_id,
 
 
 def test_job_updated(dci_context, job_id):
-    new_configuration = {'foo': 'bar'}
+    new_comment = 'foo'
     j = job.get(dci_context, job_id).json()['job']
-    assert j['configuration'] == {}
-    job.update(dci_context, id=job_id, etag=j['etag'],
-               configuration=new_configuration)
+    assert j['comment'] == ''
+    job.update(dci_context, id=job_id, etag=j['etag'], comment=new_comment)
     r = job.get(dci_context, job_id)
     j = r.json()['job']
-    assert j['configuration'] == new_configuration
+    assert j['comment'] == new_comment
 
 
 def test_get_full_data(dci_context, job_id):
