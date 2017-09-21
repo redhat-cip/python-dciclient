@@ -18,7 +18,7 @@ from dciclient.v1.api import base
 from dciclient.v1 import utils
 
 import os
-
+import six
 
 RESOURCE = 'files'
 
@@ -33,7 +33,8 @@ def create(context, name, content, mime='text/plain',
                'DCI-TEST-ID': test_id}
     headers = utils.sanitize_kwargs(**headers)
     uri = '%s/%s' % (context.dci_cs_api, RESOURCE)
-    return context.session.post(uri, headers=headers, data=content)
+    f = six.StringIO(content)
+    return context.session.post(uri, headers=headers, data=f)
 
 
 def create_with_stream(context, name, file_path, mime='text/plain',
