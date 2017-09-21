@@ -45,11 +45,14 @@ class Mocked_store_engine(object):
         del(self.files[filename])
 
     def get(self, filename):
-        with open('/tmp/swift/' + filename, 'r') as fd:
-            return [None, fd.read()]
+        fd = open('/tmp/swift/' + filename, 'r')
+        return [None, fd]
 
+    # TODO(Goneri): should be dropped once
+    # I9804796987e05417dcc20a1099b4a26db4f9f1f2 is merged
     def get_object(self, filename):
-        return self.get(filename)[1]
+        _, fd = self.get(filename)
+        return fd.read()
 
     def head(self, filename):
         return self.files[filename]
