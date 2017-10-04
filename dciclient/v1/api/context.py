@@ -70,8 +70,7 @@ class DciContext(DciContextBase):
         self.session.auth = (login, password)
 
     def get_team_id(self):
-        return user.list(self, where='name:' + self.login)\
-            .json()['users'][0]['team_id']
+        return user.get_current_user(self).json()['user']['team_id']
 
 
 def build_dci_context(dci_cs_url=None, dci_login=None, dci_password=None,

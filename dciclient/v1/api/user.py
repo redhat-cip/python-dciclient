@@ -35,6 +35,11 @@ def get(context, id, **kwargs):
     return base.get(context, RESOURCE, id=id, **kwargs)
 
 
+def get_current_user(context):
+    uri = '%s/%s/me' % (context.dci_cs_api, RESOURCE)
+    return context.session.get(uri)
+
+
 def update(context, id, etag, name=None, password=None, role_id=None,
            state=None, email=None, fullname=None):
     return base.update(context, RESOURCE, id=id, etag=etag, name=name,
