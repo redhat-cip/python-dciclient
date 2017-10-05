@@ -41,10 +41,10 @@ def get_current_user(context):
 
 
 def update(context, id, etag, name=None, password=None, role_id=None,
-           state=None, email=None, fullname=None):
+           team_id=None, state=None, email=None, fullname=None):
     return base.update(context, RESOURCE, id=id, etag=etag, name=name,
-                       password=password, role_id=role_id, state=state,
-                       email=email, fullname=fullname)
+                       password=password, role_id=role_id, team_id=team_id,
+                       state=state, email=email, fullname=fullname)
 
 
 def delete(context, id, etag):

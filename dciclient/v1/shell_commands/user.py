@@ -87,10 +87,11 @@ def create(context, name, password, role_id, team_id, active, email, fullname):
 @click.option("--email")
 @click.option("--fullname")
 @click.option("--role-id")
+@click.option("--team-id")
 @click.option("--active/--no-active", default=None)
 @click.pass_obj
-def update(context, id, etag, name, password, role_id, active, email,
-           fullname):
+def update(context, id, etag, name, password, email, fullname, role_id,
+           team_id, active):
     """update(context, id, etag, name, password, role_id, active, email, fullname)
 
     Update a user.
@@ -109,7 +110,7 @@ def update(context, id, etag, name, password, role_id, active, email,
 
     result = user.update(context, id=id, etag=etag, name=name,
                          password=password, role_id=role_id,
-                         state=utils.active_string(active),
+                         team_id=team_id, state=utils.active_string(active),
                          email=email, fullname=fullname)
 
     if result.status_code == 204:

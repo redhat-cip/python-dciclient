@@ -97,6 +97,17 @@ def test_update(runner, test_user, role_admin, role_user):
     assert user['role_id'] == role_admin['id']
 
 
+def test_update_team_id(runner, test_user, team_user_id, team_id):
+    user = runner.invoke(['user-show', test_user['id']])['user']
+    assert user['team_id'] == team_id
+
+    runner.invoke(['user-update', test_user['id'],
+                   '--etag', test_user['etag'],
+                   '--team-id', team_user_id])
+    user = runner.invoke(['user-show', test_user['id']])['user']
+    assert user['team_id'] == team_user_id
+
+
 def test_update_active(runner, test_user, team_id):
     assert test_user['state'] == 'active'
 
