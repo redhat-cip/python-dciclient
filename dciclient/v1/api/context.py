@@ -155,3 +155,41 @@ def build_signature_context(dci_cs_url=None, dci_client_id=None,
         raise Exception(msg)
     return DciSignatureContext(dci_cs_url, dci_client_id, dci_api_secret,
                                user_agent=user_agent, max_retries=max_retries)
+
+
+class SsoContext(DciContextBase):
+    def __init__(self, dci_cs_url, token, max_retries=0, user_agent=None):
+        super(SsoContext, self).__init__(dci_cs_url.rstrip('/'), max_retries,
+                                         user_agent)
+        self.session.headers['Authorization'] = 'Bearer %s' % token
+
+    def get_team_id(self):
+        return user.get_current_user(self).json()['user']['team_id']
+
+
+def build_sso_context(dci_cs_url, sso_url, username, password, token,
+                      max_retries=0, user_agent=None, refresh=False):
+    dci_cs_url = dci_cs_url or os.environ.get('DCI_CS_URL', '')
+    sso_url = sso_url or os.environ.get('SSO_URL', '').rstrip('/')
+    username = username or os.environ.get('SSO_USERNAME', '')
+    password = password or os.environ.get('SSO_PASSWORD', '')
+    token = token or os.environ.get('SSO_TOKEN', '')
+
+    def _get_token():
+        url = '%s/auth/realms/dci-test/protocol/openid-connect/token' % sso_url
+        data = {'client_id': 'dci-cs',
+                'grant_type': 'password',
+                'username': username,
+                'password': password}
+        result = requests.Session().post(url, data=data)
+        return result.json()['access_token']
+
+    if not token or refresh:
+        if not sso_url or not username or not password:
+            msg = "Environment variables required to build token: SSO_URL, " \
+                  "SSO_USERNAME, SSO_PASSWORD or use SSO_TOKEN."
+            raise Exception(msg)
+        token = _get_token()
+    os.environ.set('SSO_TOKEN', token)
+
+    return SsoContext(dci_cs_url, token, max_retries, user_agent)
