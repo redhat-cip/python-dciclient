@@ -1,0 +1,8 @@
+Code-Review+2: Cédric Lecomte <ced.lecomte@gmail.com>
+Workflow+1: Cédric Lecomte <ced.lecomte@gmail.com>
+Verified+2: Jenkins CI <jenkins@softwarefactory-project.io>
+Submitted-by: Jenkins CI <jenkins@softwarefactory-project.io>
+Submitted-at: Thu, 05 Oct 2017 08:49:15 +0000
+Reviewed-on: https://softwarefactory-project.io/r/9824
+Project: python-dciclient
+Branch: refs/heads/master
