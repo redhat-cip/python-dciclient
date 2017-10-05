@@ -138,9 +138,9 @@ def provision(db_conn):
         'description': 'Regular User',
     }
 
-    super_admin_role_id = db_insert(models.ROLES, **admin_role)
-    admin_role_id = db_insert(models.ROLES, **user_role)
-    user_role_id = db_insert(models.ROLES, **super_admin_role)
+    super_admin_role_id = db_insert(models.ROLES, **super_admin_role)
+    admin_role_id = db_insert(models.ROLES, **admin_role)
+    user_role_id = db_insert(models.ROLES, **user_role)
     db_insert(models.ROLES, **product_owner_role)
 
     # Create users
