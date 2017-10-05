@@ -16,6 +16,24 @@
       "revId": "5f2865a4605fc1c33c60b43236374c8dae84d1fe",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9abe1de1_49b6a3dd",
+        "filename": "dciclient/v1/shell_commands/__init__.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2017-10-05T13:38:17Z",
+      "side": 1,
+      "message": "Because its done in the others if statements",
+      "parentUuid": "9abe1de1_0999cb6e",
+      "revId": "5f2865a4605fc1c33c60b43236374c8dae84d1fe",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
