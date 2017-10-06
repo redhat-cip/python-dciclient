@@ -21,7 +21,7 @@ def create(context, resource, **kwargs):
     """Create a resource"""
     data = utils.sanitize_kwargs(**kwargs)
     uri = '%s/%s' % (context.dci_cs_api, resource)
-    r = context.session.post(uri, data=json.dumps(data))
+    r = context.session.post(uri, timeout=30, data=json.dumps(data))
     return r
 
 
@@ -36,7 +36,7 @@ def list(context, resource, **kwargs):
     else:
         uri = '%s/%s' % (context.dci_cs_api, resource)
 
-    return context.session.get(uri, params=data)
+    return context.session.get(uri, timeout=30, params=data)
 
 
 def iter(context, resource, **kwargs):
@@ -53,7 +53,7 @@ def iter(context, resource, **kwargs):
 
     data['offset'] = 0
     while True:
-        j = context.session.get(uri, params=data).json()
+        j = context.session.get(uri, timeout=30, params=data).json()
         if len(j[resource]):
             for i in j[resource]:
                 yield i
@@ -65,7 +65,7 @@ def iter(context, resource, **kwargs):
 def get(context, resource, **kwargs):
     """List a specific resource"""
     uri = '%s/%s/%s' % (context.dci_cs_api, resource, kwargs.pop('id'))
-    r = context.session.get(uri, params=kwargs)
+    r = context.session.get(uri, timeout=30, params=kwargs)
     return r
 
 
@@ -79,7 +79,7 @@ def get_data(context, resource, **kwargs):
     uri = '%s/%s/%s/data%s' % (context.dci_cs_api, resource,
                                kwargs.pop('id'), url_suffix)
 
-    r = context.session.get(uri, params=kwargs)
+    r = context.session.get(uri, timeout=30, params=kwargs)
     return r
 
 
@@ -89,7 +89,7 @@ def update(context, resource, **kwargs):
     id = kwargs.pop('id')
     data = utils.sanitize_kwargs(**kwargs)
     uri = '%s/%s/%s' % (context.dci_cs_api, resource, id)
-    r = context.session.put(uri, headers={'If-match': etag}, json=data)
+    r = context.session.put(uri, timeout=30, headers={'If-match': etag}, json=data)
     return r
 
 
@@ -105,7 +105,7 @@ def delete(context, resource, id, **kwargs):
     if subresource:
         uri = '%s/%s/%s' % (uri, subresource, subresource_id)
 
-    r = context.session.delete(uri, headers={'If-match': etag})
+    r = context.session.delete(uri, timeout=30, headers={'If-match': etag})
     return r
 
 
@@ -113,7 +113,7 @@ def purge(context, resource, **kwargs):
     """Purge resource type."""
     uri = '%s/%s/purge' % (context.dci_cs_api, resource)
     if 'noop' in kwargs and kwargs['noop']:
-        r = context.session.get(uri)
+        r = context.session.get(uri, timeout=30)
     else:
-        r = context.session.post(uri)
+        r = context.session.post(uri, timeout=30)
     return r

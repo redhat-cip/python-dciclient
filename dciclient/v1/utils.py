@@ -21,7 +21,7 @@ import prettytable
 
 
 def download(context, uri, target):
-    r = context.session.get(uri, stream=True)
+    r = context.session.get(uri, stream=True, timeout=30)
     r.raise_for_status()
     with open(target + '.part', 'wb') as f:
         for chunk in r.iter_content(chunk_size=1024):
