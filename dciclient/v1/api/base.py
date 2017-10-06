@@ -15,13 +15,17 @@
 from dciclient.v1 import utils
 
 import json
+import os
+
+HTTP_TIMEOUT = 30
 
 
 def create(context, resource, **kwargs):
     """Create a resource"""
     data = utils.sanitize_kwargs(**kwargs)
     uri = '%s/%s' % (context.dci_cs_api, resource)
-    r = context.session.post(uri, data=json.dumps(data))
+    r = context.session.post(uri, timeout=HTTP_TIMEOUT,
+                             data=json.dumps(data))
     return r
 
 
@@ -36,7 +40,7 @@ def list(context, resource, **kwargs):
     else:
         uri = '%s/%s' % (context.dci_cs_api, resource)
 
-    return context.session.get(uri, params=data)
+    return context.session.get(uri, timeout=HTTP_TIMEOUT, params=data)
 
 
 def iter(context, resource, **kwargs):
@@ -53,7 +57,7 @@ def iter(context, resource, **kwargs):
 
     data['offset'] = 0
     while True:
-        j = context.session.get(uri, params=data).json()
+        j = context.session.get(uri, timeout=HTTP_TIMEOUT, params=data).json()
         if len(j[resource]):
             for i in j[resource]:
                 yield i
@@ -65,7 +69,7 @@ def iter(context, resource, **kwargs):
 def get(context, resource, **kwargs):
     """List a specific resource"""
     uri = '%s/%s/%s' % (context.dci_cs_api, resource, kwargs.pop('id'))
-    r = context.session.get(uri, params=kwargs)
+    r = context.session.get(uri, timeout=HTTP_TIMEOUT, params=kwargs)
     return r
 
 
@@ -79,7 +83,7 @@ def get_data(context, resource, **kwargs):
     uri = '%s/%s/%s/data%s' % (context.dci_cs_api, resource,
                                kwargs.pop('id'), url_suffix)
 
-    r = context.session.get(uri, params=kwargs)
+    r = context.session.get(uri, timeout=HTTP_TIMEOUT, params=kwargs)
     return r
 
 
@@ -89,7 +93,9 @@ def update(context, resource, **kwargs):
     id = kwargs.pop('id')
     data = utils.sanitize_kwargs(**kwargs)
     uri = '%s/%s/%s' % (context.dci_cs_api, resource, id)
-    r = context.session.put(uri, headers={'If-match': etag}, json=data)
+    r = context.session.put(uri, timeout=HTTP_TIMEOUT,
+                            headers={'If-match': etag},
+                            json=data)
     return r
 
 
@@ -105,7 +111,8 @@ def delete(context, resource, id, **kwargs):
     if subresource:
         uri = '%s/%s/%s' % (uri, subresource, subresource_id)
 
-    r = context.session.delete(uri, headers={'If-match': etag})
+    r = context.session.delete(uri, timeout=HTTP_TIMEOUT,
+                               headers={'If-match': etag})
     return r
 
 
@@ -113,7 +120,17 @@ def purge(context, resource, **kwargs):
     """Purge resource type."""
     uri = '%s/%s/purge' % (context.dci_cs_api, resource)
     if 'noop' in kwargs and kwargs['noop']:
-        r = context.session.get(uri)
+        r = context.session.get(uri, timeout=HTTP_TIMEOUT)
     else:
-        r = context.session.post(uri)
+        r = context.session.post(uri, timeout=HTTP_TIMEOUT)
     return r
+
+
+def download(context, uri, target):
+    r = context.session.get(uri, stream=True, timeout=HTTP_TIMEOUT)
+    r.raise_for_status()
+    with open(target + '.part', 'wb') as f:
+        for chunk in r.iter_content(chunk_size=1024):
+            if chunk:
+                f.write(chunk)
+    os.rename(target + '.part', target)
