@@ -15,7 +15,6 @@
 # under the License.
 
 from dciclient.v1.api import base
-from dciclient.v1 import utils
 
 import json
 
@@ -62,7 +61,7 @@ def file_get(context, id, file_id):
 def file_download(context, id, file_id, target):
     uri = '%s/%s/%s/files/%s/content' % (
         context.dci_cs_api, RESOURCE, id, file_id)
-    utils.download(context, uri, target)
+    base.download(context, uri, target)
 
 
 def file_list(context, id, **kwargs):
