@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9abe1de1_0f266b68",
+        "filename": "dciclient/v1/api/file.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-10-10T19:31:53Z",
+      "side": 1,
+      "message": "Could you add more details about what content can be ?\n(string/bytes or file descriptor)",
+      "revId": "31bd8959a777a506dfee0d70106c867f984090a2",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
