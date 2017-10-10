@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9abe1de1_cf13d35b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-10-10T10:22:13Z",
+      "side": 1,
+      "message": "Add a \"Fixes #9\"",
+      "revId": "d730692f2b39fcb674ab2455f1ab801fca11705d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9abe1de1_ef0d7738",
+        "filename": "dciclient/v1/api/file.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-10-10T10:22:13Z",
+      "side": 1,
+      "message": "Please handle the case where content is already fd-like object (has \u0027open\u0027 attribute) and pass it without converting it.",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 65
+      },
+      "revId": "d730692f2b39fcb674ab2455f1ab801fca11705d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
