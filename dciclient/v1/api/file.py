@@ -24,8 +24,24 @@ import six
 RESOURCE = 'files'
 
 
-def create(context, name, content, mime='text/plain',
+def create(context, name, content=None, file_path=None, mime='text/plain',
            jobstate_id=None, md5=None, job_id=None, test_id=None):
+    """Method to create a file on the Control-Server
+
+    This method allows one to upload a file to the Control-Server. The file
+    to be uploaded can be specified in two different ways either by specifying
+    its content directly or or by specifying the file_path where the file is
+    located.
+
+    """
+
+    if content and file_path:
+        raise Exception('content and file_path are mutually exclusive')
+    elif not content and not file_path:
+        raise Exception(
+            'At least one of content or file_path must be specified'
+        )
+
     headers = {'DCI-NAME': name,
                'DCI-MIME': mime,
                'DCI-JOBSTATE-ID': jobstate_id,
@@ -34,28 +50,28 @@ def create(context, name, content, mime='text/plain',
                'DCI-TEST-ID': test_id}
     headers = utils.sanitize_kwargs(**headers)
     uri = '%s/%s' % (context.dci_cs_api, RESOURCE)
-    if isinstance(content, bytes):
-        f = io.BytesIO(content)
+
+    if content:
+        if isinstance(content, bytes):
+            content = io.BytesIO(content)
+        elif not hasattr(content, 'read'):
+            content = six.StringIO(content)
+        return context.session.post(uri, headers=headers, data=content)
+
     else:
-        f = six.StringIO(content)
-    return context.session.post(uri, headers=headers, data=f)
+        if not os.path.exists(file_path):
+            raise FileErrorException()
+        with open(file_path, 'rb') as f:
+            return context.session.post(uri, headers=headers, data=f)
 
 
+# TODO(spredzy): Remove this method once all the party using this method has
+#                moved to create()
 def create_with_stream(context, name, file_path, mime='text/plain',
                        jobstate_id=None, md5=None, job_id=None, test_id=None):
-    headers = {'DCI-NAME': name,
-               'DCI-MIME': mime,
-               'DCI-JOBSTATE-ID': jobstate_id,
-               'DCI-MD5': md5,
-               'DCI-JOB-ID': job_id,
-               'DCI-TEST-ID': test_id}
-    headers = utils.sanitize_kwargs(**headers)
-    uri = '%s/%s' % (context.dci_cs_api, RESOURCE)
-
-    if not os.path.exists(file_path):
-        raise FileErrorException()
-    with open(file_path, 'rb') as f:
-        return context.session.post(uri, headers=headers, data=f)
+    return create(context, name, file_path=file_path, mime=mime,
+                  jobstate_id=jobstate_id, md5=md5, job_id=job_id,
+                  test_id=test_id)
 
 
 def get(context, id, **kwargs):
