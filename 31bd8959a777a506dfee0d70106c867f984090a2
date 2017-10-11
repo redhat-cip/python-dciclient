@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9abe1de1_2fbfefd1",
+        "filename": "dciclient/v1/api/file.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2017-10-11T07:06:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9abe1de1_0f266b68",
+      "revId": "31bd8959a777a506dfee0d70106c867f984090a2",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9abe1de1_efe1f7ff",
         "filename": "dciclient/v1/api/file.py",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-10-11T00:49:04Z",
       "side": 1,
       "message": "It would be also great to support the case where content is a fd, because this should be the norm. The use of plain content like that is a bad idea.",
+      "revId": "31bd8959a777a506dfee0d70106c867f984090a2",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9abe1de1_cfce3383",
+        "filename": "dciclient/v1/api/file.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2017-10-11T07:06:46Z",
+      "side": 1,
+      "message": "\u003e\u003e It would be also great to support the case where content is a fd\n\nIt is already the case. If content hasattr read then send it directly without changing it. (ie. no io.BytesIO, nor six.StringIO, send the fd directly)",
+      "parentUuid": "9abe1de1_efe1f7ff",
       "revId": "31bd8959a777a506dfee0d70106c867f984090a2",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
