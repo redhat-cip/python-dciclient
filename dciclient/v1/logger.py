@@ -54,8 +54,8 @@ class DciHandler(logging.Handler):
         jobstate_id = self._current_jobstate_id
         if value and jobstate_id:
             r = dci_file.create(self._dci_context, 'logger.txt',
-                                value, 'text/plain',
-                                jobstate_id)
+                                content=value, mime='text/plain',
+                                jobstate_id=jobstate_id)
             if r.status_code != 201:
                 raise DciLogPushFailure(r.text)
         self._current_log = io.StringIO()
