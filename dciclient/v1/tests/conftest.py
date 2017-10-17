@@ -179,17 +179,17 @@ def dci_context_broken(server, db_provisioning):
 
 
 @pytest.fixture
-def signature_context_factory(server, db_provisioning, remoteci_id,
-                              remoteci_api_secret, url='http://dciserver.com',
+def signature_context_factory(server, db_provisioning, client_id=None,
+                              api_secret=None, url='http://dciserver.com',
                               user_agent=None):
     def f(server=server, db_provisioning=db_provisioning,
-          remoteci_id=remoteci_id, remoteci_api_secret=remoteci_api_secret,
+          client_id=client_id, api_secret=api_secret,
           url=url, user_agent=user_agent):
         extras = {}
         if user_agent:
             extras['user_agent'] = user_agent
         test_context = api.context.DciSignatureContext(
-            url, remoteci_id, api_secret=remoteci_api_secret)
+            url, client_id, api_secret)
         flask_adapter = utils.FlaskHTTPAdapter(server.test_client())
         test_context.session.mount(url, flask_adapter)
         return test_context
@@ -197,8 +197,11 @@ def signature_context_factory(server, db_provisioning, remoteci_id,
 
 
 @pytest.fixture
-def dci_context_remoteci(signature_context_factory):
-    return signature_context_factory()
+def dci_context_remoteci(server, db_provisioning, remoteci_id,
+                         signature_context_factory,
+                         remoteci_api_secret):
+    return signature_context_factory(client_id=remoteci_id,
+                                     api_secret=remoteci_api_secret)
 
 
 def runner_factory(context):
@@ -458,3 +461,12 @@ def test_user(runner, team_id):
 def team_test(dci_context, team_id):
     test = api.test.create(dci_context, 'sometest', team_id=team_id).json()
     return test['test']
+
+
+@pytest.fixture
+def feeder(dci_context, team_id):
+    kwargs = {'name': 'feeder',
+              'team_id': team_id,
+              'state': 'active'}
+    feeder = api.base.create(dci_context, 'feeders', **kwargs).json()
+    return feeder['feeder']
