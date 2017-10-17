@@ -31,23 +31,26 @@ export DCI_PASSWORD=bar
 export DCI_CS_URL=https://api.distributed-ci.io
 ```
 
-or using the remoteci api secret:
+or using the API secret method:
 
 ```
-export DCI_CLIENT_ID=<remoteci_id>
+export DCI_CLIENT_ID=<client_type>/<client_id>
 export DCI_API_SECRET=<api_secret>
 export DCI_CS_URL=https://api.distributed-ci.io
 ```
+
+Where `client_type` can currently be `remoteci` or `feeder`
 
 Which will allow the user to run the command: `dcictl team-list`
 
   * At the command line level:
 
 One can pass those informations on the CLI level. Example: `dcictl --dci-login jdoe --dci-password jdoe --dci-cs-url 'https://api.distributed-ci.io' team-list`
- or `dcictl --dci-client-id <remoteci_id> --dci-api-secret <api_secret> --dci-cs-url 'https://api.distributed-ci.io' team-list`
+ or `dcictl --dci-client-id <client_type>/<client_id> --dci-api-secret <api_secret> --dci-cs-url 'https://api.distributed-ci.io' team-list`
 
+Where `client_type` can currently be `remoteci` or `feeder`
 
-For RemoteCI please use the API Secret to authenticate.
+For RemoteCIs or Feeders please use the API Secret to authenticate.
 
 ## List of available commands
 
