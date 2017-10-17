@@ -21,7 +21,6 @@ from requests.auth import AuthBase
 from requests.compat import urlparse
 from requests.packages.urllib3.util.retry import Retry
 
-from dciclient.v1.api import identity
 from dciclient.v1 import auth
 from dciclient import version
 
@@ -30,7 +29,6 @@ class DciContextBase(object):
     API_VERSION = 'api/v1'
 
     def __init__(self, dci_cs_url, max_retries=0, user_agent=None):
-        super(DciContextBase, self).__init__()
         self.session = self._build_http_session(user_agent, max_retries)
         self.dci_cs_api = '%s/%s' % (dci_cs_url, DciContext.API_VERSION)
         self.last_job_id = None
@@ -51,12 +49,6 @@ class DciContextBase(object):
         session.mount('https://', HTTPAdapter(max_retries=retries))
 
         return session
-
-    def get_team_id(self):
-        """Asks the control-server for the team_id of the currently
-        authenticated resource.
-        """
-        return identity.get(self).json()['identity']['team_id']
 
 
 class DciContext(DciContextBase):
