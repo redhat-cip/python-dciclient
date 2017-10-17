@@ -17,6 +17,7 @@
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
+from dciclient.v1.api import identity
 from dciclient.v1.api import topic
 
 import click
@@ -165,7 +166,7 @@ def attach_team(context, id, team_id):
     :param string id: ID of the topic to attach to [required]
     :param string team_id: ID of the team to attach to this topic [required]
     """
-    team_id = team_id or context.get_team_id()
+    team_id = team_id or identity.my_team_id(context)
     result = topic.attach_team(context, id=id, team_id=team_id)
     utils.format_output(result, context.format)
 
@@ -185,7 +186,7 @@ def unattach_team(context, id, team_id):
     :param string team_id: ID of team to unattach from this topic,
         default is the current user team [optional]
     """
-    team_id = team_id or context.get_team_id()
+    team_id = team_id or identity.my_team_id(context)
     result = topic.unattach_team(context, id=id, team_id=team_id)
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Teams has been unattached.'})
