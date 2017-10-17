@@ -21,8 +21,7 @@ from requests.auth import AuthBase
 from requests.compat import urlparse
 from requests.packages.urllib3.util.retry import Retry
 
-from dciclient.v1.api import remoteci
-from dciclient.v1.api import user
+from dciclient.v1.api import identity
 from dciclient.v1 import auth
 from dciclient import version
 
@@ -55,10 +54,10 @@ class DciContextBase(object):
         return session
 
     def get_team_id(self):
-        """Each context subclass must implement this method depending on the
-        authentication scheme.
+        """Asks the control-server for the team_id of the currently
+        authenticated resource.
         """
-        raise NotImplementedError
+        return identity.get(self).json()['identity']['team_id']
 
 
 class DciContext(DciContextBase):
@@ -68,9 +67,6 @@ class DciContext(DciContextBase):
                                          user_agent)
         self.login = login
         self.session.auth = (login, password)
-
-    def get_team_id(self):
-        return user.get_current_user(self).json()['user']['team_id']
 
 
 def build_dci_context(dci_cs_url=None, dci_login=None, dci_password=None,
@@ -97,6 +93,11 @@ class DciSignatureAuth(AuthBase):
         self.client_info = None
         self.timestamp = None
 
+        # NOTE(fc): silent compatibility for when remoteci/ was hardcoded into
+        #   client_id
+        if self.client_id.find('/') == -1:
+            self.client_id = 'remoteci/%s' % self.client_id
+
     def __call__(self, r):
         content_type = r.headers.get('Content-Type', '')
         url_p = urlparse(r.url)
@@ -116,7 +117,7 @@ class DciSignatureAuth(AuthBase):
 
     def refresh_client_info(self):
         self.timestamp = datetime.utcnow()
-        self.client_info = '%s/remoteci/%s' % (
+        self.client_info = '%s/%s' % (
             self.timestamp.strftime('%Y-%m-%d %H:%M:%SZ'),
             self.client_id
         )
@@ -135,11 +136,6 @@ class DciSignatureContext(DciContextBase):
         super(DciSignatureContext, self).__init__(dci_cs_url.rstrip('/'),
                                                   max_retries, user_agent)
         self.session.auth = DciSignatureAuth(client_id, api_secret)
-
-    def get_team_id(self):
-        return remoteci.get(
-            self,
-            id=self.session.auth.client_id).json()['remoteci']['team_id']
 
 
 def build_signature_context(dci_cs_url=None, dci_client_id=None,
@@ -162,9 +158,6 @@ class SsoContext(DciContextBase):
         super(SsoContext, self).__init__(dci_cs_url.rstrip('/'), max_retries,
                                          user_agent)
         self.session.headers['Authorization'] = 'Bearer %s' % token
-
-    def get_team_id(self):
-        return user.get_current_user(self).json()['user']['team_id']
 
 
 def build_sso_context(dci_cs_url, sso_url, username, password, token,
