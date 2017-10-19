@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2015-2016 Red Hat, Inc
+# Copyright (C) 2015-2017 Red Hat, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -16,18 +16,7 @@
 
 import click
 import json
-import os
 import prettytable
-
-
-def download(context, uri, target):
-    r = context.session.get(uri, stream=True)
-    r.raise_for_status()
-    with open(target + '.part', 'wb') as f:
-        for chunk in r.iter_content(chunk_size=1024):
-            if chunk:
-                f.write(chunk)
-    os.rename(target + '.part', target)
 
 
 def flatten(d, prefix=''):
