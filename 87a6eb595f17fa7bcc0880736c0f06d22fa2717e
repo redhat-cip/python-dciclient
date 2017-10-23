@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9abe1de1_15879510",
+        "filename": "dciclient/v1/api/identity.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2017-10-23T09:15:16Z",
+      "side": 1,
+      "message": "s/whatami/identity/",
+      "revId": "87a6eb595f17fa7bcc0880736c0f06d22fa2717e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9abe1de1_f57c2122",
+        "filename": "dciclient/v1/api/identity.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2017-10-23T09:15:16Z",
+      "side": 1,
+      "message": "s/whatami/get",
+      "revId": "87a6eb595f17fa7bcc0880736c0f06d22fa2717e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
