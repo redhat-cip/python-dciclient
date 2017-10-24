@@ -81,6 +81,7 @@ def cli(ctx, dci_login, dci_password, dci_client_id, dci_api_secret,
     ctx.obj = context
 
 import dciclient.v1.shell_commands.component  # noqa
+import dciclient.v1.shell_commands.feeder  # noqa
 import dciclient.v1.shell_commands.file  # noqa
 import dciclient.v1.shell_commands.job  # noqa
 import dciclient.v1.shell_commands.jobstate  # noqa
