@@ -78,9 +78,10 @@ def create(context, name, country, active, parent_id):
 @click.option("--country")
 @click.option("--parent-id")
 @click.option("--active/--no-active", default=None)
+@click.option("--external/--no-external")
 @click.pass_obj
-def update(context, id, etag, name, country, active, parent_id):
-    """update(context, id, etag, name, country, active, parent_id)
+def update(context, id, etag, name, country, parent_id, active, external):
+    """update(context, id, etag, name, country, parent_id, active, external)
 
     Update a team.
 
@@ -92,11 +93,13 @@ def update(context, id, etag, name, country, active, parent_id):
     :param string country: Country code where the team is based
     :param boolean active: Set the team in the (in)active state
     :param string parent_id: The ID of the team this team belongs to
+    :param boolean external: Set the team as external
     """
 
     result = team.update(context, id=id, etag=etag, name=name,
                          state=utils.active_string(active),
-                         country=country, parent_id=parent_id)
+                         country=country, parent_id=parent_id,
+                         external=external)
 
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Team updated.'})
