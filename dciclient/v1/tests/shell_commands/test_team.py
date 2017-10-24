@@ -122,6 +122,15 @@ def test_update_active(runner):
     assert team_state == 'active'
 
 
+def test_update_team_external(runner, runner_product_owner):
+    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    runner.invoke(['team-update', team['id'],
+                   '--etag', team['etag'], '--no-external'])
+    team = runner.invoke(['team-show', team['id']])['team']
+
+    assert team['external'] is False
+
+
 def test_delete(runner):
     team = runner.invoke(['team-create', '--name', 'foo'])['team']
 

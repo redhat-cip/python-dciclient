@@ -107,11 +107,14 @@ def provision(db_conn):
 
     user_pw_hash = auth.hash_password('user')
     user_admin_pw_hash = auth.hash_password('user_admin')
+    product_owner_pw_hash = auth.hash_password('product_owner')
     admin_pw_hash = auth.hash_password('admin')
 
     # Create teams
     team_admin_id = db_insert(models.TEAMS, name='admin')
-    team_user_id = db_insert(models.TEAMS, name='user')
+    team_product_id = db_insert(models.TEAMS, name='product')
+    team_user_id = db_insert(models.TEAMS, name='user',
+                             parent_id=team_product_id)
 
     # Create the four mandatory roles
     super_admin_role = {
@@ -147,7 +150,7 @@ def provision(db_conn):
     super_admin_role_id = db_insert(models.ROLES, **super_admin_role)
     admin_role_id = db_insert(models.ROLES, **admin_role)
     user_role_id = db_insert(models.ROLES, **user_role)
-    db_insert(models.ROLES, **product_owner_role)
+    product_owner_role_id = db_insert(models.ROLES, **product_owner_role)
     db_insert(models.ROLES, **remoteci_role)
 
     # Create users
@@ -162,3 +165,12 @@ def provision(db_conn):
     db_insert(models.USERS, name='admin', role_id=super_admin_role_id,
               password=admin_pw_hash, team_id=team_admin_id,
               fullname='Admin', email='admin@example.org')
+
+    db_insert(models.USERS,
+              name='product_owner',
+              sso_username='product_owner',
+              role_id=product_owner_role_id,
+              password=product_owner_pw_hash,
+              fullname='Product Owner',
+              email='product_ownern@example.org',
+              team_id=team_product_id)
