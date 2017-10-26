@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9abe1de1_ebce8282",
+        "filename": "dciclient/v1/shell_commands/team.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 115
+      },
+      "writtenOn": "2017-10-26T07:33:58Z",
+      "side": 1,
+      "message": "Question: Don\u0027t we need a default\u003dNone here, else if we have a team in external: False then you update the name of the team, would the team be external: True?",
+      "revId": "dd6b16bfdfbb136f4de85b3eb1ee4a7095f104c1",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
