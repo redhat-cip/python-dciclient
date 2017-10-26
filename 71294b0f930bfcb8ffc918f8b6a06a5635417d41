@@ -1,0 +1,8 @@
+Code-Review+2: François Charlier <francois.charlier@redhat.com>
+Workflow+1: Yassine Lamgarchal <yassine.lamgarchal@redhat.com>
+Verified+2: Jenkins CI <jenkins@softwarefactory-project.io>
+Submitted-by: Jenkins CI <jenkins@softwarefactory-project.io>
+Submitted-at: Thu, 26 Oct 2017 15:19:09 +0000
+Reviewed-on: https://softwarefactory-project.io/r/9977
+Project: python-dciclient
+Branch: refs/heads/master
