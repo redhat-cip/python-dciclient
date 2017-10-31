@@ -111,8 +111,14 @@ class DciHMACAuth(AuthBase):
         return r
 
     def get_payload(self, r):
+        # Py3
+        if hasattr(r.body, 'decode'):
+            body = r.body.decode("utf-8")
+        else:
+            body = r.body
+
         try:
-            return dict(json.loads(r.body or '{}'))
+            return dict(json.loads(body or '{}'))
         except TypeError:
             return {}
 
