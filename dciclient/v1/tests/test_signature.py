@@ -57,13 +57,13 @@ def test_get_job_with_remoteci_context_succeeds(dci_context_remoteci, job_id):
     assert r.status_code == 200
 
 
-def test_get_job_with_feeder_context_succeeds(feeder,
-                                              signature_context_factory,
-                                              job_id):
+def test_get_job_with_feeder_context_fails(feeder,
+                                           signature_context_factory,
+                                           job_id):
     context = signature_context_factory(client_id='feeder/%s' % feeder['id'],
                                         api_secret=feeder['api_secret'])
     r = job.get(context, job_id)
-    assert r.status_code == 200
+    assert r.status_code == 404
 
 
 def test_get_job_with_bad_type_context_fails(feeder,
