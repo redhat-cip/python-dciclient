@@ -19,7 +19,6 @@ from dciclient.v1 import utils
 
 import io
 import os
-import six
 
 RESOURCE = 'files'
 
@@ -54,12 +53,11 @@ def create(context, name, content=None, file_path=None, mime='text/plain',
     uri = '%s/%s' % (context.dci_cs_api, RESOURCE)
 
     if content:
-        if isinstance(content, bytes):
+        if not hasattr(content, 'read'):
+            if not isinstance(content, bytes):
+                content = content.encode('utf-8')
             content = io.BytesIO(content)
-        elif not hasattr(content, 'read'):
-            content = six.StringIO(content)
         return context.session.post(uri, headers=headers, data=content)
-
     else:
         if not os.path.exists(file_path):
             raise FileErrorException()
