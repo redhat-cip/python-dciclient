@@ -14,6 +14,7 @@
 import json
 
 import os
+from requests import compat
 
 try:
     from urlparse import parse_qsl
@@ -116,7 +117,11 @@ class DciSignatureAuth(AuthBase):
 
     def get_payload(self, r):
         try:
-            return dict(json.loads(r.body or '{}'))
+            if isinstance(r.body, compat.basestring):
+                body = r.body.decode("utf-8")
+            else:
+                body = r.body
+            return dict(json.loads(body or '{}'))
         except TypeError:
             return {}
 

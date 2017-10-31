@@ -39,20 +39,19 @@ def test_prettytable_output(runner, job_id):
     assert 'etag' in runner.invoke_raw_parse(['job-list', '--long'])
 
 
-def test_list(runner, dci_context, remoteci_id):
+def test_list(runner, dci_context, dci_context_remoteci, team_user_id,
+              remoteci_id):
     topic = runner.invoke(['topic-create', '--name', 'osp',
                            '--component_types', 'type_1'])['topic']
 
-    teams = runner.invoke(['team-list'])['teams']
-    team_id = teams[0]['id']
-
-    runner.invoke(['topic-attach-team', topic['id'], '--team-id', team_id])
+    runner.invoke(['topic-attach-team', topic['id'], '--team-id',
+                   team_user_id])
 
     runner.invoke(['component-create', '--name', 'foo',
                    '--type', 'type_1', '--topic-id',
                    topic['id']])['component']
 
-    job.schedule(dci_context, remoteci_id, topic['id'])
+    job.schedule(dci_context_remoteci, remoteci_id, topic['id'])
     l_job = runner.invoke(['job-list'])
     assert len(l_job['jobs']) == 1
     assert l_job['jobs'][0]['remoteci']['id'] == remoteci_id
@@ -152,18 +151,21 @@ def test_job_output(runner, job_id):
     assert result.output.startswith('[pre-run]')
 
 
-def test_job_list(runner, dci_context, team_id, topic_id,
-                  remoteci_id, components_ids):
+def test_job_list(runner, dci_context, dci_context_remoteci,
+                  team_user_id, remoteci_id, topic_id,
+                  components_ids):
 
-    kwargs = {'name': 'test_topic', 'team_id': team_id}
+    topic.attach_team(dci_context, topic_id, team_user_id)
+    kwargs = {'name': 'test_topic', 'team_id': team_user_id}
     test_id = test.create(dci_context, **kwargs).json()['test']['id']
     topic.add_test(dci_context, topic_id, test_id)
-    kwargs = {'name': 'test_remoteci', 'team_id': team_id}
+    kwargs = {'name': 'test_remoteci', 'team_id': team_user_id}
     test_id = test.create(dci_context, **kwargs).json()['test']['id']
     remoteci.add_test(dci_context, remoteci_id, test_id)
 
     job_scheduled = job.schedule(
-        dci_context, remoteci_id, topic_id, components=components_ids).json()
+        dci_context_remoteci, remoteci_id, topic_id,
+        components=components_ids).json()
 
     job_id = job_scheduled['job']['id']
     result = runner.invoke(['job-list-test', job_id])
@@ -227,6 +229,9 @@ def test_file_support_as_remoteci(runner_remoteci, tmpdir, job_id):
     content = u"remoteci content".encode('utf-8')
     p.write(content, 'wb')
 
+    my_original_list = runner_remoteci.invoke(['job-list-file',
+                                               job_id])['files']
+
     # upload
     new_f = runner_remoteci.invoke(['job-upload-file', job_id, '--name',
                                     'testrci', '--path', p.strpath])['file']
@@ -246,7 +251,7 @@ def test_file_support_as_remoteci(runner_remoteci, tmpdir, job_id):
     # list
     my_list = runner_remoteci.invoke(['job-list-file',
                                       job_id])['files']
-    assert len(my_list) == 1
+    assert len(my_list) == len(my_original_list) + 1
     assert my_list[0]['size'] == len(content)
 
     # delete
