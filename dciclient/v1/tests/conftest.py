@@ -316,9 +316,32 @@ def test_id(dci_context, team_id):
 
 
 @pytest.fixture
-def remoteci_id(dci_context, team_id):
+def test_user_id(dci_context, team_user_id):
+    kwargs = {'name': 'test_user_name', 'team_id': team_user_id}
+    return api.test.create(dci_context, **kwargs).json()['test']['id']
+
+
+@pytest.fixture
+def components(dci_context, topic_id):
+    component1 = {'name': 'component1',
+                  'type': 'type_1',
+                  'data': {},
+                  'canonical_project_name': 'component 1',
+                  'topic_id': topic_id}
+
+    component2 = {'name': 'component2',
+                  'type': 'type_2',
+                  'data': {},
+                  'canonical_project_name': 'component 2',
+                  'topic_id': topic_id}
+
+    return [component1, component2]
+
+
+@pytest.fixture
+def remoteci_id(dci_context, team_user_id):
     kwargs = {'name': 'remoteci',
-              'team_id': team_id,
+              'team_id': team_user_id,
               'data': {'remoteci': 'remoteci'}}
     rci = api.remoteci.create(dci_context, **kwargs).json()
     return rci['remoteci']['id']
@@ -355,22 +378,23 @@ def components_ids(dci_context, topic_id):
 
 
 @pytest.fixture
-def job_factory(dci_context, team_id, topic_id,
-                remoteci_id, components_ids):
+def job_factory(dci_context, dci_context_remoteci, team_user_id,
+                remoteci_id, topic_id, components_ids):
     def create():
-        job = api.job.schedule(dci_context, remoteci_id, topic_id).json()
+        job = api.job.schedule(dci_context_remoteci, remoteci_id,
+                               topic_id).json()
         job_id = job['job']['id']
-        api.file.create(dci_context, name='res_junit.xml',
+        api.file.create(dci_context_remoteci, name='res_junit.xml',
                         content=JUNIT, mime='application/junit',
                         job_id=job_id)
         jobstate_id = api.jobstate.create(
-            dci_context, 'pre-run', 'starting',
+            dci_context_remoteci, 'pre-run', 'starting',
             job_id).json()['jobstate']['id']
-        api.file.create(dci_context, name='pre-run',
+        api.file.create(dci_context_remoteci, name='pre-run',
                         content='pre-run ongoing', mime='plain/text',
                         jobstate_id=jobstate_id)
         api.jobstate.create(
-            dci_context, 'running', 'starting the build',
+            dci_context_remoteci, 'running', 'starting the build',
             job_id)
         return job
 
@@ -392,7 +416,7 @@ def job_factory(dci_context, team_id, topic_id,
               name="test_cors_headers" time="0.574683904648"/>
     </testsuite>"""
 
-    api.topic.attach_team(dci_context, topic_id, team_id)
+    api.topic.attach_team(dci_context, topic_id, team_user_id)
     return create
 
 
@@ -443,11 +467,11 @@ def role_user(dci_context):
 
 
 @pytest.fixture
-def test_user(runner, team_id):
+def test_user(runner, team_user_id):
     return runner.invoke([
         'user-create', '--name', 'foo', '--email', 'foo@example.org',
         '--fullname', 'Foo Bar', '--password', 'pass', '--team-id',
-        team_id])['user']
+        team_user_id])['user']
 
 
 @pytest.fixture
