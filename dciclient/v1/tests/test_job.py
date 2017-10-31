@@ -19,15 +19,16 @@ from dciclient.v1.api import job
 from dciclient.v1.api import topic
 
 
-def test_job_create_as_user(dci_context, dci_context_user, remoteci_id,
-                            components_ids, topic_id, team_user_id):
+def test_job_create_as_remoteci(dci_context, dci_context_remoteci,
+                                components_ids, topic_id, team_user_id,
+                                remoteci_id):
     topic.attach_team(dci_context, topic_id, team_user_id)
 
     j = job.create(
-        dci_context_user,
+        dci_context_remoteci,
+        remoteci_id=remoteci_id,
         topic_id=topic_id,
         team_id=team_user_id,
-        remoteci_id=remoteci_id,
         components=components_ids).json()
     assert j['job']['id']
 
