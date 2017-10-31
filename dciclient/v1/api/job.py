@@ -42,10 +42,9 @@ def list(context, **kwargs):
     return base.list(context, RESOURCE, **kwargs)
 
 
-def schedule(context, remoteci_id, topic_id, components=None):
+def schedule(context, topic_id, components=None):
     uri = '%s/%s/schedule' % (context.dci_cs_api, RESOURCE)
-    data = {'remoteci_id': remoteci_id, 'topic_id': topic_id,
-            'components_ids': components}
+    data = {'topic_id': topic_id, 'components_ids': components}
     data = utils.sanitize_kwargs(**data)
     r = context.session.post(uri, data=json.dumps(data))
     if r.status_code == 201:
