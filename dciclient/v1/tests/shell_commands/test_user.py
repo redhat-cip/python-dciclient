@@ -34,11 +34,11 @@ def test_fail_create_user_no_email(runner, team_id):
             '--password', 'pass', '--team-id', team_id])
 
 
-def test_create_user(runner, test_user, team_id, role_user):
+def test_create_user(runner, test_user, team_user_id, role_user):
     assert test_user['name'] == 'foo'
     assert test_user['fullname'] == 'Foo Bar'
     assert test_user['email'] == 'foo@example.org'
-    assert test_user['team_id'] == team_id
+    assert test_user['team_id'] == team_user_id
     assert test_user['role_id'] == role_user['id']
 
 
@@ -99,13 +99,13 @@ def test_update(runner, test_user, role_admin, role_user):
 
 def test_update_team_id(runner, test_user, team_user_id, team_id):
     user = runner.invoke(['user-show', test_user['id']])['user']
-    assert user['team_id'] == team_id
+    assert user['team_id'] == team_user_id
 
     runner.invoke(['user-update', test_user['id'],
                    '--etag', test_user['etag'],
-                   '--team-id', team_user_id])
+                   '--team-id', team_id])
     user = runner.invoke(['user-show', test_user['id']])['user']
-    assert user['team_id'] == team_user_id
+    assert user['team_id'] == team_id
 
 
 def test_update_active(runner, test_user, team_id):
