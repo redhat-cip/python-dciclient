@@ -59,7 +59,7 @@ def test_list(runner, dci_context, dci_context_remoteci, team_user_id,
                    '--type', 'type_1', '--topic-id',
                    topic['id']])['component']
 
-    job.schedule(dci_context_remoteci, remoteci_id, topic['id'])
+    job.schedule(dci_context_remoteci, topic['id'])
     l_job = runner.invoke(['job-list'])
     assert len(l_job['jobs']) == 1
     assert l_job['jobs'][0]['remoteci']['id'] == remoteci_id
@@ -172,7 +172,7 @@ def test_job_list(runner, dci_context, dci_context_remoteci,
     remoteci.add_test(dci_context, remoteci_id, test_id)
 
     job_scheduled = job.schedule(
-        dci_context_remoteci, remoteci_id, topic_id,
+        dci_context_remoteci, topic_id,
         components=components_ids).json()
 
     job_id = job_scheduled['job']['id']
