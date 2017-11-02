@@ -23,11 +23,11 @@ from dciclient.v1 import utils
 RESOURCE = 'jobs'
 
 
-def create(context, remoteci_id, topic_id, team_id=None, components=None,
+def create(context, topic_id, team_id=None, components=None,
            comment=None):
     job = base.create(context, RESOURCE, topic_id=topic_id,
-                      remoteci_id=remoteci_id, team_id=team_id,
-                      components=components, comment=comment)
+                      team_id=team_id, components=components,
+                      comment=comment)
     context.last_job_id = job.json()['job']['id']
     return job
 
@@ -40,10 +40,9 @@ def list(context, **kwargs):
     return base.list(context, RESOURCE, **kwargs)
 
 
-def schedule(context, remoteci_id, topic_id, components=None):
+def schedule(context, topic_id, components=None):
     uri = '%s/%s/schedule' % (context.dci_cs_api, RESOURCE)
-    data = {'remoteci_id': remoteci_id, 'topic_id': topic_id,
-            'components_ids': components}
+    data = {'topic_id': topic_id, 'components_ids': components}
     data = utils.sanitize_kwargs(**data)
     r = context.session.post(uri, json=data)
     if r.status_code == 201:
