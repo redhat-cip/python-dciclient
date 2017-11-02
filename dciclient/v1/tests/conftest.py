@@ -306,23 +306,6 @@ def test_id(dci_context, team_id):
 
 
 @pytest.fixture
-def components(dci_context, topic_id):
-    component1 = {'name': 'component1',
-                  'type': 'type_1',
-                  'data': {},
-                  'canonical_project_name': 'component 1',
-                  'topic_id': topic_id}
-
-    component2 = {'name': 'component2',
-                  'type': 'type_2',
-                  'data': {},
-                  'canonical_project_name': 'component 2',
-                  'topic_id': topic_id}
-
-    return [component1, component2]
-
-
-@pytest.fixture
 def remoteci_id(dci_context, team_id):
     kwargs = {'name': 'remoteci',
               'team_id': team_id,

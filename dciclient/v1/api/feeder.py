@@ -16,14 +16,12 @@
 
 from dciclient.v1.api import base
 
-import json
-
 RESOURCE = 'feeders'
 
 
 def create(context, name, team_id, data={}, state='active'):
     return base.create(context, RESOURCE, name=name, team_id=team_id,
-                       data=json.dumps(data), state=state)
+                       data=data, state=state)
 
 
 def list(context, **kwargs):

@@ -19,8 +19,6 @@ from dciclient.v1.api import remoteci
 from dciclient.v1.api import topic
 from dciclient.v1 import utils
 
-import json
-
 
 RESOURCE = 'jobs'
 
@@ -47,7 +45,7 @@ def schedule(context, remoteci_id, topic_id, components=None):
     data = {'remoteci_id': remoteci_id, 'topic_id': topic_id,
             'components_ids': components}
     data = utils.sanitize_kwargs(**data)
-    r = context.session.post(uri, data=json.dumps(data))
+    r = context.session.post(uri, json=data)
     if r.status_code == 201:
         context.last_job_id = r.json()['job']['id']
     return r
@@ -55,8 +53,8 @@ def schedule(context, remoteci_id, topic_id, components=None):
 
 def upgrade(context, job_id):
     uri = '%s/%s/upgrade' % (context.dci_cs_api, RESOURCE)
-    data_json = json.dumps({'job_id': job_id})
-    r = context.session.post(uri, data=data_json)
+    data = {'job_id': job_id}
+    r = context.session.post(uri, json=data)
     if r.status_code == 201:
         context.last_job_id = r.json()['job']['id']
     return r
@@ -95,8 +93,8 @@ def list_issues(context, id, **kwargs):
 
 def attach_issue(context, id, url):
     uri = '%s/%s/%s/issues' % (context.dci_cs_api, RESOURCE, id)
-    data_json = json.dumps({'url': url})
-    return context.session.post(uri, data=data_json)
+    data = {'url': url}
+    return context.session.post(uri, json=data)
 
 
 def unattach_issue(context, id, issue_id):
@@ -127,8 +125,8 @@ def list_metas(context, id, **kwargs):
 
 def set_meta(context, id, name, value):
     uri = '%s/%s/%s/metas' % (context.dci_cs_api, RESOURCE, id)
-    data_json = json.dumps({'name': name, 'value': value})
-    return context.session.post(uri, data=data_json)
+    data = {'name': name, 'value': value}
+    return context.session.post(uri, json=data)
 
 
 def get_metas(context, id, data):
@@ -144,5 +142,5 @@ def delete_meta(context, id, meta_id):
 
 def notify(context, id, mesg):
     uri = '%s/%s/%s/notify' % (context.dci_cs_api, RESOURCE, id)
-    data_json = json.dumps({'mesg': mesg})
-    return context.session.post(uri, data=data_json)
+    data = {'mesg': mesg}
+    return context.session.post(uri, json=data)
