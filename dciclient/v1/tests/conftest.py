@@ -361,9 +361,9 @@ def components_ids(dci_context, topic_id):
 
 @pytest.fixture
 def job_factory(dci_context, dci_context_remoteci, team_user_id,
-                remoteci_id, topic_id, components_ids):
+                topic_id, components_ids):
     def create():
-        job = api.job.schedule(dci_context_remoteci, remoteci_id,
+        job = api.job.schedule(dci_context_remoteci,
                                topic_id).json()
         job_id = job['job']['id']
         api.file.create(dci_context_remoteci, name='res_junit.xml',
