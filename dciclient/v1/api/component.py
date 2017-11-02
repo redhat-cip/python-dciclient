@@ -16,8 +16,6 @@
 
 from dciclient.v1.api import base
 
-import json
-
 
 RESOURCE = 'components'
 
@@ -27,7 +25,7 @@ def create(context, name, type, topic_id, canonical_project_name=None, data={},
            state='active'):
     return base.create(context, RESOURCE, name=name, type=type,
                        canonical_project_name=canonical_project_name,
-                       data=json.dumps(data), title=title, message=message,
+                       data=data, title=title, message=message,
                        url=url, topic_id=topic_id,
                        export_control=export_control, state=state)
 
@@ -87,8 +85,8 @@ def list_issues(context, id, **kwargs):
 
 def attach_issue(context, id, url):
     uri = '%s/%s/%s/issues' % (context.dci_cs_api, RESOURCE, id)
-    data_json = json.dumps({'url': url})
-    return context.session.post(uri, data=data_json)
+    data = {'url': url}
+    return context.session.post(uri, json=data)
 
 
 def unattach_issue(context, id, issue_id):

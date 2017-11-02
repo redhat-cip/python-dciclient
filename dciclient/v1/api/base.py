@@ -14,7 +14,6 @@
 
 from dciclient.v1 import utils
 
-import json
 import os
 
 HTTP_TIMEOUT = 30
@@ -25,7 +24,7 @@ def create(context, resource, **kwargs):
     data = utils.sanitize_kwargs(**kwargs)
     uri = '%s/%s' % (context.dci_cs_api, resource)
     r = context.session.post(uri, timeout=HTTP_TIMEOUT,
-                             data=json.dumps(data))
+                             json=data)
     return r
 
 

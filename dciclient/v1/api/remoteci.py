@@ -16,8 +16,6 @@
 
 from dciclient.v1.api import base
 
-import json
-
 
 RESOURCE = 'remotecis'
 
@@ -25,7 +23,7 @@ RESOURCE = 'remotecis'
 def create(context, name, team_id, data={}, state='active',
            allow_upgrade_job=False):
     return base.create(context, RESOURCE, name=name, team_id=team_id,
-                       data=json.dumps(data), state=state,
+                       data=data, state=state,
                        allow_upgrade_job=allow_upgrade_job)
 
 
