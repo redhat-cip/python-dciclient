@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9abe1de1_dc5ee244",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-11-02T12:47:56Z",
+      "side": 1,
+      "message": "Could you just elaborate a bit more to explain the problem?",
+      "revId": "0df634679da1435e608a08e59e45da7d7bb06587",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
