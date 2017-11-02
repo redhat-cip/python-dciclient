@@ -1,0 +1,9 @@
+Code-Review+2: Gonéri Le Bouder <goneri@lebouder.net>
+Code-Review+2: Guillaume Vincent <gvincent@redhat.com>
+Workflow+1: Gonéri Le Bouder <goneri@lebouder.net>
+Verified+2: Jenkins CI <jenkins@softwarefactory-project.io>
+Submitted-by: Jenkins CI <jenkins@softwarefactory-project.io>
+Submitted-at: Thu, 02 Nov 2017 09:54:20 +0000
+Reviewed-on: https://softwarefactory-project.io/r/10070
+Project: python-dciclient
+Branch: refs/heads/master
