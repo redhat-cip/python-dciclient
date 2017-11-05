@@ -47,7 +47,7 @@ def test_get_full_data(job_id, dci_context, topic_id):
     assert cpt_names == set(['component1', 'component2'])
 
 
-def test_list(runner, dci_context, remoteci_id):
+def test_list(runner, dci_context_remoteci, remoteci_id):
     topic = runner.invoke(['topic-create', '--name', 'osp',
                            '--component_types', 'type_1'])['topic']
 
@@ -60,7 +60,7 @@ def test_list(runner, dci_context, remoteci_id):
                    '--type', 'type_1', '--topic-id',
                    topic['id']])['component']
 
-    job.schedule(dci_context, remoteci_id, topic['id'])
+    job.schedule(dci_context_remoteci, remoteci_id, topic['id'])
     l_job = runner.invoke(['job-list'])
     assert len(l_job['jobs']) == 1
     assert l_job['jobs'][0]['remoteci']['id'] == remoteci_id
@@ -160,7 +160,7 @@ def test_job_output(runner, job_id):
     assert result.output.startswith('[pre-run]')
 
 
-def test_job_list(runner, dci_context, team_id, topic_id,
+def test_job_list(runner, dci_context, dci_context_remoteci, team_id, topic_id,
                   remoteci_id, components_ids):
 
     kwargs = {'name': 'test_topic', 'team_id': team_id}
@@ -171,7 +171,9 @@ def test_job_list(runner, dci_context, team_id, topic_id,
     remoteci.add_test(dci_context, remoteci_id, test_id)
 
     job_scheduled = job.schedule(
-        dci_context, remoteci_id, topic_id, components=components_ids).json()
+        dci_context_remoteci, remoteci_id, topic_id,
+        components=components_ids).json()
+    print(job_scheduled)
 
     job_id = job_scheduled['job']['id']
     result = runner.invoke(['job-list-test', job_id])
@@ -235,6 +237,11 @@ def test_file_support_as_remoteci(runner_remoteci, tmpdir, job_id):
     content = u"remoteci content".encode('utf-8')
     p.write(content, 'wb')
 
+    # count current number of job's file
+    my_list = runner_remoteci.invoke(['job-list-file',
+                                      job_id])['files']
+    current_len_job_files = len(my_list)
+
     # upload
     new_f = runner_remoteci.invoke(['job-upload-file', job_id, '--name',
                                     'testrci', '--path', p.strpath])['file']
@@ -254,7 +261,7 @@ def test_file_support_as_remoteci(runner_remoteci, tmpdir, job_id):
     # list
     my_list = runner_remoteci.invoke(['job-list-file',
                                       job_id])['files']
-    assert len(my_list) == 1
+    assert len(my_list) == current_len_job_files + 1
     assert my_list[0]['size'] == len(content)
 
     # delete
