@@ -18,11 +18,15 @@ import hashlib
 import hmac
 import os
 
+import six
+
 
 def _hash_file(fd):
     algo = hashlib.sha256()
     block_size = 1024 * 1024
     buf = fd.read(block_size)
+    if not isinstance(buf, six.binary_type):
+        buf = buf.encode('utf-8')
     while len(buf) > 0:
         algo.update(buf)
         buf = fd.read(block_size)

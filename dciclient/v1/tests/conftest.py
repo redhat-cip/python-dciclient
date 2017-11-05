@@ -269,8 +269,10 @@ def runner_remoteci(dci_context_remoteci):
 
 
 @pytest.fixture
-def team_id(dci_context):
-    return api.team.create(dci_context, name='tname').json()['team']['id']
+def team_id(dci_context, topic_id):
+    t_id = api.team.create(dci_context, name='tname').json()['team']['id']
+    api.topic.attach_team(dci_context, topic_id, t_id)
+    return t_id
 
 
 @pytest.fixture
@@ -345,22 +347,24 @@ def components_ids(dci_context, topic_id):
 
 
 @pytest.fixture
-def job_factory(dci_context, team_id, topic_id,
+def job_factory(dci_context, dci_context_remoteci, team_id, topic_id,
                 remoteci_id, components_ids):
+    api.topic.attach_team(dci_context, topic_id, team_id)
+
     def create():
-        job = api.job.schedule(dci_context, remoteci_id, topic_id).json()
+        job = api.job.schedule(dci_context_remoteci, remoteci_id, topic_id).json()  # noqa
         job_id = job['job']['id']
-        api.file.create(dci_context, name='res_junit.xml',
+        api.file.create(dci_context_remoteci, name='res_junit.xml',
                         content=JUNIT, mime='application/junit',
                         job_id=job_id)
         jobstate_id = api.jobstate.create(
-            dci_context, 'pre-run', 'starting',
+            dci_context_remoteci, 'pre-run', 'starting',
             job_id).json()['jobstate']['id']
-        api.file.create(dci_context, name='pre-run',
+        api.file.create(dci_context_remoteci, name='pre-run',
                         content='pre-run ongoing', mime='plain/text',
                         jobstate_id=jobstate_id)
         api.jobstate.create(
-            dci_context, 'running', 'starting the build',
+            dci_context_remoteci, 'running', 'starting the build',
             job_id)
         return job
 
@@ -381,8 +385,6 @@ def job_factory(dci_context, team_id, topic_id,
     <testcase classname="tests.test_app" file="tests/test_app.py" line="42"
               name="test_cors_headers" time="0.574683904648"/>
     </testsuite>"""
-
-    api.topic.attach_team(dci_context, topic_id, team_id)
     return create
 
 

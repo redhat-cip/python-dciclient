@@ -37,15 +37,17 @@ def test_purge_fail_unauthorized_user_admin(runner_user_admin):
 
 
 def test_purge_noop(runner, remoteci_id):
+    topics = runner.invoke(['topic-list'])['topics']
+    current_topics_len = len(topics)
     runner.invoke(['topic-create', '--name', 'osp'])
     runner.invoke(['topic-create', '--name', 'osp2'])
     topics = runner.invoke(['topic-list'])['topics']
     topic_id = topics[0]['id']
-    assert len(topics) == 2
+    assert len(topics) == current_topics_len + 2
 
     runner.invoke(['topic-delete', topic_id])
     topics = runner.invoke(['topic-list'])['topics']
-    assert len(topics) == 1
+    assert len(topics) == current_topics_len + 1
 
     purge_res = runner.invoke(['purge', '--resource', 'topics',
                                '--noop'])
@@ -59,4 +61,4 @@ def test_purge_noop(runner, remoteci_id):
     assert len(purge_res) == 0
 
     topics = runner.invoke(['topic-list'])['topics']
-    assert len(topics) == 1
+    assert len(topics) == current_topics_len + 1
