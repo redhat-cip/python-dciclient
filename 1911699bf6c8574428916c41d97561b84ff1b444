@@ -1,0 +1,8 @@
+Code-Review+2: Guillaume Vincent <gvincent@redhat.com>
+Workflow+1: Guillaume Vincent <gvincent@redhat.com>
+Verified+2: Jenkins CI <jenkins@softwarefactory-project.io>
+Submitted-by: Jenkins CI <jenkins@softwarefactory-project.io>
+Submitted-at: Mon, 06 Nov 2017 10:50:49 +0000
+Reviewed-on: https://softwarefactory-project.io/r/10072
+Project: python-dciclient
+Branch: refs/heads/master
