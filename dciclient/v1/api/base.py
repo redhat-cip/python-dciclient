@@ -16,7 +16,7 @@ from dciclient.v1 import utils
 
 import os
 
-HTTP_TIMEOUT = 30
+HTTP_TIMEOUT = 600
 
 
 def create(context, resource, **kwargs):
