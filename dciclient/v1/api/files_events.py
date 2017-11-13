@@ -39,3 +39,9 @@ def iter(context, sequence, limit=10):
         else:
             break
         params['offset'] += params['limit']
+
+
+def delete(context, sequence):
+    """Delete files events from a given sequence"""
+    uri = '%s/%s/%s' % (context.dci_cs_api, RESOURCE, sequence)
+    return context.session.delete(uri)
