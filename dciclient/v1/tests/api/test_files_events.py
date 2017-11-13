@@ -43,3 +43,20 @@ def test_files_events_delete(dci_context, job_id):
     f_events_data = f_events.json()
     assert f_events_data['files'][-1]['event']['file_id'] == file_id
     assert f_events_data['files'][-1]['event']['action'] == 'delete'
+
+
+def test_files_events_delete_from_sequence(dci_context, job_id):
+
+    f_events = files_events.list(dci_context, 0).json()
+    init_nb_files = len(f_events['files'])
+
+    for i in range(5):
+        file.create(dci_context, 'name%s' % i, 'content%s' % i,
+                    mime='text/plain', job_id=job_id)
+    f_events = files_events.list(dci_context, 0).json()
+    assert len(f_events['files']) == (init_nb_files + 5)
+
+    files_events.delete(dci_context, 4)
+
+    f_events = files_events.list(dci_context, 0).json()
+    assert len(f_events['files']) == 3
