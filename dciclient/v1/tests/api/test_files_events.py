@@ -43,3 +43,27 @@ def test_files_events_delete(dci_context, job_id):
     f_events_data = f_events.json()
     assert f_events_data['files'][-1]['event']['file_id'] == file_id
     assert f_events_data['files'][-1]['event']['action'] == 'delete'
+
+
+def test_files_events_delete_from_sequence(dci_context, job_id):
+
+    def _get_min_max_ids(f_events):
+        ids = [i['event']['id'] for i in f_events['files']]
+        ids.sort()
+        return ids[0], ids[-1]
+
+    f_events = files_events.list(dci_context, 0).json()
+    init_min, init_max = _get_min_max_ids(f_events)
+
+    for i in range(5):
+        file.create(dci_context, 'name%s' % i, 'content%s' % i,
+                    mime='text/plain', job_id=job_id)
+    f_events = files_events.list(dci_context, 0).json()
+    _, max2 = _get_min_max_ids(f_events)
+    assert max2 == (init_max + 5)
+
+    files_events.delete(dci_context, init_max + 3)
+
+    f_events = files_events.list(dci_context, 0).json()
+    min3, max3 = _get_min_max_ids(f_events)
+    assert max3 == (init_max + 2)
