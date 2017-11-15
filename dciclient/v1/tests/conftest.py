@@ -164,6 +164,12 @@ def dci_context_test_user(server, db_provisioning, test_user):
 
 
 @pytest.fixture
+def dci_context_product_owner(server, db_provisioning):
+    return context_factory(server, db_provisioning, 'product_owner',
+                           'product_owner')
+
+
+@pytest.fixture
 def dci_context_other_user_agent(server, db_provisioning):
     return context_factory(server, db_provisioning, 'admin', 'admin',
                            user_agent='myagent-0.1')
@@ -266,6 +272,11 @@ def runner_test_user(dci_context_test_user):
 @pytest.fixture
 def runner_remoteci(dci_context_remoteci):
     return runner_factory(dci_context_remoteci)
+
+
+@pytest.fixture
+def runner_product_owner(dci_context_product_owner):
+    return runner_factory(dci_context_product_owner)
 
 
 @pytest.fixture

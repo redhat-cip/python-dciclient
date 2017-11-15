@@ -32,7 +32,7 @@ def test_list(runner):
     teams = runner.invoke(['team-list'])['teams']
     # NOTE (spredzy): We put 4 because of the 2 creates plus
     # admin and user provisionned during server test
-    assert len(teams) == 4
+    assert len(teams) == 5
 
 
 def test_create(runner, team_admin_id):
@@ -120,6 +120,15 @@ def test_update_active(runner):
     )['team']['state']
 
     assert team_state == 'active'
+
+
+def test_update_team_external(runner, runner_product_owner):
+    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    runner.invoke(['team-update', team['id'],
+                   '--etag', team['etag'], '--no-external'])
+    team = runner.invoke(['team-show', team['id']])['team']
+
+    assert team['external'] is False
 
 
 def test_delete(runner):
