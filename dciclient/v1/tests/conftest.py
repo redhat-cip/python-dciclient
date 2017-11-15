@@ -193,8 +193,7 @@ def signature_context_factory(server, db_provisioning, client_id=None,
         extras = {}
         if user_agent:
             extras['user_agent'] = user_agent
-        test_context = api.context.DciSignatureContext(
-            url, client_id, api_secret)
+        test_context = api.context.DciHMACContext(url, client_id, api_secret)
         flask_adapter = utils.FlaskHTTPAdapter(server.test_client())
         test_context.session.mount(url, flask_adapter)
         return test_context
