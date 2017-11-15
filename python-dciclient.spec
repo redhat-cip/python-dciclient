@@ -3,7 +3,7 @@
 %endif
 
 Name:           python-dciclient
-Version:        0.3.3
+Version:        0.4.0
 Release:        1.VERS%{?dist}
 
 Summary:        Python client for DCI control server
@@ -38,6 +38,7 @@ BuildRequires:  python-tox
 BuildRequires:  python2-setuptools
 BuildRequires:  python2-rpm-macros
 BuildRequires:  python3-rpm-macros
+BuildRequires:  python-dciauth
 Requires:       PyYAML
 %if 0%{?fedora} >= 26
 Requires:       python2-bcrypt
@@ -51,6 +52,7 @@ Requires:       python-requests >= 2.6
 Requires:       python-simplejson
 Requires:       python-six
 Requires:       python2-setuptools
+Requires:       python-dciauth
 
 %description -n python2-dciclient
 A Python 2 implementation of the client for DCI control server.
@@ -70,6 +72,7 @@ BuildRequires:  python3-psycopg2
 BuildRequires:  python3-requests
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-six
+BuildRequires:  python-dciauth
 Requires:       python3-PyYAML
 Requires:       python3-click
 Requires:       python3-prettytable
@@ -81,6 +84,7 @@ Requires:       python3-py-bcrypt
 Requires:       python3-requests
 Requires:       python3-simplejson
 Requires:       python3-six
+Requires:       python3-dciauth
 
 
 %description -n python3-dciclient
@@ -124,6 +128,9 @@ PYTHONPATH=%{buildroot}%{python2_sitelib} \
 
 
 %changelog
+* Wed Nov 15 2017 Guillaume Vincent <gvincent@redhat.com> - 0.4.0-1
+- Add HMAC authentication with python-dciauth
+
 * Wed May 31 2017 Yassine Lamgarchal <yassine.lamgarchal@redhat.com> - 0.3.3-1
 - Add files_events api
 - Add file upload/download api
