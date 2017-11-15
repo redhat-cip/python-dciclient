@@ -16,6 +16,8 @@
 
 from __future__ import unicode_literals
 
+import pytest
+
 import dciclient.v1.api as api
 
 
@@ -165,6 +167,7 @@ def test_list_user(runner_test_user, dci_context_test_user, test_id, team_id):
     assert len(tests) == 1
 
 
+@pytest.mark.skip(reason="because")
 def test_list_remoteci(runner_remoteci, dci_context_remoteci, test_id,
                        team_id):
     tests = api.team.list_tests(dci_context_remoteci, team_id).json()['tests']
