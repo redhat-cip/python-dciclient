@@ -112,7 +112,6 @@ class DciSignatureAuth(AuthBase):
                         payload=r.body)
         r.headers.update(self.build_headers(self.client_info, sig))
         r.prepare_headers(r.headers)
-
         return r
 
     def refresh_client_info(self):
