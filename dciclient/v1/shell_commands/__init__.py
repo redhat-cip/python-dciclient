@@ -60,8 +60,7 @@ click.core.command = command
               help="DCI control server url, default to '%s'." %
                    _default_dci_cs_url)
 @click.option('--sso-url', envvar='SSO_URL', default=_default_sso_url,
-              help="SSO url, default to '%s'." %
-                   _default_sso_url)
+              help="SSO url, default to '%s'." % _default_sso_url)
 @click.option('--sso-username', envvar='SSO_USERNAME',
               help="SSO username or 'SSO_USERNAME' environment variable.")
 @click.option('--sso-password', envvar='SSO_PASSWORD',
@@ -87,10 +86,8 @@ def cli(ctx, dci_login, dci_password, dci_client_id, dci_api_secret,
                                                 sso_token,
                                                 refresh=refresh_sso_token)
     elif dci_client_id is not None and dci_api_secret is not None:
-        context = dci_context.build_signature_context(
-            dci_client_id=dci_client_id,
-            dci_api_secret=dci_api_secret,
-            dci_cs_url=dci_cs_url)
+        context = dci_context.DciHMACContext(dci_cs_url, dci_client_id,
+                                             dci_api_secret)
     else:
         raise click.UsageError(
             'Missing options --dci-login and --dci-password or '
