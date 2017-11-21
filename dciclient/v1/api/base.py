@@ -133,3 +133,4 @@ def download(context, uri, target):
             if chunk:
                 f.write(chunk)
     os.rename(target + '.part', target)
+    return r
