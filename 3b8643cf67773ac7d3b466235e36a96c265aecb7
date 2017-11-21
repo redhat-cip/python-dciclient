@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fae47921_72e73813",
+        "filename": "dciclient/v1/tests/api/test_components.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2017-11-21T14:44:46Z",
+      "side": 1,
+      "message": "Please use the tempdir fixture here:\nhttps://docs.pytest.org/en/latest/tmpdir.html",
+      "revId": "3b8643cf67773ac7d3b466235e36a96c265aecb7",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
