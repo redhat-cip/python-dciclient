@@ -21,11 +21,8 @@ RESOURCE = 'jobstates'
 
 
 def create(context, status, comment, job_id):
-    jobstate = base.create(context, RESOURCE, status=status, comment=comment,
-                           job_id=job_id)
-    json = jobstate.json()
-    context.last_jobstate_id = json['jobstate']['id']
-    return jobstate
+    return base.create(context, RESOURCE, status=status, comment=comment,
+                       job_id=job_id)
 
 
 def list(context, **kwargs):

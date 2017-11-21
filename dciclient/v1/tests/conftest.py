@@ -179,7 +179,6 @@ def dci_context_other_user_agent(server, db_provisioning):
 def dci_context_broken(server, db_provisioning):
     test_context = api.context.DciContext('http://no_where.com',
                                           'admin', 'admin')
-    test_context.last_jobstate_id = 1
     test_context.last_job_id = 1
     return test_context
 

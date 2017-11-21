@@ -33,7 +33,6 @@ class DciContextBase(object):
         super(DciContextBase, self).__init__()
         self.session = self._build_http_session(user_agent, max_retries)
         self.dci_cs_api = '%s/%s' % (dci_cs_url, DciContext.API_VERSION)
-        self.last_jobstate_id = None
         self.last_job_id = None
 
     @staticmethod
