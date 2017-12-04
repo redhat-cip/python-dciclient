@@ -3,7 +3,7 @@ pep8==1.5.7
 hacking>=0.10.1
 pytest>=2.6.2
 pytest-cov>=1.8.0
-git+http://softwarefactory-project.io/r/dci-control-server
+-e /opt/dci
 Sphinx>=1.3.5
 doc8
 mock
