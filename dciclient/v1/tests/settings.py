@@ -19,5 +19,5 @@ import os
 DEBUG = False
 
 LOG_FILE = '/dev/null'
-SQLALCHEMY_DATABASE_URI = os.environ['PIFPAF_POSTGRESQL_URL']
+SQLALCHEMY_DATABASE_URI = os.environ['POSTGRESQL_URL']
 FILES_UPLOAD_FOLDER = '/tmp/dci-control-server'
