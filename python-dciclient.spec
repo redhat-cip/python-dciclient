@@ -106,7 +106,8 @@ install -d %{buildroot}%{_bindir}
 %check
 PYTHONPATH=%{buildroot}%{python2_sitelib} \
           DCI_SETTINGS_MODULE="dciclient.v1.tests.settings" \
-          pifpaf run postgresql -- py.test -v dciclient
+          sh ./scripts/start_db.sh \
+          sh ./scripts/start_es.sh
 
 %files -n python2-dciclient
 %doc README.md
