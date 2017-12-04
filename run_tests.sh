@@ -18,9 +18,28 @@
 
 set -x -e
 
-# if the database is already running we do not want to run this script
+# start PG only if it's not already running
 if [ -z "$DISABLE_DB_START" ]; then
-    pifpaf run postgresql -- py.test -v --cov-report html --cov dciclient $*
+    ls ../
+    ls ../deps
+    ls ../../
+    pushd "../dci-control-server"
+    sh scripts/start_db.sh
+    popd
 else
-    PIFPAF_POSTGRESQL_URL='' py.test -v --cov-report html --cov dciclient $*
+    POSTGRESQL_URL=''
 fi
+
+# start ES only if it's not already running
+if [ -z "$DISABLE_ES_START" ]; then
+    pushd "../dci-control-server"
+    sh scripts/start_es.sh
+    popd
+else
+    ELASTICSEARCHL_URL=''
+fi
+
+export POSTGRESQL_URL
+export ELASTICSEARCH_URL
+
+py.test -v --cov-report html --cov dciclient $*
