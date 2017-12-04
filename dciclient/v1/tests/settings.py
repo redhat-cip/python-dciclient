@@ -19,5 +19,9 @@ import os
 DEBUG = False
 
 LOG_FILE = '/dev/null'
-SQLALCHEMY_DATABASE_URI = os.environ['PIFPAF_POSTGRESQL_URL']
+SQLALCHEMY_DATABASE_URI = "postgresql:///%s?host=%s" % (
+    'charlesdegaulle', os.path.abspath(os.environ['DCI_DB_DIR'])
+)
 FILES_UPLOAD_FOLDER = '/tmp/dci-control-server'
+ES_HOST = '127.0.0.1'
+ES_PORT = '9200'
