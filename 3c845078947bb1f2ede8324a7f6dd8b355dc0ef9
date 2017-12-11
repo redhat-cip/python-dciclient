@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ae2911b_0f032911",
+        "filename": "run_tests.sh",
+        "patchSetId": 41
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-12-11T10:55:23Z",
+      "side": 1,
+      "message": "If we start pgsql \u0026 elasticsearch before our test, shoudn\u0027t we stop it also ? (keep this place as clean as you found it)",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 2
+      },
+      "revId": "3c845078947bb1f2ede8324a7f6dd8b355dc0ef9",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
