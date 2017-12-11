@@ -22,6 +22,30 @@
       "revId": "3c845078947bb1f2ede8324a7f6dd8b355dc0ef9",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ae2911b_920dfc39",
+        "filename": "run_tests.sh",
+        "patchSetId": 41
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2017-12-11T11:18:59Z",
+      "side": 1,
+      "message": "Yes, both scripts stop pqsql \u0026 elasticsearch if already running.",
+      "parentUuid": "3ae2911b_0f032911",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 2
+      },
+      "revId": "3c845078947bb1f2ede8324a7f6dd8b355dc0ef9",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
