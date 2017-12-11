@@ -46,6 +46,30 @@
       "revId": "3c845078947bb1f2ede8324a7f6dd8b355dc0ef9",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ae2911b_b2f23805",
+        "filename": "run_tests.sh",
+        "patchSetId": 41
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-12-11T13:49:48Z",
+      "side": 1,
+      "message": "What I meant was: if you start them here, you should stop them after running py.test.",
+      "parentUuid": "3ae2911b_920dfc39",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 2
+      },
+      "revId": "3c845078947bb1f2ede8324a7f6dd8b355dc0ef9",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
