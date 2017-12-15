@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa0d59b9_0ac1db2e",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2017-12-15T11:20:15Z",
+      "side": 0,
+      "message": "This method is used by dci-ansible and thus the agent. It should stay and use DciHMACContext.\n\nIt could be removed later once dci-ansible is updated.",
+      "revId": "3c845078947bb1f2ede8324a7f6dd8b355dc0ef9",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
