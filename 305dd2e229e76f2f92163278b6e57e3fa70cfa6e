@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa0d59b9_90af3c94",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2017-12-20T14:25:23Z",
+      "side": 1,
+      "message": "Since we want to sign only JSON payloads and we should use the \u0027json\u003d…\u0027 parameter of requests to pass JSON, you should just use: \n    if r.json:\n        return r.json",
+      "revId": "305dd2e229e76f2f92163278b6e57e3fa70cfa6e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
