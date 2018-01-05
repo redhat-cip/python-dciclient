@@ -69,14 +69,6 @@ def list_results(context, id, **kwargs):
                      subresource='results', **kwargs)
 
 
-def get_full_data(context, id):
-    # Get the job with embed on test and remoteci
-    embed = ('topic,topic.tests,remoteci,remoteci.tests,'
-             'components,rconfiguration')
-    job = base.get(context, RESOURCE, id=id, embed=embed).json()['job']
-    return job
-
-
 def get_components(context, id):
     uri = '%s/%s/%s/components' % (context.dci_cs_api, RESOURCE, id)
     return context.session.get(uri)
