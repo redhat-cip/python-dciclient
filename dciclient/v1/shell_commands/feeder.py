@@ -20,6 +20,7 @@ from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
 from dciclient.v1.api import feeder
+from dciclient.v1.api import identity
 
 
 @cli.command("feeder-list", help="List all feeders.")
@@ -68,7 +69,7 @@ def create(context, name, team_id, data, active):
     """
 
     state = utils.active_string(active)
-    team_id = team_id or context.get_team_id()
+    team_id = team_id or identity.my_team_id(context)
     result = feeder.create(context, name=name, team_id=team_id, data=data,
                            state=state)
     utils.format_output(result, context.format)
