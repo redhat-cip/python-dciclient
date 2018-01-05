@@ -16,6 +16,24 @@
       "revId": "305dd2e229e76f2f92163278b6e57e3fa70cfa6e",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba076199_a8d09bca",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2018-01-05T20:55:20Z",
+      "side": 1,
+      "message": "Absolutely! I pushed that https://softwarefactory-project.io/r/#/c/10222/12..13/dciclient/v1/api/context.py but your version is way cleaner.",
+      "parentUuid": "fa0d59b9_90af3c94",
+      "revId": "305dd2e229e76f2f92163278b6e57e3fa70cfa6e",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
