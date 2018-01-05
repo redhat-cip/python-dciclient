@@ -43,7 +43,7 @@ def test_job_updated(dci_context, job_id):
 
 
 def test_get_full_data(dci_context, job_id):
-    j = job.get_full_data(dci_context, job_id)
+    j = job.get_full_data(dci_context, job_id).json()['job']
     assert j['remoteci']['tests'] == []
     assert j['topic']['tests'] == []
     assert len(j['components']) > 1

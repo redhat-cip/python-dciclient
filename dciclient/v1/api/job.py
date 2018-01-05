@@ -70,11 +70,9 @@ def list_results(context, id, **kwargs):
 
 
 def get_full_data(context, id):
-    # Get the job with embed on test and remoteci
     embed = ('topic,topic.tests,remoteci,remoteci.tests,'
              'components,rconfiguration')
-    job = base.get(context, RESOURCE, id=id, embed=embed).json()['job']
-    return job
+    return base.get(context, RESOURCE, id=id, embed=embed)
 
 
 def get_components(context, id):
