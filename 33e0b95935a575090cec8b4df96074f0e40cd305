@@ -22,6 +22,30 @@
       "revId": "33e0b95935a575090cec8b4df96074f0e40cd305",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba076199_a89e5b05",
+        "filename": "Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 405
+      },
+      "writtenOn": "2018-01-06T09:26:26Z",
+      "side": 1,
+      "message": "If you do so everytime you modify your code you reinstall all pip modules when you do \"docker build\".\n\nCopying requirements.txt, then installing pip helps us to use the cache mechanism from docker. So you got almost instant build",
+      "parentUuid": "ba076199_8813970d",
+      "range": {
+        "startLine": 19,
+        "startChar": 27,
+        "endLine": 19,
+        "endChar": 28
+      },
+      "revId": "33e0b95935a575090cec8b4df96074f0e40cd305",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
