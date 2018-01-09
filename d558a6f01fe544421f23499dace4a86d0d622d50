@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba076199_eeb9fbed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2018-01-09T17:10:53Z",
+      "side": 1,
+      "message": "The dependency is abandoned.",
+      "revId": "d558a6f01fe544421f23499dace4a86d0d622d50",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
