@@ -42,14 +42,6 @@ def test_job_updated(dci_context, job_id):
     assert j['comment'] == new_comment
 
 
-def test_get_full_data(dci_context, job_id):
-    j = job.get_full_data(dci_context, job_id)
-    assert j['remoteci']['tests'] == []
-    assert j['topic']['tests'] == []
-    assert len(j['components']) > 1
-    assert 'rconfiguration' in j
-
-
 def test_job_upgraded(dci_context, job_id, topic_id):
     old = topic.get(dci_context, id=topic_id).json()['topic']
     new = topic.create(dci_context, 'bar_topic', ['type_1'])

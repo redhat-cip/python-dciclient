@@ -39,14 +39,6 @@ def test_prettytable_output(runner, job_id):
     assert 'etag' in runner.invoke_raw_parse(['job-list', '--long'])
 
 
-def test_get_full_data(job_id, dci_context, topic_id):
-    full_data_job = job.get_full_data(dci_context, job_id)
-    assert full_data_job['remoteci']['data'] == {'remoteci': 'remoteci'}
-    assert full_data_job['topic']['name'] == 'foo_topic'
-    cpt_names = set([i['name'] for i in full_data_job['components']])
-    assert cpt_names == set(['component1', 'component2'])
-
-
 def test_list(runner, dci_context, remoteci_id):
     topic = runner.invoke(['topic-create', '--name', 'osp',
                            '--component_types', 'type_1'])['topic']
