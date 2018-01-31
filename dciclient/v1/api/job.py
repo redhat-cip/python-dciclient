@@ -67,6 +67,10 @@ def list_results(context, id, **kwargs):
                      subresource='results', **kwargs)
 
 
+def iter(context, **kwargs):
+    return base.iter(context, RESOURCE, **kwargs)
+
+
 def get_components(context, id):
     uri = '%s/%s/%s/components' % (context.dci_cs_api, RESOURCE, id)
     return context.session.get(uri)
