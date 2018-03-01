@@ -68,7 +68,7 @@ class DciContext(DciContextBase):
 
 
 def build_dci_context(dci_cs_url=None, dci_login=None, dci_password=None,
-                      dci_api_secret=None, user_agent=None, max_retries=80):
+                      user_agent=None, max_retries=80):
     dci_cs_url = dci_cs_url or os.environ.get('DCI_CS_URL', '')
     dci_login = dci_login or os.environ.get('DCI_LOGIN', '')
     dci_password = dci_password or os.environ.get('DCI_PASSWORD', '')
