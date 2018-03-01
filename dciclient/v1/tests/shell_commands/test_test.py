@@ -165,13 +165,3 @@ def test_list_user(runner_test_user, dci_context_test_user, test_user_id,
 
     tests = runner_test_user.invoke(['test-list'])['tests']
     assert len(tests) == 1
-
-
-def test_list_remoteci(runner_remoteci, dci_context_remoteci, test_user_id,
-                       team_user_id):
-    tests = api.team.list_tests(dci_context_remoteci,
-                                team_user_id).json()['tests']
-    assert len(tests) == 1
-
-    tests = runner_remoteci.invoke(['test-list'])['tests']
-    assert len(tests) == 1

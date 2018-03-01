@@ -261,9 +261,3 @@ def test_file_support_as_remoteci(runner_remoteci, tmpdir, job_id):
     result = runner_remoteci.invoke(['job-show-file', job_id,
                                      '--file-id', new_f['id']])
     assert result['status_code'] == 404
-
-
-def test_job_notify(runner, job_id):
-    result = runner.invoke(['job-notify', job_id,
-                            '--mesg', 'Test'])
-    assert result['message'] == 'Notification sent'
