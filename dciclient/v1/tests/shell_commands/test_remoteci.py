@@ -222,41 +222,6 @@ def test_where_on_list(runner, team_id):
                           'name:bar1'])["_meta"]["count"] == 1
 
 
-def test_attach_user_to_remoteci(runner, remoteci_id, test_user):
-    user_list = runner.invoke(['remoteci-list-user', remoteci_id])['users']
-
-    assert len(user_list) == 0
-
-    runner.invoke(['remoteci-attach-user', remoteci_id, '--user-id',
-                   test_user['id']])
-
-    user_list = runner.invoke(['remoteci-list-user', remoteci_id])['users']
-
-    assert len(user_list) == 1
-    assert user_list[0]['id'] == test_user['id']
-
-
-def test_unattach_user_to_remoteci(runner, remoteci_id, test_user):
-    user_list = runner.invoke(['remoteci-list-user', remoteci_id])['users']
-
-    assert len(user_list) == 0
-
-    runner.invoke(['remoteci-attach-user', remoteci_id, '--user-id',
-                   test_user['id']])
-
-    user_list = runner.invoke(['remoteci-list-user', remoteci_id])['users']
-
-    assert len(user_list) == 1
-    assert user_list[0]['id'] == test_user['id']
-
-    runner.invoke(['remoteci-unattach-user', remoteci_id, '--user-id',
-                   test_user['id']])
-
-    user_list = runner.invoke(['remoteci-list-user', remoteci_id])['users']
-
-    assert len(user_list) == 0
-
-
 def test_rconfiguration(runner, remoteci_id, topic_id):
     rconf_list = runner.invoke(['remoteci-list-rconfigurations', remoteci_id])
     assert len(rconf_list['rconfigurations']) == 0
