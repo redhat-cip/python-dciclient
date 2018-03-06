@@ -70,6 +70,10 @@ def reset_api_secret(context, id, etag):
     return base.update(context, RESOURCE, id='%s/api_secret' % id, etag=etag)
 
 
+def refresh_keys(context, id, etag):
+    return base.update(context, RESOURCE, id='%s/keys' % id, etag=etag)
+
+
 def add_user(context, id, user_id):
     uri = '%s/%s/%s/users' % (context.dci_cs_api, RESOURCE, id)
     return context.session.post(uri, json={'user_id': user_id})
