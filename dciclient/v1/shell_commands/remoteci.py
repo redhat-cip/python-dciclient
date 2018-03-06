@@ -269,6 +269,24 @@ def reset_api_secret(context, id, etag):
                         headers=['id', 'api_secret', 'etag'])
 
 
+@cli.command("remoteci-refresh-keys", help="Refresh a remoteci key pair.")
+@click.argument("id")
+@click.option("--etag", required=True)
+@click.pass_obj
+def refresh_keys(context, id, etag):
+    """refresh_keys(context, id, etag)
+
+    Reset a Remote CI api_secret.
+
+    >>> dcictl remoteci-reset-api-secret [OPTIONS]
+
+    :param string id: ID of the remote CI [required]
+    :param string etag: Entity tag of the remote CI resource [required]
+    """
+    result = remoteci.refresh_keys(context, id=id, etag=etag)
+    utils.format_output(result, context.format)
+
+
 @cli.command("remoteci-attach-user",
              help="Attach a user to a remoteci.")
 @click.argument("id")
