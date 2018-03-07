@@ -31,7 +31,7 @@ def test_job_create_as_remoteci(dci_context, dci_context_remoteci,
     assert j['job']['id']
 
 
-def test_job_updated(dci_context, job_id):
+def test_job_put(dci_context, job_id):
     new_comment = 'foo'
     j = job.get(dci_context, job_id).json()['job']
     assert j['comment'] is None
@@ -39,6 +39,12 @@ def test_job_updated(dci_context, job_id):
     r = job.get(dci_context, job_id)
     j = r.json()['job']
     assert j['comment'] == new_comment
+
+
+def test_job_update(dci_context, job_id):
+    r = job.job_update(dci_context, job_id=job_id)
+    assert r.status_code == 201
+    assert r.json()['job']['update_previous_job_id'] == job_id
 
 
 def test_job_upgraded(dci_context, job_id, topic_id):

@@ -49,6 +49,14 @@ def schedule(context, topic_id, components=None):
     return r
 
 
+def job_update(context, job_id):
+    uri = '%s/%s/%s/update' % (context.dci_cs_api, RESOURCE, job_id)
+    r = context.session.post(uri)
+    if r.status_code == 201:
+        context.last_job_id = r.json()['job']['id']
+    return r
+
+
 def upgrade(context, job_id):
     uri = '%s/%s/upgrade' % (context.dci_cs_api, RESOURCE)
     data = {'job_id': job_id}
