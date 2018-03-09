@@ -21,9 +21,10 @@ RESOURCE = 'topics'
 
 
 def create(context, name, component_types, label=None, state='active',
-           product_id=None):
+           product_id=None, next_topic=None):
     return base.create(context, RESOURCE, name=name, label=label, state=state,
-                       component_types=component_types, product_id=product_id)
+                       component_types=component_types, product_id=product_id,
+                       next_topic=next_topic)
 
 
 def list(context, **kwargs):
