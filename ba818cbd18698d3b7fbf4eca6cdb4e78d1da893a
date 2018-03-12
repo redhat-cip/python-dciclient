@@ -1,0 +1,9 @@
+Code-Review+2: Cédric Lecomte <ced.lecomte@gmail.com>
+Workflow+1: Yassine Lamgarchal <yassine.lamgarchal@redhat.com>
+Code-Review+2: Yassine Lamgarchal <yassine.lamgarchal@redhat.com>
+Verified+2: Zuul CI <zuul@softwarefactory-project.io>
+Submitted-by: Zuul CI <zuul@softwarefactory-project.io>
+Submitted-at: Mon, 12 Mar 2018 23:01:26 +0000
+Reviewed-on: https://softwarefactory-project.io/r/11496
+Project: python-dciclient
+Branch: refs/heads/master
