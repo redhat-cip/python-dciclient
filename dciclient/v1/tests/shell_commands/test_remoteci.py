@@ -19,6 +19,8 @@ from __future__ import unicode_literals
 from dciclient.v1.api import remoteci
 from dciclient.v1.api import team
 
+import mock
+
 
 def test_prettytable_output(runner):
     team = runner.invoke_raw_parse([
@@ -241,3 +243,15 @@ def test_rconfiguration(runner, remoteci_id, topic_id):
 
     rconf_list = runner.invoke(['remoteci-list-rconfigurations', remoteci_id])
     assert len(rconf_list['rconfigurations']) == 0
+
+
+def test_refresh_remoteci_keys(runner, remoteci_id):
+    with mock.patch('requests.sessions.Session.put') as post_mock:
+        post_mock.return_value = '{"key": "XXX", "cert": "XXX" }'
+        runner.invoke(['remoteci-refresh-keys', remoteci_id,
+                       '--etag', 'XX'])
+        url = "http://dciserver.com/api/v1/remotecis/%s/keys" % remoteci_id
+        post_mock.assert_called_once_with(url,
+                                          headers={'If-match': u'XX'},
+                                          json={},
+                                          timeout=600)
