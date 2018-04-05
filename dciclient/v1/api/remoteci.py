@@ -20,11 +20,9 @@ from dciclient.v1.api import base
 RESOURCE = 'remotecis'
 
 
-def create(context, name, team_id, data={}, state='active',
-           allow_upgrade_job=False):
+def create(context, name, team_id, data={}, state='active'):
     return base.create(context, RESOURCE, name=name, team_id=team_id,
-                       data=data, state=state,
-                       allow_upgrade_job=allow_upgrade_job)
+                       data=data, state=state)
 
 
 def list(context, **kwargs):
@@ -39,11 +37,9 @@ def get_data(context, id, keys=None):
     return base.get_data(context, RESOURCE, id=id, keys=keys)
 
 
-def update(context, id, etag, name=None, team_id=None, data=None, state=None,
-           allow_upgrade_job=None):
+def update(context, id, etag, name=None, team_id=None, data=None, state=None,):
     return base.update(context, RESOURCE, id=id, etag=etag, name=name,
-                       team_id=team_id, data=data, state=state,
-                       allow_upgrade_job=allow_upgrade_job)
+                       team_id=team_id, data=data, state=state)
 
 
 def delete(context, id, etag):
