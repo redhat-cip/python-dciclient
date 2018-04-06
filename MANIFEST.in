@@ -2,4 +2,3 @@ include README.md
 include requirements.txt
 include LICENSE
 include start_db.sh
-include start_es.sh
