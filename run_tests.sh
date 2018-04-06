@@ -23,9 +23,4 @@ if [ -z "$DISABLE_DB_START" ]; then
     sh ./start_db.sh
 fi
 
-# start ES only if it's not already running
-if [ -z "$DISABLE_ES_START" ]; then
-    sh ./start_es.sh
-fi
-
 py.test -v --cov-report html --cov dciclient $*
