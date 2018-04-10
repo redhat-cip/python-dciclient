@@ -25,9 +25,8 @@ BuildRequires:  dci-api
 BuildRequires:  elasticsearch
 BuildRequires:  java-1.8.0-openjdk
 BuildRequires:  net-tools
-BuildRequires:  postgresql
-BuildRequires:  postgresql-devel
-BuildRequires:  postgresql-server
+BuildRequires:  rh-postgresql94-postgresql-devel
+BuildRequires:  rh-postgresql94
 BuildRequires:  python-click
 BuildRequires:  python2-pifpaf
 BuildRequires:  python-mock
@@ -68,8 +67,8 @@ Summary:        Python client for DCI control server
 BuildRequires:  elasticsearch
 BuildRequires:  java-1.8.0-openjdk
 BuildRequires:  net-tools
-BuildRequires:  postgresql
-BuildRequires:  postgresql-server
+BuildRequires:  rh-postgresql94-postgresql-devel
+BuildRequires:  rh-postgresql94
 BuildRequires:  python-tox
 BuildRequires:  python3-PyYAML
 BuildRequires:  python3-click

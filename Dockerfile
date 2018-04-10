@@ -21,5 +21,6 @@ RUN pip install -r requirements.txt
 ADD . /opt/python-dciclient/
 
 ENV PYTHONPATH /opt/python-dciclient
+ENV DISABLE_DB_START 1
 
 CMD ["tail", "-f", "/dev/null"]
