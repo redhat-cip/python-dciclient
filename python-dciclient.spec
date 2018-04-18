@@ -3,7 +3,7 @@
 %endif
 
 Name:           python-dciclient
-Version:        0.5
+Version:        0.5.1
 Release:        1.VERS%{?dist}
 
 Summary:        Python client for DCI control server
@@ -115,7 +115,7 @@ install -d %{buildroot}%{_bindir}
 %check
 PYTHONPATH=%{buildroot}%{python2_sitelib}
 export DCI_SETTINGS_MODULE="dciclient.v1.tests.settings"
-sh ./start_db.sh
+sh ../dci-control-server/scripts/start_db.sh
 
 %files -n python2-dciclient
 %doc README.md
@@ -133,6 +133,9 @@ sh ./start_db.sh
 
 
 %changelog
+* Wed Nov 15 2017 Guillaume Vincent <gvincent@redhat.com> - 0.5.1-1
+- Reuse start_db.sh from dci-control-server
+
 * Wed Nov 15 2017 Guillaume Vincent <gvincent@redhat.com> - 0.5-1
 - Add HMAC authentication with python-dciauth
 
