@@ -23,4 +23,7 @@ ADD . /opt/python-dciclient/
 ENV PYTHONPATH /opt/python-dciclient
 ENV DISABLE_DB_START 1
 
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
 CMD ["tail", "-f", "/dev/null"]
