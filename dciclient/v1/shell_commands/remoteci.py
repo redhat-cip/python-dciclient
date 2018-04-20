@@ -267,9 +267,9 @@ def reset_api_secret(context, id, etag):
 def refresh_keys(context, id, etag):
     """refresh_keys(context, id, etag)
 
-    Reset a Remote CI api_secret.
+    Refresh a remoteci key pair.
 
-    >>> dcictl remoteci-reset-api-secret [OPTIONS]
+    >>> dcictl remoteci-refresh-keys [OPTIONS]
 
     :param string id: ID of the remote CI [required]
     :param string etag: Entity tag of the remote CI resource [required]

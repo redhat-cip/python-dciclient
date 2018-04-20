@@ -105,6 +105,7 @@ Commands:
   remoteci-get-data            Retrieve data field from a remoteci.
   remoteci-list                List all remotecis.
   remoteci-list-test           List tests attached to a remoteci.
+  remoteci-refresh-keys        Refresh a remoteci key pair.
   remoteci-reset-api-secret    Reset a remoteci api secret.
   remoteci-show                Show a remoteci.
   remoteci-unattach-test       Unattach a test to a remoteci.
