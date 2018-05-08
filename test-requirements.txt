@@ -8,3 +8,4 @@ Sphinx>=1.3.5
 doc8
 mock
 pylint==1.6.4
+pycodestyle
