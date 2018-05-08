@@ -16,6 +16,8 @@
 
 import click
 
+from click.core import Command
+from click.decorators import _make_command
 from dciclient.v1.api import context as dci_context
 
 # NOTE(Gonéri): we now ignore the --id parameter, we need this until the
@@ -26,10 +28,6 @@ sys.argv = [a for a in sys.argv if a != '--id']
 click.disable_unicode_literals_warning = True
 _default_dci_cs_url = 'http://127.0.0.1:5000'
 _default_sso_url = 'http://127.0.0.1:8180'
-
-
-from click.core import Command
-from click.decorators import _make_command
 
 
 # Override Click command so that to preserve the function's docstring,
@@ -79,8 +77,8 @@ def cli(ctx, dci_login, dci_password, dci_client_id, dci_api_secret,
         context = dci_context.build_dci_context(dci_login=dci_login,
                                                 dci_password=dci_password,
                                                 dci_cs_url=dci_cs_url)
-    elif ((sso_url is not None and sso_username is not None
-          and sso_password is not None) or sso_token is not None):
+    elif ((sso_url is not None and sso_username is not None and
+          sso_password is not None) or sso_token is not None):
         context = dci_context.build_sso_context(dci_cs_url, sso_url,
                                                 sso_username, sso_password,
                                                 sso_token,
