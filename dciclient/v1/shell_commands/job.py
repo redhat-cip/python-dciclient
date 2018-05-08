@@ -54,7 +54,7 @@ def list(context, sort, limit, where, verbose):
 
 
 @cli.command("job-show", help="Show a job.")
-@click.argument('id', required=False)
+@click.argument('id')
 @click.pass_obj
 def show(context, id):
     """show(context, id)
