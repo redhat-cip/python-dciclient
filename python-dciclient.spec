@@ -22,9 +22,6 @@ Summary:        Python client for DCI control server
 %{?python_provide:%python_provide python2-dciclient}
 BuildRequires:  PyYAML
 BuildRequires:  dci-api
-BuildRequires:  elasticsearch
-BuildRequires:  java-1.8.0-openjdk
-BuildRequires:  net-tools
 BuildRequires:  rh-postgresql94-postgresql-devel
 BuildRequires:  rh-postgresql94
 BuildRequires:  python-click
@@ -64,9 +61,6 @@ A Python 2 implementation of the client for DCI control server.
 Summary:        Python client for DCI control server
 %{?python_provide:%python_provide python3-dciclient}
 
-BuildRequires:  elasticsearch
-BuildRequires:  java-1.8.0-openjdk
-BuildRequires:  net-tools
 BuildRequires:  rh-postgresql94-postgresql-devel
 BuildRequires:  rh-postgresql94
 BuildRequires:  python-tox
