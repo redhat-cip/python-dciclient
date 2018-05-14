@@ -14,6 +14,7 @@
 import json
 
 import os
+import os.path
 from requests import compat
 
 try:
@@ -158,15 +159,28 @@ class SsoContext(DciContextBase):
 
 def build_sso_context(dci_cs_url, sso_url, username, password, token,
                       max_retries=0, user_agent=None, refresh=False):
+
+    def _get_token_from_file():
+        if os.path.exists('%s/.cache/dci_token' % os.environ['HOME']):
+            with open('%s/.cache/dci_token' % os.environ['HOME'], 'r') as f:
+                return f.read()
+        else:
+            return None
+
+    def _write_token_to_file(token):
+        with open('%s/.cache/dci_token' % os.environ['HOME'], 'w') as f:
+            f.write(token)
+
     dci_cs_url = dci_cs_url or os.environ.get('DCI_CS_URL', '')
     sso_url = sso_url or os.environ.get('SSO_URL', '').rstrip('/')
     username = username or os.environ.get('SSO_USERNAME', '')
     password = password or os.environ.get('SSO_PASSWORD', '')
-    token = token or os.environ.get('SSO_TOKEN', '')
+    token = token or _get_token_from_file()
 
-    def _get_token():
-        url = '%s/auth/realms/dci-test/protocol/openid-connect/token' % sso_url
-        data = {'client_id': 'dci-cs',
+    def _get_token_from_server():
+        url = '%s/auth/realms/redhat-external/protocol/openid-connect/token' \
+              % sso_url
+        data = {'client_id': 'dci',
                 'grant_type': 'password',
                 'username': username,
                 'password': password}
@@ -178,7 +192,7 @@ def build_sso_context(dci_cs_url, sso_url, username, password, token,
             msg = "Environment variables required to build token: SSO_URL, " \
                   "SSO_USERNAME, SSO_PASSWORD or use SSO_TOKEN."
             raise Exception(msg)
-        token = _get_token()
-    os.environ.set('SSO_TOKEN', token)
+        token = _get_token_from_server()
+    _write_token_to_file(token)
 
     return SsoContext(dci_cs_url, token, max_retries, user_agent)
