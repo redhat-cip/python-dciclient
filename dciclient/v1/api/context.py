@@ -14,6 +14,7 @@
 import json
 
 import os
+import os.path
 from requests import compat
 
 try:
@@ -158,27 +159,44 @@ class SsoContext(DciContextBase):
 
 def build_sso_context(dci_cs_url, sso_url, username, password, token,
                       max_retries=0, user_agent=None, refresh=False):
-    dci_cs_url = dci_cs_url or os.environ.get('DCI_CS_URL', '')
-    sso_url = sso_url or os.environ.get('SSO_URL', '').rstrip('/')
-    username = username or os.environ.get('SSO_USERNAME', '')
-    password = password or os.environ.get('SSO_PASSWORD', '')
-    token = token or os.environ.get('SSO_TOKEN', '')
 
-    def _get_token():
-        url = '%s/auth/realms/dci-test/protocol/openid-connect/token' % sso_url
-        data = {'client_id': 'dci-cs',
+    def _get_token_from_file(token_path):
+        if os.path.exists(token_path):
+            with open(token_path, 'r') as f:
+                return f.read()
+        return None
+
+    def _write_token_to_file(token_path, token):
+        cache_folder = os.path.dirname(token_path)
+        if not os.path.exists(cache_folder):
+            os.makedirs(cache_folder)
+
+        with open(token_path, 'w') as f:
+            f.write(token)
+
+    def _get_token_from_server(sso_url, username, password):
+        url = '%s/auth/realms/redhat-external/protocol/openid-connect/token' \
+              % sso_url
+        data = {'client_id': 'dci',
                 'grant_type': 'password',
                 'username': username,
                 'password': password}
         result = requests.Session().post(url, data=data)
         return result.json()['access_token']
 
+    token_path = os.path.join(os.environ['HOME'], '.cache', 'dci_token')
+    token = token or _get_token_from_file(token_path)
+
     if not token or refresh:
+        sso_url = sso_url or os.environ.get('SSO_URL', '').rstrip('/')
+        username = username or os.environ.get('SSO_USERNAME', '')
+        password = password or os.environ.get('SSO_PASSWORD', '')
         if not sso_url or not username or not password:
             msg = "Environment variables required to build token: SSO_URL, " \
                   "SSO_USERNAME, SSO_PASSWORD or use SSO_TOKEN."
             raise Exception(msg)
-        token = _get_token()
-    os.environ.set('SSO_TOKEN', token)
+        token = _get_token_from_server(sso_url, username, password)
+        _write_token_to_file(token_path, token)
 
+    dci_cs_url = dci_cs_url or os.environ.get('DCI_CS_URL', '')
     return SsoContext(dci_cs_url, token, max_retries, user_agent)
