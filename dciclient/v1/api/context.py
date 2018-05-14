@@ -165,8 +165,8 @@ def build_sso_context(dci_cs_url, sso_url, username, password, token,
     token = token or os.environ.get('SSO_TOKEN', '')
 
     def _get_token():
-        url = '%s/auth/realms/dci-test/protocol/openid-connect/token' % sso_url
-        data = {'client_id': 'dci-cs',
+        url = '%s/auth/realms/redhat-external/protocol/openid-connect/token' % sso_url
+        data = {'client_id': 'dci',
                 'grant_type': 'password',
                 'username': username,
                 'password': password}
