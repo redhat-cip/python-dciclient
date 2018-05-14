@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a2fa921_769370a4",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2018-05-14T17:00:48Z",
+      "side": 1,
+      "message": "Should that be a configuration parameter to allow switching between prod \u0026 dev ?",
+      "revId": "c2d4ee1a24eb64de8ae0392cafe058d991fa725c",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a2fa921_1690fc94",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2018-05-14T17:00:48Z",
+      "side": 1,
+      "message": "Should that be a configuration parameter to allow switching between prod \u0026 dev ?",
+      "revId": "c2d4ee1a24eb64de8ae0392cafe058d991fa725c",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a2fa921_f686a064",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2018-05-14T17:00:48Z",
+      "side": 1,
+      "message": "os.environ does not have a \u0027set()\u0027 method :P\n\nYou can\u0027t modify the environment from the parent process.\n\nIMHO the best you can do to persist this value between calls to the client is to store the token to a local file in $XDG_CACHE_HOME ¹.\n\n¹: https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html",
+      "revId": "c2d4ee1a24eb64de8ae0392cafe058d991fa725c",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
