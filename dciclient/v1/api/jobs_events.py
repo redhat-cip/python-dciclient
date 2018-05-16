@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 #
-# Copyright 2017 Red Hat, Inc.
+# Copyright Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -14,8 +14,10 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from dciclient.v1.api import base
 
-RESOURCE = 'files_events'
+
+RESOURCE = 'jobs_events'
 
 
 def list(context, sequence, limit=10, offset=0):
@@ -26,15 +28,15 @@ def list(context, sequence, limit=10, offset=0):
 
 
 def iter(context, sequence, limit=10):
-    """Iter to list all the files events."""
+    """Iter to list all the jobs events."""
     params = {'limit': limit,
               'offset': 0}
     uri = '%s/%s/%s' % (context.dci_cs_api, RESOURCE, sequence)
 
     while True:
         j = context.session.get(uri, params=params).json()
-        if 'files' in j and len(j['files']):
-            for i in j['files']:
+        if len(j['jobs_events']):
+            for i in j['jobs_events']:
                 yield i
         else:
             break
@@ -42,6 +44,18 @@ def iter(context, sequence, limit=10):
 
 
 def delete(context, sequence):
-    """Delete files events from a given sequence"""
+    """Delete jobs events from a given sequence"""
     uri = '%s/%s/%s' % (context.dci_cs_api, RESOURCE, sequence)
     return context.session.delete(uri)
+
+
+def get_sequence(context):
+    uri = '%s/%s/sequence' % (context.dci_cs_api, RESOURCE)
+    return context.session.get(uri)
+
+
+def update_sequence(context, etag, sequence):
+    uri = '%s/%s/sequence' % (context.dci_cs_api, RESOURCE)
+    return context.session.put(uri, timeout=base.HTTP_TIMEOUT,
+                               headers={'If-match': etag},
+                               json={'sequence': sequence})
