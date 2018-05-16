@@ -16,6 +16,24 @@
       "revId": "a648017a8d0bf7f4349d50950308286b7508f195",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a2fa921_9caaed84",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2018-05-16T12:58:39Z",
+      "side": 1,
+      "message": "Adding this dependency is too heavy for such trivial thing no ?",
+      "parentUuid": "7a2fa921_5cce9584",
+      "revId": "a648017a8d0bf7f4349d50950308286b7508f195",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
