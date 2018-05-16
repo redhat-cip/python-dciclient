@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a2fa921_5cce9584",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2018-05-16T12:49:36Z",
+      "side": 1,
+      "message": "Or you could use pyxdg¹ which would allow to get the correct  path directly and eventually create the missing folders \n\n¹:http://pyxdg.readthedocs.io/en/latest/basedirectory.html#cache-directory",
+      "revId": "a648017a8d0bf7f4349d50950308286b7508f195",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
