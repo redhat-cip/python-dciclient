@@ -52,9 +52,10 @@ def list(context, sort, limit, where, verbose):
 @click.option("--product-id")
 @click.option("--component_types", help="Component types separated by commas.")
 @click.option("--active/--no-active", default=True)
+@click.option("--data")
 @click.pass_obj
-def create(context, name, component_types, active, product_id):
-    """create(context, name, component_types, active, product_id)
+def create(context, name, component_types, active, product_id, data):
+    """create(context, name, component_types, active, product_id, data)
 
     Create a topic.
 
@@ -64,13 +65,14 @@ def create(context, name, component_types, active, product_id):
     :param string component_types: list of component types separated by commas
     :param boolean active: Set the topic in the (in)active state
     :param string product_id: The product the topic belongs to
+    :param string data: JSON data of the topic
     """
     if component_types:
         component_types = component_types.split(',')
 
     state = utils.active_string(active)
     result = topic.create(context, name=name, component_types=component_types,
-                          state=state, product_id=product_id)
+                          state=state, product_id=product_id, data=data)
     utils.format_output(result, context.format)
 
 
@@ -83,11 +85,12 @@ def create(context, name, component_types, active, product_id):
 @click.option("--next_topic")
 @click.option("--active/--no-active", default=None)
 @click.option("--product-id")
+@click.option("--data")
 @click.pass_obj
 def update(context, id, etag, name, component_types,
-           label, next_topic, active, product_id):
+           label, next_topic, active, product_id, data):
     """update(context, id, etag, name, label, next_topic, active,
-              product_id)
+              product_id, data)
 
     Update a Topic.
 
@@ -110,7 +113,7 @@ def update(context, id, etag, name, component_types,
                           component_types=component_types,
                           label=label, next_topic=next_topic,
                           state=utils.active_string(active),
-                          product_id=product_id)
+                          product_id=product_id, data=data)
     if result.status_code == 204:
         utils.print_json({'id': id, 'message': 'Topic updated.'})
     else:
