@@ -25,31 +25,21 @@ BuildRequires:  dci-api
 BuildRequires:  rh-postgresql94-postgresql-devel
 BuildRequires:  rh-postgresql94
 BuildRequires:  python-click
-BuildRequires:  python2-pifpaf
 BuildRequires:  python-mock
 BuildRequires:  python-prettytable
 BuildRequires:  python-psycopg2
 BuildRequires:  python-pytest
 BuildRequires:  python-requests >= 2.6
 BuildRequires:  python-rpm-macros
-BuildRequires:  python-six
 BuildRequires:  python-tox
 BuildRequires:  python2-setuptools
 BuildRequires:  python2-rpm-macros
 BuildRequires:  python3-rpm-macros
 BuildRequires:  python-dciauth
 Requires:       PyYAML
-%if 0%{?fedora} >= 26
-Requires:       python2-bcrypt
-%else
-Requires:       py-bcrypt
-%endif
 Requires:       python-click
-Requires:       python-configparser
 Requires:       python-prettytable
 Requires:       python-requests >= 2.6
-Requires:       python-simplejson
-Requires:       python-six
 Requires:       python2-setuptools
 Requires:       python-dciauth
 
@@ -70,19 +60,11 @@ BuildRequires:  python3-prettytable
 BuildRequires:  python3-psycopg2
 BuildRequires:  python3-requests
 BuildRequires:  python3-setuptools
-BuildRequires:  python3-six
 BuildRequires:  python3-dciauth
 Requires:       python3-PyYAML
 Requires:       python3-click
 Requires:       python3-prettytable
-%if 0%{?fedora} >= 26
-Requires:       python3-bcrypt
-%else
-Requires:       python3-py-bcrypt
-%endif
 Requires:       python3-requests
-Requires:       python3-simplejson
-Requires:       python3-six
 Requires:       python3-dciauth
 
 
