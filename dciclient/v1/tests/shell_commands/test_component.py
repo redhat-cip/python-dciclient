@@ -97,9 +97,11 @@ def test_file_support(runner, tmpdir):
     p.write("content")
     topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
 
-    component = runner.invoke(['component-create', '--name', 'foo',
-                               '--type', 'foobar', '--topic-id', topic['id'],
-                               '--export_control'])['component']
+    component = runner.invoke([
+        'component-create', '--name', 'foo',
+        '--type', 'foobar', '--topic-id', topic['id'],
+        '--export_control',
+        '--mime', 'application/octet-stream'])['component']
 
     # upload
     new_f = runner.invoke(['component-file-upload', component['id'],

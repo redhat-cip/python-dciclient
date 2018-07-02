@@ -318,8 +318,9 @@ def list_metas(context, id, sort, limit, where):
 @click.option("--path", required=True)
 @click.option("--jobstate-id", required=False)
 @click.option("--test-id", required=False)
+@click.option("--mime", required=False)
 @click.pass_obj
-def file_upload(context, id, name, path, jobstate_id, test_id):
+def file_upload(context, id, name, path, jobstate_id, test_id, mime):
     """file_upload(context, id, path)
 
     Upload a file in a job
@@ -331,13 +332,15 @@ def file_upload(context, id, name, path, jobstate_id, test_id):
     :param string path: Path to the file to upload [required]
     :param string jobstate_id: ID of the jobstate to attach the file
     :param string test_id: ID of the test if the file is a test result
+    :param string mime: The mime type of the file
     """
     result = dci_file.create_with_stream(context,
                                          name=name,
                                          job_id=id,
                                          file_path=path,
                                          jobstate_id=jobstate_id,
-                                         test_id=test_id)
+                                         test_id=test_id,
+                                         mime=mime)
     utils.format_output(result, context.format)
 
 
