@@ -193,7 +193,9 @@ def test_file_support(runner, tmpdir, job_id):
     p.write("content")
 
     # upload
-    new_f = runner.invoke(['job-upload-file', job_id, '--name', 'test',
+    new_f = runner.invoke(['job-upload-file', job_id,
+                           '--name', 'test',
+                           '--mime', 'application/octet-stream',
                            '--path', p.strpath])['file']
     assert new_f['size'] == 7
 
@@ -201,6 +203,7 @@ def test_file_support(runner, tmpdir, job_id):
     new_f = runner.invoke(['job-show-file', job_id,
                            '--file-id', new_f['id']])['file']
     assert new_f['size'] == 7
+    assert new_f['mime'] == 'application/octet-stream'
 
     # download
     runner.invoke_raw(['job-download-file', job_id,
