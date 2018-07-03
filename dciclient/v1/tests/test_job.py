@@ -53,7 +53,7 @@ def test_job_upgraded(dci_context, job_id, topic_id):
     t = new.json()['topic']
     component.create(dci_context, 'bar_component', 'type_1', t['id'])
     topic.update(dci_context, id=topic_id, etag=old['etag'],
-                 next_topic=t['id'])
+                 next_topic_id=t['id'])
     r = job.upgrade(dci_context, job_id=job_id)
     assert r.status_code == 201
     assert r.json()['job']['previous_job_id'] == job_id
