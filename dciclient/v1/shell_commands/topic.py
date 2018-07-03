@@ -82,14 +82,14 @@ def create(context, name, component_types, active, product_id, data):
 @click.option("--name")
 @click.option("--component_types", help="Component types separated by commas.")
 @click.option("--label")
-@click.option("--next_topic")
+@click.option("--next_topic-id")
 @click.option("--active/--no-active", default=None)
 @click.option("--product-id")
 @click.option("--data")
 @click.pass_obj
 def update(context, id, etag, name, component_types,
-           label, next_topic, active, product_id, data):
-    """update(context, id, etag, name, label, next_topic, active,
+           label, next_topic_id, active, product_id, data):
+    """update(context, id, etag, name, label, next_topic_id, active,
               product_id, data)
 
     Update a Topic.
@@ -104,6 +104,7 @@ def update(context, id, etag, name, component_types,
     :param string data: JSON data to pass during remote CI update
     :param boolean active: Set the topic in the active state
     :param string product_id: The product the topic belongs to
+    :param string next_topic_id: The ID of the next topic for upgrades
     """
 
     if component_types:
@@ -111,7 +112,7 @@ def update(context, id, etag, name, component_types,
 
     result = topic.update(context, id=id, etag=etag, name=name,
                           component_types=component_types,
-                          label=label, next_topic=next_topic,
+                          label=label, next_topic_id=next_topic_id,
                           state=utils.active_string(active),
                           product_id=product_id, data=data)
     if result.status_code == 204:
