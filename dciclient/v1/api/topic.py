@@ -21,10 +21,11 @@ RESOURCE = 'topics'
 
 
 def create(context, name, component_types, label=None, state='active',
-           product_id=None, next_topic=None, data=None):
+           product_id=None, next_topic_id=None, next_topic=None, data=None):
     return base.create(context, RESOURCE, name=name, label=label, state=state,
                        component_types=component_types, product_id=product_id,
-                       next_topic=next_topic, data=data)
+                       next_topic_id=next_topic_id, next_topic=next_topic,
+                       data=data)
 
 
 def list(context, **kwargs):
@@ -36,12 +37,12 @@ def get(context, id, **kwargs):
 
 
 def update(context, id, etag, name=None, component_types=None,
-           label=None, next_topic=None, state=None, product_id=None,
-           data=None):
+           label=None, next_topic_id=None, next_topic=None, state=None,
+           product_id=None, data=None):
     return base.update(context, RESOURCE, id=id, etag=etag, name=name,
                        component_types=component_types, label=label,
-                       next_topic=next_topic, state=state,
-                       product_id=product_id, data=data)
+                       next_topic_id=next_topic_id, state=state,
+                       product_id=product_id, next_topic=next_topic, data=data)
 
 
 def delete(context, id):
