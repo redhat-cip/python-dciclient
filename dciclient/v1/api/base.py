@@ -118,10 +118,10 @@ def delete(context, resource, id, **kwargs):
 def purge(context, resource, **kwargs):
     """Purge resource type."""
     uri = '%s/%s/purge' % (context.dci_cs_api, resource)
-    if 'noop' in kwargs and kwargs['noop']:
-        r = context.session.get(uri, timeout=HTTP_TIMEOUT)
-    else:
+    if 'force' in kwargs and kwargs['force']:
         r = context.session.post(uri, timeout=HTTP_TIMEOUT)
+    else:
+        r = context.session.get(uri, timeout=HTTP_TIMEOUT)
     return r
 
 
