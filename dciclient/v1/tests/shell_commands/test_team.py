@@ -78,13 +78,9 @@ def test_update(runner):
                             '--etag', team['etag'], '--name', 'bar',
                             '--country', 'JP'])
 
-    assert result['message'] == 'Team updated.'
-    assert result['id'] == team['id']
-
-    team = runner.invoke(['team-show', team['id']])['team']
-
-    assert team['name'] == 'bar'
-    assert team['country'] == 'JP'
+    assert result['team']['id'] == team['id']
+    assert result['team']['name'] == 'bar'
+    assert result['team']['country'] == 'JP'
 
 
 def test_update_active(runner):
@@ -94,32 +90,21 @@ def test_update_active(runner):
     result = runner.invoke(['team-update', team['id'],
                             '--etag', team['etag'], '--no-active'])
 
-    assert result['message'] == 'Team updated.'
-    assert result['id'] == team['id']
-
-    team = runner.invoke(['team-show', team['id']])['team']
-
-    assert team['state'] == 'inactive'
+    assert result['team']['id'] == team['id']
+    assert result['team']['state'] == 'inactive'
 
     result = runner.invoke(['team-update', team['id'],
-                            '--etag', team['etag'], '--name', 'foobar'])
+                            '--etag', result['team']['etag'],
+                            '--name', 'foobar'])
 
-    assert result['message'] == 'Team updated.'
-    assert result['id'] == team['id']
-
-    team = runner.invoke(['team-show', team['id']])['team']
-
-    assert team['state'] == 'inactive'
+    assert result['team']['id'] == team['id']
+    assert result['team']['state'] == 'inactive'
 
     result = runner.invoke(['team-update', team['id'],
-                            '--etag', team['etag'], '--active'])
+                            '--etag', result['team']['etag'],
+                            '--active'])
 
-    assert result['message'] == 'Team updated.'
-    team_state = runner.invoke(
-        ['team-show', team['id']]
-    )['team']['state']
-
-    assert team_state == 'active'
+    assert result['team']['state'] == 'active'
 
 
 def test_update_team_external(runner, runner_product_owner):

@@ -78,13 +78,9 @@ def test_success_update(runner):
                             '--etag', role['etag'], '--name', 'bar',
                             '--description', 'bar_desc'])
 
-    assert result['message'] == 'Role updated.'
-    assert result['id'] == role['id']
-
-    role = runner.invoke(['role-show', role['id']])['role']
-
-    assert role['name'] == 'bar'
-    assert role['description'] == 'bar_desc'
+    assert result['role']['id'] == role['id']
+    assert result['role']['name'] == 'bar'
+    assert result['role']['description'] == 'bar_desc'
 
 
 def test_update_active(runner, team_id):
@@ -94,31 +90,20 @@ def test_update_active(runner, team_id):
     result = runner.invoke(['role-update', role['id'],
                             '--etag', role['etag'], '--no-active'])
 
-    assert result['message'] == 'Role updated.'
-    assert result['id'] == role['id']
-
-    role = runner.invoke(['role-show', role['id']])['role']
-
-    assert role['state'] == 'inactive'
-    result = runner.invoke(['role-update', role['id'],
-                            '--etag', role['etag'], '--name', 'foobar'])
-
-    assert result['message'] == 'Role updated.'
-    role = runner.invoke(
-        ['role-show', role['id']]
-    )['role']
-
-    assert role['state'] == 'inactive'
+    assert result['role']['id'] == role['id']
+    assert result['role']['state'] == 'inactive'
 
     result = runner.invoke(['role-update', role['id'],
-                            '--etag', role['etag'], '--active'])
+                            '--etag', result['role']['etag'],
+                            '--name', 'foobar'])
 
-    assert result['message'] == 'Role updated.'
-    role_state = runner.invoke(
-        ['role-show', role['id']]
-    )['role']['state']
+    assert result['role']['state'] == 'inactive'
 
-    assert role_state == 'active'
+    result = runner.invoke(['role-update', role['id'],
+                            '--etag', result['role']['etag'],
+                            '--active'])
+
+    assert result['role']['state'] == 'active'
 
 
 def test_delete(runner):

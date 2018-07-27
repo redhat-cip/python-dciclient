@@ -100,37 +100,20 @@ def test_update_active(runner):
     result = runner.invoke(['test-update', test['id'], '--etag', test['etag'],
                             '--no-active'])
 
-    assert result['message'] == 'Test updated.'
-    assert result['id'] == test['id']
+    assert result['test']['id'] == test['id']
+    assert result['test']['state'] == 'inactive'
 
-    test = runner.invoke(
-        ['test-show', test['id']]
-    )['test']
+    result = runner.invoke(['test-update', test['id'], '--etag',
+                            result['test']['etag'], '--name', 'foobar'])
 
-    assert test['state'] == 'inactive'
+    assert result['test']['id'] == test['id']
+    assert result['test']['state'] == 'inactive'
+    assert result['test']['name'] == 'foobar'
 
-    result = runner.invoke(['test-update', test['id'], '--etag', test['etag'],
-                            '--name', 'foobar'])
+    result = runner.invoke(['test-update', test['id'], '--etag',
+                            result['test']['etag'], '--active'])
 
-    assert result['message'] == 'Test updated.'
-    assert result['id'] == test['id']
-
-    test = runner.invoke(
-        ['test-show', test['id']]
-    )['test']
-
-    assert test['state'] == 'inactive'
-    assert test['name'] == 'foobar'
-
-    result = runner.invoke(['test-update', test['id'], '--etag', test['etag'],
-                            '--active'])
-
-    assert result['message'] == 'Test updated.'
-    test_state = runner.invoke(
-        ['test-show', test['id']]
-    )['test']['state']
-
-    assert test_state == 'active'
+    assert result['test']['state'] == 'active'
 
 
 def test_delete(runner):

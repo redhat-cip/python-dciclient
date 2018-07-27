@@ -143,33 +143,22 @@ def test_update_active(runner):
     result = runner.invoke(['topic-update', topic['id'],
                             '--etag', topic['etag'], '--no-active'])
 
-    assert result['message'] == 'Topic updated.'
-    assert result['id'] == topic['id']
-
-    topic = runner.invoke(['topic-show', topic['id']])['topic']
-
-    assert topic['state'] == 'inactive'
+    assert result['topic']['id'] == topic['id']
+    assert result['topic']['state'] == 'inactive'
 
     result = runner.invoke(['topic-update', topic['id'],
-                            '--etag', topic['etag'], '--name', 'foobar'])
+                            '--etag', result['topic']['etag'],
+                            '--name', 'foobar'])
 
-    assert result['message'] == 'Topic updated.'
-    assert result['id'] == topic['id']
-
-    topic = runner.invoke(['topic-show', topic['id']])['topic']
-
-    assert topic['state'] == 'inactive'
-    assert topic['name'] == 'foobar'
+    assert result['topic']['id'] == topic['id']
+    assert result['topic']['state'] == 'inactive'
+    assert result['topic']['name'] == 'foobar'
 
     result = runner.invoke(['topic-update', topic['id'],
-                            '--etag', topic['etag'], '--active'])
+                            '--etag', result['topic']['etag'],
+                            '--active'])
 
-    assert result['message'] == 'Topic updated.'
-    topic_state = runner.invoke(
-        ['topic-show', topic['id']]
-    )['topic']['state']
-
-    assert topic_state == 'active'
+    assert result['topic']['state'] == 'active'
 
 
 def test_update_with_component_types(runner):
@@ -178,14 +167,10 @@ def test_update_with_component_types(runner):
                             '--etag', topic['etag'],
                             '--component_types', 'foo,bar'])
 
-    assert result['message'] == 'Topic updated.'
-    assert result['id'] == topic['id']
-
-    topic = runner.invoke(['topic-show', topic['id']])['topic']
-
-    assert len(topic['component_types']) == 2
-    assert topic['component_types'][0] == 'foo'
-    assert topic['component_types'][1] == 'bar'
+    assert result['topic']['id'] == topic['id']
+    assert len(result['topic']['component_types']) == 2
+    assert result['topic']['component_types'][0] == 'foo'
+    assert result['topic']['component_types'][1] == 'bar'
 
 
 def test_update_with_data(runner):
@@ -194,12 +179,8 @@ def test_update_with_data(runner):
                             '--etag', topic['etag'],
                             '--data', '{"foo": "bar"}'])
 
-    assert result['message'] == 'Topic updated.'
-    assert result['id'] == topic['id']
-
-    topic = runner.invoke(['topic-show', topic['id']])['topic']
-
-    assert topic['data']['foo'] == 'bar'
+    assert result['topic']['id'] == topic['id']
+    assert result['topic']['data']['foo'] == 'bar'
 
 
 def test_where_on_list(runner):
