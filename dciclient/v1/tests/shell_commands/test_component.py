@@ -144,23 +144,13 @@ def test_update_active(runner):
 
     result = runner.invoke(['component-update', component['id'],
                             '--no-active'])
-    assert result['message'] == 'Component updated.'
-    newcomponent = runner.invoke(
-        ['component-show', component['id']]
-    )['component']
-
-    assert newcomponent['state'] == 'inactive'
-    assert newcomponent['export_control'] is False
+    assert result['component']['state'] == 'inactive'
+    assert result['component']['export_control'] is False
 
     result = runner.invoke(['component-update', component['id'],
                             '--active'])
-    assert result['message'] == 'Component updated.'
-    newcomponent = runner.invoke(
-        ['component-show', component['id']]
-    )['component']
-
-    assert newcomponent['state'] == 'active'
-    assert newcomponent['export_control'] is False
+    assert result['component']['state'] == 'active'
+    assert result['component']['export_control'] is False
 
 
 def test_update_export_control(runner):
@@ -173,23 +163,13 @@ def test_update_export_control(runner):
 
     result = runner.invoke(['component-update', component['id'],
                             '--export-control'])
-    assert result['message'] == 'Component updated.'
-    newcomponent = runner.invoke(
-        ['component-show', component['id']]
-    )['component']
-
-    assert newcomponent['export_control'] is True
-    assert newcomponent['state'] == 'active'
+    assert result['component']['export_control'] is True
+    assert result['component']['state'] == 'active'
 
     result = runner.invoke(['component-update', component['id'],
                             '--no-export-control'])
-    assert result['message'] == 'Component updated.'
-    newcomponent = runner.invoke(
-        ['component-show', component['id']]
-    )['component']
-
-    assert newcomponent['export_control'] is False
-    assert newcomponent['state'] == 'active'
+    assert result['component']['export_control'] is False
+    assert result['component']['state'] == 'active'
 
 
 def test_component_status(runner, job_id, topic_id):

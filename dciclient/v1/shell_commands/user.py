@@ -114,10 +114,7 @@ def update(context, id, etag, name, password, email, fullname, role_id,
                          team_id=team_id, state=utils.active_string(active),
                          email=email, fullname=fullname)
 
-    if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'User updated.'})
-    else:
-        utils.format_output(result, context.format)
+    utils.format_output(result, context.format)
 
 
 @cli.command("user-delete", help="Delete a user.")

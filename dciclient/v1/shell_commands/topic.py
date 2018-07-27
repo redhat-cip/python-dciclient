@@ -115,10 +115,7 @@ def update(context, id, etag, name, component_types,
                           label=label, next_topic_id=next_topic_id,
                           state=utils.active_string(active),
                           product_id=product_id, data=data)
-    if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Topic updated.'})
-    else:
-        utils.format_output(result, context.format)
+    utils.format_output(result, context.format)
 
 
 @cli.command("topic-delete", help="Delete a topic.")

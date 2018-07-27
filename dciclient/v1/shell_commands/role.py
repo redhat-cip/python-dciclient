@@ -96,10 +96,7 @@ def update(context, id, etag, name, description, active):
                          description=description,
                          state=utils.active_string(active))
 
-    if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Role updated.'})
-    else:
-        utils.format_output(result, context.format)
+    utils.format_output(result, context.format)
 
 
 @cli.command("role-delete", help="Delete a role.")

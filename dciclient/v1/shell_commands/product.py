@@ -101,10 +101,7 @@ def update(context, id, etag, name, description, active, team_id):
                             state=utils.active_string(active),
                             team_id=team_id)
 
-    if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Product updated.'})
-    else:
-        utils.format_output(result, context.format)
+    utils.format_output(result, context.format)
 
 
 @cli.command("product-delete", help="Delete a product.")

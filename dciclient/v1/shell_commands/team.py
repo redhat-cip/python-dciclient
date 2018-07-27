@@ -101,10 +101,7 @@ def update(context, id, etag, name, country, parent_id, active, external):
                          country=country, parent_id=parent_id,
                          external=external)
 
-    if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Team updated.'})
-    else:
-        utils.format_output(result, context.format)
+    utils.format_output(result, context.format)
 
 
 @cli.command("team-delete", help="Delete a team.")

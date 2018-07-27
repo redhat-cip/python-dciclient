@@ -114,33 +114,22 @@ def test_update_active(runner, test_user, team_id):
     result = runner.invoke(['user-update', test_user['id'],
                             '--etag', test_user['etag'], '--no-active'])
 
-    assert result['message'] == 'User updated.'
-    assert result['id'] == test_user['id']
-
-    test_user = runner.invoke(['user-show', test_user['id']])['user']
-
-    assert test_user['state'] == 'inactive'
+    assert result['user']['id'] == test_user['id']
+    assert result['user']['state'] == 'inactive'
 
     result = runner.invoke(['user-update', test_user['id'],
-                            '--etag', test_user['etag'], '--name', 'foobar'])
+                            '--etag', result['user']['etag'],
+                            '--name', 'foobar'])
 
-    assert result['message'] == 'User updated.'
-    assert result['id'] == test_user['id']
-
-    test_user = runner.invoke(['user-show', test_user['id']])['user']
-
-    assert test_user['state'] == 'inactive'
-    assert test_user['name'] == 'foobar'
+    assert result['user']['id'] == test_user['id']
+    assert result['user']['state'] == 'inactive'
+    assert result['user']['name'] == 'foobar'
 
     result = runner.invoke(['user-update', test_user['id'],
-                            '--etag', test_user['etag'], '--active'])
+                            '--etag', result['user']['etag'],
+                            '--active'])
 
-    assert result['message'] == 'User updated.'
-    user_state = runner.invoke(
-        ['user-show', test_user['id']]
-    )['user']['state']
-
-    assert user_state == 'active'
+    assert result['user']['state'] == 'active'
 
 
 def test_delete(runner, test_user, team_id):

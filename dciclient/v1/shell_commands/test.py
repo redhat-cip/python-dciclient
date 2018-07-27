@@ -104,10 +104,7 @@ def update(context, id, name, etag, team_id, data, active):
     result = test.update(context, id=id, name=name, etag=etag,
                          team_id=team_id, data=data,
                          state=utils.active_string(active))
-    if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Test updated.'})
-    else:
-        utils.format_output(result, context.format)
+    utils.format_output(result, context.format)
 
 
 @cli.command("test-delete", help="Delete a test.")

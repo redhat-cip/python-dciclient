@@ -71,12 +71,8 @@ def test_update(runner):
                             '--etag', remoteci['etag'], '--name', 'bar',
                             '--no-active'])
 
-    assert result['message'] == 'Remote CI updated.'
-    assert result['id'] == remoteci['id']
-
-    remoteci = runner.invoke(
-        ['remoteci-show', remoteci['id']]
-    )['remoteci']
+    assert result['remoteci']['id'] == remoteci['id']
+    assert result['remoteci']['name'] == 'bar'
 
 
 def test_update_active(runner):
@@ -90,36 +86,21 @@ def test_update_active(runner):
     result = runner.invoke(['remoteci-update', remoteci['id'],
                             '--etag', remoteci['etag'], '--no-active'])
 
-    assert result['message'] == 'Remote CI updated.'
-    assert result['id'] == remoteci['id']
-
-    remoteci = runner.invoke(
-        ['remoteci-show', remoteci['id']]
-    )['remoteci']
-
-    assert remoteci['state'] == 'inactive'
+    assert result['remoteci']['id'] == remoteci['id']
+    assert result['remoteci']['state'] == 'inactive'
 
     result = runner.invoke(['remoteci-update', remoteci['id'],
-                            '--etag', remoteci['etag'], '--name', 'foobar'])
+                            '--etag', result['remoteci']['etag'],
+                            '--name', 'foobar'])
 
-    assert result['message'] == 'Remote CI updated.'
-    assert result['id'] == remoteci['id']
-
-    remoteci = runner.invoke(
-        ['remoteci-show', remoteci['id']]
-    )['remoteci']
-
-    assert remoteci['state'] == 'inactive'
+    assert result['remoteci']['id'] == remoteci['id']
+    assert result['remoteci']['state'] == 'inactive'
 
     result = runner.invoke(['remoteci-update', remoteci['id'],
-                            '--etag', remoteci['etag'], '--active'])
+                            '--etag', result['remoteci']['etag'],
+                            '--active'])
 
-    assert result['message'] == 'Remote CI updated.'
-    remoteci_state = runner.invoke(
-        ['remoteci-show', remoteci['id']]
-    )['remoteci']['state']
-
-    assert remoteci_state == 'active'
+    assert result['remoteci']['state'] == 'active'
 
 
 def test_delete(runner):

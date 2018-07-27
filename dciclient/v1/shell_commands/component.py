@@ -276,10 +276,7 @@ def update(context, id, export_control, active):
                               export_control=export_control,
                               state=utils.active_string(active))
 
-    if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Component updated.'})
-    else:
-        utils.format_output(result, context.format)
+    utils.format_output(result, context.format)
 
 
 @cli.command("component-attach-issue", help="Attach an issue to a component.")

@@ -101,10 +101,7 @@ def update(context, id, etag, name, team_id, data, active):
     result = feeder.update(context, id=id, etag=etag, name=name,
                            team_id=team_id, data=data,
                            state=utils.active_string(active))
-    if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Feeder updated.'})
-    else:
-        utils.format_output(result, context.format)
+    utils.format_output(result, context.format)
 
 
 @cli.command("feeder-delete", help="Delete a feeder.")

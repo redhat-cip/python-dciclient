@@ -68,14 +68,8 @@ def test_update(runner):
                             '--etag', feeder['etag'], '--name', 'bar',
                             '--no-active'])
 
-    assert result['message'] == 'Feeder updated.'
-    assert result['id'] == feeder['id']
-
-    feeder = runner.invoke(
-        ['feeder-show', feeder['id']]
-    )['feeder']
-
-    assert feeder['state'] == 'inactive'
+    assert result['feeder']['id'] == feeder['id']
+    assert result['feeder']['state'] == 'inactive'
 
 
 def test_delete(runner):

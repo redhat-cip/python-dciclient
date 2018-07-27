@@ -83,13 +83,9 @@ def test_success_update(runner, team_id):
                             '--etag', product['etag'], '--name', 'bar',
                             '--description', 'bar_desc'])
 
-    assert result['message'] == 'Product updated.'
-    assert result['id'] == product['id']
-
-    product = runner.invoke(['product-show', product['id']])['product']
-
-    assert product['name'] == 'bar'
-    assert product['description'] == 'bar_desc'
+    assert result['product']['id'] == product['id']
+    assert result['product']['name'] == 'bar'
+    assert result['product']['description'] == 'bar_desc'
 
 
 def test_update_active(runner, team_id):
@@ -100,31 +96,20 @@ def test_update_active(runner, team_id):
     result = runner.invoke(['product-update', product['id'],
                             '--etag', product['etag'], '--no-active'])
 
-    assert result['message'] == 'Product updated.'
-    assert result['id'] == product['id']
-
-    product = runner.invoke(['product-show', product['id']])['product']
-
-    assert product['state'] == 'inactive'
-    result = runner.invoke(['product-update', product['id'],
-                            '--etag', product['etag'], '--name', 'foobar'])
-
-    assert result['message'] == 'Product updated.'
-    product = runner.invoke(
-        ['product-show', product['id']]
-    )['product']
-
-    assert product['state'] == 'inactive'
+    assert result['product']['id'] == product['id']
+    assert result['product']['state'] == 'inactive'
 
     result = runner.invoke(['product-update', product['id'],
-                            '--etag', product['etag'], '--active'])
+                            '--etag', result['product']['etag'],
+                            '--name', 'foobar'])
 
-    assert result['message'] == 'Product updated.'
-    product_state = runner.invoke(
-        ['product-show', product['id']]
-    )['product']['state']
+    assert result['product']['state'] == 'inactive'
 
-    assert product_state == 'active'
+    result = runner.invoke(['product-update', product['id'],
+                            '--etag', result['product']['etag'],
+                            '--active'])
+
+    assert result['product']['state'] == 'active'
 
 
 def test_delete(runner, team_id):
