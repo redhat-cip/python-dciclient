@@ -24,10 +24,10 @@ from dciclient.v1.api import base
 
 @cli.command("purge", help="Purge soft-deleted resources.")
 @click.option("--resource", help="Comma separated list of resource to purge.")
-@click.option("--noop", is_flag=True, help="Show resource to purge.")
+@click.option("--force", is_flag=True, help="Purge resources.")
 @click.pass_obj
-def purge(context, resource, noop):
-    """purge(context, resource, noop)
+def purge(context, resource, force):
+    """purge(context, resource, force)
 
     Purge soft-deleted resources.
 
@@ -41,7 +41,7 @@ def purge(context, resource, noop):
     l_resources = resources if resource is None else resource.split(',')
 
     wrong_resources = [res for res in l_resources if res not in resources]
-    test_auth = base.purge(context, 'users', **{'noop': True})
+    test_auth = base.purge(context, 'users', **{'force': False})
 
     if len(wrong_resources) > 0:
         msg = 'Unkown resource have been specified: %s' % wrong_resources
@@ -55,11 +55,28 @@ def purge(context, resource, noop):
 
     else:
         purged = {}
-        if noop:
-            # If in noop mode. The various endpoints are queried for the
+        if force:
+            # If in force mode. First we retrieve the number of items to be
+            # purged and then we purge them. This allows to presents meaningful
+            # informations to the user that used this command.
+
+            for res in l_resources:
+                item_purged = base.purge(context, res, **{'force': False}) \
+                                  .json()['_meta']['count']
+                if item_purged and \
+                   base.purge(context, res,
+                              **{'force': True}).status_code == 204:
+                    purged[res] = '%s item(s) purged' % item_purged
+            if len(purged.keys()):
+                utils.print_json(purged)
+            else:
+                utils.print_json({'message': 'No item to be purged'})
+        else:
+            # If not in force mode. The various endpoints are queried for the
             # informations about the resources to be purged and displayed.
             for res in l_resources:
-                resource_to_delete = base.purge(context, res, **{'noop': noop})
+                resource_to_delete = base.purge(context, res,
+                                                **{'force': force})
                 if resource_to_delete.json()['_meta']['count'] > 0:
                     purged[res] = resource_to_delete.json()
             if len(purged.keys()):
@@ -69,20 +86,3 @@ def purge(context, resource, noop):
                     utils.format_output(purged[item][item], context.format)
             else:
                 utils.format_output({}, context.format)
-
-        else:
-            # If not in noop mode. First we retrieve the number of items to be
-            # purged and then we purge them. This allows to presents meaningful
-            # informations to the user that used this command.
-
-            for res in l_resources:
-                item_purged = base.purge(context, res, **{'noop': True}) \
-                                  .json()['_meta']['count']
-                if item_purged and \
-                   base.purge(context, res,
-                              **{'noop': False}).status_code == 204:
-                    purged[res] = '%s item(s) purged' % item_purged
-            if len(purged.keys()):
-                utils.print_json(purged)
-            else:
-                utils.print_json({'message': 'No item to be purged'})
