@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee463c1f_1e2cfaa6",
+        "filename": "dciclient/v1/api/base.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2018-07-30T20:31:44Z",
+      "side": 1,
+      "message": "this can be simplified:\n\n  if kwargs.get(\u0027force\u0027):",
+      "revId": "f6cfeadbe0ea5be2514b2d3295b306a499defbe5",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
