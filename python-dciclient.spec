@@ -21,14 +21,10 @@ Python client for DCI control server for the remote CIs.
 Summary:        Python client for DCI control server
 %{?python_provide:%python_provide python2-dciclient}
 BuildRequires:  PyYAML
-BuildRequires:  dci-api
-BuildRequires:  rh-postgresql94-postgresql-devel
-BuildRequires:  rh-postgresql94
 BuildRequires:  python-click
 BuildRequires:  python-mock
 BuildRequires:  python-prettytable
 BuildRequires:  python-psycopg2
-BuildRequires:  python-pytest
 BuildRequires:  python-requests >= 2.6
 BuildRequires:  python-rpm-macros
 BuildRequires:  python-tox
@@ -51,8 +47,6 @@ A Python 2 implementation of the client for DCI control server.
 Summary:        Python client for DCI control server
 %{?python_provide:%python_provide python3-dciclient}
 
-BuildRequires:  rh-postgresql94-postgresql-devel
-BuildRequires:  rh-postgresql94
 BuildRequires:  python-tox
 BuildRequires:  python3-PyYAML
 BuildRequires:  python3-click
@@ -87,10 +81,6 @@ install -d %{buildroot}%{_bindir}
 %if 0%{?with_python3}
 %py3_install
 %endif
-
-%check
-PYTHONPATH=%{buildroot}%{python2_sitelib}
-sh ./start_db.sh
 
 %files -n python2-dciclient
 %doc README.md
