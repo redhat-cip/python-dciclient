@@ -4,10 +4,9 @@ The `python-dciclient` project provides both the python bindings and a CLI to th
 
 ## Installation
 
-While the package makes it to the various distributions, the team behind the project offers repositories for the supported distro:
+The team behind the project offers repositories for Red Hat/CentOS:
 
-  * Fedora (only the latest version is supported): https://packages.distributed-ci.io/dci-release.fc25.noarch.rpm
-  * CentOS/Red Hat: https://packages.distributed-ci.io/dci-release.el7.noarch.rpm
+  * `yum -y install https://packages.distributed-ci.io/dci-release.el7.noarch.rpm`
 
 Then simply run `dnf install python-dciclient` (Fedora) or `yum install python-dciclient` (CentOS/Red Hat)
 
