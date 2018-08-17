@@ -35,3 +35,10 @@ def test_iter(dci_context, job_id):
     assert all_files == 100 + 2
     assert cpt == 100 + 2
     assert len(set(seen_names) - set(f_names)) == 2
+
+
+def test_file_without_content(dci_context, job_id):
+    r = dci_file.create(
+            dci_context, name='a', mime='plain/text',
+            job_id=job_id)
+    assert r.status_code == 201
