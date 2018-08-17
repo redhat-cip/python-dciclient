@@ -23,7 +23,7 @@ import os
 RESOURCE = 'files'
 
 
-def create(context, name, content=None, file_path=None, mime='text/plain',
+def create(context, name, content='', file_path=None, mime='text/plain',
            jobstate_id=None, md5=None, job_id=None, test_id=None):
     """Method to create a file on the Control-Server
 
@@ -38,10 +38,6 @@ def create(context, name, content=None, file_path=None, mime='text/plain',
 
     if content and file_path:
         raise Exception('content and file_path are mutually exclusive')
-    elif not content and not file_path:
-        raise Exception(
-            'At least one of content or file_path must be specified'
-        )
 
     headers = {'DCI-NAME': name,
                'DCI-MIME': mime,
@@ -52,17 +48,17 @@ def create(context, name, content=None, file_path=None, mime='text/plain',
     headers = utils.sanitize_kwargs(**headers)
     uri = '%s/%s' % (context.dci_cs_api, RESOURCE)
 
-    if content:
+    if file_path:
+        if not os.path.exists(file_path):
+            raise FileErrorException()
+        with open(file_path, 'rb') as f:
+            return context.session.post(uri, headers=headers, data=f)
+    else:
         if not hasattr(content, 'read'):
             if not isinstance(content, bytes):
                 content = content.encode('utf-8')
             content = io.BytesIO(content)
         return context.session.post(uri, headers=headers, data=content)
-    else:
-        if not os.path.exists(file_path):
-            raise FileErrorException()
-        with open(file_path, 'rb') as f:
-            return context.session.post(uri, headers=headers, data=f)
 
 
 # TODO(spredzy): Remove this method once all the party using this method has
