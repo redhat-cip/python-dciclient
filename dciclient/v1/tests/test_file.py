@@ -16,6 +16,7 @@
 
 
 import dciclient.v1.api.file as dci_file
+import dciclient.v1.api.job as dci_job
 
 
 def test_iter(dci_context, job_id):
@@ -35,3 +36,14 @@ def test_iter(dci_context, job_id):
     assert all_files == 100 + 2
     assert cpt == 100 + 2
     assert len(set(seen_names) - set(f_names)) == 2
+
+
+def test_file_without_content(dci_context, job_id):
+    r = dci_file.create(
+        dci_context, name='a', mime='plain/text',
+        job_id=job_id)
+    assert r.status_code == 201
+    r = dci_job.get(dci_context, str(job_id), embed='files')
+    last_file = r.json()['job']['files'][0]
+    assert last_file['name'] == 'a'
+    assert dci_file.content(dci_context, last_file['id']).text == ''
