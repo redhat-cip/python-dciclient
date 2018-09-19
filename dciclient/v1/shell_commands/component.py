@@ -132,27 +132,7 @@ def show(context, id):
     utils.format_output(result, context.format)
 
 
-@cli.command("component-status",
-             help="Show an overview of the last jobs associated to this component type")  # noqa
-@click.option("--type", required=True)
-@click.option("--topic-id", required=True)
-@click.pass_obj
-def status(context, type, topic_id):
-    """status(context, type, topic_id)
-
-    Show current status of a component
-
-    >>> dcictl component-status [OPTIONS]
-
-    :param string type: Type of component to look up status for [required]
-    :param string topic_id: The topic ID for the list of components to return
-                            [required]
-    """
-    result = component.status(context, type=type, topic_id=topic_id)
-    utils.format_output(result, context.format)
-
-
-@cli.command("component-file-upload", help="Attach a file to a component.")
+cli.command("component-file-upload", help="Attach a file to a component.")
 @click.argument("id")
 @click.option("--path", required=True)
 @click.pass_obj
