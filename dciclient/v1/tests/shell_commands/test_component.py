@@ -172,14 +172,6 @@ def test_update_export_control(runner):
     assert result['component']['state'] == 'active'
 
 
-def test_component_status(runner, job_id, topic_id):
-
-    status = runner.invoke(['component-status', '--type', 'type_1',
-                            '--topic-id', topic_id])['jobs']
-
-    assert len(status) == 0
-
-
 def test_where_on_list(runner):
     topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
     teams = runner.invoke(['team-list'])['teams']
