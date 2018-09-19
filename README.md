@@ -66,7 +66,6 @@ Commands:
   component-list               List all components.
   component-list-issue         List all component attached issues.
   component-show               Show a component.
-  component-status             Show an overview of the last jobs associated...
   component-unattach-issue     Unattach an issue from a component.
   component-update             Update a component.
   file-delete                  Delete a file.

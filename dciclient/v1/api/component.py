@@ -72,12 +72,6 @@ def file_delete(context, id, file_id):
                        subresource_id=file_id)
 
 
-def status(context, type, topic_id):
-    uri = '%s/%s/%s/type/%s/status' % (context.dci_cs_api, 'topics', topic_id,
-                                       type)
-    return context.session.get(uri)
-
-
 def list_issues(context, id, **kwargs):
     return base.list(context, RESOURCE, id=id,
                      subresource='issues', **kwargs)
