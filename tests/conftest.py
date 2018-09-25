@@ -21,7 +21,7 @@ import dci.dci_config
 
 import dciclient.shell as shell
 import dciclient.v1.api as api
-import dciclient.v1.tests.shell_commands.utils as utils
+import tests.shell_commands.utils as utils
 
 import pytest
 import sqlalchemy
