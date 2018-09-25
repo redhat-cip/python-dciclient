@@ -3,4 +3,3 @@ pep8==1.5.7
 pytest>=2.6.2
 git+http://softwarefactory-project.io/r/dci-control-server
 mock
-pylint==1.6.4
