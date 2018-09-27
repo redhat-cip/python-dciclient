@@ -88,6 +88,11 @@ def delete(context, id, etag):
     return base.delete(context, RESOURCE, id=id, etag=etag)
 
 
+def list_files(context, id, **kwargs):
+    return base.list(context, RESOURCE, id=id,
+                     subresource='files', **kwargs)
+
+
 def list_issues(context, id, **kwargs):
     return base.list(context, RESOURCE, id=id,
                      subresource='issues', **kwargs)
