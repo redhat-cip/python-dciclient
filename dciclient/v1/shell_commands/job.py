@@ -401,7 +401,7 @@ def file_list(context, id, sort, limit, verbose, where):
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
     """
-    result = dci_file.list(context, id=id, sort=sort, limit=limit,
+    result = job.list_files(context, id=id, sort=sort, limit=limit,
                            verbose=verbose, where=where)
     utils.format_output(result, context.format)
 
