@@ -354,7 +354,7 @@ def unattach_user(context, id, user_id):
 @click.option("--name", required=True)
 @click.option("--topic_id", required=True)
 @click.option("--component_types", default='[]', callback=utils.validate_json)
-@click.option("--data", default={}, callback=utils.validate_json)
+@click.option("--data", default='{}', callback=utils.validate_json)
 @click.pass_obj
 def attach_rconfiguration(context, id, name, topic_id, component_types, data):
     """attach_rconfiguration(context, name, topic_id, component_types, data):
