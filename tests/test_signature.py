@@ -19,7 +19,7 @@ import requests
 from dciauth.request import AuthRequest
 from dciauth.signature import Signature
 from dciclient.v1.api import job
-import dciclient.v1.tests.shell_commands.utils as utils
+import tests.shell_commands.utils as utils
 
 
 def make_blank_session(server):
