@@ -174,17 +174,17 @@ def test_job_list(runner, dci_context, dci_context_remoteci,
     assert result['tests'][1]['name'] == 'test_remoteci'
 
 
-def test_metas(runner, job_id):
-    result = runner.invoke(['job-list-issue', job_id])['_meta']['count']
-    assert result == 0
-    meta = runner.invoke(['job-set-meta', job_id, 'foo', 'var'])['meta']
-    metas = runner.invoke(['job-list-meta', job_id])['metas']
-    assert len(metas) == 1
-    assert metas[0]['id'] == meta['id']
-    assert metas[0]['value'] == 'var'
-    runner.invoke(['job-delete-meta', job_id, meta['id']])
-    metas = runner.invoke(['job-list-meta', job_id])['metas']
-    assert len(metas) == 0
+def test_tags(runner, job_id):
+    tags = runner.invoke(['job-list-tags', job_id])['tags']
+    assert len(tags) == 0
+    tag = runner.invoke(['job-add-tag', job_id, 'foo'])['tag']
+    tags = runner.invoke(['job-list-tags', job_id])['tags']
+    assert len(tags) == 1
+    assert tags[0]['id'] == tag['id']
+    assert tags[0]['name'] == 'foo'
+    runner.invoke(['job-delete-tag', job_id, tag['id']])
+    tags = runner.invoke(['job-list-tags', job_id])['tags']
+    assert len(tags) == 0
 
 
 def test_file_support(runner, tmpdir, job_id):
