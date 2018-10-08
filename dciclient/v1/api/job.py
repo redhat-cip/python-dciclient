@@ -145,3 +145,20 @@ def delete_meta(context, id, meta_id):
     return base.delete(context, RESOURCE, id,
                        subresource='metas',
                        subresource_id=meta_id)
+
+
+def list_tags(context, id):
+    return base.list(context, RESOURCE, id=id,
+                     subresource='tags')
+
+
+def add_tag(context, id, name):
+    uri = '%s/%s/%s/tags' % (context.dci_cs_api, RESOURCE, id)
+    data = {'name': name}
+    return context.session.post(uri, json=data)
+
+
+def delete_tag(context, id, tag_id):
+    return base.delete(context, RESOURCE, id,
+                       subresource='tags',
+                       subresource_id=tag_id)
