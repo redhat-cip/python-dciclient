@@ -174,10 +174,10 @@ def test_job_list(runner, dci_context, dci_context_remoteci,
     assert result['tests'][1]['name'] == 'test_remoteci'
 
 
-def test_metas(runner, job_id):
-    result = runner.invoke(['job-list-issue', job_id])['_meta']['count']
+def test_tags(runner, job_id):
+    result = runner.invoke(['job-list-tags', job_id])['_meta']['count']
     assert result == 0
-    meta = runner.invoke(['job-set-meta', job_id, 'foo', 'var'])['meta']
+    meta = runner.invoke(['job-add-tag', job_id, 'foo', 'var'])['meta']
     metas = runner.invoke(['job-list-meta', job_id])['metas']
     assert len(metas) == 1
     assert metas[0]['id'] == meta['id']
