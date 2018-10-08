@@ -244,71 +244,61 @@ def list_tests(context, id, sort, limit, where, verbose):
     utils.format_output(result, context.format, verbose=verbose)
 
 
-@cli.command("job-set-meta", help="Attach an meta to a job.")
+@cli.command("job-add-tag", help="Add a tag to a job.")
 @click.argument("id", required=True)
-@click.argument("name", required=True)
-@click.argument("value", required=False, default='')
+@click.argument("tag-id", required=True)
 @click.pass_obj
-def set_meta(context, id, name, value):
-    """set_meta(context, id, name, value)
+def add_tag(context, id, tag_id):
+    """add_tag(context, id, tag_id)
 
-    Attach an meta to a job.
+    Attach a tag to a job.
 
-    >>> dcictl job-set-meta [OPTIONS]
+    >>> dcictl job-add-tag [OPTIONS]
 
-    :param string id: ID of the job to attach the meta to [required]
-    :param string url: URL of the meta to attach to the job [required]
-    :param string name: Key of the meta to attach to the job [required]
-    :param string value: Value of the meta to attach to the job
+    :param string id: ID of the job to attach the tag on [required]
+    :param string tag_id: ID of the tag to be attached [required]
     """
 
-    result = job.set_meta(context, id=id, name=name, value=value)
+    result = job.add_tag(context, id=id, tag_id=tag_id)
     utils.format_output(result, context.format)
 
 
-@cli.command("job-delete-meta", help="Drop a meta from a job.")
+@cli.command("job-delete-tag", help="Drop a tag from a job.")
 @click.argument("id")
-@click.argument("meta-id", required=True)
+@click.argument("tag-id", required=True)
 @click.pass_obj
-def delete_meta(context, id, meta_id):
-    """delete_meta(context, id, meta_id)
+def delete_tag(context, id, tag_id):
+    """delete_tag(context, id, tag_id)
 
-    Delete an meta from a job.
+    Delete a tag from a job.
 
-    >>> dcictl job-delete-meta [OPTIONS]
+    >>> dcictl job-delete-tag [OPTIONS]
 
     :param string id: ID of the job to attach the meta to [required]
-    :param string meta_id: ID of the meta to unattach from the job [required]
+    :param string tag_id: ID of the tag to be removed from the job [required]
     """
 
-    result = job.delete_meta(context, id=id, meta_id=meta_id)
+    result = job.delete_tag(context, id=id, tag_id=tag_id)
     if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Meta unattached.'})
+        utils.print_json({'id': id, 'message': 'Tag removed.'})
     else:
         utils.format_output(result, context.format)
 
 
-@cli.command("job-list-meta", help="List all job attached metas.")
+@cli.command("job-list-tags", help="List all the tags of a job.")
 @click.argument("id")
-@click.option("--sort", default="-created_at")
-@click.option("--limit", default=50)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
 @click.pass_obj
-def list_metas(context, id, sort, limit, where):
-    """list_metas(context, id)
+def list_tags(context, id):
+    """list_tags(context, id)
 
-    List all job attached metas.
+    List all tags of a job.
 
-    >>> dcictl job-list-meta [OPTIONS]
+    >>> dcictl job-list-tags [OPTIONS]
 
-    :param string id: ID of the job to retrieve metas from [required]
-    :param string sort: Field to apply sort
-    :param integer limit: Max number of rows to return
+    :param string id: ID of the job to retrieve tags from [required]
     """
 
-    result = job.list_metas(context, id=id, sort=sort, limit=limit,
-                            where=where)
+    result = job.list_tags(context, id)
     utils.format_output(result, context.format)
 
 
