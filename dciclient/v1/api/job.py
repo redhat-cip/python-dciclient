@@ -23,10 +23,8 @@ from dciclient.v1 import utils
 RESOURCE = 'jobs'
 
 
-def create(context, topic_id, team_id=None, components=None,
-           comment=None):
-    job = base.create(context, RESOURCE, topic_id=topic_id,
-                      team_id=team_id, components=components, comment=comment)
+def create(context, topic_id, **kwargs):
+    job = base.create(context, RESOURCE, topic_id=topic_id, **kwargs)
     context.last_job_id = job.json()['job']['id']
     return job
 
