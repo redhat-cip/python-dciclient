@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4d6de692_09d591fa",
+        "filename": "dciclient/v1/api/job.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2018-10-22T13:35:31Z",
+      "side": 1,
+      "message": "Roflol :-)",
+      "parentUuid": "33b5f66d_d7014d3a",
+      "range": {
+        "startLine": 26,
+        "startChar": 30,
+        "endLine": 26,
+        "endChar": 38
+      },
+      "revId": "b6768f5c772ba0f63423f17b46c6377ce8a6a233",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "054de0da_a960cabc",
         "filename": "dciclient/v1/shell_commands/__init__.py",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2018-10-22T10:08:27Z",
       "side": 1,
       "message": "Emacs withou META ?",
+      "revId": "b6768f5c772ba0f63423f17b46c6377ce8a6a233",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49de1dc6_ba2a6ef6",
+        "filename": "dciclient/v1/shell_commands/__init__.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 30
+      },
+      "writtenOn": "2018-10-22T13:35:31Z",
+      "side": 1,
+      "message": "Roflol :-)",
+      "parentUuid": "054de0da_a960cabc",
       "revId": "b6768f5c772ba0f63423f17b46c6377ce8a6a233",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
