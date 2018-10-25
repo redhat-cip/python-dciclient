@@ -22,12 +22,10 @@ Summary:        Python client for DCI control server
 %{?python_provide:%python_provide python2-dciclient}
 BuildRequires:  PyYAML
 BuildRequires:  python-click
-BuildRequires:  python-mock
 BuildRequires:  python-prettytable
 BuildRequires:  python-psycopg2
 BuildRequires:  python-requests >= 2.6
 BuildRequires:  python-rpm-macros
-BuildRequires:  python-tox
 BuildRequires:  python2-setuptools
 BuildRequires:  python2-rpm-macros
 BuildRequires:  python3-rpm-macros
@@ -47,7 +45,6 @@ A Python 2 implementation of the client for DCI control server.
 Summary:        Python client for DCI control server
 %{?python_provide:%python_provide python3-dciclient}
 
-BuildRequires:  python-tox
 BuildRequires:  python3-PyYAML
 BuildRequires:  python3-click
 BuildRequires:  python3-prettytable
