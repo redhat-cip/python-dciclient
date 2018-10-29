@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b832f18_160efeaf",
+        "filename": "start_db.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2018-10-29T17:44:46Z",
+      "side": 1,
+      "message": "if [ -f /opt/rh/rh-postgresql94/enable ]; then\n...\n\nbtw we\u0027re not really supporting fedora",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 2
+      },
+      "revId": "275c5cf986e91e97e31bffa2b239b84eb6bba56d",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
