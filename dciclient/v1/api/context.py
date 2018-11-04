@@ -12,8 +12,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 import json
-
 import os
+import sys
 from requests import compat
 
 try:
@@ -117,7 +117,8 @@ class DciSignatureAuth(AuthBase):
 
     def get_payload(self, r):
         try:
-            if isinstance(r.body, compat.basestring):
+            if sys.version_info < (3, 0) and isinstance(
+                    r.body, compat.basestring):
                 body = r.body.decode("utf-8")
             else:
                 body = r.body
