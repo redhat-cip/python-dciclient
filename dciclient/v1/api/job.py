@@ -116,16 +116,6 @@ def list_jobstates(context, id, **kwargs):
                      subresource='jobstates', **kwargs)
 
 
-def list_tests(context, id, **kwargs):
-    j = base.get(context, RESOURCE, id=id, **kwargs).json()['job']
-    result = {'tests': []}
-    result['tests'] += topic.list_tests(
-        context, j['topic_id']).json()['tests']
-    result['tests'] += remoteci.list_tests(
-        context, j['remoteci_id']).json()['tests']
-    return result
-
-
 def list_metas(context, id, **kwargs):
     return base.list(context, RESOURCE, id=id,
                      subresource='metas', **kwargs)

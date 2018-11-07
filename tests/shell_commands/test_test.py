@@ -27,19 +27,13 @@ def test_prettytable_output(runner):
 
 
 def test_list(runner):
-    team = runner.invoke(['team-create', '--name', 'osp'])['team']
-    assert team['name'] == 'osp'
-
-    teams = runner.invoke(['team-list'])['teams']
-    team_id = teams[0]['id']
-
-    runner.invoke(['test-create', '--name', 'foo', '--team-id', team_id])
-    runner.invoke(['test-create', '--name', 'bar', '--team-id', team_id])
-    tests = runner.invoke(['test-list', '--team-id', team_id])['tests']
+    runner.invoke(['test-create', '--name', 'foo'])
+    runner.invoke(['test-create', '--name', 'bar'])
+    tests = runner.invoke(['test-list'])['tests']
     assert len(tests) == 2
     assert tests[0]['name'] == 'bar'
     assert tests[1]['name'] == 'foo'
-    output = runner.invoke_raw_parse(['test-list', '--team-id', team_id])
+    output = runner.invoke_raw_parse(['test-list'])
     assert output['team_id'] == team_id
 
 
@@ -48,29 +42,20 @@ def test_create(runner):
     assert team['name'] == 'osp'
 
     test = runner.invoke([
-        'test-create', '--name', 'foo', '--team-id',
-        team['id']])['test']
+        'test-create', '--name', 'foo'])['test']
     assert test['name'] == 'foo'
 
 
 def test_create_inactive(runner):
-    team = runner.invoke(['team-create', '--name', 'osp'])['team']
-    assert team['name'] == 'osp'
-
     test = runner.invoke([
-        'test-create', '--name', 'foo', '--team-id',
-        team['id'], '--no-active'])['test']
+        'test-create', '--name', 'foo', '--no-active'])['test']
     assert test['state'] == 'inactive'
 
 
 def test_create_data(runner):
-    team = runner.invoke(['team-create', '--name', 'osp'])['team']
-    assert team['name'] == 'osp'
-
     test = runner.invoke([
         'test-create',
         '--name', 'foo',
-        '--team-id', team['id'],
         '--data', '{"Foo": 2}'])['test']
     assert test['name'] == 'foo'
 
@@ -88,11 +73,9 @@ def test_create_bad_data(runner):
 
 
 def test_update_active(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
     test = runner.invoke([
         'test-create',
         '--name', 'foo',
-        '--team-id', team['id'],
         '--data', '{"Foo": 2}'])['test']
 
     assert test['state'] == 'active'
@@ -117,11 +100,7 @@ def test_update_active(runner):
 
 
 def test_delete(runner):
-    team = runner.invoke(['team-create', '--name', 'osp'])['team']
-    assert team['name'] == 'osp'
-
-    test = runner.invoke(['test-create', '--name', 'foo', '--team-id',
-                          team['id']])['test']
+    test = runner.invoke(['test-create', '--name', 'foo',])['test']
 
     result = runner.invoke(['test-delete', test['id']])
 
@@ -129,11 +108,7 @@ def test_delete(runner):
 
 
 def test_show(runner):
-    team = runner.invoke(['team-create', '--name', 'osp'])['team']
-    assert team['name'] == 'osp'
-
-    test = runner.invoke(['test-create', '--name', 'foo', '--team-id',
-                          team['id']])['test']
+    test = runner.invoke(['test-create', '--name', 'foo',])['test']
 
     test = runner.invoke(['test-show', test['id']])['test']
 
@@ -142,9 +117,5 @@ def test_show(runner):
 
 def test_list_user(runner_test_user, dci_context_test_user, test_user_id,
                    team_user_id):
-    tests = api.team.list_tests(dci_context_test_user,
-                                team_user_id).json()['tests']
-    assert len(tests) == 1
-
     tests = runner_test_user.invoke(['test-list'])['tests']
     assert len(tests) == 1

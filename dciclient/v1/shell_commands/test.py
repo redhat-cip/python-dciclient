@@ -25,7 +25,6 @@ from dciclient.v1.api import test
 
 
 @cli.command("test-list", help="List all tests.")
-@click.option("--team-id", required=False)
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
 @click.option("--where", help="An optional filter criteria.",
@@ -33,32 +32,28 @@ from dciclient.v1.api import test
 @click.option("--long", "--verbose", "verbose",
               required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context, team_id, sort, limit, where, verbose):
+def list(context, sort, limit, where, verbose):
     """list(context, team_id, sort, limit, where, verbose)
 
     List all tests.
 
     >>> dcictl test list
 
-    :param string team_id: ID of the team to list tests [required]
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
     :param string where: An optional filter criteria
     :param boolean verbose: Display verbose output
     """
-    team_id = team_id or identity.my_team_id(context)
-    result = team.list_tests(context, team_id, sort=sort, limit=limit,
-                             where=where)
+    result = team.list_tests(context,sort=sort, limit=limit, where=where)
     utils.format_output(result, context.format, verbose=verbose)
 
 
 @cli.command("test-create", help="Create a test.")
 @click.option("--name", required=True)
-@click.option("--team-id", required=False)
 @click.option("--data", callback=utils.validate_json, default='{}')
 @click.option("--active/--no-active", default=True)
 @click.pass_obj
-def create(context, name, team_id, data, active):
+def create(context, name, data, active):
     """create(context, name, team_id, data, active)
 
     Create a test.
@@ -66,15 +61,13 @@ def create(context, name, team_id, data, active):
     >>> dcictl test-create [OPTIONS]
 
     :param string name: Name of the test [required]
-    :param string team_id: ID of the team to associate with
     :param json data: JSON formatted data block for the test
     :param boolean active: Set the test in the (in)active state
     """
 
     state = utils.active_string(active)
     team_id = team_id or identity.my_team_id(context)
-    result = test.create(context, name=name, data=data, team_id=team_id,
-                         state=state)
+    result = test.create(context, name=name, data=data, state=state)
     utils.format_output(result, context.format)
 
 
@@ -82,11 +75,10 @@ def create(context, name, team_id, data, active):
 @click.argument("id")
 @click.option("--etag", required=True)
 @click.option("--name")
-@click.option("--team-id")
 @click.option("--data", callback=utils.validate_json)
 @click.option("--active/--no-active", default=None)
 @click.pass_obj
-def update(context, id, name, etag, team_id, data, active):
+def update(context, id, name, etag, data, active):
     """update(context, id, etag, name, team_id, data, active)
 
     Update a Test
@@ -96,7 +88,6 @@ def update(context, id, name, etag, team_id, data, active):
     :param string id: ID of the Test [required]
     :param string name: Name of the Test
     :param string etag: Entity tag of the resource [required]
-    :param string team_id: ID of the team to associate this Test with
     :param string data: JSON data to pass during Test update
     :param boolean active: Set the test in the active state
     """

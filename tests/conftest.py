@@ -310,14 +310,14 @@ def topic_id(dci_context):
 
 
 @pytest.fixture
-def test_id(dci_context, team_id):
-    kwargs = {'name': 'test_name', 'team_id': team_id}
+def test_id(dci_context):
+    kwargs = {'name': 'test_name'}
     return api.test.create(dci_context, **kwargs).json()['test']['id']
 
 
 @pytest.fixture
-def test_user_id(dci_context, team_user_id):
-    kwargs = {'name': 'test_user_name', 'team_id': team_user_id}
+def test_user_id(dci_context):
+    kwargs = {'name': 'test_user_name'}
     return api.test.create(dci_context, **kwargs).json()['test']['id']
 
 
@@ -452,14 +452,7 @@ def role_user(dci_context):
 def test_user(runner, team_user_id):
     return runner.invoke([
         'user-create', '--name', 'foo', '--email', 'foo@example.org',
-        '--fullname', 'Foo Bar', '--password', 'pass', '--team-id',
-        team_user_id])['user']
-
-
-@pytest.fixture
-def team_test(dci_context, team_id):
-    test = api.test.create(dci_context, 'sometest', team_id=team_id).json()
-    return test['test']
+        '--fullname', 'Foo Bar', '--password', 'pass'])['user']
 
 
 @pytest.fixture

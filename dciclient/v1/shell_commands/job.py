@@ -215,35 +215,6 @@ def output(context, id):
             click.echo(dci_file.content(context, id=f['id']).text)
 
 
-@cli.command("job-list-test", help="List all tests attached to a job.")
-@click.argument("id")
-@click.option("--sort", default="-created_at")
-@click.option("--limit", help="Number of jobs to show up.",
-              required=False, default=10)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
-@click.pass_obj
-def list_tests(context, id, sort, limit, where, verbose):
-    """list_tests(context, id, sort, limit, where, verbose)
-
-    List all tests attached to a job.
-
-    >>> dcictl job-list-test [OPTIONS]
-
-    :param string id: ID of the job [required]
-    :param string sort: Field to apply sort
-    :param integer limit: Max number of rows to return
-    :param string where: An optional filter criteria
-    :param boolean verbose: Display verbose output
-    """
-
-    result = job.list_tests(context, id=id, sort=sort, limit=limit,
-                            where=where)
-    utils.format_output(result, context.format, verbose=verbose)
-
-
 @cli.command("job-set-meta", help="Attach an meta to a job.")
 @click.argument("id", required=True)
 @click.argument("name", required=True)
