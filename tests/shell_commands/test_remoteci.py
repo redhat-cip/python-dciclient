@@ -166,23 +166,6 @@ def test_embed(dci_context):
     assert team_id == embed_team_id
 
 
-def test_test(runner, test_id):
-    team = runner.invoke(['team-create', '--name', 'osp'])['team']
-    remoteci = runner.invoke([
-        'remoteci-create', '--name', 'foo', '--team-id',
-        team['id'], '--active'])['remoteci']
-    runner.invoke(['remoteci-attach-test',
-                   remoteci['id'], '--test-id', test_id])
-    tests = runner.invoke(['remoteci-list-test',
-                           remoteci['id']])['tests']
-    assert len(tests) == 1
-    runner.invoke(['remoteci-unattach-test',
-                   remoteci['id'], '--test-id', test_id])
-    tests = runner.invoke(['remoteci-list-test',
-                           remoteci['id']])['tests']
-    assert len(tests) == 0
-
-
 def test_where_on_list(runner, team_id):
     runner.invoke(['remoteci-create', '--name', 'bar1', '--team-id',
                    team_id])
