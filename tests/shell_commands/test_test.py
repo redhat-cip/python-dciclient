@@ -16,8 +16,6 @@
 
 from __future__ import unicode_literals
 
-import dciclient.v1.api as api
-
 
 def test_prettytable_output(runner):
     team = runner.invoke_raw_parse(['team-create', '--name', 'osp'])
@@ -39,8 +37,6 @@ def test_list(runner):
     assert len(tests) == 2
     assert tests[0]['name'] == 'bar'
     assert tests[1]['name'] == 'foo'
-    output = runner.invoke_raw_parse(['test-list', '--team-id', team_id])
-    assert output['team_id'] == team_id
 
 
 def test_create(runner):
@@ -138,13 +134,3 @@ def test_show(runner):
     test = runner.invoke(['test-show', test['id']])['test']
 
     assert test['name'] == 'foo'
-
-
-def test_list_user(runner_test_user, dci_context_test_user, test_user_id,
-                   team_user_id):
-    tests = api.team.list_tests(dci_context_test_user,
-                                team_user_id).json()['tests']
-    assert len(tests) == 1
-
-    tests = runner_test_user.invoke(['test-list'])['tests']
-    assert len(tests) == 1

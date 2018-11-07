@@ -15,9 +15,6 @@
 # under the License.
 
 from dciclient.v1.api import job
-from dciclient.v1.api import remoteci
-from dciclient.v1.api import test
-from dciclient.v1.api import topic
 
 import pytest
 import requests
@@ -149,29 +146,6 @@ def test_unattach_issue(runner, job_id):
 def test_job_output(runner, job_id):
     result = runner.invoke_raw(['job-output', job_id])
     assert result.output.startswith('[pre-run]')
-
-
-def test_job_list(runner, dci_context, dci_context_remoteci,
-                  team_user_id, remoteci_id, topic_id,
-                  components_ids):
-
-    topic.attach_team(dci_context, topic_id, team_user_id)
-    kwargs = {'name': 'test_topic', 'team_id': team_user_id}
-    test_id = test.create(dci_context, **kwargs).json()['test']['id']
-    topic.add_test(dci_context, topic_id, test_id)
-    kwargs = {'name': 'test_remoteci', 'team_id': team_user_id}
-    test_id = test.create(dci_context, **kwargs).json()['test']['id']
-    remoteci.add_test(dci_context, remoteci_id, test_id)
-
-    job_scheduled = job.schedule(
-        dci_context_remoteci, topic_id,
-        components=components_ids).json()
-
-    job_id = job_scheduled['job']['id']
-    result = runner.invoke(['job-list-test', job_id])
-    assert len(result['tests']) == 2
-    assert result['tests'][0]['name'] == 'test_topic'
-    assert result['tests'][1]['name'] == 'test_remoteci'
 
 
 def test_metas(runner, job_id):
