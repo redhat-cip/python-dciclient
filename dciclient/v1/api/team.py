@@ -29,11 +29,6 @@ def list(context, **kwargs):
     return base.list(context, RESOURCE, **kwargs)
 
 
-def list_tests(context, id, **kwargs):
-    return base.list(context, RESOURCE, id=id,
-                     subresource='tests', **kwargs)
-
-
 def get(context, id, **kwargs):
     return base.get(context, RESOURCE, id=id, **kwargs)
 
