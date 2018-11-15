@@ -78,6 +78,7 @@ install -d %{buildroot}%{_bindir}
 %if 0%{?with_python3}
 %py3_install
 %endif
+exit 1
 
 %files -n python2-dciclient
 %doc README.md
