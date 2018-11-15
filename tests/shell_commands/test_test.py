@@ -17,78 +17,41 @@
 from __future__ import unicode_literals
 
 
-def test_prettytable_output(runner):
-    team = runner.invoke_raw_parse(['team-create', '--name', 'osp'])
-    assert team['name'] == 'osp'
-    assert team == runner.invoke_raw_parse([
-        'team-show', team['id']])
-
-
-def test_list(runner):
-    team = runner.invoke(['team-create', '--name', 'osp'])['team']
-    assert team['name'] == 'osp'
-
-    teams = runner.invoke(['team-list'])['teams']
-    team_id = teams[0]['id']
-
-    runner.invoke(['test-create', '--name', 'foo', '--team-id', team_id])
-    runner.invoke(['test-create', '--name', 'bar', '--team-id', team_id])
-    tests = runner.invoke(['test-list', '--team-id', team_id])['tests']
+def test_create_list(runner):
+    runner.invoke(['test-create', '--name', 'foo'])
+    runner.invoke(['test-create', '--name', 'bar'])
+    tests = runner.invoke(['test-list'])['tests']
     assert len(tests) == 2
     assert tests[0]['name'] == 'bar'
     assert tests[1]['name'] == 'foo'
 
 
-def test_create(runner):
-    team = runner.invoke(['team-create', '--name', 'osp'])['team']
-    assert team['name'] == 'osp'
-
-    test = runner.invoke([
-        'test-create', '--name', 'foo', '--team-id',
-        team['id']])['test']
-    assert test['name'] == 'foo'
-
-
 def test_create_inactive(runner):
-    team = runner.invoke(['team-create', '--name', 'osp'])['team']
-    assert team['name'] == 'osp'
-
     test = runner.invoke([
-        'test-create', '--name', 'foo', '--team-id',
-        team['id'], '--no-active'])['test']
+        'test-create', '--name', 'foo', '--no-active'])['test']
     assert test['state'] == 'inactive'
 
 
 def test_create_data(runner):
-    team = runner.invoke(['team-create', '--name', 'osp'])['team']
-    assert team['name'] == 'osp'
-
     test = runner.invoke([
         'test-create',
         '--name', 'foo',
-        '--team-id', team['id'],
         '--data', '{"Foo": 2}'])['test']
     assert test['name'] == 'foo'
 
 
 def test_create_bad_data(runner):
-    team = runner.invoke(['team-create', '--name', 'osp'])['team']
-    assert team['name'] == 'osp'
-
     r = runner.invoke_raw_parse([
         'test-create', 'foo',
-        '--team-id', team['id'],
         '--data', '{Foo: 2}'])
     # TODO(Gonéri): should instead ensure we print the fine message
     assert '"--data": this option expects a valid JSON' in r
 
 
 def test_update_active(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
     test = runner.invoke([
         'test-create',
         '--name', 'foo',
-        '--team-id', team['id'],
         '--data', '{"Foo": 2}'])['test']
 
     assert test['state'] == 'active'
@@ -113,23 +76,19 @@ def test_update_active(runner):
 
 
 def test_delete(runner):
-    team = runner.invoke(['team-create', '--name', 'osp'])['team']
-    assert team['name'] == 'osp'
+    test = runner.invoke(['test-create', '--name', 'foo'])['test']
+    tests = runner.invoke(['test-list'])['tests']
+    len_tests = len(tests)
 
-    test = runner.invoke(['test-create', '--name', 'foo', '--team-id',
-                          team['id']])['test']
+    runner.invoke(['test-delete', test['id']])
+    tests = runner.invoke(['test-list'])['tests']
+    len_tests2 = len(tests)
 
-    result = runner.invoke(['test-delete', test['id']])
-
-    assert result['message'] == 'Test deleted.'
+    assert len_tests2 == (len_tests - 1)
 
 
 def test_show(runner):
-    team = runner.invoke(['team-create', '--name', 'osp'])['team']
-    assert team['name'] == 'osp'
-
-    test = runner.invoke(['test-create', '--name', 'foo', '--team-id',
-                          team['id']])['test']
+    test = runner.invoke(['test-create', '--name', 'foo'])['test']
 
     test = runner.invoke(['test-show', test['id']])['test']
 
