@@ -16,7 +16,6 @@
 
 import dci
 import dci.app
-import dci.common.utils as dci_utils
 import dci.dci_config
 
 import dciclient.shell as shell
@@ -113,9 +112,20 @@ def db_clean(request, engine):
 
 @pytest.fixture(scope='session', autouse=True)
 def memoize_password_hash():
+    def memoize(func):
+        cache = {}
+
+        def helper(*args):
+            if args in cache:
+                return cache[args]
+            else:
+                value = func(*args)
+                cache[args] = value
+                return value
+        return helper
     pwd_context = passlib_apps.custom_app_context
-    pwd_context.verify = dci_utils.memoized(pwd_context.verify)
-    pwd_context.encrypt = dci_utils.memoized(pwd_context.encrypt)
+    pwd_context.verify = memoize(pwd_context.verify)
+    pwd_context.encrypt = memoize(pwd_context.encrypt)
 
 
 @pytest.fixture
