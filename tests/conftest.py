@@ -14,25 +14,21 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import dci
-import dci.app
-import dci.common.utils as dci_utils
-import dci.dci_config
-
-import dciclient.shell as shell
-import dciclient.v1.api as api
-import tests.shell_commands.utils as utils
-
 import pytest
 import sqlalchemy
 import sqlalchemy_utils.functions
-
-
 import click.testing
 import functools
 import json
 import os
 import passlib.apps as passlib_apps
+
+import dci
+import dci.app
+import dci.dci_config
+from dciclient import shell
+from dciclient.v1 import api
+from tests.shell_commands import utils
 
 
 class Mocked_store_engine(object):
@@ -113,9 +109,20 @@ def db_clean(request, engine):
 
 @pytest.fixture(scope='session', autouse=True)
 def memoize_password_hash():
+    def memoize(func):
+        cache = {}
+
+        def helper(*args):
+            if args in cache:
+                return cache[args]
+            else:
+                value = func(*args)
+                cache[args] = value
+                return value
+        return helper
     pwd_context = passlib_apps.custom_app_context
-    pwd_context.verify = dci_utils.memoized(pwd_context.verify)
-    pwd_context.encrypt = dci_utils.memoized(pwd_context.encrypt)
+    pwd_context.verify = memoize(pwd_context.verify)
+    pwd_context.encrypt = memoize(pwd_context.encrypt)
 
 
 @pytest.fixture
