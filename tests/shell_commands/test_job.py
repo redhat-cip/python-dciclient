@@ -148,19 +148,6 @@ def test_job_output(runner, job_id):
     assert result.output.startswith('[pre-run]')
 
 
-def test_metas(runner, job_id):
-    result = runner.invoke(['job-list-issue', job_id])['_meta']['count']
-    assert result == 0
-    meta = runner.invoke(['job-set-meta', job_id, 'foo', 'var'])['meta']
-    metas = runner.invoke(['job-list-meta', job_id])['metas']
-    assert len(metas) == 1
-    assert metas[0]['id'] == meta['id']
-    assert metas[0]['value'] == 'var'
-    runner.invoke(['job-delete-meta', job_id, meta['id']])
-    metas = runner.invoke(['job-list-meta', job_id])['metas']
-    assert len(metas) == 0
-
-
 def test_tags(runner, job_id):
     tags = runner.invoke(['job-list-tags', job_id])['tags']
     assert len(tags) == 0
