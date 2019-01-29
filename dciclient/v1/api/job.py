@@ -126,28 +126,6 @@ def list_tests(context, id, **kwargs):
     return result
 
 
-def list_metas(context, id, **kwargs):
-    return base.list(context, RESOURCE, id=id,
-                     subresource='metas', **kwargs)
-
-
-def set_meta(context, id, name, value):
-    uri = '%s/%s/%s/metas' % (context.dci_cs_api, RESOURCE, id)
-    data = {'name': name, 'value': value}
-    return context.session.post(uri, json=data)
-
-
-def get_metas(context, id, data):
-    uri = '%s/%s/%s/metas' % (context.dci_cs_api, RESOURCE, id)
-    return context.session.get(uri)
-
-
-def delete_meta(context, id, meta_id):
-    return base.delete(context, RESOURCE, id,
-                       subresource='metas',
-                       subresource_id=meta_id)
-
-
 def list_tags(context, id):
     return base.list(context, RESOURCE, id=id,
                      subresource='tags')
