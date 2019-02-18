@@ -22,6 +22,30 @@
       "revId": "898cb4346042a44469637830b6197184b4dcb3a8",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "993c0ee4_a061592d",
+        "filename": "tests/shell_commands/test_purge.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2019-02-18T22:03:53Z",
+      "side": 1,
+      "message": "hé mercéé",
+      "parentUuid": "cfd8e0f0_86413be0",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 17
+      },
+      "revId": "898cb4346042a44469637830b6197184b4dcb3a8",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
