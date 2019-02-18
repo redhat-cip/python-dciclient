@@ -50,9 +50,10 @@ def test_job_update(dci_context, job_id):
     assert r.json()['job']['update_previous_job_id'] == job_id
 
 
-def test_job_upgraded(dci_context, job_id, topic_id):
+def test_job_upgraded(dci_context, job_id, topic_id, product_id):
     old = topic.get(dci_context, id=topic_id).json()['topic']
-    new = topic.create(dci_context, 'bar_topic', ['type_1'])
+    new = topic.create(dci_context, 'bar_topic', ['type_1'],
+                       product_id=product_id)
     t = new.json()['topic']
     component.create(dci_context, 'bar_component', 'type_1', t['id'])
     topic.update(dci_context, id=topic_id, etag=old['etag'],

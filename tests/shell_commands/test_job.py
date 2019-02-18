@@ -37,9 +37,10 @@ def test_prettytable_output(runner, job_id):
 
 
 def test_list(runner, dci_context, dci_context_remoteci, team_user_id,
-              remoteci_id):
+              remoteci_id, product_id):
     topic = runner.invoke(['topic-create', '--name', 'osp',
-                           '--component_types', 'type_1'])['topic']
+                           '--component_types', 'type_1',
+                           '--product-id', product_id])['topic']
 
     runner.invoke(['topic-attach-team', topic['id'], '--team-id',
                    team_user_id])
