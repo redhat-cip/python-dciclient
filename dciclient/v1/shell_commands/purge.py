@@ -35,7 +35,7 @@ def purge(context, resource, force):
     """
 
     resources = ['components', 'topics', 'tests', 'teams', 'feeders',
-                 'remotecis', 'jobs', 'files', 'users', 'roles', 'products']
+                 'remotecis', 'jobs', 'files', 'users', 'products']
 
     l_resources = resources if resource is None else resource.split(',')
 

@@ -16,6 +16,7 @@
 
 import click
 
+from dciclient.v1.api import job
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
@@ -23,6 +24,7 @@ from dciclient.v1.api import file
 
 
 @cli.command("file-list", help="List all files.")
+@click.argument("job-id")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
 @click.option("--where", help="An optional filter criteria.",
@@ -30,19 +32,20 @@ from dciclient.v1.api import file
 @click.option("--long", "--verbose", "verbose",
               required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context, sort, limit, where, verbose):
+def list(context, job_id, sort, limit, where, verbose):
     """list(context, sort, limit, where, verbose)
 
     List all files.
 
-    >>> dcictl file-list [OPTIONS]
+    >>> dcictl file-list job-id [OPTIONS]
 
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
     :param string where: An optional filter criteria
     :param boolean verbose: Display verbose output
     """
-    result = file.list(context, sort=sort, limit=limit, where=where)
+    result = job.list_files(context, id=job_id, sort=sort, limit=limit,
+                            verbose=verbose, where=where)
     utils.format_output(result, context.format, verbose=verbose)
 
 
