@@ -94,6 +94,11 @@ def list_files(context, id, **kwargs):
                      subresource='files', **kwargs)
 
 
+def list_files_iter(context, id, **kwargs):
+    return base.iter(context, RESOURCE, id=id,
+                     subresource='files', **kwargs)
+
+
 def list_issues(context, id, **kwargs):
     return base.list(context, RESOURCE, id=id,
                      subresource='issues', **kwargs)

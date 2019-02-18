@@ -28,8 +28,9 @@ def test_prettytable_output(runner, topic_id):
         'component-show', component['id']])
 
 
-def test_list(runner):
-    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+def test_list(runner, product_id):
+    topic = runner.invoke(['topic-create', '--name', 'osp',
+                           '--product-id', product_id])['topic']
     teams = runner.invoke(['team-list'])['teams']
     team_id = teams[0]['id']
 
@@ -48,8 +49,9 @@ def test_list(runner):
     assert components[1]['name'] == 'foo'
 
 
-def test_create(runner):
-    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+def test_create(runner, product_id):
+    topic = runner.invoke(['topic-create', '--name', 'osp',
+                           '--product-id', product_id])['topic']
 
     component = runner.invoke(['component-create', '--name', 'foo',
                                '--type', 'foobar', '--topic-id',
@@ -57,8 +59,9 @@ def test_create(runner):
     assert component['name'] == 'foo'
 
 
-def test_create_inactive(runner):
-    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+def test_create_inactive(runner, product_id):
+    topic = runner.invoke(['topic-create', '--name', 'osp',
+                           '--product-id', product_id])['topic']
 
     component = runner.invoke(['component-create', '--name', 'foo',
                                '--type', 'foobar', '--topic-id',
@@ -66,8 +69,9 @@ def test_create_inactive(runner):
     assert component['state'] == 'inactive'
 
 
-def test_delete(runner):
-    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+def test_delete(runner, product_id):
+    topic = runner.invoke(['topic-create', '--name', 'osp',
+                           '--product-id', product_id])['topic']
     component = runner.invoke(['component-create', '--name', 'foo',
                                '--type', 'bar', '--topic-id',
                                topic['id']])['component']
@@ -77,8 +81,9 @@ def test_delete(runner):
     assert result['message'] == 'Component deleted.'
 
 
-def test_show(runner):
-    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+def test_show(runner, product_id):
+    topic = runner.invoke(['topic-create', '--name', 'osp',
+                           '--product-id', product_id])['topic']
     assert topic['name'] == 'osp'
 
     component = runner.invoke([
@@ -91,11 +96,12 @@ def test_show(runner):
     assert result['component']['name'] == 'foo'
 
 
-def test_file_support(runner, tmpdir):
+def test_file_support(runner, tmpdir, product_id):
     td = tmpdir
     p = td.join("hello.txt")
     p.write("content")
-    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+    topic = runner.invoke(['topic-create', '--name', 'osp',
+                           '--product-id', product_id])['topic']
 
     component = runner.invoke(['component-create', '--name', 'foo',
                                '--type', 'foobar', '--topic-id', topic['id'],
@@ -132,8 +138,9 @@ def test_file_support(runner, tmpdir):
     assert result['status_code'] == 404
 
 
-def test_update_active(runner):
-    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+def test_update_active(runner, product_id):
+    topic = runner.invoke(['topic-create', '--name', 'osp',
+                           '--product-id', product_id])['topic']
 
     component = runner.invoke([
         'component-create', '--name', 'foo',
@@ -153,8 +160,9 @@ def test_update_active(runner):
     assert result['component']['export_control'] is False
 
 
-def test_update_export_control(runner):
-    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+def test_update_export_control(runner, product_id):
+    topic = runner.invoke(['topic-create', '--name', 'osp',
+                           '--product-id', product_id])['topic']
 
     component = runner.invoke([
         'component-create', '--name', 'foo',
@@ -172,8 +180,9 @@ def test_update_export_control(runner):
     assert result['component']['state'] == 'active'
 
 
-def test_where_on_list(runner):
-    topic = runner.invoke(['topic-create', '--name', 'osp'])['topic']
+def test_where_on_list(runner, product_id):
+    topic = runner.invoke(['topic-create', '--name', 'osp',
+                           '--product-id', product_id])['topic']
     teams = runner.invoke(['team-list'])['teams']
     team_id = teams[0]['id']
 

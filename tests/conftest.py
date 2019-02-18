@@ -311,8 +311,9 @@ def product_id(dci_context, team_id):
 
 
 @pytest.fixture
-def topic_id(dci_context):
-    kwargs = {'name': 'foo_topic', 'component_types': ['type_1', 'type_2']}
+def topic_id(dci_context, product_id):
+    kwargs = {'name': 'foo_topic', 'component_types': ['type_1', 'type_2'],
+              'product_id': product_id}
     return api.topic.create(dci_context, **kwargs).json()['topic']['id']
 
 
@@ -421,7 +422,7 @@ def job(job_factory):
 
 @pytest.fixture
 def file_id(dci_context, job_id):
-    return api.file.list(dci_context).json()['files'][-1]['id']
+    return api.job.list_files(dci_context, id=job_id).json()['files'][-1]['id']
 
 
 @pytest.fixture
@@ -429,30 +430,6 @@ def jobstate_id(dci_context, job_id):
     kwargs = {'job_id': job_id, 'status': 'running', 'comment': 'some comment'}
     jobstate = api.jobstate.create(dci_context, **kwargs).json()
     return jobstate['jobstate']['id']
-
-
-@pytest.fixture
-def role_super_admin(dci_context):
-    return api.role.list(dci_context,
-                         where='label:SUPER_ADMIN').json()['roles'][0]
-
-
-@pytest.fixture
-def role_product_owner(dci_context):
-    return api.role.list(dci_context,
-                         where='label:PRODUCT_OWNER').json()['roles'][0]
-
-
-@pytest.fixture
-def role_admin(dci_context):
-    return api.role.list(dci_context,
-                         where='label:ADMIN').json()['roles'][0]
-
-
-@pytest.fixture
-def role_user(dci_context):
-    return api.role.list(dci_context,
-                         where='label:USER').json()['roles'][0]
 
 
 @pytest.fixture

@@ -28,6 +28,7 @@ def test_purge_success_authorized_admin(runner):
 
 def test_purge_fail_unauthorized_user(runner_user):
     result = runner_user.invoke(['purge'])
+    print(result)
     assert result['status_code'] == 401
 
 
@@ -36,9 +37,11 @@ def test_purge_fail_unauthorized_user_admin(runner_user_admin):
     assert result['status_code'] == 401
 
 
-def test_purge_noop(runner, remoteci_id):
-    runner.invoke(['topic-create', '--name', 'osp'])
-    runner.invoke(['topic-create', '--name', 'osp2'])
+def test_purge_noop(runner, remoteci_id, product_id):
+    runner.invoke(['topic-create', '--name', 'osp',
+                   '--product-id', product_id])
+    runner.invoke(['topic-create', '--name', 'osp2',
+                   '--product-id', product_id])
     topics = runner.invoke(['topic-list'])['topics']
     topic_id = topics[0]['id']
     assert len(topics) == 2

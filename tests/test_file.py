@@ -16,6 +16,7 @@
 
 
 import dciclient.v1.api.file as dci_file
+from dciclient.v1.api import job
 
 
 def test_iter(dci_context, job_id):
@@ -27,11 +28,11 @@ def test_iter(dci_context, job_id):
             job_id=job_id)
     cpt = 0
     seen_names = []
-    for f in dci_file.iter(dci_context):
+    for f in job.list_files_iter(dci_context, id=job_id):
         seen_names.append(f['name'])
         cpt += 1
     # job already comes with 2 files
-    all_files = len(dci_file.list(dci_context).json()['files'])
+    all_files = len(job.list_files(dci_context, id=job_id).json()['files'])
     assert all_files == 100 + 2
     assert cpt == 100 + 2
     assert len(set(seen_names) - set(f_names)) == 2
