@@ -34,36 +34,31 @@ def test_fail_create_user_no_email(runner, team_id):
             '--password', 'pass', '--team-id', team_id])
 
 
-def test_create_user(runner, test_user, team_user_id, role_user):
+def test_create_user(runner, test_user, team_user_id):
     assert test_user['name'] == 'foo'
     assert test_user['fullname'] == 'Foo Bar'
     assert test_user['email'] == 'foo@example.org'
     assert test_user['team_id'] == team_user_id
-    assert test_user['role_id'] == role_user['id']
 
 
-def test_create_admin(runner, team_id, role_admin):
+def test_create_admin(runner, team_id):
     user = runner.invoke(['user-create', '--name', 'foo', '--email',
                           'foo@example.org', '--password', 'pass',
-                          '--role-id', role_admin['id'], '--team-id',
-                          team_id])['user']
+                          '--team-id', team_id])['user']
     assert user['name'] == 'foo'
     assert user['fullname'] == 'foo'
     assert user['email'] == 'foo@example.org'
     assert user['team_id'] == team_id
-    assert user['role_id'] == role_admin['id']
 
 
-def test_create_super_admin(runner, team_id, role_super_admin):
+def test_create_super_admin(runner, team_id):
     user = runner.invoke(['user-create', '--name', 'foo', '--email',
                           'foo@example.org', '--password', 'pass',
-                          '--role-id', role_super_admin['id'], '--team-id',
-                          team_id])['user']
+                          '--team-id', team_id])['user']
     assert user['name'] == 'foo'
     assert user['fullname'] == 'foo'
     assert user['email'] == 'foo@example.org'
     assert user['team_id'] == team_id
-    assert user['role_id'] == role_super_admin['id']
 
 
 def test_create_inactive(runner, team_id):
@@ -82,19 +77,16 @@ def test_list(runner, team_id):
     assert new_users_cnt == users_cnt + 1
 
 
-def test_update(runner, test_user, role_admin, role_user):
-    assert test_user['role_id'] == role_user['id']
-
+def test_update(runner, test_user):
     runner.invoke(['user-update', test_user['id'],
                    '--etag', test_user['etag'], '--name', 'bar',
                    '--email', 'bar@example.org', '--fullname',
-                   'Barry White', '--role-id', role_admin['id']])
+                   'Barry White'])
     user = runner.invoke(['user-show', test_user['id']])['user']
 
     assert user['name'] == 'bar'
     assert user['fullname'] == 'Barry White'
     assert user['email'] == 'bar@example.org'
-    assert user['role_id'] == role_admin['id']
 
 
 def test_update_team_id(runner, test_user, team_user_id, team_id):

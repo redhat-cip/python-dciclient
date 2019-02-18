@@ -207,8 +207,9 @@ def output(context, id):
             color,
             js['status'],
             js['comment']))
-        f_l = dci_file.list(
+        f_l = job.list_files(
             context,
+            id=id,
             where='jobstate_id:' + js['id'],
             sort='created_at')
         for f in f_l.json()['files']:

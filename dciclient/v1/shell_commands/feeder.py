@@ -20,7 +20,6 @@ from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
 from dciclient.v1.api import feeder
-from dciclient.v1.api import identity
 
 
 @cli.command("feeder-list", help="List all feeders.")
@@ -49,7 +48,7 @@ def list(context, sort, limit, where, verbose):
 
 @cli.command("feeder-create", help="Create a feeder.")
 @click.option("--name", required=True)
-@click.option("--team-id", required=False)
+@click.option("--team-id", required=True)
 @click.option("--data", default='{}', callback=utils.validate_json)
 @click.option("--active/--no-active", default=True)
 @click.pass_obj
@@ -69,7 +68,7 @@ def create(context, name, team_id, data, active):
     """
 
     state = utils.active_string(active)
-    team_id = team_id or identity.my_team_id(context)
+    team_id = team_id
     result = feeder.create(context, name=name, team_id=team_id, data=data,
                            state=state)
     utils.format_output(result, context.format)

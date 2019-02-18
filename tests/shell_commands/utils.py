@@ -100,7 +100,7 @@ def generate_job(client, topic_id):
     return job
 
 
-def provision(db_conn):
+def provision2(db_conn):
     def db_insert(model_item, **kwargs):
         query = model_item.insert().values(**kwargs)
         return db_conn.execute(query).inserted_primary_key[0]
@@ -180,4 +180,136 @@ def provision(db_conn):
               password=product_owner_pw_hash,
               fullname='Product Owner',
               email='product_ownern@example.org',
+              team_id=team_product_id)
+
+
+def provision(db_conn):
+    def db_insert(model_item, return_pk=True, **kwargs):
+        query = model_item.insert().values(**kwargs)
+        if return_pk:
+            return db_conn.execute(query).inserted_primary_key[0]
+        else:
+            db_conn.execute(query)
+
+    # Create teams
+    team_admin_id = db_insert(models.TEAMS, name='admin')
+    team_product_id = db_insert(models.TEAMS, name='product',
+                                parent_id=team_admin_id)
+    team_user_id = db_insert(models.TEAMS, name='user',
+                             parent_id=team_product_id)
+
+    # Create the three mandatory roles
+    super_admin_role = {
+        'name': 'Super Admin',
+        'label': 'SUPER_ADMIN',
+        'description': 'Admin of the platform',
+    }
+
+    product_owner_role = {
+        'name': 'Product Owner',
+        'label': 'PRODUCT_OWNER',
+        'description': 'Product Owner',
+    }
+
+    user_role = {
+        'name': 'User',
+        'label': 'USER',
+        'description': 'Regular User',
+    }
+
+    remoteci_role = {
+        'name': 'RemoteCI',
+        'label': 'REMOTECI',
+        'description': 'A RemoteCI',
+    }
+
+    rh_employee_role = {
+        'name': 'Rh_employee',
+        'label': 'READ_ONLY_USER',
+        'description': 'RH employee with RO access'
+    }
+
+    feeder_role = {
+        'name': 'Feeder',
+        'label': 'FEEDER',
+        'description': 'A Feeder',
+    }
+
+    user_role_id = db_insert(models.ROLES, **user_role)
+    super_admin_role_id = db_insert(models.ROLES, **super_admin_role)
+    product_owner_role_id = db_insert(models.ROLES, **product_owner_role)
+    db_insert(models.ROLES, **rh_employee_role)
+    db_insert(models.ROLES, **remoteci_role)
+    db_insert(models.ROLES, **feeder_role)
+
+    # Create users
+    user_pw_hash = auth.hash_password('user')
+    u_id = db_insert(models.USERS,
+                     name='user',
+                     sso_username='user',
+                     role_id=user_role_id,
+                     password=user_pw_hash,
+                     fullname='User',
+                     email='user@example.org',
+                     team_id=team_user_id)
+
+    db_insert(models.JOIN_USERS_TEAMS_ROLES,
+              return_pk=False,
+              user_id=u_id,
+              team_id=team_user_id,
+              role='USER')
+
+    user_no_team_pw_hash = auth.hash_password('user_no_team')
+    u_id = db_insert(models.USERS,
+                     name='user_no_team',
+                     sso_username='user_no_team',
+                     role_id=user_role_id,
+                     password=user_no_team_pw_hash,
+                     fullname='User No Team',
+                     email='user_no_team@example.org',
+                     team_id=None)
+
+    db_insert(models.JOIN_USERS_TEAMS_ROLES,
+              return_pk=False,
+              user_id=u_id,
+              team_id=None,
+              role='USER')
+
+    product_owner_pw_hash = auth.hash_password('product_owner')
+    u_id = db_insert(models.USERS,
+                     name='product_owner',
+                     sso_username='product_owner',
+                     role_id=product_owner_role_id,
+                     password=product_owner_pw_hash,
+                     fullname='Product Owner',
+                     email='product_ownern@example.org',
+                     team_id=team_product_id)
+
+    db_insert(models.JOIN_USERS_TEAMS_ROLES,
+              return_pk=False,
+              user_id=u_id,
+              team_id=team_product_id,
+              role='PRODUCT_OWNER')
+
+    admin_pw_hash = auth.hash_password('admin')
+    u_id = db_insert(models.USERS,
+                     name='admin',
+                     sso_username='admin',
+                     role_id=super_admin_role_id,
+                     password=admin_pw_hash,
+                     fullname='Admin',
+                     email='admin@example.org',
+                     team_id=team_admin_id)
+
+    db_insert(models.JOIN_USERS_TEAMS_ROLES,
+              return_pk=False,
+              user_id=u_id,
+              team_id=team_admin_id,
+              role='SUPER_ADMIN')
+
+    # Create a product
+    db_insert(models.PRODUCTS,
+              name='Awesome product',
+              label='AWSM',
+              description='My Awesome product',
               team_id=team_product_id)

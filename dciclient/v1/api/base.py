@@ -51,6 +51,7 @@ def iter(context, resource, **kwargs):
 
     if subresource:
         uri = '%s/%s/%s/%s' % (context.dci_cs_api, resource, id, subresource)
+        resource = subresource
     else:
         uri = '%s/%s' % (context.dci_cs_api, resource)
 
