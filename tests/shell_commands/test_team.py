@@ -107,7 +107,7 @@ def test_update_active(runner):
     assert result['team']['state'] == 'active'
 
 
-def test_update_team_external(runner, runner_product_owner):
+def test_update_team_external(runner):
     team = runner.invoke(['team-create', '--name', 'foo'])['team']
     runner.invoke(['team-update', team['id'],
                    '--etag', team['etag'], '--no-external'])
