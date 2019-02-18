@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cfd8e0f0_86413be0",
+        "filename": "tests/shell_commands/test_purge.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 56
+      },
+      "writtenOn": "2019-02-18T19:34:01Z",
+      "side": 1,
+      "message": "to remove",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 17
+      },
+      "revId": "898cb4346042a44469637830b6197184b4dcb3a8",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
