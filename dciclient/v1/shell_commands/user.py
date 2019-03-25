@@ -53,11 +53,10 @@ def list(context, sort, limit, where, verbose):
 @click.option("--email", required=True)
 @click.option("--fullname")
 @click.option("--active/--no-active", default=True)
-@click.option("--role-id")
 @click.option("--team-id")
 @click.pass_obj
-def create(context, name, password, role_id, team_id, active, email, fullname):
-    """create(context, name, password, role_id, team_id, active, email, fullname)
+def create(context, name, password, team_id, active, email, fullname):
+    """create(context, name, password, team_id, active, email, fullname)
 
     Create a user.
 
@@ -67,15 +66,13 @@ def create(context, name, password, role_id, team_id, active, email, fullname):
     :param string password: Password for the user [required]
     :param string email: Email of the user [required]
     :param string fullname: Full name of the user [optional]
-    :param string role_id: ID of the role to attach this user to [optional]
     :param string team_id: ID of the team to attach this user to [optional]
     :param boolean active: Set the user in the (in)active state
     """
     team_id = team_id or identity.my_team_id(context)
     fullname = fullname or name
     result = user.create(context, name=name, password=password,
-                         role_id=role_id, team_id=team_id,
-                         state=utils.active_string(active),
+                         team_id=team_id, state=utils.active_string(active),
                          email=email, fullname=fullname)
     utils.format_output(result, context.format)
 
@@ -87,13 +84,13 @@ def create(context, name, password, role_id, team_id, active, email, fullname):
 @click.option("--password")
 @click.option("--email")
 @click.option("--fullname")
-@click.option("--role-id")
 @click.option("--team-id")
 @click.option("--active/--no-active", default=None)
 @click.pass_obj
-def update(context, id, etag, name, password, email, fullname, role_id,
+def update(context, id, etag, name, password, email, fullname,
            team_id, active):
-    """update(context, id, etag, name, password, role_id, active, email, fullname)
+    """update(context, id, etag, name, password, email, fullname, team_id,
+              active)
 
     Update a user.
 
@@ -105,13 +102,12 @@ def update(context, id, etag, name, password, email, fullname, role_id,
     :param string password: Password of the user
     :param string email: Email of the user
     :param string fullname: Full name of the user
-    :param string role_id: ID of the role to attach this user to [optional]
     :param boolean active: Set the user in the active state
     """
 
     result = user.update(context, id=id, etag=etag, name=name,
-                         password=password, role_id=role_id,
-                         team_id=team_id, state=utils.active_string(active),
+                         password=password, team_id=team_id,
+                         state=utils.active_string(active),
                          email=email, fullname=fullname)
 
     utils.format_output(result, context.format)

@@ -20,10 +20,9 @@ from dciclient.v1.api import base
 RESOURCE = 'users'
 
 
-def create(context, name, password, team_id, email, fullname, role_id=None,
-           state='active'):
+def create(context, name, password, team_id, email, fullname, state='active'):
     return base.create(context, RESOURCE, name=name, password=password,
-                       role_id=role_id, team_id=team_id, state=state,
+                       team_id=team_id, state=state,
                        email=email, fullname=fullname)
 
 
@@ -40,10 +39,10 @@ def get_current_user(context):
     return context.session.get(uri)
 
 
-def update(context, id, etag, name=None, password=None, role_id=None,
-           team_id=None, state=None, email=None, fullname=None):
+def update(context, id, etag, name=None, password=None, team_id=None,
+           state=None, email=None, fullname=None):
     return base.update(context, RESOURCE, id=id, etag=etag, name=name,
-                       password=password, role_id=role_id, team_id=team_id,
+                       password=password, team_id=team_id,
                        state=state, email=email, fullname=fullname)
 
 
