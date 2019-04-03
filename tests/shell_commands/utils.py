@@ -100,89 +100,6 @@ def generate_job(client, topic_id):
     return job
 
 
-def provision2(db_conn):
-    def db_insert(model_item, **kwargs):
-        query = model_item.insert().values(**kwargs)
-        return db_conn.execute(query).inserted_primary_key[0]
-
-    user_pw_hash = auth.hash_password('user')
-    user_admin_pw_hash = auth.hash_password('user_admin')
-    product_owner_pw_hash = auth.hash_password('product_owner')
-    admin_pw_hash = auth.hash_password('admin')
-
-    # Create teams
-    team_admin_id = db_insert(models.TEAMS, name='admin')
-    team_product_id = db_insert(models.TEAMS, name='product')
-    team_user_id = db_insert(models.TEAMS, name='user',
-                             parent_id=team_product_id)
-
-    # Create the four mandatory roles
-    super_admin_role = {
-        'name': 'Super Admin',
-        'label': 'SUPER_ADMIN',
-        'description': 'Admin of the platform',
-    }
-
-    product_owner_role = {
-        'name': 'Product Owner',
-        'label': 'PRODUCT_OWNER',
-        'description': 'Product Owner',
-    }
-
-    admin_role = {
-        'name': 'Admin',
-        'label': 'ADMIN',
-        'description': 'Admin of a team',
-    }
-
-    user_role = {
-        'name': 'User',
-        'label': 'USER',
-        'description': 'Regular User',
-    }
-
-    remoteci_role = {
-        'name': 'RemoteCI',
-        'label': 'REMOTECI',
-        'description': 'A RemoteCI',
-    }
-
-    feeder_role = {
-        'name': 'Feeder',
-        'label': 'FEEDER',
-        'description': 'A Feeder',
-    }
-
-    super_admin_role_id = db_insert(models.ROLES, **super_admin_role)
-    admin_role_id = db_insert(models.ROLES, **admin_role)
-    user_role_id = db_insert(models.ROLES, **user_role)
-    product_owner_role_id = db_insert(models.ROLES, **product_owner_role)
-    db_insert(models.ROLES, **remoteci_role)
-    db_insert(models.ROLES, **feeder_role)
-
-    # Create users
-    db_insert(models.USERS, name='user', role_id=user_role_id,
-              password=user_pw_hash, team_id=team_user_id,
-              fullname='User', email='user@example.org')
-
-    db_insert(models.USERS, name='user_admin', role_id=admin_role_id,
-              password=user_admin_pw_hash, team_id=team_user_id,
-              fullname='User Admin', email='user_admin@example.org')
-
-    db_insert(models.USERS, name='admin', role_id=super_admin_role_id,
-              password=admin_pw_hash, team_id=team_admin_id,
-              fullname='Admin', email='admin@example.org')
-
-    db_insert(models.USERS,
-              name='product_owner',
-              sso_username='product_owner',
-              role_id=product_owner_role_id,
-              password=product_owner_pw_hash,
-              fullname='Product Owner',
-              email='product_ownern@example.org',
-              team_id=team_product_id)
-
-
 def provision(db_conn):
     def db_insert(model_item, return_pk=True, **kwargs):
         query = model_item.insert().values(**kwargs)
@@ -198,56 +115,11 @@ def provision(db_conn):
     team_user_id = db_insert(models.TEAMS, name='user',
                              parent_id=team_product_id)
 
-    # Create the three mandatory roles
-    super_admin_role = {
-        'name': 'Super Admin',
-        'label': 'SUPER_ADMIN',
-        'description': 'Admin of the platform',
-    }
-
-    product_owner_role = {
-        'name': 'Product Owner',
-        'label': 'PRODUCT_OWNER',
-        'description': 'Product Owner',
-    }
-
-    user_role = {
-        'name': 'User',
-        'label': 'USER',
-        'description': 'Regular User',
-    }
-
-    remoteci_role = {
-        'name': 'RemoteCI',
-        'label': 'REMOTECI',
-        'description': 'A RemoteCI',
-    }
-
-    rh_employee_role = {
-        'name': 'Rh_employee',
-        'label': 'READ_ONLY_USER',
-        'description': 'RH employee with RO access'
-    }
-
-    feeder_role = {
-        'name': 'Feeder',
-        'label': 'FEEDER',
-        'description': 'A Feeder',
-    }
-
-    user_role_id = db_insert(models.ROLES, **user_role)
-    super_admin_role_id = db_insert(models.ROLES, **super_admin_role)
-    product_owner_role_id = db_insert(models.ROLES, **product_owner_role)
-    db_insert(models.ROLES, **rh_employee_role)
-    db_insert(models.ROLES, **remoteci_role)
-    db_insert(models.ROLES, **feeder_role)
-
     # Create users
     user_pw_hash = auth.hash_password('user')
     u_id = db_insert(models.USERS,
                      name='user',
                      sso_username='user',
-                     role_id=user_role_id,
                      password=user_pw_hash,
                      fullname='User',
                      email='user@example.org',
@@ -263,7 +135,6 @@ def provision(db_conn):
     u_id = db_insert(models.USERS,
                      name='user_no_team',
                      sso_username='user_no_team',
-                     role_id=user_role_id,
                      password=user_no_team_pw_hash,
                      fullname='User No Team',
                      email='user_no_team@example.org',
@@ -279,7 +150,6 @@ def provision(db_conn):
     u_id = db_insert(models.USERS,
                      name='product_owner',
                      sso_username='product_owner',
-                     role_id=product_owner_role_id,
                      password=product_owner_pw_hash,
                      fullname='Product Owner',
                      email='product_ownern@example.org',
@@ -295,7 +165,6 @@ def provision(db_conn):
     u_id = db_insert(models.USERS,
                      name='admin',
                      sso_username='admin',
-                     role_id=super_admin_role_id,
                      password=admin_pw_hash,
                      fullname='Admin',
                      email='admin@example.org',
