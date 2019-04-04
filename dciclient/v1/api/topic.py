@@ -88,3 +88,8 @@ def get_jobs_from_components(context, id, component_id, **kwargs):
     uri = '%s/%s/%s/components/%s/jobs' % \
           (context.dci_cs_api, RESOURCE, id, component_id)
     return context.session.get(uri, **kwargs)
+
+
+def get_components_from_schedule(context, id):
+    uri = '%s/%s/%s/schedule' % (context.dci_cs_api, RESOURCE, id)
+    return context.session.get(uri)
