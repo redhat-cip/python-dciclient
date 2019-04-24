@@ -118,7 +118,7 @@ class DciSignatureAuth(AuthBase):
 
     def get_payload(self, r):
         try:
-            if isinstance(r.body, compat.basestring):
+            if isinstance(r.body, compat.bytes):
                 body = r.body.decode("utf-8")
             else:
                 body = r.body
