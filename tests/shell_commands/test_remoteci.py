@@ -175,27 +175,6 @@ def test_where_on_list(runner, team_id):
                           'name:bar1'])["_meta"]["count"] == 1
 
 
-def test_rconfiguration(runner, remoteci_id, topic_id):
-    rconf_list = runner.invoke(['remoteci-list-rconfigurations', remoteci_id])
-    assert len(rconf_list['rconfigurations']) == 0
-
-    runner.invoke(['remoteci-attach-rconfiguration', remoteci_id,
-                   '--name', 'rconf1',
-                   '--topic_id', topic_id,
-                   '--component_types', '["t1", "t2"]',
-                   '--data', '{"k1": "v1"}'])
-
-    rconf_list = runner.invoke(['remoteci-list-rconfigurations', remoteci_id])
-    assert len(rconf_list['rconfigurations']) == 1
-
-    rconf_id = rconf_list['rconfigurations'][0]['id']
-    runner.invoke(['remoteci-unattach-rconfiguration', remoteci_id,
-                   '--rconfiguration-id', rconf_id])
-
-    rconf_list = runner.invoke(['remoteci-list-rconfigurations', remoteci_id])
-    assert len(rconf_list['rconfigurations']) == 0
-
-
 def test_refresh_remoteci_keys(runner, remoteci_id):
     with mock.patch('requests.sessions.Session.put') as post_mock:
         post_mock.return_value = '{"key": "XXX", "cert": "XXX" }'
