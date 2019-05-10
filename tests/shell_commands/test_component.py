@@ -88,7 +88,7 @@ def test_show(runner, product_id):
 
     component = runner.invoke([
         'component-create', '--name', 'foo',
-        '--type', 'bar', '--export_control',
+        '--type', 'bar',
         '--topic-id', topic['id']])['component']
 
     result = runner.invoke(['component-show', component['id']])
@@ -104,8 +104,8 @@ def test_file_support(runner, tmpdir, product_id):
                            '--product-id', product_id])['topic']
 
     component = runner.invoke(['component-create', '--name', 'foo',
-                               '--type', 'foobar', '--topic-id', topic['id'],
-                               '--export_control'])['component']
+                               '--type', 'foobar',
+                               '--topic-id', topic['id']])['component']
 
     # upload
     new_f = runner.invoke(['component-file-upload', component['id'],
@@ -152,31 +152,9 @@ def test_update_active(runner, product_id):
     result = runner.invoke(['component-update', component['id'],
                             '--no-active'])
     assert result['component']['state'] == 'inactive'
-    assert result['component']['export_control'] is False
 
     result = runner.invoke(['component-update', component['id'],
                             '--active'])
-    assert result['component']['state'] == 'active'
-    assert result['component']['export_control'] is False
-
-
-def test_update_export_control(runner, product_id):
-    topic = runner.invoke(['topic-create', '--name', 'osp',
-                           '--product-id', product_id])['topic']
-
-    component = runner.invoke([
-        'component-create', '--name', 'foo',
-        '--type', 'bar', '--topic-id',
-        topic['id']])['component']
-
-    result = runner.invoke(['component-update', component['id'],
-                            '--export-control'])
-    assert result['component']['export_control'] is True
-    assert result['component']['state'] == 'active'
-
-    result = runner.invoke(['component-update', component['id'],
-                            '--no-export-control'])
-    assert result['component']['export_control'] is False
     assert result['component']['state'] == 'active'
 
 

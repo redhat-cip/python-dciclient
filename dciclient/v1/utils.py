@@ -95,7 +95,7 @@ def print_prettytable(data, headers=None, skip_columns=[]):
 
 
 def sanitize_kwargs(**kwargs):
-    boolean_fields = ['active', 'export_control']
+    boolean_fields = ['active']
 
     for k in list(kwargs.keys()):
         if kwargs[k] is None:

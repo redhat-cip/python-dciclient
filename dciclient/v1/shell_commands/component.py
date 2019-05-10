@@ -61,13 +61,11 @@ def list(context, topic_id, sort, limit, where, verbose):
 @click.option("--message", help='Component message')
 @click.option("--url", help='URL to look for the component')
 @click.option("--topic-id", required=True, help='Topic ID')
-@click.option("--export_control/--no-export_control", default='true',
-              help='has the export_control been done')
 @click.option("--active/--no-active", default=True)
 @click.pass_obj
 def create(context, name, type, canonical_project_name, data,
-           title, message, url, topic_id, export_control, active):
-    """create(context, name, type, canonical_project_name, data, title, message, url, topic_id, export_control, active)  # noqa
+           title, message, url, topic_id, active):
+    """create(context, name, type, canonical_project_name, data, title, message, url, topic_id, active)  # noqa
 
     Create a component.
 
@@ -81,7 +79,6 @@ def create(context, name, type, canonical_project_name, data,
     :param string title: Title of the component
     :param string message: Message for the component
     :param string url: URL resource to monitor
-    :param boolean export_control: Set the component visible for users
     :param boolean active: Set the component in the (in)active state
     """
 
@@ -91,7 +88,7 @@ def create(context, name, type, canonical_project_name, data,
         canonical_project_name=canonical_project_name,
         data=data,
         title=title, message=message, url=url,
-        topic_id=topic_id, export_control=export_control,
+        topic_id=topic_id,
         state=state
     )
     utils.format_output(result, context.format)
@@ -233,18 +230,16 @@ def file_delete(context, id, file_id):
 
 @cli.command("component-update", help="Update a component.")
 @click.argument("id")
-@click.option("--export-control/--no-export-control", default=None)
 @click.option("--active/--no-active", default=None)
 @click.pass_obj
-def update(context, id, export_control, active):
-    """update(context, id, export_control, active)
+def update(context, id, active):
+    """update(context, id, active)
 
     Update a component
 
     >>> dcictl component-update [OPTIONS]
 
     :param string id: ID of the component [required]
-    :param boolean export-control: Set the component visible for users
     :param boolean active: Set the component in the active state
     """
 
@@ -253,7 +248,6 @@ def update(context, id, export_control, active):
     etag = component_info.json()['component']['etag']
 
     result = component.update(context, id=id, etag=etag,
-                              export_control=export_control,
                               state=utils.active_string(active))
 
     utils.format_output(result, context.format)
