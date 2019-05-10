@@ -74,7 +74,7 @@ def list(context, job_id):
 @click.option("--data", default=None, callback=utils.validate_json)
 @click.pass_obj
 def update(context, id, job_id, name, type, url, data):
-    """update(context, id, export_control, active)
+    """update(context, id, job_id, name, type, url, data)
 
     Update an analytic
 
