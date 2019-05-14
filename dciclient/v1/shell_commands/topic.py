@@ -26,13 +26,14 @@ import click
 @cli.command("topic-list", help="List all topics.")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--offset", default=0)
 @click.option("--where", help="An optional filter criteria.",
               required=False)
 @click.option("--long", "--verbose", "verbose",
               required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context, sort, limit, where, verbose):
-    """list(context, sort, limit. where. verbose)
+def list(context, sort, limit, offset, where, verbose):
+    """list(context, sort, limit, offset, where, verbose)
 
     List all topics.
 
@@ -40,10 +41,17 @@ def list(context, sort, limit, where, verbose):
 
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
+    :param integer offset: Offset associated with the limit
     :param string where: An optional filter criteria
     :param boolean verbose: Display verbose output
     """
-    topics = topic.list(context, sort=sort, limit=limit, where=where)
+    topics = topic.list(
+        context,
+        sort=sort,
+        limit=limit,
+        offset=offset,
+        where=where
+    )
     utils.format_output(topics, context.format, verbose=verbose)
 
 
@@ -199,13 +207,14 @@ def unattach_team(context, id, team_id):
 @click.argument("id")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--offset", default=0)
 @click.option("--where", help="An optional filter criteria.",
               required=False)
 @click.option("--long", "--verbose", "verbose",
               required=False, default=False, is_flag=True)
 @click.pass_obj
-def list_attached_team(context, id, sort, limit, where, verbose):
-    """list_attached_team(context, id, sort, limit. where. verbose)
+def list_attached_team(context, id, sort, limit, offset, where, verbose):
+    """list_attached_team(context, id, sort, limit, offset, where, verbose)
 
     List teams attached to a topic.
 
@@ -214,9 +223,16 @@ def list_attached_team(context, id, sort, limit, where, verbose):
     :param string id: ID of the topic to list teams for [required]
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
+    :param integer offset: Offset associated with the limit
     :param string where: An optional filter criteria
     :param boolean verbose: Display verbose output
     """
-    result = topic.list_teams(context, id=id, sort=sort, limit=limit,
-                              where=where)
+    result = topic.list_teams(
+        context,
+        id=id,
+        sort=sort,
+        limit=limit,
+        offset=offset,
+        where=where
+    )
     utils.format_output(result, context.format, verbose=verbose)

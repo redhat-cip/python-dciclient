@@ -27,13 +27,14 @@ from dciclient.v1.api import job
 @click.option("--sort", default="-created_at")
 @click.option("--limit", help="Number of jobs to show up.",
               required=False, default=10)
+@click.option("--offset", default=0)
 @click.option("--where", help="An optional filter criteria.",
               required=False)
 @click.option("--long", "--verbose", "verbose",
               required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context, sort, limit, where, verbose):
-    """list(context, sort, limit, where, verbose)
+def list(context, sort, limit, offset, where, verbose):
+    """list(context, sort, limit, offset, where, verbose)
 
     List all jobs.
 
@@ -41,12 +42,18 @@ def list(context, sort, limit, where, verbose):
 
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
+    :param integer offset: Offset associated with the limit
     :param string where: An optional filter criteria
     :param boolean verbose: Display verbose output
     """
     result = job.list(
-        context, sort=sort, limit=limit, where=where,
-        embed='topic,remoteci,team')
+        context,
+        sort=sort,
+        limit=limit,
+        offset=offset,
+        where=where,
+        embed='topic,remoteci,team'
+    )
     headers = ['id', 'status', 'topic/name', 'remoteci/name',
                'team/name', 'etag', 'created_at', 'updated_at']
 
@@ -94,9 +101,10 @@ def delete(context, id, etag):
 @click.argument("id")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--offset", default=0)
 @click.pass_obj
-def list_results(context, id, sort, limit):
-    """list_result(context, id)
+def list_results(context, id, sort, limit, offset):
+    """list_result(context, id, sort, limit, offset)
 
     List all job results.
 
@@ -105,11 +113,18 @@ def list_results(context, id, sort, limit):
     :param string id: ID of the job to consult result for [required]
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
+    :param integer offset: Offset associated with the limit
     """
 
     headers = ['filename', 'name', 'total', 'success', 'failures', 'errors',
                'skips', 'time']
-    result = job.list_results(context, id=id, sort=sort, limit=limit)
+    result = job.list_results(
+        context,
+        id=id,
+        sort=sort,
+        limit=limit,
+        offset=offset
+    )
     utils.format_output(result, context.format, headers)
 
 
@@ -158,11 +173,12 @@ def unattach_issue(context, id, issue_id):
 @click.argument("id")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--offset", default=0)
 @click.option("--where", help="An optional filter criteria.",
               required=False)
 @click.pass_obj
-def list_issues(context, id, sort, limit, where):
-    """list_issues(context, id)
+def list_issues(context, id, sort, limit, offset, where):
+    """list_issues(context, id, sort, limit, offset, where)
 
     List all job attached issues.
 
@@ -171,11 +187,18 @@ def list_issues(context, id, sort, limit, where):
     :param string id: ID of the job to retrieve issues from [required]
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
+    :param integer offset: Offset associated with the limit
     :param string where: An optional filter criteria
     """
 
-    result = job.list_issues(context, id=id, sort=sort, limit=limit,
-                             where=where)
+    result = job.list_issues(
+        context,
+        id=id,
+        sort=sort,
+        limit=limit,
+        offset=offset,
+        where=where
+    )
     headers = ['id', 'status', 'product', 'component', 'title', 'url']
     utils.format_output(result, context.format, headers)
 
@@ -221,13 +244,14 @@ def output(context, id):
 @click.option("--sort", default="-created_at")
 @click.option("--limit", help="Number of jobs to show up.",
               required=False, default=10)
+@click.option("--offset", default=0)
 @click.option("--where", help="An optional filter criteria.",
               required=False)
 @click.option("--long", "--verbose", "verbose",
               required=False, default=False, is_flag=True)
 @click.pass_obj
-def list_tests(context, id, sort, limit, where, verbose):
-    """list_tests(context, id, sort, limit, where, verbose)
+def list_tests(context, id, sort, limit, offset, where, verbose):
+    """list_tests(context, id, sort, limit, offset, where, verbose)
 
     List all tests attached to a job.
 
@@ -236,12 +260,19 @@ def list_tests(context, id, sort, limit, where, verbose):
     :param string id: ID of the job [required]
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
+    :param integer offset: Offset associated with the limit
     :param string where: An optional filter criteria
     :param boolean verbose: Display verbose output
     """
 
-    result = job.list_tests(context, id=id, sort=sort, limit=limit,
-                            where=where)
+    result = job.list_tests(
+        context,
+        id=id,
+        sort=sort,
+        limit=limit,
+        offset=offset,
+        where=where
+    )
     utils.format_output(result, context.format, verbose=verbose)
 
 
@@ -378,11 +409,12 @@ def file_show(context, id, file_id):
               required=False, default=False, is_flag=True)
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--offset", default=0)
 @click.option("--where", help="An optional filter criteria.",
               required=False)
 @click.pass_obj
-def file_list(context, id, sort, limit, verbose, where):
-    """file_list(context, id, path)
+def file_list(context, id, sort, limit, offset, verbose, where):
+    """file_list(context, id, sort, limit, offset, verbose, where)
 
     List job files
 
@@ -391,9 +423,17 @@ def file_list(context, id, sort, limit, verbose, where):
     :param string id: ID of the component to list files [required]
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
+    :param integer offset: Offset associated with the limit
     """
-    result = job.list_files(context, id=id, sort=sort, limit=limit,
-                            verbose=verbose, where=where)
+    result = job.list_files(
+        context,
+        id=id,
+        sort=sort,
+        limit=limit,
+        offset=offset,
+        verbose=verbose,
+        where=where
+    )
     utils.format_output(result, context.format)
 
 

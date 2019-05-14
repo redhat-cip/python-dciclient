@@ -27,13 +27,14 @@ from dciclient.v1.api import file
 @click.argument("job-id")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--offset", default=0)
 @click.option("--where", help="An optional filter criteria.",
               required=False)
 @click.option("--long", "--verbose", "verbose",
               required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context, job_id, sort, limit, where, verbose):
-    """list(context, sort, limit, where, verbose)
+def list(context, job_id, sort, limit, offset, where, verbose):
+    """list(context, job_id, sort, limit, offset, where, verbose)
 
     List all files.
 
@@ -41,11 +42,19 @@ def list(context, job_id, sort, limit, where, verbose):
 
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
+    :param integer offset: Offset associated with the limit
     :param string where: An optional filter criteria
     :param boolean verbose: Display verbose output
     """
-    result = job.list_files(context, id=job_id, sort=sort, limit=limit,
-                            verbose=verbose, where=where)
+    result = job.list_files(
+        context,
+        id=job_id,
+        sort=sort,
+        limit=limit,
+        offset=offset,
+        verbose=verbose,
+        where=where
+    )
     utils.format_output(result, context.format, verbose=verbose)
 
 

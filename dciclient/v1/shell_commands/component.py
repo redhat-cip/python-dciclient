@@ -27,13 +27,14 @@ from dciclient.v1.api import topic
 @click.option("--topic-id", required=True)
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--offset", default=0)
 @click.option("--where", help="An optional filter criteria.",
               required=False)
 @click.option("--long", "--verbose", "verbose",
               required=False, default=False, is_flag=True)
 @click.pass_obj
-def list(context, topic_id, sort, limit, where, verbose):
-    """list(context, topic_id, sort, limit, where, verbose)
+def list(context, topic_id, sort, limit, offset, where, verbose):
+    """list(context, topic_id, sort, limit, offset, where, verbose)
 
     List all components.
 
@@ -43,11 +44,18 @@ def list(context, topic_id, sort, limit, where, verbose):
                             [required]
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
+    :param integer offset: Offset associated with the limit
     :param string where: An optional filter criteria
     :param boolean verbose: Display verbose output
     """
-    components = topic.list_components(context, id=topic_id,
-                                       sort=sort, limit=limit, where=where)
+    components = topic.list_components(
+        context,
+        id=topic_id,
+        sort=sort,
+        limit=limit,
+        offset=offset,
+        where=where
+    )
     utils.format_output(components, context.format, verbose=verbose)
 
 
@@ -188,13 +196,14 @@ def file_download(context, id, file_id, target):
 @click.argument("id")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--offset", default=0)
 @click.option("--where", help="An optional filter criteria.",
               required=False)
 @click.option("--long", "--verbose", "verbose",
               required=False, default=False, is_flag=True)
 @click.pass_obj
-def file_list(context, id, sort, limit, where, verbose):
-    """file_list(context, id, path)
+def file_list(context, id, sort, limit, offset, where, verbose):
+    """file_list(context, id, sort, limit, offset, where, verbose)
 
     List component files
 
@@ -203,11 +212,18 @@ def file_list(context, id, sort, limit, where, verbose):
     :param string id: ID of the component to list files [required]
     :param string sort: Field to apply sort
     :param integer limit: Max number of rows to return
+    :param integer offset: Offset associated with the limit
     :param string where: An optional filter criteria
     :param boolean verbose: Display verbose output
     """
-    result = component.file_list(context, id=id, sort=sort, limit=limit,
-                                 where=where)
+    result = component.file_list(
+        context,
+        id=id,
+        sort=sort,
+        limit=limit,
+        offset=offset,
+        where=where
+    )
     utils.format_output(result, context.format, verbose=verbose)
 
 
@@ -303,9 +319,10 @@ def unattach_issue(context, id, issue_id):
 @click.argument("id")
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
+@click.option("--offset", default=0)
 @click.pass_obj
-def list_issues(context, id, sort, limit):
-    """list_issues(context, id)
+def list_issues(context, id, sort, limit, offset):
+    """list_issues(context, id, sort, limit, offset)
 
     List all component attached issues.
 
@@ -314,6 +331,12 @@ def list_issues(context, id, sort, limit):
     :param string id: ID of the component to retrieve issues from [required]
     """
 
-    result = component.list_issues(context, id=id, sort=sort, limit=limit)
+    result = component.list_issues(
+        context,
+        id=id,
+        sort=sort,
+        limit=limit,
+        offset=offset
+    )
     headers = ['id', 'status', 'product', 'component', 'title', 'url']
     utils.format_output(result, context.format, headers)
