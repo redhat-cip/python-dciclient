@@ -431,7 +431,6 @@ def file_list(context, id, sort, limit, offset, verbose, where):
         sort=sort,
         limit=limit,
         offset=offset,
-        verbose=verbose,
         where=where
     )
     utils.format_output(result, context.format)

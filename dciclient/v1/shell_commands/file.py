@@ -52,7 +52,6 @@ def list(context, job_id, sort, limit, offset, where, verbose):
         sort=sort,
         limit=limit,
         offset=offset,
-        verbose=verbose,
         where=where
     )
     utils.format_output(result, context.format, verbose=verbose)
