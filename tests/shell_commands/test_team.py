@@ -27,12 +27,12 @@ def test_prettytable_output(runner):
 
 
 def test_list(runner):
+    teams = runner.invoke(['team-list'])['teams']
+    current_nb_teams = len(teams)
     runner.invoke(['team-create', '--name', 'foo'])
     runner.invoke(['team-create', '--name', 'bar'])
     teams = runner.invoke(['team-list'])['teams']
-    # NOTE (spredzy): We put 4 because of the 2 creates plus
-    # admin and user provisionned during server test
-    assert len(teams) == 5
+    assert (current_nb_teams + 2) == len(teams)
 
 
 def test_create(runner, team_admin_id):
