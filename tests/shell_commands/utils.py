@@ -110,6 +110,7 @@ def provision(db_conn):
 
     # Create teams
     team_admin_id = db_insert(models.TEAMS, name='admin')
+    db_insert(models.TEAMS, name='Red Hat')
     team_product_id = db_insert(models.TEAMS, name='product',
                                 parent_id=team_admin_id)
     team_user_id = db_insert(models.TEAMS, name='user',
