@@ -111,6 +111,7 @@ def provision(db_conn):
     # Create teams
     team_admin_id = db_insert(models.TEAMS, name='admin')
     db_insert(models.TEAMS, name='internal')
+    db_insert(models.TEAMS, name='epm')
     team_product_id = db_insert(models.TEAMS, name='product',
                                 parent_id=team_admin_id)
     team_user_id = db_insert(models.TEAMS, name='user',
