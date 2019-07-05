@@ -127,7 +127,7 @@ def provision(db_conn):
                      email='user@example.org',
                      team_id=team_user_id)
 
-    db_insert(models.JOIN_USERS_TEAMS_ROLES,
+    db_insert(models.JOIN_USERS_TEAMS,
               return_pk=False,
               user_id=u_id,
               team_id=team_user_id)
@@ -141,7 +141,7 @@ def provision(db_conn):
                      email='user_no_team@example.org',
                      team_id=None)
 
-    db_insert(models.JOIN_USERS_TEAMS_ROLES,
+    db_insert(models.JOIN_USERS_TEAMS,
               return_pk=False,
               user_id=u_id,
               team_id=None)
@@ -155,7 +155,7 @@ def provision(db_conn):
                      email='product_ownern@example.org',
                      team_id=team_product_id)
 
-    db_insert(models.JOIN_USERS_TEAMS_ROLES,
+    db_insert(models.JOIN_USERS_TEAMS,
               return_pk=False,
               user_id=u_id,
               team_id=team_product_id)
@@ -169,7 +169,7 @@ def provision(db_conn):
                      email='admin@example.org',
                      team_id=team_admin_id)
 
-    db_insert(models.JOIN_USERS_TEAMS_ROLES,
+    db_insert(models.JOIN_USERS_TEAMS,
               return_pk=False,
               user_id=u_id,
               team_id=team_admin_id)
