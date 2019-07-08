@@ -66,7 +66,7 @@ def purge(context, resource, force):
                    base.purge(context, res,
                               **{'force': True}).status_code == 204:
                     purged[res] = '%s item(s) purged' % item_purged
-            if len(purged.keys()):
+            if len(purged):
                 utils.print_json(purged)
             else:
                 utils.print_json({'message': 'No item to be purged'})
@@ -78,7 +78,7 @@ def purge(context, resource, force):
                                                 **{'force': force})
                 if resource_to_delete.json()['_meta']['count'] > 0:
                     purged[res] = resource_to_delete.json()
-            if len(purged.keys()):
+            if len(purged):
                 for item in purged.keys():
                     if len(l_resources) > 1:
                         click.echo('\n%s:\n' % item)
