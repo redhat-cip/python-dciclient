@@ -8,7 +8,7 @@ ENV LANG en_US.UTF-8
 RUN yum -y install epel-release && \
     yum -y install gcc git zeromq-devel \
     python python2-devel python2-pip python2-setuptools \
-    python34 python34-devel python34-pip python34-setuptools && \
+    python36 python36-devel python36-pip python36-setuptools && \
     yum clean all
 
 RUN pip install -U pip
