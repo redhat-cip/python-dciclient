@@ -17,12 +17,8 @@ import os
 import os.path
 from requests import compat
 
-try:
-    from urlparse import parse_qsl
-    from urlparse import urlparse
-except ImportError:
-    from urllib.parse import parse_qsl
-    from urllib.parse import urlparse
+from six.moves.urllib.parse import parse_qsl
+from six.moves.urllib.parse import urlparse
 import requests
 from requests.adapters import HTTPAdapter
 from requests.auth import AuthBase
