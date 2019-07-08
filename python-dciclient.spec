@@ -30,12 +30,14 @@ BuildRequires:  python2-setuptools
 BuildRequires:  python2-rpm-macros
 BuildRequires:  python3-rpm-macros
 BuildRequires:  python-dciauth
+BuildRequires:  python2-six >= 1.9.0
 Requires:       PyYAML
 Requires:       python-click
 Requires:       python-prettytable
 Requires:       python-requests >= 2.6
 Requires:       python2-setuptools
 Requires:       python-dciauth
+Requires:       python2-six >= 1.9.0
 
 %description -n python2-dciclient
 A Python 2 implementation of the client for DCI control server.
@@ -52,11 +54,13 @@ BuildRequires:  python3-psycopg2
 BuildRequires:  python3-requests
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-dciauth
+BuildRequires:  python3-six >= 1.9.0
 Requires:       python3-PyYAML
 Requires:       python3-click
 Requires:       python3-prettytable
 Requires:       python3-requests
 Requires:       python3-dciauth
+Requires:       python3-six >= 1.9.0
 
 
 %description -n python3-dciclient
