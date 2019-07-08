@@ -130,8 +130,7 @@ def provision(db_conn):
     db_insert(models.JOIN_USERS_TEAMS_ROLES,
               return_pk=False,
               user_id=u_id,
-              team_id=team_user_id,
-              role='USER')
+              team_id=team_user_id)
 
     user_no_team_pw_hash = auth.hash_password('user_no_team')
     u_id = db_insert(models.USERS,
@@ -145,8 +144,7 @@ def provision(db_conn):
     db_insert(models.JOIN_USERS_TEAMS_ROLES,
               return_pk=False,
               user_id=u_id,
-              team_id=None,
-              role='USER')
+              team_id=None)
 
     product_owner_pw_hash = auth.hash_password('product_owner')
     u_id = db_insert(models.USERS,
@@ -160,8 +158,7 @@ def provision(db_conn):
     db_insert(models.JOIN_USERS_TEAMS_ROLES,
               return_pk=False,
               user_id=u_id,
-              team_id=team_product_id,
-              role='PRODUCT_OWNER')
+              team_id=team_product_id)
 
     admin_pw_hash = auth.hash_password('admin')
     u_id = db_insert(models.USERS,
@@ -175,8 +172,7 @@ def provision(db_conn):
     db_insert(models.JOIN_USERS_TEAMS_ROLES,
               return_pk=False,
               user_id=u_id,
-              team_id=team_admin_id,
-              role='SUPER_ADMIN')
+              team_id=team_admin_id)
 
     # Create a product
     db_insert(models.PRODUCTS,
