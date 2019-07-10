@@ -84,22 +84,3 @@ def remove_user(context, id, user_id):
     return base.delete(context, RESOURCE, id,
                        subresource='users',
                        subresource_id=user_id)
-
-
-def add_rconfiguration(context, id, name, topic_id, component_types, data):
-    uri = '%s/%s/%s/rconfigurations' % (context.dci_cs_api, RESOURCE, id)
-    return context.session.post(uri, json={'name': name,
-                                           'topic_id': topic_id,
-                                           'component_types': component_types,
-                                           'data': data})
-
-
-def list_rconfigurations(context, id, **kwargs):
-    return base.list(context, RESOURCE, id=id, subresource='rconfigurations',
-                     **kwargs)
-
-
-def delete_rconfiguration(context, id, rconfiguration_id):
-    return base.delete(context, RESOURCE, id=id,
-                       subresource='rconfigurations',
-                       subresource_id=rconfiguration_id)
