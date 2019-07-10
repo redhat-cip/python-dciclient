@@ -58,10 +58,9 @@ def list(context, sort, limit, offset, where, verbose):
 @click.option("--name", required=True)
 @click.option("--country")
 @click.option("--active/--no-active", default=True)
-@click.option("--parent-id")
 @click.pass_obj
-def create(context, name, country, active, parent_id):
-    """create(context, name, country, active, parent_id)
+def create(context, name, country, active):
+    """create(context, name, country, active)
 
     Create a team.
 
@@ -70,12 +69,10 @@ def create(context, name, country, active, parent_id):
     :param string name: Name of the team [required]
     :param string country: Country code where the team is based
     :param boolean active: Set the team in the (in)active state
-    :param string parent_id: The ID of the team this team belongs to
     """
 
     state = utils.active_string(active)
-    result = team.create(context, name=name, country=country, state=state,
-                         parent_id=parent_id)
+    result = team.create(context, name=name, country=country, state=state)
     utils.format_output(result, context.format)
 
 
@@ -84,12 +81,11 @@ def create(context, name, country, active, parent_id):
 @click.option("--etag", required=True)
 @click.option("--name")
 @click.option("--country")
-@click.option("--parent-id")
 @click.option("--active/--no-active", default=None)
 @click.option("--external/--no-external", default=None)
 @click.pass_obj
-def update(context, id, etag, name, country, parent_id, active, external):
-    """update(context, id, etag, name, country, parent_id, active, external)
+def update(context, id, etag, name, country, active, external):
+    """update(context, id, etag, name, country, active, external)
 
     Update a team.
 
@@ -100,13 +96,12 @@ def update(context, id, etag, name, country, parent_id, active, external):
     :param string name: Name of the team [required]
     :param string country: Country code where the team is based
     :param boolean active: Set the team in the (in)active state
-    :param string parent_id: The ID of the team this team belongs to
     :param boolean external: Set the team as external
     """
 
     result = team.update(context, id=id, etag=etag, name=name,
                          state=utils.active_string(active),
-                         country=country, parent_id=parent_id,
+                         country=country,
                          external=external)
 
     utils.format_output(result, context.format)

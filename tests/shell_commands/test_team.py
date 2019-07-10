@@ -38,14 +38,6 @@ def test_list(runner):
 def test_create(runner, team_admin_id):
     team = runner.invoke(['team-create', '--name', 'foo'])['team']
     assert team['name'] == 'foo'
-    assert team['parent_id'] == team_admin_id
-
-
-def test_create_with_parent_id(runner, team_admin_id, team_id):
-    team = runner.invoke(['team-create', '--name', 'foo',
-                          '--parent-id', team_id])['team']
-    assert team['name'] == 'foo'
-    assert team['parent_id'] == team_id
 
 
 def test_create_with_country_and_email(runner):
