@@ -21,7 +21,6 @@ def test_prettytable_output(runner):
     product = runner.invoke_raw_parse([
         'product-create',
         '--name', 'foo'])
-    product['team_id'] = 'None'
     assert product['name'] == 'foo'
     assert product == runner.invoke_raw_parse([
         'product-show', product['id']])
