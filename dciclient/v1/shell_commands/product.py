@@ -56,7 +56,7 @@ def list(context, sort, limit, offset, where, verbose):
 
 @cli.command("product-create", help="Create a product.")
 @click.option("--name", required=True)
-@click.option("--team-id", required=True)
+@click.option("--team-id", required=False, default=None)
 @click.option("--label", required=False)
 @click.option("--description", required=False)
 @click.option("--active/--no-active", default=True)
@@ -87,7 +87,7 @@ def create(context, name, label, description, active, team_id):
 @click.option("--name", required=False)
 @click.option("--description", required=False)
 @click.option("--active/--no-active", default=None)
-@click.option("--team-id", required=False)
+@click.option("--team-id", required=False, default=None)
 @click.pass_obj
 def update(context, id, etag, name, description, active, team_id):
     """update(context, id, etag, name, description, active, team_id)

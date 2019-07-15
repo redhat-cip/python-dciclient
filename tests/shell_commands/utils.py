@@ -176,5 +176,4 @@ def provision(db_conn):
     db_insert(models.PRODUCTS,
               name='Awesome product',
               label='AWSM',
-              description='My Awesome product',
-              team_id=team_product_id)
+              description='My Awesome product')

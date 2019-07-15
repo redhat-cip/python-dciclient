@@ -306,8 +306,7 @@ def team_user_id(dci_context):
 def product_id(dci_context, team_id):
     return api.product.create(
         dci_context,
-        name='myproduct',
-        team_id=team_id).json()['product']['id']
+        name='myproduct').json()['product']['id']
 
 
 @pytest.fixture

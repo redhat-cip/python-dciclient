@@ -20,7 +20,8 @@ from dciclient.v1.api import base
 RESOURCE = 'products'
 
 
-def create(context, name, team_id, label=None, description=None, state=None):
+def create(context, name, team_id=None, label=None, description=None,
+           state=None):
     return base.create(context, RESOURCE, name=name, team_id=team_id,
                        label=label, description=description, state=state)
 

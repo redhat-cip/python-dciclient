@@ -17,11 +17,11 @@
 from dciclient.v1.api import product
 
 
-def test_success_create_product_authorized(dci_context, team_id):
-    """Create a product that belongs to a team."""
+def test_success_create_product_authorized(dci_context):
+    """Create a product."""
 
     products_original_cnt = product.list(dci_context).json()['_meta']['count']
-    product.create(dci_context, 'OpenStack', team_id)
+    product.create(dci_context, 'OpenStack')
     products_test = product.list(dci_context).json()
     products_test_cnt = products_test['_meta']['count']
 
@@ -29,19 +29,19 @@ def test_success_create_product_authorized(dci_context, team_id):
     assert 'OpenStack' in [prod['name'] for prod in products_test['products']]
 
 
-def test_failure_create_product_unauthorized(dci_context_user_admin, team_id):
+def test_failure_create_product_unauthorized(dci_context_user_admin):
     """Fail to create a product with an unauthorized identity."""
 
-    result = product.create(dci_context_user_admin, 'OpenStack', team_id)
+    result = product.create(dci_context_user_admin, 'OpenStack')
 
     assert result.status_code == 401
 
 
-def test_success_list_all_products(dci_context, product_id, team_id):
+def test_success_list_all_products(dci_context, product_id):
     """List all products."""
 
     products_original_cnt = product.list(dci_context).json()['_meta']['count']
-    product.create(dci_context, 'OpenStack', team_id)
+    product.create(dci_context, 'OpenStack')
     products_test = product.list(dci_context).json()
     products_test_cnt = products_test['_meta']['count']
 

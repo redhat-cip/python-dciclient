@@ -17,10 +17,11 @@
 from __future__ import unicode_literals
 
 
-def test_prettytable_output(runner, team_id):
+def test_prettytable_output(runner):
     product = runner.invoke_raw_parse([
         'product-create',
-        '--name', 'foo', '--team-id', team_id])
+        '--name', 'foo'])
+    product['team_id'] = 'None'
     assert product['name'] == 'foo'
     assert product == runner.invoke_raw_parse([
         'product-show', product['id']])
@@ -28,56 +29,52 @@ def test_prettytable_output(runner, team_id):
     assert 'etag' in runner.invoke_raw_parse(['product-list', '--long'])
 
 
-def test_success_create_basic(runner, team_id):
+def test_success_create_basic(runner):
     product = runner.invoke(['product-create', '--name',
-                             'myproduct', '--team-id', team_id])['product']
+                             'myproduct'])['product']
     assert product['name'] == 'myproduct'
 
 
-def test_success_create_full(runner, team_id):
+def test_success_create_full(runner):
     product = runner.invoke(['product-create', '--name', 'myproduct',
                              '--label', 'MYPRODUCT', '--description',
-                             'myproduct', '--active', '--team-id',
-                             team_id])['product']
+                             'myproduct', '--active'])['product']
     assert product['name'] == 'myproduct'
     assert product['label'] == 'MYPRODUCT'
     assert product['description'] == 'myproduct'
     assert product['state'] == 'active'
 
 
-def test_create_inactive(runner, team_id):
+def test_create_inactive(runner):
     product = runner.invoke(['product-create', '--name', 'myproduct',
-                             '--no-active', '--team-id', team_id])['product']
+                             '--no-active'])['product']
     assert product['state'] == 'inactive'
 
 
-def test_list(runner, team_id):
+def test_list(runner):
     products_number = len(runner.invoke(['product-list'])['products'])
 
-    runner.invoke(['product-create', '--name', 'foo', '--team-id', team_id])
-    runner.invoke(['product-create', '--name', 'bar', '--team-id', team_id])
+    runner.invoke(['product-create', '--name', 'foo'])
+    runner.invoke(['product-create', '--name', 'bar'])
 
     products_new_number = len(runner.invoke(['product-list'])['products'])
 
     assert products_new_number == products_number + 2
 
 
-def test_fail_create_unauthorized_user_admin(runner_user_admin, team_id):
-    product = runner_user_admin.invoke(['product-create', '--name', 'foo',
-                                        '--team-id', team_id])
+def test_fail_create_unauthorized_user_admin(runner_user_admin):
+    product = runner_user_admin.invoke(['product-create', '--name', 'foo'])
     assert product['status_code'] == 401
 
 
-def test_fail_create_unauthorized_user(runner_user, team_id):
-    product = runner_user.invoke(['product-create', '--name', 'foo',
-                                  '--team-id', team_id])
+def test_fail_create_unauthorized_user(runner_user):
+    product = runner_user.invoke(['product-create', '--name', 'foo'])
     assert product['status_code'] == 401
 
 
-def test_success_update(runner, team_id):
+def test_success_update(runner):
     product = runner.invoke(['product-create', '--name', 'foo',
-                             '--description', 'foo_desc', '--team-id',
-                             team_id])['product']
+                             '--description', 'foo_desc'])['product']
 
     result = runner.invoke(['product-update', product['id'],
                             '--etag', product['etag'], '--name', 'bar',
@@ -88,9 +85,9 @@ def test_success_update(runner, team_id):
     assert result['product']['description'] == 'bar_desc'
 
 
-def test_update_active(runner, team_id):
+def test_update_active(runner):
     product = runner.invoke(['product-create', '--name',
-                             'myproduct', '--team-id', team_id])['product']
+                             'myproduct'])['product']
     assert product['state'] == 'active'
 
     result = runner.invoke(['product-update', product['id'],
@@ -112,9 +109,8 @@ def test_update_active(runner, team_id):
     assert result['product']['state'] == 'active'
 
 
-def test_delete(runner, team_id):
-    product = runner.invoke(['product-create', '--name', 'foo', '--team-id',
-                             team_id])['product']
+def test_delete(runner):
+    product = runner.invoke(['product-create', '--name', 'foo'])['product']
 
     result = runner.invoke(['product-delete', product['id'],
                             '--etag', product['etag']])
@@ -126,9 +122,8 @@ def test_delete(runner, team_id):
     assert result['status_code'] == 404
 
 
-def test_show(runner, team_id):
-    product = runner.invoke(['product-create', '--name', 'foo',
-                             '--team-id', team_id])['product']
+def test_show(runner):
+    product = runner.invoke(['product-create', '--name', 'foo'])['product']
 
     product = runner.invoke(['product-show', product['id']])['product']
 
