@@ -21,10 +21,12 @@ def test_prettytable_output(runner):
     product = runner.invoke_raw_parse([
         'product-create',
         '--name', 'foo'])
-    product['team_id'] = 'None'
     assert product['name'] == 'foo'
-    assert product == runner.invoke_raw_parse([
+    show_product = runner.invoke_raw_parse([
         'product-show', product['id']])
+    if 'team_id' in show_product:
+        product['team_id'] = 'None'
+    assert product == show_product
     assert 'etag' not in runner.invoke_raw_parse(['product-list'])
     assert 'etag' in runner.invoke_raw_parse(['product-list', '--long'])
 
