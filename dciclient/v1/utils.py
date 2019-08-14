@@ -15,8 +15,10 @@
 # under the License.
 
 import click
+import csv
 import json
 import prettytable
+from six import StringIO
 
 
 def flatten(d, prefix=''):
@@ -35,6 +37,19 @@ def print_json(result_json):
     click.echo(formatted_result)
 
 
+def print_csv(data, headers, skip_columns, delimiter=','):
+    f = StringIO()
+    data = _tablify_result(data)
+    headers = headers or _find_headers_from_data(data)
+    headers = _sort_headers(headers)
+    headers = [i for i in headers if i not in skip_columns]
+    data = [{k: v for k, v in d.items() if k not in skip_columns}
+            for d in data]
+    output = csv.DictWriter(f, headers, delimiter=delimiter)
+    output.writerows(data)
+    click.echo(f.getvalue())
+
+
 def _get_field(record, field_path):
     cur_field = field_path.pop(0)
     v = record.get(cur_field)
@@ -44,44 +59,46 @@ def _get_field(record, field_path):
         return v
 
 
+def _find_headers_from_data(data):
+    """Return the header names from the data."""
+    if isinstance(data, list):
+        first_row = data[0] if len(data) else {}
+    else:
+        first_row = data
+    return list(first_row.keys())
+
+
+def _tablify_result(data):
+    """Convert the JSON dict structure to a regular list."""
+    if isinstance(data, dict):
+        keys = [i for i in list(data.keys()) if i != '_meta']
+        if len(keys) == 1:
+            data = data[keys[0]]
+    if not isinstance(data, list):
+        data = [data]
+    return data
+
+
+def _sort_headers(headers):
+    """Ensure the column order is always the same."""
+    headers = set(headers)
+    default_order = [
+        'id', 'name', 'etag', 'created_at',
+        'updated_at', 'state', 'data']
+    sorted_headers = []
+    for i in default_order:
+        if i not in headers:
+            continue
+        headers.remove(i)
+        sorted_headers.append(i)
+    sorted_headers += sorted(headers)
+    return sorted_headers
+
+
 def print_prettytable(data, headers=None, skip_columns=[]):
-    def sort_headers(headers):
-        """Ensure the column order is always the same."""
-        headers = set(headers)
-        default_order = [
-            'id', 'name', 'etag', 'created_at',
-            'updated_at', 'state', 'data']
-        sorted_headers = []
-        for i in default_order:
-            if i not in headers:
-                continue
-            headers.remove(i)
-            sorted_headers.append(i)
-        sorted_headers += sorted(headers)
-        return sorted_headers
-
-    def tablify_result(data):
-        """Convert the JSON dict structure to a regular list."""
-        if isinstance(data, dict):
-            keys = [i for i in list(data.keys()) if i != '_meta']
-            if len(keys) == 1:
-                data = data[keys[0]]
-
-        if not isinstance(data, list):
-            data = [data]
-        return data
-
-    def find_headers_from_data(data):
-        """Return the header names from the data."""
-        if isinstance(data, list):
-            first_row = data[0] if len(data) else {}
-        else:
-            first_row = data
-        return list(first_row.keys())
-
-    data = tablify_result(data)
-    headers = headers or find_headers_from_data(data)
-    headers = sort_headers(headers)
+    data = _tablify_result(data)
+    headers = headers or _find_headers_from_data(data)
+    headers = _sort_headers(headers)
     headers = [i for i in headers if i not in skip_columns]
     table = prettytable.PrettyTable(headers)
 
@@ -136,7 +153,12 @@ def format_output(result, format, headers=None,
                 result = values[0]
         to_display = result[item] if item else result
         if to_display:
-            print_prettytable(to_display, headers, skip_columns)
+            if format == 'csv':
+                print_csv(to_display, headers, skip_columns)
+            if format == 'tsv':
+                print_csv(to_display, headers, skip_columns, delimiter='\t')
+            else:
+                print_prettytable(to_display, headers, skip_columns)
 
 
 def validate_json(ctx, param, value):
