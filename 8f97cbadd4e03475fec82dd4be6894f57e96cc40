@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c44795f_1f4a257f",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 405
+      },
+      "writtenOn": "2019-10-01T16:10:32Z",
+      "side": 1,
+      "message": "if only delimiter change you don\u0027t need this duplication\n\nif format in [\"csv\", \"tsv\"]:\n    delimiter \u003d \u0027\\t\u0027 if format \u003d\u003d \"tsv\" else \",\"\n    print_csv(to_display, headers, skip_columns, delimiter)",
+      "range": {
+        "startLine": 156,
+        "startChar": 12,
+        "endLine": 156,
+        "endChar": 31
+      },
+      "revId": "8f97cbadd4e03475fec82dd4be6894f57e96cc40",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11951056_a4169715",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 405
+      },
+      "writtenOn": "2019-10-01T16:10:32Z",
+      "side": 1,
+      "message": "adding one level of indentation is not needed here\n\nlike skip_column, move to_display construction outside this else and do a \n\n    if format \u003d\u003d \u0027json\u0027 or is_failure:\n        print_json(result)\n        return\n\n    to_display \u003d ...\n    if to_display:\n        if format in [\"csv\", \"tsv\"]:\n            delimiter \u003d \u0027\\t\u0027 if format \u003d\u003d \"tsv\" else \",\"\n            print_csv(to_display, headers, skip_columns, delimiter)\n        else:\n            print_prettytable(to_display, headers, skip_columns)",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 68
+      },
+      "revId": "8f97cbadd4e03475fec82dd4be6894f57e96cc40",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
