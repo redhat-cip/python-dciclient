@@ -45,6 +45,30 @@
       "revId": "8f97cbadd4e03475fec82dd4be6894f57e96cc40",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68e3c10e_d4cfe712",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 405
+      },
+      "writtenOn": "2019-10-01T16:15:09Z",
+      "side": 1,
+      "message": "Better\n\n    if format \u003d\u003d \u0027json\u0027 or is_failure:\n        print_json(result)\n        return\n\n    to_display \u003d ...\n    if not to_display:\n        return\n    \n    if format in [\"csv\", \"tsv\"]:\n        delimiter \u003d \u0027\\t\u0027 if format \u003d\u003d \"tsv\" else \",\"\n        print_csv(to_display, headers, skip_columns, delimiter)\n    else:\n        print_prettytable(to_display, headers, skip_columns)",
+      "parentUuid": "11951056_a4169715",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 68
+      },
+      "revId": "8f97cbadd4e03475fec82dd4be6894f57e96cc40",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
