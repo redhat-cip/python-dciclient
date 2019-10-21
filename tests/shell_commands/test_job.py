@@ -40,6 +40,7 @@ def test_list(runner, dci_context, dci_context_remoteci, team_user_id,
               remoteci_id, product_id):
     topic = runner.invoke(['topic-create', '--name', 'osp',
                            '--component_types', 'type_1',
+                           '--no-export-control',
                            '--product-id', product_id])['topic']
 
     runner.invoke(['topic-attach-team', topic['id'], '--team-id',

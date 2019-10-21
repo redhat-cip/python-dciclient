@@ -312,7 +312,7 @@ def product_id(dci_context, team_id):
 @pytest.fixture
 def topic_id(dci_context, product_id):
     kwargs = {'name': 'foo_topic', 'component_types': ['type_1', 'type_2'],
-              'product_id': product_id}
+              'product_id': product_id, 'export_control': False}
     return api.topic.create(dci_context, **kwargs).json()['topic']['id']
 
 

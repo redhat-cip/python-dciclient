@@ -60,10 +60,13 @@ def list(context, sort, limit, offset, where, verbose):
 @click.option("--product-id")
 @click.option("--component_types", help="Component types separated by commas.")
 @click.option("--active/--no-active", default=True)
+@click.option("--export-control/--no-export-control", default=True)
 @click.option("--data")
 @click.pass_obj
-def create(context, name, component_types, active, product_id, data):
-    """create(context, name, component_types, active, product_id, data)
+def create(context, name, component_types, active, product_id, data,
+           export_control):
+    """create(context, name, component_types, active, product_id, data,
+    export_control)
 
     Create a topic.
 
@@ -73,6 +76,7 @@ def create(context, name, component_types, active, product_id, data):
     :param string component_types: list of component types separated by commas
     :param boolean active: Set the topic in the (in)active state
     :param string product_id: The product the topic belongs to
+    :param boolean export_control: False if topic has no export restrictions
     :param string data: JSON data of the topic
     """
     if component_types:
@@ -80,7 +84,8 @@ def create(context, name, component_types, active, product_id, data):
 
     state = utils.active_string(active)
     result = topic.create(context, name=name, component_types=component_types,
-                          state=state, product_id=product_id, data=data)
+                          state=state, product_id=product_id, data=data,
+                          export_control=export_control)
     utils.format_output(result, context.format)
 
 
@@ -92,13 +97,14 @@ def create(context, name, component_types, active, product_id, data):
 @click.option("--label")
 @click.option("--next-topic-id")
 @click.option("--active/--no-active", default=None)
+@click.option("--export-control/--no-export-control", default=True)
 @click.option("--product-id")
 @click.option("--data")
 @click.pass_obj
 def update(context, id, etag, name, component_types,
-           label, next_topic_id, active, product_id, data):
+           label, next_topic_id, active, product_id, data, export_control):
     """update(context, id, etag, name, label, next_topic_id, active,
-              product_id, data)
+              product_id, data, export_control)
 
     Update a Topic.
 
@@ -112,6 +118,7 @@ def update(context, id, etag, name, component_types,
     :param string data: JSON data to pass during remote CI update
     :param boolean active: Set the topic in the active state
     :param string product_id: The product the topic belongs to
+    :param boolean export_control: False if topic has no export restrictions
     :param string next_topic_id: The ID of the next topic for upgrades
     """
 
@@ -122,7 +129,8 @@ def update(context, id, etag, name, component_types,
                           component_types=component_types,
                           label=label, next_topic_id=next_topic_id,
                           state=utils.active_string(active),
-                          product_id=product_id, data=data)
+                          product_id=product_id, data=data,
+                          export_control=export_control)
     utils.format_output(result, context.format)
 
 
