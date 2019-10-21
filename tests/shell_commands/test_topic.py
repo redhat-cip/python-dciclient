@@ -68,6 +68,20 @@ def test_create_inactive(runner, product_id):
     assert topic['state'] == 'inactive'
 
 
+def test_create_export_control(runner, product_id):
+    topic = runner.invoke(['topic-create', '--name', 'osp',
+                           '--product-id', product_id,
+                           '--export-control'])['topic']
+    assert topic['export_control'] is True
+
+
+def test_create_no_export_control(runner, product_id):
+    topic = runner.invoke(['topic-create', '--name', 'osp',
+                           '--product-id', product_id,
+                           '--no-export-control'])['topic']
+    assert topic['export_control'] is False
+
+
 def test_delete(runner, product_id):
     topic = runner.invoke(['topic-create', '--name', 'osp',
                            '--product-id', product_id])['topic']
@@ -188,6 +202,28 @@ def test_update_with_data(runner, product_id):
 
     assert result['topic']['id'] == topic['id']
     assert result['topic']['data']['foo'] == 'bar'
+
+
+def test_update_export_control(runner, product_id):
+    topic = runner.invoke(['topic-create', '--name', 'osp',
+                           '--product-id', product_id,
+                           '--export-control'])['topic']
+    result = runner.invoke(['topic-update', topic['id'],
+                            '--etag', topic['etag'],
+                            '--no-export-control'])
+    assert result['topic']['id'] == topic['id']
+    assert result['topic']['export_control'] is False
+
+
+def test_update_no_export_control(runner, product_id):
+    topic = runner.invoke(['topic-create', '--name', 'osp',
+                           '--product-id', product_id,
+                           '--no-export-control'])['topic']
+    result = runner.invoke(['topic-update', topic['id'],
+                            '--etag', topic['etag'],
+                            '--export-control'])
+    assert result['topic']['id'] == topic['id']
+    assert result['topic']['export_control'] is True
 
 
 def test_where_on_list(runner, product_id):
