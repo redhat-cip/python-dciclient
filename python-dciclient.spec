@@ -3,7 +3,7 @@
 %endif
 
 Name:           python-dciclient
-Version:        0.5.1
+Version:        0.5.2
 Release:        1.VERS%{?dist}
 
 Summary:        Python client for DCI control server
@@ -95,6 +95,10 @@ install -d %{buildroot}%{_bindir}
 
 
 %changelog
+* Mon Oct 21 2019 Yassine Lamgarchal <yassine.lamgarchal@redhat.com> - 0.5.2
+- Add tag api
+- Add export_control to topic
+
 * Wed Nov 15 2017 Guillaume Vincent <gvincent@redhat.com> - 0.5.1-1
 - Remove DCI_SETTINGS_MODULE because tests.settings don't exists anymore
 
