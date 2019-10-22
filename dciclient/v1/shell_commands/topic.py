@@ -60,7 +60,7 @@ def list(context, sort, limit, offset, where, verbose):
 @click.option("--product-id")
 @click.option("--component_types", help="Component types separated by commas.")
 @click.option("--active/--no-active", default=True)
-@click.option("--export-control/--no-export-control", default=True)
+@click.option("--export-control/--no-export-control", default=False)
 @click.option("--data")
 @click.pass_obj
 def create(context, name, component_types, active, product_id, data,
@@ -97,7 +97,7 @@ def create(context, name, component_types, active, product_id, data,
 @click.option("--label")
 @click.option("--next-topic-id")
 @click.option("--active/--no-active", default=None)
-@click.option("--export-control/--no-export-control", default=True)
+@click.option("--export-control/--no-export-control", default=None)
 @click.option("--product-id")
 @click.option("--data")
 @click.pass_obj
