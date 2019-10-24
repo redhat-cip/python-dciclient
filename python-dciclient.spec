@@ -3,7 +3,7 @@
 %endif
 
 Name:           python-dciclient
-Version:        0.5.2
+Version:        0.5.3
 Release:        1.VERS%{?dist}
 
 Summary:        Python client for DCI control server
@@ -95,7 +95,10 @@ install -d %{buildroot}%{_bindir}
 
 
 %changelog
-* Mon Oct 21 2019 Yassine Lamgarchal <yassine.lamgarchal@redhat.com> - 0.5.2
+* Tue Oct 24 2019 Guillaume Vincent <gvincent@redhat.com> - 0.5.3-1
+- Release new version
+
+* Mon Oct 21 2019 Yassine Lamgarchal <yassine.lamgarchal@redhat.com> - 0.5.2-1
 - Add tag api
 - Add export_control to topic
 
