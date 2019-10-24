@@ -49,6 +49,7 @@ setuptools.setup(
     author_email='distributed-ci@redhat.com',
     description='Python client for DCI Control Server',
     long_description=_get_readme(),
+    long_description_content_type="text/markdown",
     install_requires=_get_requirements(),
     url='https://github.com/redhat-cip/dci-control-server',
     license='Apache v2.0',
