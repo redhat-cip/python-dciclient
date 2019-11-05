@@ -130,3 +130,49 @@ def test_show(runner):
     product = runner.invoke(['product-show', product['id']])['product']
 
     assert product['name'] == 'foo'
+
+
+def test_list_teams_empty(runner, product_id, team_id):
+    no_teams = runner.invoke(["product-list-teams", product_id])
+    assert no_teams["_meta"]["count"] == 0
+    assert len(no_teams["teams"]) == 0
+
+
+def test_attach_team_and_list(runner, product_id, team_id):
+    no_teams = runner.invoke(["product-list-teams", product_id])
+    assert no_teams["_meta"]["count"] == 0
+    assert len(no_teams["teams"]) == 0
+
+    attached = runner.invoke(["product-attach-team", product_id,
+                              "--team-id", team_id])
+
+    assert attached['product_id'] == product_id
+    assert attached['team_id'] == team_id
+
+    one_team = runner.invoke(["product-list-teams", product_id])
+    assert one_team["_meta"]["count"] == 1
+    assert len(one_team["teams"]) == 1
+    assert one_team["teams"][0]["id"] == team_id
+
+
+def test_attach_detach_team_and_list(runner, product_id, team_id):
+    no_teams = runner.invoke(["product-list-teams", product_id])
+    assert no_teams["_meta"]["count"] == 0
+    assert len(no_teams["teams"]) == 0
+
+    attached = runner.invoke(["product-attach-team", product_id,
+                              "--team-id", team_id])
+
+    assert attached['product_id'] == product_id
+    assert attached['team_id'] == team_id
+
+    one_team = runner.invoke(["product-list-teams", product_id])
+    assert one_team["_meta"]["count"] == 1
+    assert len(one_team["teams"]) == 1
+    assert one_team["teams"][0]["id"] == team_id
+
+    runner.invoke(["product-detach-team", product_id,
+                   "--team-id", team_id])
+    no_teams_again = runner.invoke(["product-list-teams", product_id])
+    assert no_teams_again["_meta"]["count"] == 0
+    assert len(no_teams_again["teams"]) == 0
