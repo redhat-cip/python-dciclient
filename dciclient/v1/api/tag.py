@@ -17,15 +17,24 @@
 from dciclient.v1.api import base
 
 
-RESOURCE = 'tags'
+RESOURCE = "tags"
 
 
 def create(context, name):
     return base.create(context, RESOURCE, name=name)
 
 
+def add_tag_to_resource(context, resource, id, name):
+    uri = "%s/%s/%s/tags" % (context.dci_cs_api, resource, id)
+    return context.session.post(uri, json={"name": name})
+
+
 def list(context):
     return base.get(context, RESOURCE)
+
+
+def delete_tag_from_resource(context, resource, id, tag_id):
+    return base.delete(context, resource, id, subresource="tags", subresource_id=tag_id)
 
 
 def delete(context, id):

@@ -15,7 +15,7 @@
 # under the License.
 
 from dciclient.v1.api import base
-
+from dciclient.v1.api.tag import add_tag_to_resource, delete_tag_from_resource
 
 RESOURCE = 'components'
 
@@ -83,3 +83,11 @@ def unattach_issue(context, id, issue_id):
     return base.delete(context, RESOURCE, id,
                        subresource='issues',
                        subresource_id=issue_id)
+
+
+def add_tag(context, id, name):
+    return add_tag_to_resource(context, RESOURCE, id, name)
+
+
+def delete_tag(context, id, tag_id):
+    return delete_tag_from_resource(context, RESOURCE, id, tag_id)

@@ -18,6 +18,7 @@ from dciclient.v1.api import base
 from dciclient.v1.api import remoteci
 from dciclient.v1.api import topic
 from dciclient.v1 import utils
+from dciclient.v1.api.tag import add_tag_to_resource, delete_tag_from_resource
 
 
 RESOURCE = 'jobs'
@@ -137,12 +138,8 @@ def list_tags(context, id):
 
 
 def add_tag(context, id, name):
-    uri = '%s/%s/%s/tags' % (context.dci_cs_api, RESOURCE, id)
-    data = {'name': name}
-    return context.session.post(uri, json=data)
+    return add_tag_to_resource(context, RESOURCE, id, name)
 
 
 def delete_tag(context, id, tag_id):
-    return base.delete(context, RESOURCE, id,
-                       subresource='tags',
-                       subresource_id=tag_id)
+    return delete_tag_from_resource(context, RESOURCE, id, tag_id)
