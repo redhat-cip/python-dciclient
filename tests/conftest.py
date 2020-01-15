@@ -84,7 +84,7 @@ def engine(request):
     dci.dci_config.get_store = mocked_get_store
     conf = dci.dci_config.generate_conf()
     db_uri = conf['SQLALCHEMY_DATABASE_URI']
-
+    print(db_uri)
     engine = sqlalchemy.create_engine(db_uri)
 
     def del_db():

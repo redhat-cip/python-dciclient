@@ -35,3 +35,14 @@ def test_success_download_component_file_returns_http_response(dci_context,
                                   tmp_file.strpath)
 
     assert res.status_code == 200
+
+
+def test_add_tag(dci_context, component_id):
+    res = component.add_tag(dci_context, component_id, "tag 1")
+    assert res.status_code == 201
+
+
+def test_delete_tag(dci_context, component_id):
+    tag = component.add_tag(dci_context, component_id, "tag 1").json()['tag']
+    res = component.delete_tag(dci_context, component_id, tag["id"])
+    assert res.status_code == 204
