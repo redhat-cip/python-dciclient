@@ -3,7 +3,7 @@
 %endif
 
 Name:           python-dciclient
-Version:        0.6.0
+Version:        0.7.0
 Release:        1.VERS%{?dist}
 
 Summary:        Python client for DCI control server
@@ -95,7 +95,7 @@ install -d %{buildroot}%{_bindir}
 
 
 %changelog
-* Wed Jan 15 2020 Guillaume Vincent <gvincent@redhat.com> - 0.6.0-1
+* Wed Jan 15 2020 Guillaume Vincent <gvincent@redhat.com> - 0.7.0-1
 - Add methods to tag components
 
 * Tue Oct 24 2019 Guillaume Vincent <gvincent@redhat.com> - 0.5.3-1
