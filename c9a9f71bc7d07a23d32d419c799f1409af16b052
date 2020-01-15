@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b189d638_badfb0f9",
+        "filename": "tests/conftest.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2020-01-15T14:07:45Z",
+      "side": 1,
+      "message": "remaining debug print() ?",
+      "revId": "c9a9f71bc7d07a23d32d419c799f1409af16b052",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
