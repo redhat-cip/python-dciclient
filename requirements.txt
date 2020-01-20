@@ -2,5 +2,4 @@ PrettyTable>=0.7.2, <0.8
 requests>=2.6.0, <3.0
 PyYAML>=3.0, <4.0
 click>=6.3 # EL7 version
-setuptools
 dciauth
