@@ -4,3 +4,4 @@ PyYAML>=3.0, <4.0
 click>=6.3 # EL7 version
 setuptools
 dciauth
+six
