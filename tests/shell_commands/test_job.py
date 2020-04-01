@@ -150,19 +150,6 @@ def test_job_output(runner, job_id):
     assert result.output.startswith('[pre-run]')
 
 
-def test_tags(runner, job_id):
-    tags = runner.invoke(['job-list-tags', job_id])['tags']
-    assert len(tags) == 0
-    tag = runner.invoke(['job-add-tag', job_id, 'foo'])['tag']
-    tags = runner.invoke(['job-list-tags', job_id])['tags']
-    assert len(tags) == 1
-    assert tags[0]['id'] == tag['id']
-    assert tags[0]['name'] == 'foo'
-    runner.invoke(['job-delete-tag', job_id, tag['id']])
-    tags = runner.invoke(['job-list-tags', job_id])['tags']
-    assert len(tags) == 0
-
-
 def test_file_support(runner, tmpdir, job_id):
     td = tmpdir
     p = td.join("hello.txt")

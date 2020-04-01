@@ -18,7 +18,6 @@ from dciclient.v1.api import base
 from dciclient.v1.api import remoteci
 from dciclient.v1.api import topic
 from dciclient.v1 import utils
-from dciclient.v1.api.tag import add_tag_to_resource, delete_tag_from_resource
 
 
 RESOURCE = 'jobs'
@@ -130,16 +129,3 @@ def list_tests(context, id, **kwargs):
     result['tests'] += remoteci.list_tests(
         context, j['remoteci_id']).json()['tests']
     return result
-
-
-def list_tags(context, id):
-    return base.list(context, RESOURCE, id=id,
-                     subresource='tags')
-
-
-def add_tag(context, id, name):
-    return add_tag_to_resource(context, RESOURCE, id, name)
-
-
-def delete_tag(context, id, tag_id):
-    return delete_tag_from_resource(context, RESOURCE, id, tag_id)

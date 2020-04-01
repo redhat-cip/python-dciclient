@@ -98,6 +98,9 @@ install -d %{buildroot}%{_bindir}
 
 
 %changelog
+* Wed Apr 1 2020 Guillaume Vincent <gvincent@redhat.com> - 0.8.0-1
+- Remove tags setter from dciclient
+
 * Thu Jan 30 2020 Haïkel Guémar <hguemar@fedoraproject.org> - 0.7.0-2
 - Add six to the requirements
 - Fix BR pulling python3 package when building python2 package

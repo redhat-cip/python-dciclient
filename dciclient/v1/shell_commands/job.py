@@ -276,64 +276,6 @@ def list_tests(context, id, sort, limit, offset, where, verbose):
     utils.format_output(result, context.format, verbose=verbose)
 
 
-@cli.command("job-add-tag", help="Add a tag to a job.")
-@click.argument("id", required=True)
-@click.argument("name", required=True)
-@click.pass_obj
-def add_tag(context, id, name):
-    """add_tag(context, id, name)
-
-    Attach a tag to a job.
-
-    >>> dcictl job-add-tag [OPTIONS]
-
-    :param string id: ID of the job to attach the tag on [required]
-    :param string tag_name: name of the tag to be attached [required]
-    """
-
-    result = job.add_tag(context, id=id, name=name)
-    utils.format_output(result, context.format)
-
-
-@cli.command("job-delete-tag", help="Drop a tag from a job.")
-@click.argument("id")
-@click.argument("tag-id", required=True)
-@click.pass_obj
-def delete_tag(context, id, tag_id):
-    """delete_tag(context, id, tag_id)
-
-    Delete a tag from a job.
-
-    >>> dcictl job-delete-tag [OPTIONS]
-
-    :param string id: ID of the job to attach the meta to [required]
-    :param string tag_id: ID of the tag to be removed from the job [required]
-    """
-
-    result = job.delete_tag(context, id=id, tag_id=tag_id)
-    if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Tag removed.'})
-    else:
-        utils.format_output(result, context.format)
-
-
-@cli.command("job-list-tags", help="List all the tags of a job.")
-@click.argument("id")
-@click.pass_obj
-def list_tags(context, id):
-    """list_tags(context, id)
-
-    List all tags of a job.
-
-    >>> dcictl job-list-tags [OPTIONS]
-
-    :param string id: ID of the job to retrieve tags from [required]
-    """
-
-    result = job.list_tags(context, id)
-    utils.format_output(result, context.format)
-
-
 @cli.command("job-upload-file", help="Attach a file to a job.")
 @click.argument("id")
 @click.option("--name", required=True)
