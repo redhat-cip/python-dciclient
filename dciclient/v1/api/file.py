@@ -20,11 +20,20 @@ from dciclient.v1 import utils
 import io
 import os
 
-RESOURCE = 'files'
+RESOURCE = "files"
 
 
-def create(context, name, content=None, file_path=None, mime='text/plain',
-           jobstate_id=None, md5=None, job_id=None, test_id=None):
+def create(
+    context,
+    name,
+    content=None,
+    file_path=None,
+    mime="text/plain",
+    jobstate_id=None,
+    md5=None,
+    job_id=None,
+    test_id=None,
+):
     """Method to create a file on the Control-Server
 
     This method allows one to upload a file to the Control-Server. The file
@@ -37,41 +46,56 @@ def create(context, name, content=None, file_path=None, mime='text/plain',
     """
 
     if content and file_path:
-        raise Exception('content and file_path are mutually exclusive')
+        raise Exception("content and file_path are mutually exclusive")
     elif not content and not file_path:
-        raise Exception(
-            'At least one of content or file_path must be specified'
-        )
+        raise Exception("At least one of content or file_path must be specified")
 
-    headers = {'DCI-NAME': name,
-               'DCI-MIME': mime,
-               'DCI-JOBSTATE-ID': jobstate_id,
-               'DCI-MD5': md5,
-               'DCI-JOB-ID': job_id,
-               'DCI-TEST-ID': test_id}
+    headers = {
+        "DCI-NAME": name,
+        "DCI-MIME": mime,
+        "DCI-JOBSTATE-ID": jobstate_id,
+        "DCI-MD5": md5,
+        "DCI-JOB-ID": job_id,
+        "DCI-TEST-ID": test_id,
+    }
     headers = utils.sanitize_kwargs(**headers)
-    uri = '%s/%s' % (context.dci_cs_api, RESOURCE)
+    uri = "%s/%s" % (context.dci_cs_api, RESOURCE)
 
     if content:
-        if not hasattr(content, 'read'):
+        if not hasattr(content, "read"):
             if not isinstance(content, bytes):
-                content = content.encode('utf-8')
+                content = content.encode("utf-8")
             content = io.BytesIO(content)
         return context.session.post(uri, headers=headers, data=content)
     else:
         if not os.path.exists(file_path):
             raise FileErrorException()
-        with open(file_path, 'rb') as f:
+        with open(file_path, "rb") as f:
             return context.session.post(uri, headers=headers, data=f)
 
 
 # TODO(spredzy): Remove this method once all the party using this method has
 #                moved to create()
-def create_with_stream(context, name, file_path, mime='text/plain',
-                       jobstate_id=None, md5=None, job_id=None, test_id=None):
-    return create(context, name, file_path=file_path, mime=mime,
-                  jobstate_id=jobstate_id, md5=md5, job_id=job_id,
-                  test_id=test_id)
+def create_with_stream(
+    context,
+    name,
+    file_path,
+    mime="text/plain",
+    jobstate_id=None,
+    md5=None,
+    job_id=None,
+    test_id=None,
+):
+    return create(
+        context,
+        name,
+        file_path=file_path,
+        mime=mime,
+        jobstate_id=jobstate_id,
+        md5=md5,
+        job_id=job_id,
+        test_id=test_id,
+    )
 
 
 def get(context, id, **kwargs):
@@ -91,13 +115,13 @@ def delete(context, id):
 
 
 def content(context, id):
-    uri = '%s/%s/%s/content' % (context.dci_cs_api, RESOURCE, id)
+    uri = "%s/%s/%s/content" % (context.dci_cs_api, RESOURCE, id)
     r = context.session.get(uri)
     return r
 
 
 def download(context, id, file_id, target):
-    uri = '%s/files/%s/content' % (context.dci_cs_api, file_id)
+    uri = "%s/files/%s/content" % (context.dci_cs_api, file_id)
     base.download(context, uri, target)
 
 

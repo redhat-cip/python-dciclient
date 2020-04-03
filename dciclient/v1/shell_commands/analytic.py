@@ -14,8 +14,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import click
-
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
@@ -23,12 +21,12 @@ from dciclient.v1.api import analytic
 
 
 @cli.command("analytic-create", help="Create an analytic.")
-@click.option("--job-id", required=True)
-@click.option("--name", required=True)
-@click.option("--type", required=True)
-@click.option("--url", required=False)
-@click.option("--data", default='{}', callback=utils.validate_json)
-@click.pass_obj
+@cli.option("--job-id", required=True)
+@cli.option("--name", required=True)
+@cli.option("--type", required=True)
+@cli.option("--url", required=False)
+@cli.option("--data", default="{}", callback=utils.validate_json)
+@cli.pass_obj
 def create(context, job_id, name, type, url, data):
     """create(context, job_id, name, type, url, data)
 
@@ -43,14 +41,15 @@ def create(context, job_id, name, type, url, data):
     :param string data: JSON data of the analytic
     """
 
-    result = analytic.create(context, job_id=job_id, name=name, type=type,
-                             url=url, data=data)
+    result = analytic.create(
+        context, job_id=job_id, name=name, type=type, url=url, data=data
+    )
     utils.format_output(result, context.format)
 
 
 @cli.command("analytic-list", help="List analytics of a job.")
-@click.option("--job-id", required=True)
-@click.pass_obj
+@cli.option("--job-id", required=True)
+@cli.pass_obj
 def list(context, job_id):
     """list(context, job_id)
 
@@ -66,13 +65,13 @@ def list(context, job_id):
 
 
 @cli.command("analytic-update", help="Update an analytic.")
-@click.argument("id")
-@click.option("--job-id", required=True)
-@click.option("--name", default=None)
-@click.option("--type", default=None)
-@click.option("--url", default=None)
-@click.option("--data", default=None, callback=utils.validate_json)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--job-id", required=True)
+@cli.option("--name", default=None)
+@cli.option("--type", default=None)
+@cli.option("--url", default=None)
+@cli.option("--data", default=None, callback=utils.validate_json)
+@cli.pass_obj
 def update(context, id, job_id, name, type, url, data):
     """update(context, id, job_id, name, type, url, data)
 
@@ -89,18 +88,26 @@ def update(context, id, job_id, name, type, url, data):
 
     analytic_info = analytic.get(context, id=id, job_id=job_id)
 
-    etag = analytic_info.json()['analytic']['etag']
+    etag = analytic_info.json()["analytic"]["etag"]
 
-    result = analytic.put(context, id=id, job_id=job_id, etag=etag,
-                          name=name, type=type, url=url, data=data)
+    result = analytic.put(
+        context,
+        id=id,
+        job_id=job_id,
+        etag=etag,
+        name=name,
+        type=type,
+        url=url,
+        data=data,
+    )
 
     utils.format_output(result, context.format)
 
 
 @cli.command("analytic-show", help="Show an analytic.")
-@click.argument('id')
-@click.option("--job-id", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--job-id", required=True)
+@cli.pass_obj
 def show(context, id, job_id):
     """show(context, id, job_id)
 

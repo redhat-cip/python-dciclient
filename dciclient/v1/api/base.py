@@ -22,22 +22,21 @@ HTTP_TIMEOUT = 600
 def create(context, resource, **kwargs):
     """Create a resource"""
     data = utils.sanitize_kwargs(**kwargs)
-    uri = '%s/%s' % (context.dci_cs_api, resource)
-    r = context.session.post(uri, timeout=HTTP_TIMEOUT,
-                             json=data)
+    uri = "%s/%s" % (context.dci_cs_api, resource)
+    r = context.session.post(uri, timeout=HTTP_TIMEOUT, json=data)
     return r
 
 
 def list(context, resource, **kwargs):
     """List all resources"""
     data = utils.sanitize_kwargs(**kwargs)
-    id = data.pop('id', None)
-    subresource = data.pop('subresource', None)
+    id = data.pop("id", None)
+    subresource = data.pop("subresource", None)
 
     if subresource:
-        uri = '%s/%s/%s/%s' % (context.dci_cs_api, resource, id, subresource)
+        uri = "%s/%s/%s/%s" % (context.dci_cs_api, resource, id, subresource)
     else:
-        uri = '%s/%s' % (context.dci_cs_api, resource)
+        uri = "%s/%s" % (context.dci_cs_api, resource)
 
     return context.session.get(uri, timeout=HTTP_TIMEOUT, params=data)
 
@@ -45,17 +44,17 @@ def list(context, resource, **kwargs):
 def iter(context, resource, **kwargs):
     """List all resources"""
     data = utils.sanitize_kwargs(**kwargs)
-    id = data.pop('id', None)
-    subresource = data.pop('subresource', None)
-    data['limit'] = data.get('limit', 20)
+    id = data.pop("id", None)
+    subresource = data.pop("subresource", None)
+    data["limit"] = data.get("limit", 20)
 
     if subresource:
-        uri = '%s/%s/%s/%s' % (context.dci_cs_api, resource, id, subresource)
+        uri = "%s/%s/%s/%s" % (context.dci_cs_api, resource, id, subresource)
         resource = subresource
     else:
-        uri = '%s/%s' % (context.dci_cs_api, resource)
+        uri = "%s/%s" % (context.dci_cs_api, resource)
 
-    data['offset'] = 0
+    data["offset"] = 0
     while True:
         j = context.session.get(uri, timeout=HTTP_TIMEOUT, params=data).json()
         if len(j[resource]):
@@ -63,12 +62,12 @@ def iter(context, resource, **kwargs):
                 yield i
         else:
             break
-        data['offset'] += data['limit']
+        data["offset"] += data["limit"]
 
 
 def get(context, resource, **kwargs):
     """List a specific resource"""
-    uri = '%s/%s/%s' % (context.dci_cs_api, resource, kwargs.pop('id'))
+    uri = "%s/%s/%s" % (context.dci_cs_api, resource, kwargs.pop("id"))
     r = context.session.get(uri, timeout=HTTP_TIMEOUT, params=kwargs)
     return r
 
@@ -76,12 +75,16 @@ def get(context, resource, **kwargs):
 def get_data(context, resource, **kwargs):
     """Retrieve data field from a resource"""
 
-    url_suffix = ''
-    if 'keys' in kwargs and kwargs['keys']:
-        url_suffix = '/?keys=%s' % ','.join(kwargs.pop('keys'))
+    url_suffix = ""
+    if "keys" in kwargs and kwargs["keys"]:
+        url_suffix = "/?keys=%s" % ",".join(kwargs.pop("keys"))
 
-    uri = '%s/%s/%s/data%s' % (context.dci_cs_api, resource,
-                               kwargs.pop('id'), url_suffix)
+    uri = "%s/%s/%s/data%s" % (
+        context.dci_cs_api,
+        resource,
+        kwargs.pop("id"),
+        url_suffix,
+    )
 
     r = context.session.get(uri, timeout=HTTP_TIMEOUT, params=kwargs)
     return r
@@ -89,37 +92,36 @@ def get_data(context, resource, **kwargs):
 
 def update(context, resource, **kwargs):
     """Update a specific resource"""
-    etag = kwargs.pop('etag')
-    id = kwargs.pop('id')
+    etag = kwargs.pop("etag")
+    id = kwargs.pop("id")
     data = utils.sanitize_kwargs(**kwargs)
-    uri = '%s/%s/%s' % (context.dci_cs_api, resource, id)
-    r = context.session.put(uri, timeout=HTTP_TIMEOUT,
-                            headers={'If-match': etag},
-                            json=data)
+    uri = "%s/%s/%s" % (context.dci_cs_api, resource, id)
+    r = context.session.put(
+        uri, timeout=HTTP_TIMEOUT, headers={"If-match": etag}, json=data
+    )
     return r
 
 
 def delete(context, resource, id, **kwargs):
     """Delete a specific resource"""
 
-    etag = kwargs.pop('etag', None)
+    etag = kwargs.pop("etag", None)
     id = id
-    subresource = kwargs.pop('subresource', None)
-    subresource_id = kwargs.pop('subresource_id', None)
+    subresource = kwargs.pop("subresource", None)
+    subresource_id = kwargs.pop("subresource_id", None)
 
-    uri = '%s/%s/%s' % (context.dci_cs_api, resource, id)
+    uri = "%s/%s/%s" % (context.dci_cs_api, resource, id)
     if subresource:
-        uri = '%s/%s/%s' % (uri, subresource, subresource_id)
+        uri = "%s/%s/%s" % (uri, subresource, subresource_id)
 
-    r = context.session.delete(uri, timeout=HTTP_TIMEOUT,
-                               headers={'If-match': etag})
+    r = context.session.delete(uri, timeout=HTTP_TIMEOUT, headers={"If-match": etag})
     return r
 
 
 def purge(context, resource, **kwargs):
     """Purge resource type."""
-    uri = '%s/%s/purge' % (context.dci_cs_api, resource)
-    if 'force' in kwargs and kwargs['force']:
+    uri = "%s/%s/purge" % (context.dci_cs_api, resource)
+    if "force" in kwargs and kwargs["force"]:
         r = context.session.post(uri, timeout=HTTP_TIMEOUT)
     else:
         r = context.session.get(uri, timeout=HTTP_TIMEOUT)
@@ -129,9 +131,9 @@ def purge(context, resource, **kwargs):
 def download(context, uri, target):
     r = context.session.get(uri, stream=True, timeout=HTTP_TIMEOUT)
     r.raise_for_status()
-    with open(target + '.part', 'wb') as f:
+    with open(target + ".part", "wb") as f:
         for chunk in r.iter_content(chunk_size=1024):
             if chunk:
                 f.write(chunk)
-    os.rename(target + '.part', target)
+    os.rename(target + ".part", target)
     return r

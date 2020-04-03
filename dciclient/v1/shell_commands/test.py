@@ -14,7 +14,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import click
 
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
@@ -23,14 +22,12 @@ from dciclient.v1.api import test
 
 
 @cli.command("test-list", help="List all tests.")
-@click.option("--sort", default="-created_at")
-@click.option("--limit", default=50)
-@click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
-@click.pass_obj
+@cli.option("--sort", default="-created_at")
+@cli.option("--limit", default=50)
+@cli.option("--offset", default=0)
+@cli.option("--where", help="An optional filter criteria.", required=False)
+@cli.option("--verbose", required=False, default=False, is_flag=True)
+@cli.pass_obj
 def list(context, sort, limit, offset, where, verbose):
     """list(context, sort, limit, offset, where, verbose)
 
@@ -44,21 +41,15 @@ def list(context, sort, limit, offset, where, verbose):
     :param string where: An optional filter criteria
     :param boolean verbose: Display verbose output
     """
-    result = test.list(
-        context,
-        sort=sort,
-        limit=limit,
-        offset=offset,
-        where=where
-    )
+    result = test.list(context, sort=sort, limit=limit, offset=offset, where=where)
     utils.format_output(result, context.format, verbose=verbose)
 
 
 @cli.command("test-create", help="Create a test.")
-@click.option("--name", required=True)
-@click.option("--data", callback=utils.validate_json, default='{}')
-@click.option("--active/--no-active", default=True)
-@click.pass_obj
+@cli.option("--name", required=True)
+@cli.option("--data", callback=utils.validate_json, default="{}")
+@cli.option("--active/--no-active", default=True)
+@cli.pass_obj
 def create(context, name, data, active):
     """create(context, name, data, active)
 
@@ -70,19 +61,18 @@ def create(context, name, data, active):
     :param json data: JSON formatted data block for the test
     :param boolean active: Set the test in the (in)active state
     """
-
     state = utils.active_string(active)
     result = test.create(context, name=name, data=data, state=state)
     utils.format_output(result, context.format)
 
 
 @cli.command("test-update", help="Update a test.")
-@click.argument("id")
-@click.option("--etag", required=True)
-@click.option("--name")
-@click.option("--data", callback=utils.validate_json)
-@click.option("--active/--no-active", default=None)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--etag", required=True)
+@cli.option("--name")
+@cli.option("--data", callback=utils.validate_json)
+@cli.option("--active/--no-active", default=True)
+@cli.pass_obj
 def update(context, id, name, etag, data, active):
     """update(context, id, etag, name, data, active)
 
@@ -96,15 +86,20 @@ def update(context, id, name, etag, data, active):
     :param string data: JSON data to pass during Test update
     :param boolean active: Set the test in the active state
     """
-
-    result = test.update(context, id=id, name=name, etag=etag,
-                         data=data, state=utils.active_string(active))
+    result = test.update(
+        context,
+        id=id,
+        name=name,
+        etag=etag,
+        data=data,
+        state=utils.active_string(active),
+    )
     utils.format_output(result, context.format)
 
 
 @cli.command("test-delete", help="Delete a test.")
-@click.argument("id")
-@click.pass_obj
+@cli.argument("id")
+@cli.pass_obj
 def delete(context, id):
     """delete(context, id)
 
@@ -117,14 +112,14 @@ def delete(context, id):
     result = test.delete(context, id=id)
 
     if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Test deleted.'})
+        utils.print_json({"id": id, "message": "Test deleted."})
     else:
         utils.format_output(result, context.format)
 
 
 @cli.command("test-show", help="Show a test.")
-@click.argument("id")
-@click.pass_obj
+@cli.argument("id")
+@cli.pass_obj
 def show(context, id):
     """show(context, id)
 

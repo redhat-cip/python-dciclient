@@ -25,3 +25,11 @@ class ServerError(Exception):
 
 class DuplicateResource(ServerError):
     """The resource already exist"""
+
+
+class BadParameter(Exception):
+    """Bad parameter"""
+
+
+class UsageError(Exception):
+    """CLI called with incorrect parameters"""

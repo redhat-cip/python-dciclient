@@ -17,13 +17,20 @@
 from dciclient.v1.api import base
 
 
-RESOURCE = 'users'
+RESOURCE = "users"
 
 
-def create(context, name, password, team_id, email, fullname, state='active'):
-    return base.create(context, RESOURCE, name=name, password=password,
-                       team_id=team_id, state=state,
-                       email=email, fullname=fullname)
+def create(context, name, password, team_id, email, fullname, state="active"):
+    return base.create(
+        context,
+        RESOURCE,
+        name=name,
+        password=password,
+        team_id=team_id,
+        state=state,
+        email=email,
+        fullname=fullname,
+    )
 
 
 def list(context, **kwargs):
@@ -35,15 +42,33 @@ def get(context, id, **kwargs):
 
 
 def get_current_user(context):
-    uri = '%s/%s/me' % (context.dci_cs_api, RESOURCE)
+    uri = "%s/%s/me" % (context.dci_cs_api, RESOURCE)
     return context.session.get(uri)
 
 
-def update(context, id, etag, name=None, password=None, team_id=None,
-           state=None, email=None, fullname=None):
-    return base.update(context, RESOURCE, id=id, etag=etag, name=name,
-                       password=password, team_id=team_id,
-                       state=state, email=email, fullname=fullname)
+def update(
+    context,
+    id,
+    etag,
+    name=None,
+    password=None,
+    team_id=None,
+    state=None,
+    email=None,
+    fullname=None,
+):
+    return base.update(
+        context,
+        RESOURCE,
+        id=id,
+        etag=etag,
+        name=name,
+        password=password,
+        team_id=team_id,
+        state=state,
+        email=email,
+        fullname=fullname,
+    )
 
 
 def delete(context, id, etag):

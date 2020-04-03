@@ -14,8 +14,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import click
-
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
@@ -24,15 +22,12 @@ from dciclient.v1.api import job
 
 
 @cli.command("job-list", help="List all jobs.")
-@click.option("--sort", default="-created_at")
-@click.option("--limit", help="Number of jobs to show up.",
-              required=False, default=10)
-@click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
-@click.pass_obj
+@cli.option("--sort", default="-created_at")
+@cli.option("--limit", help="Number of jobs to show up.", required=False, default=10)
+@cli.option("--offset", default=0)
+@cli.option("--where", help="An optional filter criteria.", required=False)
+@cli.option("--verbose", required=False, default=False, is_flag=True)
+@cli.pass_obj
 def list(context, sort, limit, offset, where, verbose):
     """list(context, sort, limit, offset, where, verbose)
 
@@ -52,17 +47,25 @@ def list(context, sort, limit, offset, where, verbose):
         limit=limit,
         offset=offset,
         where=where,
-        embed='topic,remoteci,team'
+        embed="topic,remoteci,team",
     )
-    headers = ['id', 'status', 'topic/name', 'remoteci/name',
-               'team/name', 'etag', 'created_at', 'updated_at']
+    headers = [
+        "id",
+        "status",
+        "topic/name",
+        "remoteci/name",
+        "team/name",
+        "etag",
+        "created_at",
+        "updated_at",
+    ]
 
     utils.format_output(result, context.format, headers, verbose=verbose)
 
 
 @cli.command("job-show", help="Show a job.")
-@click.argument('id')
-@click.pass_obj
+@cli.argument("id")
+@cli.pass_obj
 def show(context, id):
     """show(context, id)
 
@@ -77,9 +80,9 @@ def show(context, id):
 
 
 @cli.command("job-delete", help="Delete a job.")
-@click.argument("id")
-@click.option("--etag", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--etag", required=True)
+@cli.pass_obj
 def delete(context, id, etag):
     """delete(context, id, etag)
 
@@ -92,17 +95,17 @@ def delete(context, id, etag):
     """
     result = job.delete(context, id=id, etag=etag)
     if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Job deleted.'})
+        utils.print_json({"id": id, "message": "Job deleted."})
     else:
         utils.format_output(result, context.format)
 
 
 @cli.command("job-results", help="List all job results.")
-@click.argument("id")
-@click.option("--sort", default="-created_at")
-@click.option("--limit", default=50)
-@click.option("--offset", default=0)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--sort", default="-created_at")
+@cli.option("--limit", default=50)
+@cli.option("--offset", default=0)
+@cli.pass_obj
 def list_results(context, id, sort, limit, offset):
     """list_result(context, id, sort, limit, offset)
 
@@ -116,22 +119,24 @@ def list_results(context, id, sort, limit, offset):
     :param integer offset: Offset associated with the limit
     """
 
-    headers = ['filename', 'name', 'total', 'success', 'failures', 'errors',
-               'skips', 'time']
-    result = job.list_results(
-        context,
-        id=id,
-        sort=sort,
-        limit=limit,
-        offset=offset
-    )
+    headers = [
+        "filename",
+        "name",
+        "total",
+        "success",
+        "failures",
+        "errors",
+        "skips",
+        "time",
+    ]
+    result = job.list_results(context, id=id, sort=sort, limit=limit, offset=offset)
     utils.format_output(result, context.format, headers)
 
 
 @cli.command("job-attach-issue", help="Attach an issue to a job.")
-@click.argument("id")
-@click.option("--url", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--url", required=True)
+@cli.pass_obj
 def attach_issue(context, id, url):
     """attach_issue(context, id, url)
 
@@ -148,9 +153,9 @@ def attach_issue(context, id, url):
 
 
 @cli.command("job-unattach-issue", help="Unattach an issue from a job.")
-@click.argument("id")
-@click.option("--issue-id", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--issue-id", required=True)
+@cli.pass_obj
 def unattach_issue(context, id, issue_id):
     """unattach_issue(context, id, issue_id)
 
@@ -164,19 +169,18 @@ def unattach_issue(context, id, issue_id):
 
     result = job.unattach_issue(context, id=id, issue_id=issue_id)
     if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Issue unattached.'})
+        utils.print_json({"id": id, "message": "Issue unattached."})
     else:
         utils.format_output(result, context.format)
 
 
 @cli.command("job-list-issue", help="List all job attached issues.")
-@click.argument("id")
-@click.option("--sort", default="-created_at")
-@click.option("--limit", default=50)
-@click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--sort", default="-created_at")
+@cli.option("--limit", default=50)
+@cli.option("--offset", default=0)
+@cli.option("--where", help="An optional filter criteria.", required=False)
+@cli.pass_obj
 def list_issues(context, id, sort, limit, offset, where):
     """list_issues(context, id, sort, limit, offset, where)
 
@@ -192,20 +196,15 @@ def list_issues(context, id, sort, limit, offset, where):
     """
 
     result = job.list_issues(
-        context,
-        id=id,
-        sort=sort,
-        limit=limit,
-        offset=offset,
-        where=where
+        context, id=id, sort=sort, limit=limit, offset=offset, where=where
     )
-    headers = ['id', 'status', 'product', 'component', 'title', 'url']
+    headers = ["id", "status", "product", "component", "title", "url"]
     utils.format_output(result, context.format, headers)
 
 
 @cli.command("job-output", help="Show the job output.")
-@click.argument('id')
-@click.pass_obj
+@cli.argument("id")
+@cli.pass_obj
 def output(context, id):
     """output(context, id)
 
@@ -217,39 +216,32 @@ def output(context, id):
     """
 
     colors = {
-        'pre-run': '\x1b[6;30;44m',
-        'running': '\x1b[6;30;42m',
-        'post-run': '\x1b[6;30;44m',
-        'failure': '\x1b[6;30;41m'}
-    result = job.list_jobstates(context, id=id, sort='created_at')
-    jobstates = result.json()['jobstates']
+        "pre-run": "\x1b[6;30;44m",
+        "running": "\x1b[6;30;42m",
+        "post-run": "\x1b[6;30;44m",
+        "failure": "\x1b[6;30;41m",
+    }
+    result = job.list_jobstates(context, id=id, sort="created_at")
+    jobstates = result.json()["jobstates"]
 
     for js in jobstates:
-        color = colors.get(js['status'], '')
-        click.echo('%s[%s]\x1b[0m %s' % (
-            color,
-            js['status'],
-            js['comment']))
+        color = colors.get(js["status"], "")
+        cli.echo("%s[%s]\x1b[0m %s" % (color, js["status"], js["comment"]))
         f_l = job.list_files(
-            context,
-            id=id,
-            where='jobstate_id:' + js['id'],
-            sort='created_at')
-        for f in f_l.json()['files']:
-            click.echo(dci_file.content(context, id=f['id']).text)
+            context, id=id, where="jobstate_id:" + js["id"], sort="created_at"
+        )
+        for f in f_l.json()["files"]:
+            cli.echo(dci_file.content(context, id=f["id"]).text)
 
 
 @cli.command("job-list-test", help="List all tests attached to a job.")
-@click.argument("id")
-@click.option("--sort", default="-created_at")
-@click.option("--limit", help="Number of jobs to show up.",
-              required=False, default=10)
-@click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--sort", default="-created_at")
+@cli.option("--limit", help="Number of jobs to show up.", required=False, default=10)
+@cli.option("--offset", default=0)
+@cli.option("--where", help="An optional filter criteria.", required=False)
+@cli.option("--verbose", required=False, default=False, is_flag=True)
+@cli.pass_obj
 def list_tests(context, id, sort, limit, offset, where, verbose):
     """list_tests(context, id, sort, limit, offset, where, verbose)
 
@@ -266,20 +258,15 @@ def list_tests(context, id, sort, limit, offset, where, verbose):
     """
 
     result = job.list_tests(
-        context,
-        id=id,
-        sort=sort,
-        limit=limit,
-        offset=offset,
-        where=where
+        context, id=id, sort=sort, limit=limit, offset=offset, where=where
     )
     utils.format_output(result, context.format, verbose=verbose)
 
 
 @cli.command("job-add-tag", help="Add a tag to a job.")
-@click.argument("id", required=True)
-@click.argument("name", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.argument("name")
+@cli.pass_obj
 def add_tag(context, id, name):
     """add_tag(context, id, name)
 
@@ -296,9 +283,9 @@ def add_tag(context, id, name):
 
 
 @cli.command("job-delete-tag", help="Drop a tag from a job.")
-@click.argument("id")
-@click.argument("tag-id", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.argument("tag-id")
+@cli.pass_obj
 def delete_tag(context, id, tag_id):
     """delete_tag(context, id, tag_id)
 
@@ -312,14 +299,14 @@ def delete_tag(context, id, tag_id):
 
     result = job.delete_tag(context, id=id, tag_id=tag_id)
     if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Tag removed.'})
+        utils.print_json({"id": id, "message": "Tag removed."})
     else:
         utils.format_output(result, context.format)
 
 
 @cli.command("job-list-tags", help="List all the tags of a job.")
-@click.argument("id")
-@click.pass_obj
+@cli.argument("id")
+@cli.pass_obj
 def list_tags(context, id):
     """list_tags(context, id)
 
@@ -335,13 +322,13 @@ def list_tags(context, id):
 
 
 @cli.command("job-upload-file", help="Attach a file to a job.")
-@click.argument("id")
-@click.option("--name", required=True)
-@click.option("--path", required=True)
-@click.option("--jobstate-id", required=False)
-@click.option("--test-id", required=False)
-@click.option("--mime", required=False)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--name", required=True)
+@cli.option("--path", required=True)
+@cli.option("--jobstate-id", required=False)
+@cli.option("--test-id", required=False)
+@cli.option("--mime", required=False)
+@cli.pass_obj
 def file_upload(context, id, name, path, jobstate_id, test_id, mime):
     """file_upload(context, id, path)
 
@@ -356,21 +343,23 @@ def file_upload(context, id, name, path, jobstate_id, test_id, mime):
     :param string test_id: ID of the test if the file is a test result
     :param string mime: The mime type of the file
     """
-    result = dci_file.create_with_stream(context,
-                                         name=name,
-                                         job_id=id,
-                                         file_path=path,
-                                         jobstate_id=jobstate_id,
-                                         test_id=test_id,
-                                         mime=mime)
+    result = dci_file.create_with_stream(
+        context,
+        name=name,
+        job_id=id,
+        file_path=path,
+        jobstate_id=jobstate_id,
+        test_id=test_id,
+        mime=mime,
+    )
     utils.format_output(result, context.format)
 
 
 @cli.command("job-download-file", help="Retrieve a job file.")
-@click.argument("id")
-@click.option("--file-id", required=True)
-@click.option("--target", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--file-id", required=True)
+@cli.option("--target", required=True)
+@cli.pass_obj
 def file_download(context, id, file_id, target):
     """file_download(context, id, path)
 
@@ -386,9 +375,9 @@ def file_download(context, id, file_id, target):
 
 
 @cli.command("job-show-file", help="Show a job file.")
-@click.argument("id")
-@click.option("--file-id", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--file-id", required=True)
+@cli.pass_obj
 def file_show(context, id, file_id):
     """file_show(context, id, path)
 
@@ -404,15 +393,13 @@ def file_show(context, id, file_id):
 
 
 @cli.command("job-list-file", help="List files attached to a job.")
-@click.argument("id")
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
-@click.option("--sort", default="-created_at")
-@click.option("--limit", default=50)
-@click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--verbose", required=False, default=False, is_flag=True)
+@cli.option("--sort", default="-created_at")
+@cli.option("--limit", default=50)
+@cli.option("--offset", default=0)
+@cli.option("--where", help="An optional filter criteria.", required=False)
+@cli.pass_obj
 def file_list(context, id, sort, limit, offset, verbose, where):
     """file_list(context, id, sort, limit, offset, verbose, where)
 
@@ -426,20 +413,15 @@ def file_list(context, id, sort, limit, offset, verbose, where):
     :param integer offset: Offset associated with the limit
     """
     result = job.list_files(
-        context,
-        id=id,
-        sort=sort,
-        limit=limit,
-        offset=offset,
-        where=where
+        context, id=id, sort=sort, limit=limit, offset=offset, where=where
     )
     utils.format_output(result, context.format)
 
 
 @cli.command("job-delete-file", help="Delete a component file.")
-@click.argument("id")
-@click.option("--file-id", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--file-id", required=True)
+@cli.pass_obj
 def file_delete(context, id, file_id):
     """file_delete(context, id, path)
 

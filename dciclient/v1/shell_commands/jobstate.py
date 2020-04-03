@@ -14,8 +14,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import click
-
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
@@ -23,14 +21,12 @@ from dciclient.v1.api import jobstate
 
 
 @cli.command("jobstate-list", help="List all jobstates.")
-@click.option("--sort", default="-created_at")
-@click.option("--limit", default=50)
-@click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
-@click.pass_obj
+@cli.option("--sort", default="-created_at")
+@cli.option("--limit", default=50)
+@cli.option("--offset", default=0)
+@cli.option("--where", help="An optional filter criteria.", required=False)
+@cli.option("--verbose", required=False, default=False, is_flag=True)
+@cli.pass_obj
 def list(context, sort, limit, offset, where, verbose):
     """list(context, sort, limit, offset, where, verbose)
 
@@ -44,19 +40,13 @@ def list(context, sort, limit, offset, where, verbose):
     :param string where: An optional filter criteria
     :param boolean verbose: Display verbose output
     """
-    result = jobstate.list(
-        context,
-        sort=sort,
-        limit=limit,
-        offset=offset,
-        where=where
-    )
+    result = jobstate.list(context, sort=sort, limit=limit, offset=offset, where=where)
     utils.format_output(result, context.format, verbose=verbose)
 
 
 @cli.command("jobstate-show", help="Show a jobstate.")
-@click.argument("id")
-@click.pass_obj
+@cli.argument("id")
+@cli.pass_obj
 def show(context, id):
     """show(context, id)
 

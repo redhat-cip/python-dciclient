@@ -14,8 +14,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import click
-
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
@@ -24,14 +22,12 @@ from dciclient.v1.api import remoteci
 
 
 @cli.command("remoteci-list", help="List all remotecis.")
-@click.option("--sort", default="-created_at")
-@click.option("--limit", default=50)
-@click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
-@click.pass_obj
+@cli.option("--sort", default="-created_at")
+@cli.option("--limit", default=50)
+@cli.option("--offset", default=0)
+@cli.option("--where", help="An optional filter criteria.", required=False)
+@cli.option("--verbose", required=False, default=False, is_flag=True)
+@cli.pass_obj
 def list(context, sort, limit, offset, where, verbose):
     """list(context, sort, limit, offset, where, verbose)
 
@@ -45,22 +41,16 @@ def list(context, sort, limit, offset, where, verbose):
     :param string where: An optional filter criteria
     :param boolean verbose: Display verbose output
     """
-    result = remoteci.list(
-        context,
-        sort=sort,
-        limit=limit,
-        offset=offset,
-        where=where
-    )
+    result = remoteci.list(context, sort=sort, limit=limit, offset=offset, where=where)
     utils.format_output(result, context.format, verbose=verbose)
 
 
 @cli.command("remoteci-create", help="Create a remoteci.")
-@click.option("--name", required=True)
-@click.option("--team-id", required=False)
-@click.option("--data", default='{}', callback=utils.validate_json)
-@click.option("--active/--no-active", default=True)
-@click.pass_obj
+@cli.option("--name", required=True)
+@cli.option("--team-id", required=False)
+@cli.option("--data", default="{}", callback=utils.validate_json)
+@cli.option("--active/--no-active", default=True)
+@cli.pass_obj
 def create(context, name, team_id, data, active):
     """create(context, name, team_id, data, active)
 
@@ -78,19 +68,20 @@ def create(context, name, team_id, data, active):
 
     state = utils.active_string(active)
     team_id = team_id or identity.my_team_id(context)
-    result = remoteci.create(context, name=name, team_id=team_id,
-                             data=data, state=state)
+    result = remoteci.create(
+        context, name=name, team_id=team_id, data=data, state=state
+    )
     utils.format_output(result, context.format)
 
 
 @cli.command("remoteci-update", help="Update a remoteci.")
-@click.argument("id")
-@click.option("--etag", required=True)
-@click.option("--name")
-@click.option("--team-id")
-@click.option("--data", callback=utils.validate_json)
-@click.option("--active/--no-active", default=None)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--etag", required=True)
+@cli.option("--name")
+@cli.option("--team-id")
+@cli.option("--data", callback=utils.validate_json)
+@cli.option("--active/--no-active", default=True)
+@cli.pass_obj
 def update(context, id, etag, name, team_id, data, active):
     """update(context, id, etag, name, team_id, data, active)
 
@@ -106,16 +97,22 @@ def update(context, id, etag, name, team_id, data, active):
     :param boolean active: Mark remote CI active
     """
 
-    result = remoteci.update(context, id=id, etag=etag, name=name,
-                             team_id=team_id, data=data,
-                             state=utils.active_string(active))
+    result = remoteci.update(
+        context,
+        id=id,
+        etag=etag,
+        name=name,
+        team_id=team_id,
+        data=data,
+        state=utils.active_string(active),
+    )
     utils.format_output(result, context.format)
 
 
 @cli.command("remoteci-delete", help="Delete a remoteci.")
-@click.argument("id")
-@click.option("--etag", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--etag", required=True)
+@cli.pass_obj
 def delete(context, id, etag):
     """delete(context, id, etag)
 
@@ -129,14 +126,14 @@ def delete(context, id, etag):
     result = remoteci.delete(context, id=id, etag=etag)
 
     if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Remote CI deleted.'})
+        utils.print_json({"id": id, "message": "Remote CI deleted."})
     else:
         utils.format_output(result, context.format)
 
 
 @cli.command("remoteci-show", help="Show a remoteci.")
-@click.argument("id")
-@click.pass_obj
+@cli.argument("id")
+@cli.pass_obj
 def show(context, id):
     """show(context, id)
 
@@ -151,9 +148,9 @@ def show(context, id):
 
 
 @cli.command("remoteci-get-data", help="Retrieve data field from a remoteci.")
-@click.argument("id")
-@click.option("--keys")
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--keys")
+@cli.pass_obj
 def get_data(context, id, keys):
     """get_data(context, id, keys)
 
@@ -166,16 +163,15 @@ def get_data(context, id, keys):
     """
 
     if keys:
-        keys = keys.split(',')
+        keys = keys.split(",")
     result = remoteci.get_data(context, id=id, keys=keys)
     utils.format_output(result, context.format, keys)
 
 
-@cli.command("remoteci-attach-test",
-             help="Attach a test to a remoteci.")
-@click.argument("id")
-@click.option("--test-id", required=True)
-@click.pass_obj
+@cli.command("remoteci-attach-test", help="Attach a test to a remoteci.")
+@cli.argument("id")
+@cli.option("--test-id", required=True)
+@cli.pass_obj
 def attach_test(context, id, test_id):
     """attach_test(context, id, test_id)
 
@@ -186,22 +182,18 @@ def attach_test(context, id, test_id):
     :param string id: ID of the remoteci to attach the test to [required]
     :param string test_id: ID of the test to attach [required]
     """
-    result = remoteci.add_test(context, id=id,
-                               test_id=test_id)
-    utils.format_output(result, context.format, ['remoteci_id', 'test_id'])
+    result = remoteci.add_test(context, id=id, test_id=test_id)
+    utils.format_output(result, context.format, ["remoteci_id", "test_id"])
 
 
-@cli.command("remoteci-list-test",
-             help="List tests attached to a remoteci.")
-@click.argument("id")
-@click.option("--sort", default="-created_at")
-@click.option("--limit", default=50)
-@click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
-@click.pass_obj
+@cli.command("remoteci-list-test", help="List tests attached to a remoteci.")
+@cli.argument("id")
+@cli.option("--sort", default="-created_at")
+@cli.option("--limit", default=50)
+@cli.option("--offset", default=0)
+@cli.option("--where", help="An optional filter criteria.", required=False)
+@cli.option("--verbose", required=False, default=False, is_flag=True)
+@cli.pass_obj
 def list_test(context, id, sort, limit, offset, where, verbose):
     """list_test(context, id, sort, limit, offset, where, verbose)
 
@@ -218,21 +210,15 @@ def list_test(context, id, sort, limit, offset, where, verbose):
     :param boolean verbose: Display verbose output
     """
     result = remoteci.list_tests(
-        context,
-        id=id,
-        sort=sort,
-        limit=limit,
-        offset=offset,
-        where=where
+        context, id=id, sort=sort, limit=limit, offset=offset, where=where
     )
     utils.format_output(result, context.format, verbose=verbose)
 
 
-@cli.command("remoteci-unattach-test",
-             help="Unattach a test to a remoteci.")
-@click.argument("id")
-@click.option("--test-id", required=True)
-@click.pass_obj
+@cli.command("remoteci-unattach-test", help="Unattach a test to a remoteci.")
+@cli.argument("id")
+@cli.option("--test-id", required=True)
+@cli.pass_obj
 def unattach_test(context, id, test_id):
     """unattach_test(context, id, test_id)
 
@@ -244,20 +230,18 @@ def unattach_test(context, id, test_id):
                       [required]
     :param string test_id: ID of the test to unattach [required]
     """
-    result = remoteci.remove_test(context, id=id,
-                                  test_id=test_id)
+    result = remoteci.remove_test(context, id=id, test_id=test_id)
     if result.status_code == 204:
-        unattach_msg = 'Test unattached from Remoteci'
-        utils.print_json({'id': id,
-                          'message': unattach_msg})
+        unattach_msg = "Test unattached from Remoteci"
+        utils.print_json({"id": id, "message": unattach_msg})
     else:
         utils.format_output(result, context.format)
 
 
 @cli.command("remoteci-reset-api-secret", help="Reset a remoteci api secret.")
-@click.argument("id")
-@click.option("--etag", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--etag", required=True)
+@cli.pass_obj
 def reset_api_secret(context, id, etag):
     """reset_api_secret(context, id, etag)
 
@@ -269,14 +253,13 @@ def reset_api_secret(context, id, etag):
     :param string etag: Entity tag of the remote CI resource [required]
     """
     result = remoteci.reset_api_secret(context, id=id, etag=etag)
-    utils.format_output(result, context.format,
-                        headers=['id', 'api_secret', 'etag'])
+    utils.format_output(result, context.format, headers=["id", "api_secret", "etag"])
 
 
 @cli.command("remoteci-refresh-keys", help="Refresh a remoteci key pair.")
-@click.argument("id")
-@click.option("--etag", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--etag", required=True)
+@cli.pass_obj
 def refresh_keys(context, id, etag):
     """refresh_keys(context, id, etag)
 
@@ -291,11 +274,10 @@ def refresh_keys(context, id, etag):
     utils.format_output(result, context.format)
 
 
-@cli.command("remoteci-attach-user",
-             help="Attach a user to a remoteci.")
-@click.argument("id")
-@click.option("--user-id", required=True)
-@click.pass_obj
+@cli.command("remoteci-attach-user", help="Attach a user to a remoteci.")
+@cli.argument("id")
+@cli.option("--user-id", required=True)
+@cli.pass_obj
 def attach_user(context, id, user_id):
     """attach_user(context, id, user_id)
 
@@ -306,22 +288,18 @@ def attach_user(context, id, user_id):
     :param string id: ID of the remoteci to attach the user to [required]
     :param string user_id: ID of the user to attach [required]
     """
-    result = remoteci.add_user(context, id=id,
-                               user_id=user_id)
-    utils.format_output(result, context.format, ['remoteci_id', 'user_id'])
+    result = remoteci.add_user(context, id=id, user_id=user_id)
+    utils.format_output(result, context.format, ["remoteci_id", "user_id"])
 
 
-@cli.command("remoteci-list-user",
-             help="List users attached to a remoteci.")
-@click.argument("id")
-@click.option("--sort", default="-created_at")
-@click.option("--limit", default=50)
-@click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
-@click.pass_obj
+@cli.command("remoteci-list-user", help="List users attached to a remoteci.")
+@cli.argument("id")
+@cli.option("--sort", default="-created_at")
+@cli.option("--limit", default=50)
+@cli.option("--offset", default=0)
+@cli.option("--where", help="An optional filter criteria.", required=False)
+@cli.option("--verbose", required=False, default=False, is_flag=True)
+@cli.pass_obj
 def list_user(context, id, sort, limit, offset, where, verbose):
     """list_user(context, id, sort, limit, offset, where, verbose)
 
@@ -338,21 +316,15 @@ def list_user(context, id, sort, limit, offset, where, verbose):
     :param boolean verbose: Display verbose output
     """
     result = remoteci.list_users(
-        context,
-        id=id,
-        sort=sort,
-        limit=limit,
-        offset=offset,
-        where=where
+        context, id=id, sort=sort, limit=limit, offset=offset, where=where
     )
     utils.format_output(result, context.format, verbose=verbose)
 
 
-@cli.command("remoteci-unattach-user",
-             help="Unattach a user to a remoteci.")
-@click.argument("id")
-@click.option("--user-id", required=True)
-@click.pass_obj
+@cli.command("remoteci-unattach-user", help="Unattach a user to a remoteci.")
+@cli.argument("id")
+@cli.option("--user-id", required=True)
+@cli.pass_obj
 def unattach_user(context, id, user_id):
     """unattach_user(context, id, user_id)
 
@@ -364,10 +336,8 @@ def unattach_user(context, id, user_id):
                       [required]
     :param string user_id: ID of the user to unattach [required]
     """
-    result = remoteci.remove_user(context, id=id,
-                                  user_id=user_id)
+    result = remoteci.remove_user(context, id=id, user_id=user_id)
     if result.status_code == 204:
-        utils.print_json({'id': id,
-                          'message': 'User unattached from RemoteCI'})
+        utils.print_json({"id": id, "message": "User unattached from RemoteCI"})
     else:
         utils.format_output(result, context.format)

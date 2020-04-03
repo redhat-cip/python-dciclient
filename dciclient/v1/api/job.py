@@ -21,15 +21,22 @@ from dciclient.v1 import utils
 from dciclient.v1.api.tag import add_tag_to_resource, delete_tag_from_resource
 
 
-RESOURCE = 'jobs'
+RESOURCE = "jobs"
 
 
-def create(context, topic_id, team_id=None, components=None,
-           comment=None, previous_job_id=None):
-    job = base.create(context, RESOURCE, topic_id=topic_id, team_id=team_id,
-                      components=components, comment=comment,
-                      previous_job_id=previous_job_id)
-    context.last_job_id = job.json()['job']['id']
+def create(
+    context, topic_id, team_id=None, components=None, comment=None, previous_job_id=None
+):
+    job = base.create(
+        context,
+        RESOURCE,
+        topic_id=topic_id,
+        team_id=team_id,
+        components=components,
+        comment=comment,
+        previous_job_id=previous_job_id,
+    )
+    context.last_job_id = job.json()["job"]["id"]
     return job
 
 
@@ -42,29 +49,29 @@ def list(context, **kwargs):
 
 
 def schedule(context, topic_id, components=None):
-    uri = '%s/%s/schedule' % (context.dci_cs_api, RESOURCE)
-    data = {'topic_id': topic_id, 'components_ids': components}
+    uri = "%s/%s/schedule" % (context.dci_cs_api, RESOURCE)
+    data = {"topic_id": topic_id, "components_ids": components}
     data = utils.sanitize_kwargs(**data)
     r = context.session.post(uri, json=data)
     if r.status_code == 201:
-        context.last_job_id = r.json()['job']['id']
+        context.last_job_id = r.json()["job"]["id"]
     return r
 
 
 def job_update(context, job_id):
-    uri = '%s/%s/%s/update' % (context.dci_cs_api, RESOURCE, job_id)
+    uri = "%s/%s/%s/update" % (context.dci_cs_api, RESOURCE, job_id)
     r = context.session.post(uri)
     if r.status_code == 201:
-        context.last_job_id = r.json()['job']['id']
+        context.last_job_id = r.json()["job"]["id"]
     return r
 
 
 def upgrade(context, job_id):
-    uri = '%s/%s/upgrade' % (context.dci_cs_api, RESOURCE)
-    data = {'job_id': job_id}
+    uri = "%s/%s/upgrade" % (context.dci_cs_api, RESOURCE)
+    data = {"job_id": job_id}
     r = context.session.post(uri, json=data)
     if r.status_code == 201:
-        context.last_job_id = r.json()['job']['id']
+        context.last_job_id = r.json()["job"]["id"]
     return r
 
 
@@ -73,8 +80,7 @@ def get(context, id, **kwargs):
 
 
 def list_results(context, id, **kwargs):
-    return base.list(context, RESOURCE, id=id,
-                     subresource='results', **kwargs)
+    return base.list(context, RESOURCE, id=id, subresource="results", **kwargs)
 
 
 def iter(context, **kwargs):
@@ -82,7 +88,7 @@ def iter(context, **kwargs):
 
 
 def get_components(context, id):
-    uri = '%s/%s/%s/components' % (context.dci_cs_api, RESOURCE, id)
+    uri = "%s/%s/%s/components" % (context.dci_cs_api, RESOURCE, id)
     return context.session.get(uri)
 
 
@@ -91,50 +97,43 @@ def delete(context, id, etag):
 
 
 def list_files(context, id, **kwargs):
-    return base.list(context, RESOURCE, id=id,
-                     subresource='files', **kwargs)
+    return base.list(context, RESOURCE, id=id, subresource="files", **kwargs)
 
 
 def list_files_iter(context, id, **kwargs):
-    return base.iter(context, RESOURCE, id=id,
-                     subresource='files', **kwargs)
+    return base.iter(context, RESOURCE, id=id, subresource="files", **kwargs)
 
 
 def list_issues(context, id, **kwargs):
-    return base.list(context, RESOURCE, id=id,
-                     subresource='issues', **kwargs)
+    return base.list(context, RESOURCE, id=id, subresource="issues", **kwargs)
 
 
 def attach_issue(context, id, url):
-    uri = '%s/%s/%s/issues' % (context.dci_cs_api, RESOURCE, id)
-    data = {'url': url}
+    uri = "%s/%s/%s/issues" % (context.dci_cs_api, RESOURCE, id)
+    data = {"url": url}
     return context.session.post(uri, json=data)
 
 
 def unattach_issue(context, id, issue_id):
-    return base.delete(context, RESOURCE, id,
-                       subresource='issues',
-                       subresource_id=issue_id)
+    return base.delete(
+        context, RESOURCE, id, subresource="issues", subresource_id=issue_id
+    )
 
 
 def list_jobstates(context, id, **kwargs):
-    return base.list(context, RESOURCE, id=id,
-                     subresource='jobstates', **kwargs)
+    return base.list(context, RESOURCE, id=id, subresource="jobstates", **kwargs)
 
 
 def list_tests(context, id, **kwargs):
-    j = base.get(context, RESOURCE, id=id, **kwargs).json()['job']
-    result = {'tests': []}
-    result['tests'] += topic.list_tests(
-        context, j['topic_id']).json()['tests']
-    result['tests'] += remoteci.list_tests(
-        context, j['remoteci_id']).json()['tests']
+    j = base.get(context, RESOURCE, id=id, **kwargs).json()["job"]
+    result = {"tests": []}
+    result["tests"] += topic.list_tests(context, j["topic_id"]).json()["tests"]
+    result["tests"] += remoteci.list_tests(context, j["remoteci_id"]).json()["tests"]
     return result
 
 
 def list_tags(context, id):
-    return base.list(context, RESOURCE, id=id,
-                     subresource='tags')
+    return base.list(context, RESOURCE, id=id, subresource="tags")
 
 
 def add_tag(context, id, name):

@@ -14,8 +14,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import click
-
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
@@ -24,14 +22,12 @@ from dciclient.v1.api import user
 
 
 @cli.command("user-list", help="List all users.")
-@click.option("--sort", default="-created_at")
-@click.option("--limit", default=50)
-@click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
-@click.pass_obj
+@cli.option("--sort", default="-created_at")
+@cli.option("--limit", default=50)
+@cli.option("--offset", default=0)
+@cli.option("--where", help="An optional filter criteria.", required=False)
+@cli.option("--verbose", required=False, default=False, is_flag=True)
+@cli.pass_obj
 def list(context, sort, limit, offset, where, verbose):
     """list(context, sort, limit, offset, where, verbose)
 
@@ -45,24 +41,18 @@ def list(context, sort, limit, offset, where, verbose):
     :param string where: An optional filter criteria
     :param boolean verbose: Display verbose output
     """
-    result = user.list(
-        context,
-        sort=sort,
-        limit=limit,
-        offset=offset,
-        where=where
-    )
+    result = user.list(context, sort=sort, limit=limit, offset=offset, where=where)
     utils.format_output(result, context.format, verbose=verbose)
 
 
 @cli.command("user-create", help="Create a user.")
-@click.option("--name", required=True)
-@click.option("--password", required=True)
-@click.option("--email", required=True)
-@click.option("--fullname")
-@click.option("--active/--no-active", default=True)
-@click.option("--team-id")
-@click.pass_obj
+@cli.option("--name", required=True)
+@cli.option("--password", required=True)
+@cli.option("--email", required=True)
+@cli.option("--fullname")
+@cli.option("--active/--no-active", default=True)
+@cli.option("--team-id")
+@cli.pass_obj
 def create(context, name, password, team_id, active, email, fullname):
     """create(context, name, password, team_id, active, email, fullname)
 
@@ -79,24 +69,29 @@ def create(context, name, password, team_id, active, email, fullname):
     """
     team_id = team_id or identity.my_team_id(context)
     fullname = fullname or name
-    result = user.create(context, name=name, password=password,
-                         team_id=team_id, state=utils.active_string(active),
-                         email=email, fullname=fullname)
+    result = user.create(
+        context,
+        name=name,
+        password=password,
+        team_id=team_id,
+        state=utils.active_string(active),
+        email=email,
+        fullname=fullname,
+    )
     utils.format_output(result, context.format)
 
 
 @cli.command("user-update", help="Update a user.")
-@click.argument("id")
-@click.option("--etag", required=True)
-@click.option("--name")
-@click.option("--password")
-@click.option("--email")
-@click.option("--fullname")
-@click.option("--team-id")
-@click.option("--active/--no-active", default=None)
-@click.pass_obj
-def update(context, id, etag, name, password, email, fullname,
-           team_id, active):
+@cli.argument("id")
+@cli.option("--etag", required=True)
+@cli.option("--name")
+@cli.option("--password")
+@cli.option("--email")
+@cli.option("--fullname")
+@cli.option("--team-id")
+@cli.option("--active/--no-active", default=True)
+@cli.pass_obj
+def update(context, id, etag, name, password, email, fullname, team_id, active):
     """update(context, id, etag, name, password, email, fullname, team_id,
               active)
 
@@ -113,18 +108,25 @@ def update(context, id, etag, name, password, email, fullname,
     :param boolean active: Set the user in the active state
     """
 
-    result = user.update(context, id=id, etag=etag, name=name,
-                         password=password, team_id=team_id,
-                         state=utils.active_string(active),
-                         email=email, fullname=fullname)
+    result = user.update(
+        context,
+        id=id,
+        etag=etag,
+        name=name,
+        password=password,
+        team_id=team_id,
+        state=utils.active_string(active),
+        email=email,
+        fullname=fullname,
+    )
 
     utils.format_output(result, context.format)
 
 
 @cli.command("user-delete", help="Delete a user.")
-@click.argument("id")
-@click.option("--etag", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--etag", required=True)
+@cli.pass_obj
 def delete(context, id, etag):
     """delete(context, id, etag)
 
@@ -138,14 +140,14 @@ def delete(context, id, etag):
     result = user.delete(context, id=id, etag=etag)
 
     if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'User deleted.'})
+        utils.print_json({"id": id, "message": "User deleted."})
     else:
         utils.format_output(result, context.format)
 
 
 @cli.command("user-show", help="Show a user.")
-@click.argument("id")
-@click.pass_obj
+@cli.argument("id")
+@cli.pass_obj
 def show(context, id):
     """show(context, id)
 

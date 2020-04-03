@@ -20,18 +20,14 @@ from dciclient.v1 import utils
 from dciclient.v1.api import identity
 from dciclient.v1.api import topic
 
-import click
-
 
 @cli.command("topic-list", help="List all topics.")
-@click.option("--sort", default="-created_at")
-@click.option("--limit", default=50)
-@click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
-@click.pass_obj
+@cli.option("--sort", default="-created_at")
+@cli.option("--limit", default=50)
+@cli.option("--offset", default=0)
+@cli.option("--where", help="An optional filter criteria.", required=False)
+@cli.option("--verbose", required=False, default=False, is_flag=True)
+@cli.pass_obj
 def list(context, sort, limit, offset, where, verbose):
     """list(context, sort, limit, offset, where, verbose)
 
@@ -45,26 +41,19 @@ def list(context, sort, limit, offset, where, verbose):
     :param string where: An optional filter criteria
     :param boolean verbose: Display verbose output
     """
-    topics = topic.list(
-        context,
-        sort=sort,
-        limit=limit,
-        offset=offset,
-        where=where
-    )
+    topics = topic.list(context, sort=sort, limit=limit, offset=offset, where=where)
     utils.format_output(topics, context.format, verbose=verbose)
 
 
 @cli.command("topic-create", help="Create a topic.")
-@click.option("--name", required=True)
-@click.option("--product-id")
-@click.option("--component_types", help="Component types separated by commas.")
-@click.option("--active/--no-active", default=True)
-@click.option("--export-control/--no-export-control", default=False)
-@click.option("--data")
-@click.pass_obj
-def create(context, name, component_types, active, product_id, data,
-           export_control):
+@cli.option("--name", required=True)
+@cli.option("--product-id")
+@cli.option("--component_types", help="Component types separated by commas.")
+@cli.option("--active/--no-active", default=True)
+@cli.option("--export-control/--no-export-control", default=False)
+@cli.option("--data")
+@cli.pass_obj
+def create(context, name, component_types, active, product_id, data, export_control):
     """create(context, name, component_types, active, product_id, data,
     export_control)
 
@@ -80,29 +69,46 @@ def create(context, name, component_types, active, product_id, data,
     :param string data: JSON data of the topic
     """
     if component_types:
-        component_types = component_types.split(',')
+        component_types = component_types.split(",")
 
     state = utils.active_string(active)
-    result = topic.create(context, name=name, component_types=component_types,
-                          state=state, product_id=product_id, data=data,
-                          export_control=export_control)
+    result = topic.create(
+        context,
+        name=name,
+        component_types=component_types,
+        state=state,
+        product_id=product_id,
+        data=data,
+        export_control=export_control,
+    )
     utils.format_output(result, context.format)
 
 
 @cli.command("topic-update", help="Update a topic.")
-@click.argument("id")
-@click.option("--etag", required=True)
-@click.option("--name")
-@click.option("--component_types", help="Component types separated by commas.")
-@click.option("--label")
-@click.option("--next-topic-id")
-@click.option("--active/--no-active", default=None)
-@click.option("--export-control/--no-export-control", default=None)
-@click.option("--product-id")
-@click.option("--data")
-@click.pass_obj
-def update(context, id, etag, name, component_types,
-           label, next_topic_id, active, product_id, data, export_control):
+@cli.argument("id")
+@cli.option("--etag", required=True)
+@cli.option("--name")
+@cli.option("--component_types", help="Component types separated by commas.")
+@cli.option("--label")
+@cli.option("--next-topic-id")
+@cli.option("--active/--no-active", default=True)
+@cli.option("--export-control/--no-export-control", default=True)
+@cli.option("--product-id")
+@cli.option("--data")
+@cli.pass_obj
+def update(
+    context,
+    id,
+    etag,
+    name,
+    component_types,
+    label,
+    next_topic_id,
+    active,
+    product_id,
+    data,
+    export_control,
+):
     """update(context, id, etag, name, label, next_topic_id, active,
               product_id, data, export_control)
 
@@ -123,20 +129,27 @@ def update(context, id, etag, name, component_types,
     """
 
     if component_types:
-        component_types = component_types.split(',')
+        component_types = component_types.split(",")
 
-    result = topic.update(context, id=id, etag=etag, name=name,
-                          component_types=component_types,
-                          label=label, next_topic_id=next_topic_id,
-                          state=utils.active_string(active),
-                          product_id=product_id, data=data,
-                          export_control=export_control)
+    result = topic.update(
+        context,
+        id=id,
+        etag=etag,
+        name=name,
+        component_types=component_types,
+        label=label,
+        next_topic_id=next_topic_id,
+        state=utils.active_string(active),
+        product_id=product_id,
+        data=data,
+        export_control=export_control,
+    )
     utils.format_output(result, context.format)
 
 
 @cli.command("topic-delete", help="Delete a topic.")
-@click.argument("id")
-@click.pass_obj
+@cli.argument("id")
+@cli.pass_obj
 def delete(context, id):
     """delete(context, id)
 
@@ -148,14 +161,14 @@ def delete(context, id):
     """
     result = topic.delete(context, id=id)
     if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Topic deleted.'})
+        utils.print_json({"id": id, "message": "Topic deleted."})
     else:
         utils.format_output(result, context.format)
 
 
 @cli.command("topic-show", help="Show a topic.")
-@click.argument("id")
-@click.pass_obj
+@cli.argument("id")
+@cli.pass_obj
 def show(context, id):
     """show(context, id)
 
@@ -170,9 +183,9 @@ def show(context, id):
 
 
 @cli.command("topic-attach-team", help="Attach a team to a topic.")
-@click.argument("id")
-@click.option("--team-id", required=False)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--team-id", required=False)
+@cli.pass_obj
 def attach_team(context, id, team_id):
     """attach_team(context, id, team_id)
 
@@ -189,9 +202,9 @@ def attach_team(context, id, team_id):
 
 
 @cli.command("topic-unattach-team", help="Unattach a team from a topic.")
-@click.argument("id")
-@click.option("--team-id", required=False)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--team-id", required=False)
+@cli.pass_obj
 def unattach_team(context, id, team_id):
     """unattach_team(context, id, team_id)
 
@@ -206,21 +219,19 @@ def unattach_team(context, id, team_id):
     team_id = team_id or identity.my_team_id(context)
     result = topic.unattach_team(context, id=id, team_id=team_id)
     if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Teams has been unattached.'})
+        utils.print_json({"id": id, "message": "Teams has been unattached."})
     else:
         utils.format_output(result, context.format)
 
 
 @cli.command("topic-list-team", help="List teams attached to a topic.")
-@click.argument("id")
-@click.option("--sort", default="-created_at")
-@click.option("--limit", default=50)
-@click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--sort", default="-created_at")
+@cli.option("--limit", default=50)
+@cli.option("--offset", default=0)
+@cli.option("--where", help="An optional filter criteria.", required=False)
+@cli.option("--verbose", required=False, default=False, is_flag=True)
+@cli.pass_obj
 def list_attached_team(context, id, sort, limit, offset, where, verbose):
     """list_attached_team(context, id, sort, limit, offset, where, verbose)
 
@@ -236,11 +247,6 @@ def list_attached_team(context, id, sort, limit, offset, where, verbose):
     :param boolean verbose: Display verbose output
     """
     result = topic.list_teams(
-        context,
-        id=id,
-        sort=sort,
-        limit=limit,
-        offset=offset,
-        where=where
+        context, id=id, sort=sort, limit=limit, offset=offset, where=where
     )
     utils.format_output(result, context.format, verbose=verbose)

@@ -14,8 +14,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import click
-
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
@@ -23,9 +21,8 @@ from dciclient.v1.api import tag
 
 
 @cli.command("tag-list", help="List all tags.")
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
-@click.pass_obj
+@cli.option("--verbose", required=False, default=False, is_flag=True)
+@cli.pass_obj
 def list(context, verbose):
     """list(context, verbose)
 
@@ -40,8 +37,8 @@ def list(context, verbose):
 
 
 @cli.command("tag-create", help="Create a tag.")
-@click.option("--name", required=True)
-@click.pass_obj
+@cli.option("--name", required=True)
+@cli.pass_obj
 def create(context, name):
     """create(context, name)
 
@@ -57,9 +54,9 @@ def create(context, name):
 
 
 @cli.command("tag-delete", help="Delete a tag.")
-@click.argument("id")
-@click.option("--etag", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--etag", required=True)
+@cli.pass_obj
 def delete(context, id, etag):
     """delete(context, id, etag)
 
@@ -73,6 +70,6 @@ def delete(context, id, etag):
     result = tag.delete(context, id=id, etag=etag)
 
     if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Tag deleted.'})
+        utils.print_json({"id": id, "message": "Tag deleted."})
     else:
         utils.format_output(result, context.format)

@@ -14,8 +14,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import click
-
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
@@ -24,15 +22,13 @@ from dciclient.v1.api import topic
 
 
 @cli.command("component-list", help="List all components.")
-@click.option("--topic-id", required=True)
-@click.option("--sort", default="-created_at")
-@click.option("--limit", default=50)
-@click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
-@click.pass_obj
+@cli.option("--topic-id", required=True)
+@cli.option("--sort", default="-created_at")
+@cli.option("--limit", default=50)
+@cli.option("--offset", default=0)
+@cli.option("--where", help="An optional filter criteria.", required=False)
+@cli.option("--verbose", required=False, default=False, is_flag=True)
+@cli.pass_obj
 def list(context, topic_id, sort, limit, offset, where, verbose):
     """list(context, topic_id, sort, limit, offset, where, verbose)
 
@@ -49,30 +45,36 @@ def list(context, topic_id, sort, limit, offset, where, verbose):
     :param boolean verbose: Display verbose output
     """
     components = topic.list_components(
-        context,
-        id=topic_id,
-        sort=sort,
-        limit=limit,
-        offset=offset,
-        where=where
+        context, id=topic_id, sort=sort, limit=limit, offset=offset, where=where
     )
     utils.format_output(components, context.format, verbose=verbose)
 
 
 @cli.command("component-create", help="Create a component.")
-@click.option("--name", required=True, help='Name of component')
-@click.option("--type", required=True, help='Type of component')
-@click.option("--canonical_project_name", help='Canonical project name')
-@click.option("--data", default='{}', callback=utils.validate_json,
-              help='Data to pass (in JSON)')
-@click.option("--title", help='Title of component')
-@click.option("--message", help='Component message')
-@click.option("--url", help='URL to look for the component')
-@click.option("--topic-id", required=True, help='Topic ID')
-@click.option("--active/--no-active", default=True)
-@click.pass_obj
-def create(context, name, type, canonical_project_name, data,
-           title, message, url, topic_id, active):
+@cli.option("--name", required=True, help="Name of component")
+@cli.option("--type", required=True, help="Type of component")
+@cli.option("--canonical_project_name", help="Canonical project name")
+@cli.option(
+    "--data", default="{}", callback=utils.validate_json, help="Data to pass (in JSON)"
+)
+@cli.option("--title", help="Title of component")
+@cli.option("--message", help="Component message")
+@cli.option("--url", help="URL to look for the component")
+@cli.option("--topic-id", required=True, help="Topic ID")
+@cli.option("--active/--no-active", default=True)
+@cli.pass_obj
+def create(
+    context,
+    name,
+    type,
+    canonical_project_name,
+    data,
+    title,
+    message,
+    url,
+    topic_id,
+    active,
+):
     """create(context, name, type, canonical_project_name, data, title, message, url, topic_id, active)  # noqa
 
     Create a component.
@@ -92,19 +94,23 @@ def create(context, name, type, canonical_project_name, data,
 
     state = utils.active_string(active)
     result = component.create(
-        context, name=name, type=type,
+        context,
+        name=name,
+        type=type,
         canonical_project_name=canonical_project_name,
         data=data,
-        title=title, message=message, url=url,
+        title=title,
+        message=message,
+        url=url,
         topic_id=topic_id,
-        state=state
+        state=state,
     )
     utils.format_output(result, context.format)
 
 
 @cli.command("component-delete", help="Delete a component.")
-@click.argument("id")
-@click.pass_obj
+@cli.argument("id")
+@cli.pass_obj
 def delete(context, id):
     """delete(context, id)
 
@@ -116,14 +122,14 @@ def delete(context, id):
     """
     result = component.delete(context, id=id)
     if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Component deleted.'})
+        utils.print_json({"id": id, "message": "Component deleted."})
     else:
         utils.format_output(result, context.format)
 
 
 @cli.command("component-show", help="Show a component.")
-@click.argument("id")
-@click.pass_obj
+@cli.argument("id")
+@cli.pass_obj
 def show(context, id):
     """show(context, id)
 
@@ -138,9 +144,9 @@ def show(context, id):
 
 
 @cli.command("component-file-upload", help="Attach a file to a component.")
-@click.argument("id")
-@click.option("--path", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--path", required=True)
+@cli.pass_obj
 def file_upload(context, id, path):
     """file_upload(context, id, path)
 
@@ -156,9 +162,9 @@ def file_upload(context, id, path):
 
 
 @cli.command("component-file-show", help="Show a component file.")
-@click.argument("id")
-@click.option("--file-id", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--file-id", required=True)
+@cli.pass_obj
 def file_show(context, id, file_id):
     """file_show(context, id, path)
 
@@ -174,10 +180,10 @@ def file_show(context, id, file_id):
 
 
 @cli.command("component-file-download", help="Retrieve a component file.")
-@click.argument("id")
-@click.option("--file-id", required=True)
-@click.option("--target", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--file-id", required=True)
+@cli.option("--target", required=True)
+@cli.pass_obj
 def file_download(context, id, file_id, target):
     """file_download(context, id, path)
 
@@ -193,15 +199,13 @@ def file_download(context, id, file_id, target):
 
 
 @cli.command("component-file-list", help="List files attached to a component.")
-@click.argument("id")
-@click.option("--sort", default="-created_at")
-@click.option("--limit", default=50)
-@click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--sort", default="-created_at")
+@cli.option("--limit", default=50)
+@cli.option("--offset", default=0)
+@cli.option("--where", help="An optional filter criteria.", required=False)
+@cli.option("--verbose", required=False, default=False, is_flag=True)
+@cli.pass_obj
 def file_list(context, id, sort, limit, offset, where, verbose):
     """file_list(context, id, sort, limit, offset, where, verbose)
 
@@ -217,20 +221,15 @@ def file_list(context, id, sort, limit, offset, where, verbose):
     :param boolean verbose: Display verbose output
     """
     result = component.file_list(
-        context,
-        id=id,
-        sort=sort,
-        limit=limit,
-        offset=offset,
-        where=where
+        context, id=id, sort=sort, limit=limit, offset=offset, where=where
     )
     utils.format_output(result, context.format, verbose=verbose)
 
 
 @cli.command("component-file-delete", help="Delete a component file.")
-@click.argument("id")
-@click.option("--file-id", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--file-id", required=True)
+@cli.pass_obj
 def file_delete(context, id, file_id):
     """file_delete(context, id, path)
 
@@ -245,9 +244,9 @@ def file_delete(context, id, file_id):
 
 
 @cli.command("component-update", help="Update a component.")
-@click.argument("id")
-@click.option("--active/--no-active", default=None)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--active/--no-active", default=True)
+@cli.pass_obj
 def update(context, id, active):
     """update(context, id, active)
 
@@ -261,18 +260,19 @@ def update(context, id, active):
 
     component_info = component.get(context, id=id)
 
-    etag = component_info.json()['component']['etag']
+    etag = component_info.json()["component"]["etag"]
 
-    result = component.update(context, id=id, etag=etag,
-                              state=utils.active_string(active))
+    result = component.update(
+        context, id=id, etag=etag, state=utils.active_string(active)
+    )
 
     utils.format_output(result, context.format)
 
 
 @cli.command("component-attach-issue", help="Attach an issue to a component.")
-@click.argument("id")
-@click.option("--url", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--url", required=True)
+@cli.pass_obj
 def attach_issue(context, id, url):
     """attach_issue(context, id, url)
 
@@ -286,16 +286,15 @@ def attach_issue(context, id, url):
 
     result = component.attach_issue(context, id=id, url=url)
     if result.status_code == 201:
-        utils.print_json({'id': id, 'message': 'Issue attached.'})
+        utils.print_json({"id": id, "message": "Issue attached."})
     else:
         utils.format_output(result, context.format)
 
 
-@cli.command("component-unattach-issue",
-             help="Unattach an issue from a component.")
-@click.argument("id")
-@click.option("--issue-id", required=True)
-@click.pass_obj
+@cli.command("component-unattach-issue", help="Unattach an issue from a component.")
+@cli.argument("id")
+@cli.option("--issue-id", required=True)
+@cli.pass_obj
 def unattach_issue(context, id, issue_id):
     """unattach_issue(context, id, issue_id)
 
@@ -309,18 +308,17 @@ def unattach_issue(context, id, issue_id):
 
     result = component.unattach_issue(context, id=id, issue_id=issue_id)
     if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Issue unattached.'})
+        utils.print_json({"id": id, "message": "Issue unattached."})
     else:
         utils.format_output(result, context.format)
 
 
-@cli.command("component-list-issue",
-             help="List all component attached issues.")
-@click.argument("id")
-@click.option("--sort", default="-created_at")
-@click.option("--limit", default=50)
-@click.option("--offset", default=0)
-@click.pass_obj
+@cli.command("component-list-issue", help="List all component attached issues.")
+@cli.argument("id")
+@cli.option("--sort", default="-created_at")
+@cli.option("--limit", default=50)
+@cli.option("--offset", default=0)
+@cli.pass_obj
 def list_issues(context, id, sort, limit, offset):
     """list_issues(context, id, sort, limit, offset)
 
@@ -332,11 +330,7 @@ def list_issues(context, id, sort, limit, offset):
     """
 
     result = component.list_issues(
-        context,
-        id=id,
-        sort=sort,
-        limit=limit,
-        offset=offset
+        context, id=id, sort=sort, limit=limit, offset=offset
     )
-    headers = ['id', 'status', 'product', 'component', 'title', 'url']
+    headers = ["id", "status", "product", "component", "title", "url"]
     utils.format_output(result, context.format, headers)

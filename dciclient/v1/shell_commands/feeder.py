@@ -14,8 +14,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import click
-
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
@@ -23,14 +21,12 @@ from dciclient.v1.api import feeder
 
 
 @cli.command("feeder-list", help="List all feeders.")
-@click.option("--sort", default="-created_at")
-@click.option("--limit", default=50)
-@click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
-@click.pass_obj
+@cli.option("--sort", default="-created_at")
+@cli.option("--limit", default=50)
+@cli.option("--offset", default=0)
+@cli.option("--where", help="An optional filter criteria.", required=False)
+@cli.option("--verbose", required=False, default=False, is_flag=True)
+@cli.pass_obj
 def list(context, sort, limit, offset, where, verbose):
     """list(context, sort, limit, offset, where, verbose)
 
@@ -44,22 +40,16 @@ def list(context, sort, limit, offset, where, verbose):
     :param string where: An optional filter criteria
     :param boolean verbose: Display verbose output
     """
-    result = feeder.list(
-        context,
-        sort=sort,
-        limit=limit,
-        offset=offset,
-        where=where
-    )
+    result = feeder.list(context, sort=sort, limit=limit, offset=offset, where=where)
     utils.format_output(result, context.format, verbose=verbose)
 
 
 @cli.command("feeder-create", help="Create a feeder.")
-@click.option("--name", required=True)
-@click.option("--team-id", required=True)
-@click.option("--data", default='{}', callback=utils.validate_json)
-@click.option("--active/--no-active", default=True)
-@click.pass_obj
+@cli.option("--name", required=True)
+@cli.option("--team-id", required=True)
+@cli.option("--data", default="{}", callback=utils.validate_json)
+@cli.option("--active/--no-active", default=True)
+@cli.pass_obj
 def create(context, name, team_id, data, active):
     """create(context, name, team_id, data, active)
 
@@ -77,19 +67,18 @@ def create(context, name, team_id, data, active):
 
     state = utils.active_string(active)
     team_id = team_id
-    result = feeder.create(context, name=name, team_id=team_id, data=data,
-                           state=state)
+    result = feeder.create(context, name=name, team_id=team_id, data=data, state=state)
     utils.format_output(result, context.format)
 
 
 @cli.command("feeder-update", help="Update a feeder.")
-@click.argument("id")
-@click.option("--etag", required=True)
-@click.option("--name")
-@click.option("--team-id")
-@click.option("--data", callback=utils.validate_json)
-@click.option("--active/--no-active", default=None)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--etag", required=True)
+@cli.option("--name")
+@cli.option("--team-id")
+@cli.option("--data", callback=utils.validate_json)
+@cli.option("--active/--no-active", default=True)
+@cli.pass_obj
 def update(context, id, etag, name, team_id, data, active):
     """update(context, id, etag, name, team_id, data, active)
 
@@ -105,16 +94,22 @@ def update(context, id, etag, name, team_id, data, active):
     :param boolean active: Mark feeder active
     """
 
-    result = feeder.update(context, id=id, etag=etag, name=name,
-                           team_id=team_id, data=data,
-                           state=utils.active_string(active))
+    result = feeder.update(
+        context,
+        id=id,
+        etag=etag,
+        name=name,
+        team_id=team_id,
+        data=data,
+        state=utils.active_string(active),
+    )
     utils.format_output(result, context.format)
 
 
 @cli.command("feeder-delete", help="Delete a feeder.")
-@click.argument("id")
-@click.option("--etag", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--etag", required=True)
+@cli.pass_obj
 def delete(context, id, etag):
     """delete(context, id, etag)
 
@@ -128,14 +123,14 @@ def delete(context, id, etag):
     result = feeder.delete(context, id=id, etag=etag)
 
     if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Feeder deleted.'})
+        utils.print_json({"id": id, "message": "Feeder deleted."})
     else:
         utils.format_output(result, context.format)
 
 
 @cli.command("feeder-show", help="Show a feeder.")
-@click.argument("id")
-@click.pass_obj
+@cli.argument("id")
+@cli.pass_obj
 def show(context, id):
     """show(context, id)
 
@@ -150,9 +145,9 @@ def show(context, id):
 
 
 @cli.command("feeder-reset-api-secret", help="Reset a feeder api secret.")
-@click.argument("id")
-@click.option("--etag", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--etag", required=True)
+@cli.pass_obj
 def reset_api_secret(context, id, etag):
     """reset_api_secret(context, id, etag)
 
@@ -164,5 +159,4 @@ def reset_api_secret(context, id, etag):
     :param string etag: Entity tag of the feeder resource [required]
     """
     result = feeder.reset_api_secret(context, id=id, etag=etag)
-    utils.format_output(result, context.format,
-                        headers=['id', 'api_secret', 'etag'])
+    utils.format_output(result, context.format, headers=["id", "api_secret", "etag"])

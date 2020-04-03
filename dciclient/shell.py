@@ -14,7 +14,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from dciclient.v1 import shell_commands
+from dciclient.v1.shell_commands import cli
 
 
-main = shell_commands.cli
+main = cli

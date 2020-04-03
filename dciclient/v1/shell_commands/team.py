@@ -14,8 +14,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import click
-
 from dciclient.v1.shell_commands import cli
 from dciclient.v1 import utils
 
@@ -23,14 +21,12 @@ from dciclient.v1.api import team
 
 
 @cli.command("team-list", help="List all teams.")
-@click.option("--sort", default="-created_at")
-@click.option("--limit", default=50)
-@click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
-@click.pass_obj
+@cli.option("--sort", default="-created_at")
+@cli.option("--limit", default=50)
+@cli.option("--offset", default=0)
+@cli.option("--where", help="An optional filter criteria.", required=False)
+@cli.option("--verbose", required=False, default=False, is_flag=True)
+@cli.pass_obj
 def list(context, sort, limit, offset, where, verbose):
     """list(context, sort, limit, offset, where, verbose)
 
@@ -44,21 +40,15 @@ def list(context, sort, limit, offset, where, verbose):
     :param string where: An optional filter criteria
     :param boolean verbose: Display verbose output
     """
-    result = team.list(
-        context,
-        sort=sort,
-        limit=limit,
-        offset=offset,
-        where=where
-    )
+    result = team.list(context, sort=sort, limit=limit, offset=offset, where=where)
     utils.format_output(result, context.format, verbose=verbose)
 
 
 @cli.command("team-create", help="Create a team.")
-@click.option("--name", required=True)
-@click.option("--country")
-@click.option("--active/--no-active", default=True)
-@click.pass_obj
+@cli.option("--name", required=True)
+@cli.option("--country")
+@cli.option("--active/--no-active", default=True)
+@cli.pass_obj
 def create(context, name, country, active):
     """create(context, name, country, active)
 
@@ -77,13 +67,13 @@ def create(context, name, country, active):
 
 
 @cli.command("team-update", help="Update a team.")
-@click.argument("id")
-@click.option("--etag", required=True)
-@click.option("--name")
-@click.option("--country")
-@click.option("--active/--no-active", default=None)
-@click.option("--external/--no-external", default=None)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--etag", required=True)
+@cli.option("--name")
+@cli.option("--country")
+@cli.option("--active/--no-active", default=True)
+@cli.option("--external/--no-external", default=True)
+@cli.pass_obj
 def update(context, id, etag, name, country, active, external):
     """update(context, id, etag, name, country, active, external)
 
@@ -99,18 +89,23 @@ def update(context, id, etag, name, country, active, external):
     :param boolean external: Set the team as external
     """
 
-    result = team.update(context, id=id, etag=etag, name=name,
-                         state=utils.active_string(active),
-                         country=country,
-                         external=external)
+    result = team.update(
+        context,
+        id=id,
+        etag=etag,
+        name=name,
+        state=utils.active_string(active),
+        country=country,
+        external=external,
+    )
 
     utils.format_output(result, context.format)
 
 
 @cli.command("team-delete", help="Delete a team.")
-@click.argument("id")
-@click.option("--etag", required=True)
-@click.pass_obj
+@cli.argument("id")
+@cli.option("--etag", required=True)
+@cli.pass_obj
 def delete(context, id, etag):
     """delete(context, id, etag)
 
@@ -124,14 +119,14 @@ def delete(context, id, etag):
     result = team.delete(context, id=id, etag=etag)
 
     if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Team deleted.'})
+        utils.print_json({"id": id, "message": "Team deleted."})
     else:
         utils.format_output(result, context.format)
 
 
 @cli.command("team-show", help="Show a team.")
-@click.argument("id")
-@click.pass_obj
+@cli.argument("id")
+@cli.pass_obj
 def show(context, id):
     """show(context, id)
 
