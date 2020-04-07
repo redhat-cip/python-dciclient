@@ -14,44 +14,16 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from __future__ import unicode_literals
 
-
-def test_prettytable_output(runner, team_id):
-    user = runner.invoke_raw_parse(
-        [
-            "user-create",
-            "--name",
-            "foo",
-            "--email",
-            "foo@example.org",
-            "--password",
-            "pass",
-            "--team-id",
-            team_id,
-        ]
-    )
-    assert user["team_id"] == team_id
-    assert user == runner.invoke_raw_parse(["user-show", user["id"]])
-    assert "etag" not in runner.invoke_raw_parse(["user-list"])
-    assert "etag" in runner.invoke_raw_parse(["user-list", "--long"])
-
-
-def test_fail_create_user_no_email(runner, team_id):
-    assert 'Error: Missing option "--email"' in runner.invoke_raw_parse(
-        ["user-create", "--name", "foo", "--password", "pass", "--team-id", team_id]
-    )
-
-
-def test_create_user(runner, test_user, team_user_id):
+def test_create_user(toto_context, test_user, team_user_id):
     assert test_user["name"] == "foo"
     assert test_user["fullname"] == "Foo Bar"
     assert test_user["email"] == "foo@example.org"
     assert test_user["team_id"] == team_user_id
 
 
-def test_create_admin(runner, team_id):
-    user = runner.invoke(
+def test_create_admin(toto_context, team_id):
+    user = toto_context.invoke(
         [
             "user-create",
             "--name",
@@ -70,8 +42,8 @@ def test_create_admin(runner, team_id):
     assert user["team_id"] == team_id
 
 
-def test_create_super_admin(runner, team_id):
-    user = runner.invoke(
+def test_create_super_admin(toto_context, team_id):
+    user = toto_context.invoke(
         [
             "user-create",
             "--name",
@@ -90,8 +62,8 @@ def test_create_super_admin(runner, team_id):
     assert user["team_id"] == team_id
 
 
-def test_create_inactive(runner, team_id):
-    user = runner.invoke(
+def test_create_inactive(toto_context, team_id):
+    user = toto_context.invoke(
         [
             "user-create",
             "--name",
@@ -108,9 +80,9 @@ def test_create_inactive(runner, team_id):
     assert user["state"] == "inactive"
 
 
-def test_list(runner, team_id):
-    users_cnt = len(runner.invoke(["user-list"])["users"])
-    runner.invoke(
+def test_list(toto_context, team_id):
+    users_cnt = len(toto_context.invoke(["user-list"])["users"])
+    toto_context.invoke(
         [
             "user-create",
             "--name",
@@ -123,12 +95,12 @@ def test_list(runner, team_id):
             team_id,
         ]
     )
-    new_users_cnt = len(runner.invoke(["user-list"])["users"])
+    new_users_cnt = len(toto_context.invoke(["user-list"])["users"])
     assert new_users_cnt == users_cnt + 1
 
 
-def test_update(runner, test_user):
-    runner.invoke(
+def test_update(toto_context, test_user):
+    toto_context.invoke(
         [
             "user-update",
             test_user["id"],
@@ -142,18 +114,18 @@ def test_update(runner, test_user):
             "Barry White",
         ]
     )
-    user = runner.invoke(["user-show", test_user["id"]])["user"]
+    user = toto_context.invoke(["user-show", test_user["id"]])["user"]
 
     assert user["name"] == "bar"
     assert user["fullname"] == "Barry White"
     assert user["email"] == "bar@example.org"
 
 
-def test_update_team_id(runner, test_user, team_user_id, team_id):
-    user = runner.invoke(["user-show", test_user["id"]])["user"]
+def test_update_team_id(toto_context, test_user, team_user_id, team_id):
+    user = toto_context.invoke(["user-show", test_user["id"]])["user"]
     assert user["team_id"] == team_user_id
 
-    runner.invoke(
+    toto_context.invoke(
         [
             "user-update",
             test_user["id"],
@@ -163,21 +135,21 @@ def test_update_team_id(runner, test_user, team_user_id, team_id):
             team_id,
         ]
     )
-    user = runner.invoke(["user-show", test_user["id"]])["user"]
+    user = toto_context.invoke(["user-show", test_user["id"]])["user"]
     assert user["team_id"] == team_id
 
 
-def test_update_active(runner, test_user, team_id):
+def test_update_active(toto_context, test_user, team_id):
     assert test_user["state"] == "active"
 
-    result = runner.invoke(
+    result = toto_context.invoke(
         ["user-update", test_user["id"], "--etag", test_user["etag"], "--no-active"]
     )
 
     assert result["user"]["id"] == test_user["id"]
     assert result["user"]["state"] == "inactive"
 
-    result = runner.invoke(
+    result = toto_context.invoke(
         [
             "user-update",
             test_user["id"],
@@ -192,28 +164,28 @@ def test_update_active(runner, test_user, team_id):
     assert result["user"]["state"] == "inactive"
     assert result["user"]["name"] == "foobar"
 
-    result = runner.invoke(
+    result = toto_context.invoke(
         ["user-update", test_user["id"], "--etag", result["user"]["etag"], "--active"]
     )
 
     assert result["user"]["state"] == "active"
 
 
-def test_delete(runner, test_user, team_id):
-    result = runner.invoke(
+def test_delete(toto_context, test_user, team_id):
+    result = toto_context.invoke_raw(
         ["user-delete", test_user["id"], "--etag", test_user["etag"]]
     )
-    assert result["message"] == "User deleted."
+    assert result.status_code == 204
 
 
-def test_show(runner, test_user, team_id):
-    user = runner.invoke(["user-show", test_user["id"]])["user"]
+def test_show(toto_context, test_user, team_id):
+    user = toto_context.invoke(["user-show", test_user["id"]])["user"]
 
     assert user["name"] == test_user["name"]
 
 
-def test_where_on_list(runner, test_user, team_id):
-    runner.invoke(
+def test_where_on_list(toto_context, test_user, team_id):
+    toto_context.invoke(
         [
             "user-create",
             "--name",
@@ -226,7 +198,7 @@ def test_where_on_list(runner, test_user, team_id):
             team_id,
         ]
     )
-    runner.invoke(
+    toto_context.invoke(
         [
             "user-create",
             "--name",
@@ -239,6 +211,8 @@ def test_where_on_list(runner, test_user, team_id):
             team_id,
         ]
     )
-    users_cnt = len(runner.invoke(["user-list"])["users"])
-    assert runner.invoke(["user-list"])["_meta"]["count"] == users_cnt
-    assert runner.invoke(["user-list", "--where", "name:foo"])["_meta"]["count"] == 1
+    users_cnt = len(toto_context.invoke(["user-list"])["users"])
+    assert toto_context.invoke(["user-list"])["_meta"]["count"] == users_cnt
+    assert (
+        toto_context.invoke(["user-list", "--where", "name:foo"])["_meta"]["count"] == 1
+    )
