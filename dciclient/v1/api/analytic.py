@@ -38,7 +38,7 @@ def list(context, job_id):
     return context.session.get(uri, timeout=base.HTTP_TIMEOUT)
 
 
-def put(context, id, job_id, etag, name, type, url, data):
+def update(context, id, job_id, etag, name, type, url, data):
     put_data = utils.sanitize_kwargs(name=name, type=type, url=url, data=data)
     uri = "%s/jobs/%s/%s/%s" % (context.dci_cs_api, job_id, RESOURCE, id)
     return context.session.put(

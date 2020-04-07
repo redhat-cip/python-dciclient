@@ -15,7 +15,7 @@
 # under the License.
 
 
-import dciclient.v1.api.file as dci_file
+from dciclient.v1.api import file as dci_file
 from dciclient.v1.api import job
 
 
