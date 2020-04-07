@@ -17,13 +17,19 @@
 from dciclient.v1.api import base
 
 
-RESOURCE = 'products'
+RESOURCE = "products"
 
 
-def create(context, name, team_id=None, label=None, description=None,
-           state=None):
-    return base.create(context, RESOURCE, name=name, team_id=team_id,
-                       label=label, description=description, state=state)
+def create(context, name, team_id=None, label=None, description=None, state=None):
+    return base.create(
+        context,
+        RESOURCE,
+        name=name,
+        team_id=team_id,
+        label=label,
+        description=description,
+        state=state,
+    )
 
 
 def list(context, **kwargs):
@@ -43,14 +49,15 @@ def delete(context, id, etag):
 
 
 def attach_team(context, id, team_id):
-    uri = '%s/%s/%s/teams' % (context.dci_cs_api, RESOURCE, id)
-    return context.session.post(uri, json={'team_id': team_id})
+    uri = "%s/%s/%s/teams" % (context.dci_cs_api, RESOURCE, id)
+    return context.session.post(uri, json={"team_id": team_id})
 
 
 def detach_team(context, id, team_id):
-    return base.delete(context, RESOURCE, id,
-                       subresource='teams', subresource_id=team_id)
+    return base.delete(
+        context, RESOURCE, id, subresource="teams", subresource_id=team_id
+    )
 
 
 def list_teams(context, id, **kwargs):
-    return base.list(context, RESOURCE, id=id, subresource='teams', **kwargs)
+    return base.list(context, RESOURCE, id=id, subresource="teams", **kwargs)

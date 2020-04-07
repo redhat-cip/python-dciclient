@@ -17,22 +17,21 @@
 from dciclient.v1.api import component
 
 
-def test_success_download_component_file_returns_http_response(dci_context,
-                                                               component_id,
-                                                               tmpdir):
+def test_success_download_component_file_returns_http_response(
+    dci_context, component_id, tmpdir
+):
     """Ensure an http response is retrieved."""
 
-    tmp_file = tmpdir.mkdir('data').join('content')
-    tmp_file.write('DISTRIBUTED-CI')
+    tmp_file = tmpdir.mkdir("data").join("content")
+    tmp_file.write("DISTRIBUTED-CI")
 
     component.file_upload(dci_context, component_id, tmp_file.strpath)
 
-    file_id = component.file_list(
-        dci_context, component_id
-    ).json()['component_files'][0]['id']
+    file_id = component.file_list(dci_context, component_id).json()["component_files"][
+        0
+    ]["id"]
 
-    res = component.file_download(dci_context, component_id, file_id,
-                                  tmp_file.strpath)
+    res = component.file_download(dci_context, component_id, file_id, tmp_file.strpath)
 
     assert res.status_code == 200
 
@@ -43,6 +42,6 @@ def test_add_tag(dci_context, component_id):
 
 
 def test_delete_tag(dci_context, component_id):
-    tag = component.add_tag(dci_context, component_id, "tag 1").json()['tag']
+    tag = component.add_tag(dci_context, component_id, "tag 1").json()["tag"]
     res = component.delete_tag(dci_context, component_id, tag["id"])
     assert res.status_code == 204

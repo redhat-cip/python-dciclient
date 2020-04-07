@@ -17,10 +17,10 @@
 from dciclient.v1.api import base
 
 
-RESOURCE = 'tests'
+RESOURCE = "tests"
 
 
-def create(context, name, data={}, state='active'):
+def create(context, name, data={}, state="active"):
     return base.create(context, RESOURCE, name=name, data=data, state=state)
 
 
@@ -37,5 +37,6 @@ def delete(context, id):
 
 
 def update(context, id, etag, name=None, data=None, state=None):
-    return base.update(context, RESOURCE, id=id, etag=etag, name=name,
-                       data=data, state=state)
+    return base.update(
+        context, RESOURCE, id=id, etag=etag, name=name, data=data, state=state
+    )

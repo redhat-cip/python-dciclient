@@ -28,10 +28,10 @@ from dciclient.v1.api import file
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
 @click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
+@click.option("--where", help="An optional filter criteria.", required=False)
+@click.option(
+    "--long", "--verbose", "verbose", required=False, default=False, is_flag=True
+)
 @click.pass_obj
 def list(context, job_id, sort, limit, offset, where, verbose):
     """list(context, job_id, sort, limit, offset, where, verbose)
@@ -47,12 +47,7 @@ def list(context, job_id, sort, limit, offset, where, verbose):
     :param boolean verbose: Display verbose output
     """
     result = job.list_files(
-        context,
-        id=job_id,
-        sort=sort,
-        limit=limit,
-        offset=offset,
-        where=where
+        context, id=job_id, sort=sort, limit=limit, offset=offset, where=where
     )
     utils.format_output(result, context.format, verbose=verbose)
 
@@ -88,6 +83,6 @@ def delete(context, id):
     result = file.delete(context, id=id)
 
     if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'File deleted.'})
+        utils.print_json({"id": id, "message": "File deleted."})
     else:
         utils.format_output(result, context.format)

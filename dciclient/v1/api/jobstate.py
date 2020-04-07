@@ -17,12 +17,11 @@
 from dciclient.v1.api import base
 
 
-RESOURCE = 'jobstates'
+RESOURCE = "jobstates"
 
 
 def create(context, status, comment, job_id):
-    return base.create(context, RESOURCE, status=status, comment=comment,
-                       job_id=job_id)
+    return base.create(context, RESOURCE, status=status, comment=comment, job_id=job_id)
 
 
 def list(context, **kwargs):

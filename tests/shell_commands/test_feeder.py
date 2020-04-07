@@ -18,81 +18,84 @@ from __future__ import unicode_literals
 
 
 def test_prettytable_output(runner, team_admin_id):
-    feeder = runner.invoke_raw_parse([
-        'feeder-create',
-        '--name', 'foo',
-        '--team-id', team_admin_id])
+    feeder = runner.invoke_raw_parse(
+        ["feeder-create", "--name", "foo", "--team-id", team_admin_id]
+    )
     print(feeder)
-    assert feeder['name'] == 'foo'
-    assert feeder == runner.invoke_raw_parse([
-        'feeder-show', feeder['id']])
+    assert feeder["name"] == "foo"
+    assert feeder == runner.invoke_raw_parse(["feeder-show", feeder["id"]])
 
 
 def test_list(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
-    runner.invoke(['feeder-create', '--name', 'foo', '--team-id',
-                   team['id']])
-    runner.invoke(['feeder-create', '--name', 'bar', '--team-id',
-                   team['id']])
-    feeders = runner.invoke(['feeder-list'])['feeders']
+    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+    runner.invoke(["feeder-create", "--name", "foo", "--team-id", team["id"]])
+    runner.invoke(["feeder-create", "--name", "bar", "--team-id", team["id"]])
+    feeders = runner.invoke(["feeder-list"])["feeders"]
 
     assert len(feeders) == 2
-    assert feeders[0]['name'] == 'bar'
-    assert feeders[1]['name'] == 'foo'
+    assert feeders[0]["name"] == "bar"
+    assert feeders[1]["name"] == "foo"
 
 
 def test_create(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
-    feeder = runner.invoke([
-        'feeder-create', '--name', 'foo', '--team-id',
-        team['id']])['feeder']
-    assert feeder['name'] == 'foo'
-    assert feeder['state'] == 'active'
+    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+    feeder = runner.invoke(["feeder-create", "--name", "foo", "--team-id", team["id"]])[
+        "feeder"
+    ]
+    assert feeder["name"] == "foo"
+    assert feeder["state"] == "active"
 
 
 def test_create_inactive(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
-    feeder = runner.invoke([
-        'feeder-create', '--name', 'foo', '--team-id',
-        team['id'], '--no-active'])['feeder']
-    assert feeder['state'] == 'inactive'
+    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+    feeder = runner.invoke(
+        ["feeder-create", "--name", "foo", "--team-id", team["id"], "--no-active"]
+    )["feeder"]
+    assert feeder["state"] == "inactive"
 
 
 def test_update(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
-    feeder = runner.invoke([
-        'feeder-create', '--name', 'foo', '--team-id',
-        team['id']])['feeder']
+    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+    feeder = runner.invoke(["feeder-create", "--name", "foo", "--team-id", team["id"]])[
+        "feeder"
+    ]
 
-    assert feeder['state'] == 'active'
+    assert feeder["state"] == "active"
 
-    result = runner.invoke(['feeder-update', feeder['id'],
-                            '--etag', feeder['etag'], '--name', 'bar',
-                            '--no-active'])
+    result = runner.invoke(
+        [
+            "feeder-update",
+            feeder["id"],
+            "--etag",
+            feeder["etag"],
+            "--name",
+            "bar",
+            "--no-active",
+        ]
+    )
 
-    assert result['feeder']['id'] == feeder['id']
-    assert result['feeder']['state'] == 'inactive'
+    assert result["feeder"]["id"] == feeder["id"]
+    assert result["feeder"]["state"] == "inactive"
 
 
 def test_delete(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
+    team = runner.invoke(["team-create", "--name", "foo"])["team"]
 
-    feeder = runner.invoke([
-        'feeder-create', '--name', 'foo', '--team-id',
-        team['id']])['feeder']
+    feeder = runner.invoke(["feeder-create", "--name", "foo", "--team-id", team["id"]])[
+        "feeder"
+    ]
 
-    result = runner.invoke(['feeder-delete', feeder['id'],
-                            '--etag', feeder['etag']])
+    result = runner.invoke(["feeder-delete", feeder["id"], "--etag", feeder["etag"]])
 
-    assert result['message'] == 'Feeder deleted.'
+    assert result["message"] == "Feeder deleted."
 
 
 def test_show(runner):
-    team = runner.invoke(['team-create', '--name', 'foo'])['team']
-    feeder = runner.invoke([
-        'feeder-create', '--name', 'foo', '--team-id',
-        team['id']])['feeder']
+    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+    feeder = runner.invoke(["feeder-create", "--name", "foo", "--team-id", team["id"]])[
+        "feeder"
+    ]
 
-    feeder = runner.invoke(['feeder-show', feeder['id']])['feeder']
+    feeder = runner.invoke(["feeder-show", feeder["id"]])["feeder"]
 
-    assert feeder['name'] == 'foo'
+    assert feeder["name"] == "foo"
