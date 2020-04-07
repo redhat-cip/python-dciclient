@@ -34,7 +34,7 @@ def flatten(d, prefix=""):
 
 def print_json(result_json):
     formatted_result = json.dumps(result_json, indent=4)
-    click.echo(formatted_result)
+    print(formatted_result)
 
 
 def print_csv(data, headers, skip_columns, delimiter=","):
@@ -46,7 +46,7 @@ def print_csv(data, headers, skip_columns, delimiter=","):
     data = [{k: v for k, v in d.items() if k not in skip_columns} for d in data]
     output = csv.DictWriter(f, headers, delimiter=delimiter)
     output.writerows(data)
-    click.echo(f.getvalue())
+    print(f.getvalue())
 
 
 def _get_field(record, field_path):
@@ -105,7 +105,7 @@ def print_prettytable(data, headers=None, skip_columns=[]):
             row.append(_get_field(record, field_path=item.split("/")))
         table.add_row(row)
 
-    click.echo(table)
+    print(table)
 
 
 def sanitize_kwargs(**kwargs):
