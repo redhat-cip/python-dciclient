@@ -14,18 +14,10 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from __future__ import unicode_literals
-
 from dciclient.v1.api import remoteci
 from dciclient.v1.api import team
 
 import mock
-
-
-def test_prettytable_output(runner):
-    team = runner.invoke_raw_parse(["team-create", "--name", "foo"])
-    assert team["name"] == "foo"
-    assert team == runner.invoke_raw_parse(["team-show", team["id"]])
 
 
 def test_list(runner):
@@ -127,11 +119,11 @@ def test_delete(runner):
         ["remoteci-create", "--name", "foo", "--team-id", team["id"]]
     )["remoteci"]
 
-    result = runner.invoke(
+    result = runner.invoke_raw(
         ["remoteci-delete", remoteci["id"], "--etag", remoteci["etag"]]
     )
 
-    assert result["message"] == "Remote CI deleted."
+    assert result.status_code == 204
 
 
 def test_show(runner):
@@ -200,7 +192,7 @@ def test_where_on_list(runner, team_id):
 def test_refresh_remoteci_keys(runner, remoteci_id):
     with mock.patch("requests.sessions.Session.put") as post_mock:
         post_mock.return_value = '{"key": "XXX", "cert": "XXX" }'
-        runner.invoke(["remoteci-refresh-keys", remoteci_id, "--etag", "XX"])
+        runner.invoke_raw(["remoteci-refresh-keys", remoteci_id, "--etag", "XX"])
         url = "http://dciserver.com/api/v1/remotecis/%s/keys" % remoteci_id
         post_mock.assert_called_once_with(
             url, headers={"If-match": "XX"}, json={}, timeout=600

@@ -14,17 +14,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from __future__ import unicode_literals
-
-
-def test_prettytable_output(runner, team_admin_id):
-    feeder = runner.invoke_raw_parse(
-        ["feeder-create", "--name", "foo", "--team-id", team_admin_id]
-    )
-    print(feeder)
-    assert feeder["name"] == "foo"
-    assert feeder == runner.invoke_raw_parse(["feeder-show", feeder["id"]])
-
 
 def test_list(runner):
     team = runner.invoke(["team-create", "--name", "foo"])["team"]
@@ -85,9 +74,11 @@ def test_delete(runner):
         "feeder"
     ]
 
-    result = runner.invoke(["feeder-delete", feeder["id"], "--etag", feeder["etag"]])
+    result = runner.invoke_raw(
+        ["feeder-delete", feeder["id"], "--etag", feeder["etag"]]
+    )
 
-    assert result["message"] == "Feeder deleted."
+    assert result.status_code == 204
 
 
 def test_show(runner):

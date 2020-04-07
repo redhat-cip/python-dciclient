@@ -16,24 +16,24 @@
 
 
 def test_purge_wrong_resource(runner):
-    result = runner.invoke(["purge", "--force", "--resource", "wrongresource"])
+    result = runner.invoke_raw(["purge", "--force", "--resource", "wrongresource"])
     assert "Unkown resource have been specified:" in result
     assert "wrongresource" in result
 
 
 def test_purge_success_authorized_admin(runner):
-    result = runner.invoke(["purge"])
+    result = runner.invoke_raw(["purge"])
     assert result == {}
 
 
 def test_purge_fail_unauthorized_user(runner_user):
-    result = runner_user.invoke(["purge"])
-    assert result["status_code"] == 401
+    result = runner_user.invoke_raw(["purge"])
+    assert result.status_code == 401
 
 
 def test_purge_fail_unauthorized_user_admin(runner_user_admin):
-    result = runner_user_admin.invoke(["purge"])
-    assert result["status_code"] == 401
+    result = runner_user_admin.invoke_raw(["purge"])
+    assert result.status_code == 401
 
 
 def test_purge_noop(runner, remoteci_id, product_id):
@@ -43,17 +43,17 @@ def test_purge_noop(runner, remoteci_id, product_id):
     topic_id = topics[0]["id"]
     assert len(topics) == 2
 
-    runner.invoke(["topic-delete", topic_id])
+    runner.invoke_raw(["topic-delete", topic_id])
     topics = runner.invoke(["topic-list"])["topics"]
     assert len(topics) == 1
 
-    purge_res = runner.invoke(["purge", "--resource", "topics"])
-    assert purge_res[0]["id"] == topic_id
-    assert purge_res[0]["state"] == "archived"
+    purge_res = runner.invoke_raw(["purge", "--resource", "topics"])
+    assert purge_res["topics"]["topics"][0]["id"] == topic_id
+    assert purge_res["topics"]["topics"][0]["state"] == "archived"
 
-    runner.invoke(["purge", "--resource", "topics", "--force"])
+    runner.invoke_raw(["purge", "--resource", "topics", "--force"])
 
-    purge_res = runner.invoke(["purge", "--resource", "topics"])
+    purge_res = runner.invoke_raw(["purge", "--resource", "topics"])
     assert len(purge_res) == 0
 
     topics = runner.invoke(["topic-list"])["topics"]

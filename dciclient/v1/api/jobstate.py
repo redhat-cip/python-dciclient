@@ -24,10 +24,6 @@ def create(context, status, comment, job_id):
     return base.create(context, RESOURCE, status=status, comment=comment, job_id=job_id)
 
 
-def list(context, **kwargs):
-    return base.list(context, RESOURCE, **kwargs)
-
-
 def get(context, id, **kwargs):
     return base.get(context, RESOURCE, id=id, **kwargs)
 
