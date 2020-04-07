@@ -63,5 +63,10 @@ setuptools.setup(
         "Programming Language :: Python :: 3.4",
         "Topic :: System :: Distributed Computing",
     ],
-    entry_points={"console_scripts": ["dcictl = dciclient.shell:main"]},
+    entry_points={
+        "console_scripts": [
+            "dcictl = dciclient.shell:main",
+            "dcictl-new = dciclient.v1.shell_commands.main:main",
+        ],
+    },
 )
