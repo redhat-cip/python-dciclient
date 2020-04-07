@@ -26,10 +26,10 @@ from dciclient.v1.api import test
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
 @click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
+@click.option("--where", help="An optional filter criteria.", required=False)
+@click.option(
+    "--long", "--verbose", "verbose", required=False, default=False, is_flag=True
+)
 @click.pass_obj
 def list(context, sort, limit, offset, where, verbose):
     """list(context, sort, limit, offset, where, verbose)
@@ -44,19 +44,13 @@ def list(context, sort, limit, offset, where, verbose):
     :param string where: An optional filter criteria
     :param boolean verbose: Display verbose output
     """
-    result = test.list(
-        context,
-        sort=sort,
-        limit=limit,
-        offset=offset,
-        where=where
-    )
+    result = test.list(context, sort=sort, limit=limit, offset=offset, where=where)
     utils.format_output(result, context.format, verbose=verbose)
 
 
 @cli.command("test-create", help="Create a test.")
 @click.option("--name", required=True)
-@click.option("--data", callback=utils.validate_json, default='{}')
+@click.option("--data", callback=utils.validate_json, default="{}")
 @click.option("--active/--no-active", default=True)
 @click.pass_obj
 def create(context, name, data, active):
@@ -97,8 +91,14 @@ def update(context, id, name, etag, data, active):
     :param boolean active: Set the test in the active state
     """
 
-    result = test.update(context, id=id, name=name, etag=etag,
-                         data=data, state=utils.active_string(active))
+    result = test.update(
+        context,
+        id=id,
+        name=name,
+        etag=etag,
+        data=data,
+        state=utils.active_string(active),
+    )
     utils.format_output(result, context.format)
 
 
@@ -117,7 +117,7 @@ def delete(context, id):
     result = test.delete(context, id=id)
 
     if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Test deleted.'})
+        utils.print_json({"id": id, "message": "Test deleted."})
     else:
         utils.format_output(result, context.format)
 

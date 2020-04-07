@@ -27,10 +27,10 @@ from dciclient.v1.api import user
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
 @click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
+@click.option("--where", help="An optional filter criteria.", required=False)
+@click.option(
+    "--long", "--verbose", "verbose", required=False, default=False, is_flag=True
+)
 @click.pass_obj
 def list(context, sort, limit, offset, where, verbose):
     """list(context, sort, limit, offset, where, verbose)
@@ -45,13 +45,7 @@ def list(context, sort, limit, offset, where, verbose):
     :param string where: An optional filter criteria
     :param boolean verbose: Display verbose output
     """
-    result = user.list(
-        context,
-        sort=sort,
-        limit=limit,
-        offset=offset,
-        where=where
-    )
+    result = user.list(context, sort=sort, limit=limit, offset=offset, where=where)
     utils.format_output(result, context.format, verbose=verbose)
 
 
@@ -79,9 +73,15 @@ def create(context, name, password, team_id, active, email, fullname):
     """
     team_id = team_id or identity.my_team_id(context)
     fullname = fullname or name
-    result = user.create(context, name=name, password=password,
-                         team_id=team_id, state=utils.active_string(active),
-                         email=email, fullname=fullname)
+    result = user.create(
+        context,
+        name=name,
+        password=password,
+        team_id=team_id,
+        state=utils.active_string(active),
+        email=email,
+        fullname=fullname,
+    )
     utils.format_output(result, context.format)
 
 
@@ -95,8 +95,7 @@ def create(context, name, password, team_id, active, email, fullname):
 @click.option("--team-id")
 @click.option("--active/--no-active", default=None)
 @click.pass_obj
-def update(context, id, etag, name, password, email, fullname,
-           team_id, active):
+def update(context, id, etag, name, password, email, fullname, team_id, active):
     """update(context, id, etag, name, password, email, fullname, team_id,
               active)
 
@@ -113,10 +112,17 @@ def update(context, id, etag, name, password, email, fullname,
     :param boolean active: Set the user in the active state
     """
 
-    result = user.update(context, id=id, etag=etag, name=name,
-                         password=password, team_id=team_id,
-                         state=utils.active_string(active),
-                         email=email, fullname=fullname)
+    result = user.update(
+        context,
+        id=id,
+        etag=etag,
+        name=name,
+        password=password,
+        team_id=team_id,
+        state=utils.active_string(active),
+        email=email,
+        fullname=fullname,
+    )
 
     utils.format_output(result, context.format)
 
@@ -138,7 +144,7 @@ def delete(context, id, etag):
     result = user.delete(context, id=id, etag=etag)
 
     if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'User deleted.'})
+        utils.print_json({"id": id, "message": "User deleted."})
     else:
         utils.format_output(result, context.format)
 

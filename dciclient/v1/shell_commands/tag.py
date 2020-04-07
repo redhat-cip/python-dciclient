@@ -23,8 +23,9 @@ from dciclient.v1.api import tag
 
 
 @cli.command("tag-list", help="List all tags.")
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
+@click.option(
+    "--long", "--verbose", "verbose", required=False, default=False, is_flag=True
+)
 @click.pass_obj
 def list(context, verbose):
     """list(context, verbose)
@@ -73,6 +74,6 @@ def delete(context, id, etag):
     result = tag.delete(context, id=id, etag=etag)
 
     if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Tag deleted.'})
+        utils.print_json({"id": id, "message": "Tag deleted."})
     else:
         utils.format_output(result, context.format)

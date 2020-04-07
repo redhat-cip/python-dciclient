@@ -18,21 +18,23 @@ from __future__ import unicode_literals
 
 
 def test_show(runner, file_id):
-    result = runner.invoke_raw(['file-show', file_id])
-    assert 'testsuite errors' in result.output
+    result = runner.invoke_raw(["file-show", file_id])
+    assert "testsuite errors" in result.output
 
 
 def test_list(runner, job_id):
-    files = runner.invoke(['file-list', job_id])['files']
+    files = runner.invoke(["file-list", job_id])["files"]
     assert len(files)
-    assert 'res_junit.xml' in [i['name'] for i in files]
+    assert "res_junit.xml" in [i["name"] for i in files]
 
 
 def test_delete(runner, file_id):
-    result = runner.invoke(['file-delete', file_id])
-    assert result['message'] == 'File deleted.'
+    result = runner.invoke(["file-delete", file_id])
+    assert result["message"] == "File deleted."
 
 
 def test_where_on_list(runner, job_id):
-    assert runner.invoke(['file-list', job_id,
-                          '--where', 'size:785'])['_meta']['count'] == 1
+    assert (
+        runner.invoke(["file-list", job_id, "--where", "size:785"])["_meta"]["count"]
+        == 1
+    )

@@ -19,7 +19,7 @@ from dciclient.v1 import utils
 
 class TestUtils(object):
     def test_flatten(self):
-        s = {'jim': 123, 'a': {'b': {'c': {'d': 'bob'}}}, 'rob': 34}
+        s = {"jim": 123, "a": {"b": {"c": {"d": "bob"}}}, "rob": 34}
         r = utils.flatten(s)
         r.sort()
-        assert r == ['a.b.c.d=bob', 'jim=123', 'rob=34']
+        assert r == ["a.b.c.d=bob", "jim=123", "rob=34"]

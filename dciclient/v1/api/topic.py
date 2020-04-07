@@ -17,16 +17,34 @@
 from dciclient.v1.api import base
 
 
-RESOURCE = 'topics'
+RESOURCE = "topics"
 
 
-def create(context, name, component_types, label=None, state='active',
-           product_id=None, next_topic_id=None, next_topic=None, data=None,
-           export_control=False):
-    return base.create(context, RESOURCE, name=name, label=label, state=state,
-                       component_types=component_types, product_id=product_id,
-                       next_topic_id=next_topic_id, next_topic=next_topic,
-                       data=data, export_control=export_control)
+def create(
+    context,
+    name,
+    component_types,
+    label=None,
+    state="active",
+    product_id=None,
+    next_topic_id=None,
+    next_topic=None,
+    data=None,
+    export_control=False,
+):
+    return base.create(
+        context,
+        RESOURCE,
+        name=name,
+        label=label,
+        state=state,
+        component_types=component_types,
+        product_id=product_id,
+        next_topic_id=next_topic_id,
+        next_topic=next_topic,
+        data=data,
+        export_control=export_control,
+    )
 
 
 def list(context, **kwargs):
@@ -37,14 +55,35 @@ def get(context, id, **kwargs):
     return base.get(context, RESOURCE, id=id, **kwargs)
 
 
-def update(context, id, etag, name=None, component_types=None,
-           label=None, next_topic_id=None, next_topic=None, state=None,
-           product_id=None, data=None, export_control=None):
-    return base.update(context, RESOURCE, id=id, etag=etag, name=name,
-                       component_types=component_types, label=label,
-                       next_topic_id=next_topic_id, state=state,
-                       product_id=product_id, next_topic=next_topic, data=data,
-                       export_control=export_control)
+def update(
+    context,
+    id,
+    etag,
+    name=None,
+    component_types=None,
+    label=None,
+    next_topic_id=None,
+    next_topic=None,
+    state=None,
+    product_id=None,
+    data=None,
+    export_control=None,
+):
+    return base.update(
+        context,
+        RESOURCE,
+        id=id,
+        etag=etag,
+        name=name,
+        component_types=component_types,
+        label=label,
+        next_topic_id=next_topic_id,
+        state=state,
+        product_id=product_id,
+        next_topic=next_topic,
+        data=data,
+        export_control=export_control,
+    )
 
 
 def delete(context, id):
@@ -52,41 +91,44 @@ def delete(context, id):
 
 
 def attach_team(context, id, team_id):
-    uri = '%s/%s/%s/teams' % (context.dci_cs_api, RESOURCE, id)
-    return context.session.post(uri, json={'team_id': team_id})
+    uri = "%s/%s/%s/teams" % (context.dci_cs_api, RESOURCE, id)
+    return context.session.post(uri, json={"team_id": team_id})
 
 
 def unattach_team(context, id, team_id):
-    return base.delete(context, RESOURCE, id,
-                       subresource='teams',
-                       subresource_id=team_id)
+    return base.delete(
+        context, RESOURCE, id, subresource="teams", subresource_id=team_id
+    )
 
 
 def list_teams(context, id, **kwargs):
-    return base.list(context, RESOURCE, id=id, subresource='teams', **kwargs)
+    return base.list(context, RESOURCE, id=id, subresource="teams", **kwargs)
 
 
 def list_components(context, id, **kwargs):
-    return base.list(context, RESOURCE, id=id,
-                     subresource='components', **kwargs)
+    return base.list(context, RESOURCE, id=id, subresource="components", **kwargs)
 
 
 def list_tests(context, id, **kwargs):
-    return base.list(context, RESOURCE, id=id, subresource='tests', **kwargs)
+    return base.list(context, RESOURCE, id=id, subresource="tests", **kwargs)
 
 
 def add_test(context, id, test_id):
-    uri = '%s/%s/%s/tests' % (context.dci_cs_api, RESOURCE, id)
-    return context.session.post(uri, json={'test_id': test_id})
+    uri = "%s/%s/%s/tests" % (context.dci_cs_api, RESOURCE, id)
+    return context.session.post(uri, json={"test_id": test_id})
 
 
 def remove_test(context, id, test_id):
-    return base.delete(context, RESOURCE, id,
-                       subresource='tests',
-                       subresource_id=test_id)
+    return base.delete(
+        context, RESOURCE, id, subresource="tests", subresource_id=test_id
+    )
 
 
 def get_jobs_from_components(context, id, component_id, **kwargs):
-    uri = '%s/%s/%s/components/%s/jobs' % \
-          (context.dci_cs_api, RESOURCE, id, component_id)
+    uri = "%s/%s/%s/components/%s/jobs" % (
+        context.dci_cs_api,
+        RESOURCE,
+        id,
+        component_id,
+    )
     return context.session.get(uri, **kwargs)

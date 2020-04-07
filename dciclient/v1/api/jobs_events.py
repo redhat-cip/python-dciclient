@@ -17,45 +17,46 @@
 from dciclient.v1.api import base
 
 
-RESOURCE = 'jobs_events'
+RESOURCE = "jobs_events"
 
 
 def list(context, sequence, limit=10, offset=0):
-    params = {'limit': limit,
-              'offset': offset}
-    uri = '%s/%s/%s' % (context.dci_cs_api, RESOURCE, sequence)
+    params = {"limit": limit, "offset": offset}
+    uri = "%s/%s/%s" % (context.dci_cs_api, RESOURCE, sequence)
     return context.session.get(uri, params=params)
 
 
 def iter(context, sequence, limit=10):
     """Iter to list all the jobs events."""
-    params = {'limit': limit,
-              'offset': 0}
-    uri = '%s/%s/%s' % (context.dci_cs_api, RESOURCE, sequence)
+    params = {"limit": limit, "offset": 0}
+    uri = "%s/%s/%s" % (context.dci_cs_api, RESOURCE, sequence)
 
     while True:
         j = context.session.get(uri, params=params).json()
-        if len(j['jobs_events']):
-            for i in j['jobs_events']:
+        if len(j["jobs_events"]):
+            for i in j["jobs_events"]:
                 yield i
         else:
             break
-        params['offset'] += params['limit']
+        params["offset"] += params["limit"]
 
 
 def delete(context, sequence):
     """Delete jobs events from a given sequence"""
-    uri = '%s/%s/%s' % (context.dci_cs_api, RESOURCE, sequence)
+    uri = "%s/%s/%s" % (context.dci_cs_api, RESOURCE, sequence)
     return context.session.delete(uri)
 
 
 def get_sequence(context):
-    uri = '%s/%s/sequence' % (context.dci_cs_api, RESOURCE)
+    uri = "%s/%s/sequence" % (context.dci_cs_api, RESOURCE)
     return context.session.get(uri)
 
 
 def update_sequence(context, etag, sequence):
-    uri = '%s/%s/sequence' % (context.dci_cs_api, RESOURCE)
-    return context.session.put(uri, timeout=base.HTTP_TIMEOUT,
-                               headers={'If-match': etag},
-                               json={'sequence': sequence})
+    uri = "%s/%s/sequence" % (context.dci_cs_api, RESOURCE)
+    return context.session.put(
+        uri,
+        timeout=base.HTTP_TIMEOUT,
+        headers={"If-match": etag},
+        json={"sequence": sequence},
+    )

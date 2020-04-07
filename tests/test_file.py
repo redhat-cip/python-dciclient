@@ -20,19 +20,22 @@ from dciclient.v1.api import job
 
 
 def test_iter(dci_context, job_id):
-    f_names = ['file_%d' % i for i in range(100)]
+    f_names = ["file_%d" % i for i in range(100)]
     for name in f_names:
         dci_file.create(
-            dci_context, name=name,
-            content='some content', mime='plain/text',
-            job_id=job_id)
+            dci_context,
+            name=name,
+            content="some content",
+            mime="plain/text",
+            job_id=job_id,
+        )
     cpt = 0
     seen_names = []
     for f in job.list_files_iter(dci_context, id=job_id):
-        seen_names.append(f['name'])
+        seen_names.append(f["name"])
         cpt += 1
     # job already comes with 2 files
-    all_files = len(job.list_files(dci_context, id=job_id).json()['files'])
+    all_files = len(job.list_files(dci_context, id=job_id).json()["files"])
     assert all_files == 100 + 2
     assert cpt == 100 + 2
     assert len(set(seen_names) - set(f_names)) == 2

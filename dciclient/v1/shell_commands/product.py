@@ -26,10 +26,10 @@ from dciclient.v1.api import product
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
 @click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
+@click.option("--where", help="An optional filter criteria.", required=False)
+@click.option(
+    "--long", "--verbose", "verbose", required=False, default=False, is_flag=True
+)
 @click.pass_obj
 def list(context, sort, limit, offset, where, verbose):
     """list(context, sort, limit, offset, where, verbose)
@@ -44,13 +44,7 @@ def list(context, sort, limit, offset, where, verbose):
     :param string where: An optional filter criteria
     :param boolean verbose: Display verbose output
     """
-    result = product.list(
-        context,
-        sort=sort,
-        limit=limit,
-        offset=offset,
-        where=where
-    )
+    result = product.list(context, sort=sort, limit=limit, offset=offset, where=where)
     utils.format_output(result, context.format, verbose=verbose)
 
 
@@ -74,8 +68,9 @@ def create(context, name, label, description, active):
     """
 
     state = utils.active_string(active)
-    result = product.create(context, name=name, label=label,
-                            description=description, state=state)
+    result = product.create(
+        context, name=name, label=label, description=description, state=state
+    )
     utils.format_output(result, context.format)
 
 
@@ -100,9 +95,14 @@ def update(context, id, etag, name, description, active):
     :param boolean active: Set the product in the active state
     """
 
-    result = product.update(context, id=id, etag=etag, name=name,
-                            description=description,
-                            state=utils.active_string(active))
+    result = product.update(
+        context,
+        id=id,
+        etag=etag,
+        name=name,
+        description=description,
+        state=utils.active_string(active),
+    )
 
     utils.format_output(result, context.format)
 
@@ -124,7 +124,7 @@ def delete(context, id, etag):
     result = product.delete(context, id=id, etag=etag)
 
     if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Product deleted.'})
+        utils.print_json({"id": id, "message": "Product deleted."})
     else:
         utils.format_output(result, context.format)
 
@@ -191,10 +191,10 @@ def detach_team(context, id, team_id):
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
 @click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
+@click.option("--where", help="An optional filter criteria.", required=False)
+@click.option(
+    "--long", "--verbose", "verbose", required=False, default=False, is_flag=True
+)
 @click.pass_obj
 def list_teams(context, id, sort, limit, offset, where, verbose):
     """list_teams(context, id, sort, limit, offset, where, verbose)
@@ -212,11 +212,6 @@ def list_teams(context, id, sort, limit, offset, where, verbose):
     """
 
     result = product.list_teams(
-        context,
-        id,
-        sort=sort,
-        limit=limit,
-        offset=offset,
-        where=where
+        context, id, sort=sort, limit=limit, offset=offset, where=where
     )
     utils.format_output(result, context.format, verbose=verbose)

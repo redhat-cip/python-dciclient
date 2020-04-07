@@ -16,12 +16,13 @@
 
 from dciclient.v1.api import base
 
-RESOURCE = 'feeders'
+RESOURCE = "feeders"
 
 
-def create(context, name, team_id, data={}, state='active'):
-    return base.create(context, RESOURCE, name=name, team_id=team_id,
-                       data=data, state=state)
+def create(context, name, team_id, data={}, state="active"):
+    return base.create(
+        context, RESOURCE, name=name, team_id=team_id, data=data, state=state
+    )
 
 
 def list(context, **kwargs):
@@ -41,4 +42,4 @@ def delete(context, id, etag):
 
 
 def reset_api_secret(context, id, etag):
-    return base.update(context, RESOURCE, id='%s/api_secret' % id, etag=etag)
+    return base.update(context, RESOURCE, id="%s/api_secret" % id, etag=etag)

@@ -27,7 +27,7 @@ from dciclient.v1.api import analytic
 @click.option("--name", required=True)
 @click.option("--type", required=True)
 @click.option("--url", required=False)
-@click.option("--data", default='{}', callback=utils.validate_json)
+@click.option("--data", default="{}", callback=utils.validate_json)
 @click.pass_obj
 def create(context, job_id, name, type, url, data):
     """create(context, job_id, name, type, url, data)
@@ -43,8 +43,9 @@ def create(context, job_id, name, type, url, data):
     :param string data: JSON data of the analytic
     """
 
-    result = analytic.create(context, job_id=job_id, name=name, type=type,
-                             url=url, data=data)
+    result = analytic.create(
+        context, job_id=job_id, name=name, type=type, url=url, data=data
+    )
     utils.format_output(result, context.format)
 
 
@@ -89,16 +90,24 @@ def update(context, id, job_id, name, type, url, data):
 
     analytic_info = analytic.get(context, id=id, job_id=job_id)
 
-    etag = analytic_info.json()['analytic']['etag']
+    etag = analytic_info.json()["analytic"]["etag"]
 
-    result = analytic.put(context, id=id, job_id=job_id, etag=etag,
-                          name=name, type=type, url=url, data=data)
+    result = analytic.put(
+        context,
+        id=id,
+        job_id=job_id,
+        etag=etag,
+        name=name,
+        type=type,
+        url=url,
+        data=data,
+    )
 
     utils.format_output(result, context.format)
 
 
 @cli.command("analytic-show", help="Show an analytic.")
-@click.argument('id')
+@click.argument("id")
 @click.option("--job-id", required=True)
 @click.pass_obj
 def show(context, id, job_id):

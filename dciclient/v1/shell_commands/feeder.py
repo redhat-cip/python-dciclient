@@ -26,10 +26,10 @@ from dciclient.v1.api import feeder
 @click.option("--sort", default="-created_at")
 @click.option("--limit", default=50)
 @click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.",
-              required=False)
-@click.option("--long", "--verbose", "verbose",
-              required=False, default=False, is_flag=True)
+@click.option("--where", help="An optional filter criteria.", required=False)
+@click.option(
+    "--long", "--verbose", "verbose", required=False, default=False, is_flag=True
+)
 @click.pass_obj
 def list(context, sort, limit, offset, where, verbose):
     """list(context, sort, limit, offset, where, verbose)
@@ -44,20 +44,14 @@ def list(context, sort, limit, offset, where, verbose):
     :param string where: An optional filter criteria
     :param boolean verbose: Display verbose output
     """
-    result = feeder.list(
-        context,
-        sort=sort,
-        limit=limit,
-        offset=offset,
-        where=where
-    )
+    result = feeder.list(context, sort=sort, limit=limit, offset=offset, where=where)
     utils.format_output(result, context.format, verbose=verbose)
 
 
 @cli.command("feeder-create", help="Create a feeder.")
 @click.option("--name", required=True)
 @click.option("--team-id", required=True)
-@click.option("--data", default='{}', callback=utils.validate_json)
+@click.option("--data", default="{}", callback=utils.validate_json)
 @click.option("--active/--no-active", default=True)
 @click.pass_obj
 def create(context, name, team_id, data, active):
@@ -77,8 +71,7 @@ def create(context, name, team_id, data, active):
 
     state = utils.active_string(active)
     team_id = team_id
-    result = feeder.create(context, name=name, team_id=team_id, data=data,
-                           state=state)
+    result = feeder.create(context, name=name, team_id=team_id, data=data, state=state)
     utils.format_output(result, context.format)
 
 
@@ -105,9 +98,15 @@ def update(context, id, etag, name, team_id, data, active):
     :param boolean active: Mark feeder active
     """
 
-    result = feeder.update(context, id=id, etag=etag, name=name,
-                           team_id=team_id, data=data,
-                           state=utils.active_string(active))
+    result = feeder.update(
+        context,
+        id=id,
+        etag=etag,
+        name=name,
+        team_id=team_id,
+        data=data,
+        state=utils.active_string(active),
+    )
     utils.format_output(result, context.format)
 
 
@@ -128,7 +127,7 @@ def delete(context, id, etag):
     result = feeder.delete(context, id=id, etag=etag)
 
     if result.status_code == 204:
-        utils.print_json({'id': id, 'message': 'Feeder deleted.'})
+        utils.print_json({"id": id, "message": "Feeder deleted."})
     else:
         utils.format_output(result, context.format)
 
@@ -164,5 +163,4 @@ def reset_api_secret(context, id, etag):
     :param string etag: Entity tag of the feeder resource [required]
     """
     result = feeder.reset_api_secret(context, id=id, etag=etag)
-    utils.format_output(result, context.format,
-                        headers=['id', 'api_secret', 'etag'])
+    utils.format_output(result, context.format, headers=["id", "api_secret", "etag"])

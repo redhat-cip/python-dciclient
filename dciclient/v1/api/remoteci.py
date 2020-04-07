@@ -17,12 +17,13 @@
 from dciclient.v1.api import base
 
 
-RESOURCE = 'remotecis'
+RESOURCE = "remotecis"
 
 
-def create(context, name, team_id, data={}, state='active'):
-    return base.create(context, RESOURCE, name=name, team_id=team_id,
-                       data=data, state=state)
+def create(context, name, team_id, data={}, state="active"):
+    return base.create(
+        context, RESOURCE, name=name, team_id=team_id, data=data, state=state
+    )
 
 
 def list(context, **kwargs):
@@ -37,9 +38,19 @@ def get_data(context, id, keys=None):
     return base.get_data(context, RESOURCE, id=id, keys=keys)
 
 
-def update(context, id, etag, name=None, team_id=None, data=None, state=None,):
-    return base.update(context, RESOURCE, id=id, etag=etag, name=name,
-                       team_id=team_id, data=data, state=state)
+def update(
+    context, id, etag, name=None, team_id=None, data=None, state=None,
+):
+    return base.update(
+        context,
+        RESOURCE,
+        id=id,
+        etag=etag,
+        name=name,
+        team_id=team_id,
+        data=data,
+        state=state,
+    )
 
 
 def delete(context, id, etag):
@@ -47,40 +58,38 @@ def delete(context, id, etag):
 
 
 def add_test(context, id, test_id):
-    uri = '%s/%s/%s/tests' % (context.dci_cs_api, RESOURCE, id)
-    return context.session.post(uri, json={'test_id': test_id})
+    uri = "%s/%s/%s/tests" % (context.dci_cs_api, RESOURCE, id)
+    return context.session.post(uri, json={"test_id": test_id})
 
 
 def list_tests(context, id, **kwargs):
-    return base.list(context, RESOURCE, id=id,
-                     subresource='tests', **kwargs)
+    return base.list(context, RESOURCE, id=id, subresource="tests", **kwargs)
 
 
 def remove_test(context, id, test_id):
-    return base.delete(context, RESOURCE, id,
-                       subresource='tests',
-                       subresource_id=test_id)
+    return base.delete(
+        context, RESOURCE, id, subresource="tests", subresource_id=test_id
+    )
 
 
 def reset_api_secret(context, id, etag):
-    return base.update(context, RESOURCE, id='%s/api_secret' % id, etag=etag)
+    return base.update(context, RESOURCE, id="%s/api_secret" % id, etag=etag)
 
 
 def refresh_keys(context, id, etag):
-    return base.update(context, RESOURCE, id='%s/keys' % id, etag=etag)
+    return base.update(context, RESOURCE, id="%s/keys" % id, etag=etag)
 
 
 def add_user(context, id, user_id):
-    uri = '%s/%s/%s/users' % (context.dci_cs_api, RESOURCE, id)
-    return context.session.post(uri, json={'user_id': user_id})
+    uri = "%s/%s/%s/users" % (context.dci_cs_api, RESOURCE, id)
+    return context.session.post(uri, json={"user_id": user_id})
 
 
 def list_users(context, id, **kwargs):
-    return base.list(context, RESOURCE, id=id,
-                     subresource='users', **kwargs)
+    return base.list(context, RESOURCE, id=id, subresource="users", **kwargs)
 
 
 def remove_user(context, id, user_id):
-    return base.delete(context, RESOURCE, id,
-                       subresource='users',
-                       subresource_id=user_id)
+    return base.delete(
+        context, RESOURCE, id, subresource="users", subresource_id=user_id
+    )

@@ -14,11 +14,11 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-RESOURCE = 'identity'
+RESOURCE = "identity"
 
 
 def get(context):
-    uri = '%s/%s' % (context.dci_cs_api, RESOURCE)
+    uri = "%s/%s" % (context.dci_cs_api, RESOURCE)
     return context.session.get(uri)
 
 
@@ -26,4 +26,4 @@ def my_team_id(context):
     """Asks the control-server for the team_id of the currently
     authenticated resource.
     """
-    return get(context).json()['identity']['team_id']
+    return get(context).json()["identity"]["team_id"]

@@ -18,78 +18,83 @@ from __future__ import unicode_literals
 
 
 def test_create_list(runner):
-    runner.invoke(['test-create', '--name', 'foo'])
-    runner.invoke(['test-create', '--name', 'bar'])
-    tests = runner.invoke(['test-list'])['tests']
+    runner.invoke(["test-create", "--name", "foo"])
+    runner.invoke(["test-create", "--name", "bar"])
+    tests = runner.invoke(["test-list"])["tests"]
     assert len(tests) == 2
-    assert tests[0]['name'] == 'bar'
-    assert tests[1]['name'] == 'foo'
+    assert tests[0]["name"] == "bar"
+    assert tests[1]["name"] == "foo"
 
 
 def test_create_inactive(runner):
-    test = runner.invoke([
-        'test-create', '--name', 'foo', '--no-active'])['test']
-    assert test['state'] == 'inactive'
+    test = runner.invoke(["test-create", "--name", "foo", "--no-active"])["test"]
+    assert test["state"] == "inactive"
 
 
 def test_create_data(runner):
-    test = runner.invoke([
-        'test-create',
-        '--name', 'foo',
-        '--data', '{"Foo": 2}'])['test']
-    assert test['name'] == 'foo'
+    test = runner.invoke(["test-create", "--name", "foo", "--data", '{"Foo": 2}'])[
+        "test"
+    ]
+    assert test["name"] == "foo"
 
 
 def test_create_bad_data(runner):
-    r = runner.invoke_raw_parse([
-        'test-create', 'foo',
-        '--data', '{Foo: 2}'])
+    r = runner.invoke_raw_parse(["test-create", "foo", "--data", "{Foo: 2}"])
     # TODO(Gonéri): should instead ensure we print the fine message
     assert '"--data": this option expects a valid JSON' in r
 
 
 def test_update_active(runner):
-    test = runner.invoke([
-        'test-create',
-        '--name', 'foo',
-        '--data', '{"Foo": 2}'])['test']
+    test = runner.invoke(["test-create", "--name", "foo", "--data", '{"Foo": 2}'])[
+        "test"
+    ]
 
-    assert test['state'] == 'active'
+    assert test["state"] == "active"
 
-    result = runner.invoke(['test-update', test['id'], '--etag', test['etag'],
-                            '--no-active'])
+    result = runner.invoke(
+        ["test-update", test["id"], "--etag", test["etag"], "--no-active"]
+    )
 
-    assert result['test']['id'] == test['id']
-    assert result['test']['state'] == 'inactive'
+    assert result["test"]["id"] == test["id"]
+    assert result["test"]["state"] == "inactive"
 
-    result = runner.invoke(['test-update', test['id'], '--etag',
-                            result['test']['etag'], '--name', 'foobar'])
+    result = runner.invoke(
+        [
+            "test-update",
+            test["id"],
+            "--etag",
+            result["test"]["etag"],
+            "--name",
+            "foobar",
+        ]
+    )
 
-    assert result['test']['id'] == test['id']
-    assert result['test']['state'] == 'inactive'
-    assert result['test']['name'] == 'foobar'
+    assert result["test"]["id"] == test["id"]
+    assert result["test"]["state"] == "inactive"
+    assert result["test"]["name"] == "foobar"
 
-    result = runner.invoke(['test-update', test['id'], '--etag',
-                            result['test']['etag'], '--active'])
+    result = runner.invoke(
+        ["test-update", test["id"], "--etag", result["test"]["etag"], "--active"]
+    )
 
-    assert result['test']['state'] == 'active'
+    assert result["test"]["state"] == "active"
 
 
 def test_delete(runner):
-    test = runner.invoke(['test-create', '--name', 'foo'])['test']
-    tests = runner.invoke(['test-list'])['tests']
+    test = runner.invoke(["test-create", "--name", "foo"])["test"]
+    tests = runner.invoke(["test-list"])["tests"]
     len_tests = len(tests)
 
-    runner.invoke(['test-delete', test['id']])
-    tests = runner.invoke(['test-list'])['tests']
+    runner.invoke(["test-delete", test["id"]])
+    tests = runner.invoke(["test-list"])["tests"]
     len_tests2 = len(tests)
 
     assert len_tests2 == (len_tests - 1)
 
 
 def test_show(runner):
-    test = runner.invoke(['test-create', '--name', 'foo'])['test']
+    test = runner.invoke(["test-create", "--name", "foo"])["test"]
 
-    test = runner.invoke(['test-show', test['id']])['test']
+    test = runner.invoke(["test-show", test["id"]])["test"]
 
-    assert test['name'] == 'foo'
+    assert test["name"] == "foo"

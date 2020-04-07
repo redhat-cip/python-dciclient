@@ -23,49 +23,45 @@ from dciclient import version
 
 
 def _get_requirements():
-    requirements_path = '%s/%s' % (os.path.dirname(os.path.abspath(__file__)),
-                                   'requirements.txt')
-    with open(requirements_path, 'r') as f:
+    requirements_path = "%s/%s" % (
+        os.path.dirname(os.path.abspath(__file__)),
+        "requirements.txt",
+    )
+    with open(requirements_path, "r") as f:
         requirements = f.read()
         # remove the dependencies which comes from url source because
         # it's not supported by install_requires
-        return [dep for dep in requirements.split('\n')
-                if not dep.startswith('-e')]
+        return [dep for dep in requirements.split("\n") if not dep.startswith("-e")]
 
 
 def _get_readme():
-    readme_path = '%s/%s' % (os.path.dirname(os.path.abspath(__file__)),
-                             'README.md')
+    readme_path = "%s/%s" % (os.path.dirname(os.path.abspath(__file__)), "README.md")
 
-    with codecs.open(readme_path, 'r', encoding='utf8') as f:
+    with codecs.open(readme_path, "r", encoding="utf8") as f:
         return f.read()
 
 
 setuptools.setup(
-    name='dciclient',
+    name="dciclient",
     version=version.__version__,
     packages=setuptools.find_packages(),
-    author='Distributed CI team',
-    author_email='distributed-ci@redhat.com',
-    description='Python client for DCI Control Server',
+    author="Distributed CI team",
+    author_email="distributed-ci@redhat.com",
+    description="Python client for DCI Control Server",
     long_description=_get_readme(),
     long_description_content_type="text/markdown",
     install_requires=_get_requirements(),
-    url='https://github.com/redhat-cip/dci-control-server',
-    license='Apache v2.0',
+    url="https://github.com/redhat-cip/dci-control-server",
+    license="Apache v2.0",
     classifiers=[
-        'Environment :: Console',
-        'Intended Audience :: Developers',
-        'Intended Audience :: Information Technology',
-        'License :: OSI Approved :: Apache Software License',
-        'Operating System :: POSIX :: Linux',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.4',
-        'Topic :: System :: Distributed Computing'
+        "Environment :: Console",
+        "Intended Audience :: Developers",
+        "Intended Audience :: Information Technology",
+        "License :: OSI Approved :: Apache Software License",
+        "Operating System :: POSIX :: Linux",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.4",
+        "Topic :: System :: Distributed Computing",
     ],
-    entry_points={
-        'console_scripts': [
-            'dcictl = dciclient.shell:main'
-        ],
-    }
+    entry_points={"console_scripts": ["dcictl = dciclient.shell:main"],},
 )
