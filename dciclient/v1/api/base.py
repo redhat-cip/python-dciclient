@@ -30,6 +30,7 @@ def create(context, resource, **kwargs):
 def list(context, resource, **kwargs):
     """List all resources"""
     data = utils.sanitize_kwargs(**kwargs)
+    print(data)
     id = data.pop("id", None)
     subresource = data.pop("subresource", None)
 
@@ -37,7 +38,7 @@ def list(context, resource, **kwargs):
         uri = "%s/%s/%s/%s" % (context.dci_cs_api, resource, id, subresource)
     else:
         uri = "%s/%s" % (context.dci_cs_api, resource)
-
+    print(uri)
     return context.session.get(uri, timeout=HTTP_TIMEOUT, params=data)
 
 
