@@ -17,13 +17,6 @@
 from __future__ import unicode_literals
 
 
-def test_prettytable_output(runner, product_id):
-    topic = runner.invoke_raw_parse(
-        ["topic-create", "--name", "osp", "--product-id", product_id]
-    )
-    assert topic == runner.invoke_raw_parse(["topic-show", topic["id"]])
-
-
 def test_list(runner, product_id):
     runner.invoke(["topic-create", "--name", "osp", "--product-id", product_id])
     runner.invoke(["topic-create", "--name", "ovirt", "--product-id", product_id])
@@ -122,9 +115,9 @@ def test_delete(runner, product_id):
     topic = runner.invoke(
         ["topic-create", "--name", "osp", "--product-id", product_id]
     )["topic"]
-    result = runner.invoke(["topic-delete", topic["id"]])
+    result = runner.invoke_raw(["topic-delete", topic["id"]])
 
-    assert result["message"] == "Topic deleted."
+    assert result.status_code == 204
 
 
 def test_show(runner, product_id):
@@ -191,7 +184,7 @@ def test_unattach_team(runner, product_id):
     assert len(result) == 1
     assert result[0]["name"] == "foo"
 
-    topic_team = runner.invoke(
+    topic_team = runner.invoke_raw(
         ["topic-unattach-team", topic["id"], "--team-id", team["id"]]
     )
 

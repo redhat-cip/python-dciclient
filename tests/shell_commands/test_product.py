@@ -17,17 +17,6 @@
 from __future__ import unicode_literals
 
 
-def test_prettytable_output(runner):
-    product = runner.invoke_raw_parse(["product-create", "--name", "foo"])
-    assert product["name"] == "foo"
-    show_product = runner.invoke_raw_parse(["product-show", product["id"]])
-    if "team_id" in show_product:
-        product["team_id"] = "None"
-    assert product == show_product
-    assert "etag" not in runner.invoke_raw_parse(["product-list"])
-    assert "etag" in runner.invoke_raw_parse(["product-list", "--long"])
-
-
 def test_success_create_basic(runner):
     product = runner.invoke(["product-create", "--name", "myproduct"])["product"]
     assert product["name"] == "myproduct"
@@ -71,13 +60,13 @@ def test_list(runner):
 
 
 def test_fail_create_unauthorized_user_admin(runner_user_admin):
-    product = runner_user_admin.invoke(["product-create", "--name", "foo"])
-    assert product["status_code"] == 401
+    product = runner_user_admin.invoke_raw(["product-create", "--name", "foo"])
+    assert product.status_code == 401
 
 
 def test_fail_create_unauthorized_user(runner_user):
-    product = runner_user.invoke(["product-create", "--name", "foo"])
-    assert product["status_code"] == 401
+    product = runner_user.invoke_raw(["product-create", "--name", "foo"])
+    assert product.status_code == 401
 
 
 def test_success_update(runner):
@@ -143,13 +132,15 @@ def test_update_active(runner):
 def test_delete(runner):
     product = runner.invoke(["product-create", "--name", "foo"])["product"]
 
-    result = runner.invoke(["product-delete", product["id"], "--etag", product["etag"]])
+    result = runner.invoke_raw(
+        ["product-delete", product["id"], "--etag", product["etag"]]
+    )
 
-    assert result["message"] == "Product deleted."
+    assert result.status_code == 204
 
-    result = runner.invoke(["product-show", product["id"]])
+    result = runner.invoke_raw(["product-show", product["id"]])
 
-    assert result["status_code"] == 404
+    assert result.status_code == 404
 
 
 def test_show(runner):
@@ -193,11 +184,12 @@ def test_attach_detach_team_and_list(runner, product_id, team_id):
     assert attached["team_id"] == team_id
 
     one_team = runner.invoke(["product-list-teams", product_id])
+
     assert one_team["_meta"]["count"] == 1
     assert len(one_team["teams"]) == 1
     assert one_team["teams"][0]["id"] == team_id
 
-    runner.invoke(["product-detach-team", product_id, "--team-id", team_id])
+    runner.invoke_raw(["product-detach-team", product_id, "--team-id", team_id])
     no_teams_again = runner.invoke(["product-list-teams", product_id])
     assert no_teams_again["_meta"]["count"] == 0
     assert len(no_teams_again["teams"]) == 0

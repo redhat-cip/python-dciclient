@@ -4,7 +4,7 @@ set -xe
 DCI_DB_DIR=${DCI_DB_DIR:-".db_dir"}
 DCI_DB_USER=${DCI_DB_USER:-"dci"}
 DCI_DB_PASS=${DCI_DB_PASS:-"dci"}
-DCI_DB_NAME=${DCI_DB_NAME:-"dci"}
+DCI_DB_NAME=${DCI_DB_NAME:-"dciclient"}
 
 # get dci_db_dir absolute path
 DCI_DB_DIR="$(cd "$(dirname "$0")/.." && pwd)/$DCI_DB_DIR"
