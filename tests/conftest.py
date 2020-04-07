@@ -27,6 +27,7 @@ import dci
 import dci.app
 import dci.dci_config
 from dciclient import shell
+from dciclient.v1.shell_commands import runner as toto
 from dciclient.v1 import api
 from tests.shell_commands import utils
 
@@ -224,6 +225,25 @@ def signature_context_factory(
         return test_context
 
     return f
+
+
+def toto_factory(context):
+    def invoke(args):
+        environment = {}
+        response = toto.run(context, args, environment)
+        return response.json() if response else None
+
+    class Runner(object):
+        pass
+
+    runner = Runner()
+    runner.invoke = invoke
+    return runner
+
+
+@pytest.fixture
+def toto_context(dci_context):
+    return toto_factory(dci_context)
 
 
 @pytest.fixture

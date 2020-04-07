@@ -21,7 +21,6 @@ def test_prettytable_output(runner, team_admin_id):
     feeder = runner.invoke_raw_parse(
         ["feeder-create", "--name", "foo", "--team-id", team_admin_id]
     )
-    print(feeder)
     assert feeder["name"] == "foo"
     assert feeder == runner.invoke_raw_parse(["feeder-show", feeder["id"]])
 
