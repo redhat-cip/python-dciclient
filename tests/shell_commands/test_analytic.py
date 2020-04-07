@@ -128,6 +128,8 @@ def test_update(runner, job_id, dci_context):
             analytic["id"],
             "--job-id",
             job_id,
+            "--etag",
+            analytic["etag"],
             "--name",
             "bug2",
             "--type",
@@ -140,7 +142,3 @@ def test_update(runner, job_id, dci_context):
     )["analytic"]
     assert analytic["name"] == "bug2"
     assert analytic["url"] == "http://bugzilla/2"
-
-
-def test_delete(runner, job_id):
-    pass

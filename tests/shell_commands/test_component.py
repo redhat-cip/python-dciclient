@@ -17,14 +17,6 @@
 from __future__ import unicode_literals
 
 
-def test_prettytable_output(runner, topic_id):
-    component = runner.invoke_raw_parse(
-        ["component-create", "--name", "osp", "--type", "repo", "--topic-id", topic_id]
-    )
-    assert component["name"] == "osp"
-    assert component == runner.invoke_raw_parse(["component-show", component["id"]])
-
-
 def test_list(runner, product_id):
     topic = runner.invoke(
         ["topic-create", "--name", "osp", "--product-id", product_id]
@@ -120,9 +112,9 @@ def test_delete(runner, product_id):
         ]
     )["component"]
 
-    result = runner.invoke(["component-delete", component["id"]])
+    result = runner.invoke_raw(["component-delete", component["id"]])
 
-    assert result["message"] == "Component deleted."
+    assert result.status_code == 204
 
 
 def test_show(runner, product_id):
@@ -202,10 +194,10 @@ def test_file_support(runner, tmpdir, product_id):
     runner.invoke_raw(
         ["component-file-delete", component["id"], "--file-id", new_f["id"]]
     )
-    result = runner.invoke(
+    result = runner.invoke_raw(
         ["component-file-show", component["id"], "--file-id", new_f["id"]]
     )
-    assert result["status_code"] == 404
+    assert result.status_code == 404
 
 
 def test_update_active(runner, product_id):

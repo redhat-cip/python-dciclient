@@ -14,34 +14,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from __future__ import unicode_literals
-
-
-def test_prettytable_output(runner, team_id):
-    user = runner.invoke_raw_parse(
-        [
-            "user-create",
-            "--name",
-            "foo",
-            "--email",
-            "foo@example.org",
-            "--password",
-            "pass",
-            "--team-id",
-            team_id,
-        ]
-    )
-    assert user["team_id"] == team_id
-    assert user == runner.invoke_raw_parse(["user-show", user["id"]])
-    assert "etag" not in runner.invoke_raw_parse(["user-list"])
-    assert "etag" in runner.invoke_raw_parse(["user-list", "--long"])
-
-
-def test_fail_create_user_no_email(runner, team_id):
-    assert 'Error: Missing option "--email"' in runner.invoke_raw_parse(
-        ["user-create", "--name", "foo", "--password", "pass", "--team-id", team_id]
-    )
-
 
 def test_create_user(runner, test_user, team_user_id):
     assert test_user["name"] == "foo"
@@ -200,10 +172,10 @@ def test_update_active(runner, test_user, team_id):
 
 
 def test_delete(runner, test_user, team_id):
-    result = runner.invoke(
+    result = runner.invoke_raw(
         ["user-delete", test_user["id"], "--etag", test_user["etag"]]
     )
-    assert result["message"] == "User deleted."
+    assert result.status_code == 204
 
 
 def test_show(runner, test_user, team_id):

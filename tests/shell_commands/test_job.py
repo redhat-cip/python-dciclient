@@ -29,15 +29,8 @@ else:
     internet_cnx = True
 
 
-def test_prettytable_output(runner, job_id):
-    job_list = runner.invoke_raw_parse(["job-list"])
-    assert job_list["id"] == job_id
-    assert "etag" not in job_list
-    assert "etag" in runner.invoke_raw_parse(["job-list", "--long"])
-
-
 def test_list(
-    runner, dci_context, dci_context_remoteci, team_user_id, remoteci_id, product_id
+    runner, dci_context, dci_context_remoteci, team_user_id, remoteci_id, product_id,
 ):
     topic = runner.invoke(
         [
@@ -71,9 +64,9 @@ def test_list(
     assert len(l_job["jobs"]) == 1
     assert l_job["jobs"][0]["remoteci"]["id"] == remoteci_id
     assert l_job["jobs"][0]["topic"]["id"] == topic["id"]
-    output = runner.invoke_raw_parse(["job-list"])
-    assert output["topic/name"] == "osp"
-    assert output["id"] == l_job["jobs"][0]["id"]
+    output = runner.invoke(["job-list"])
+    assert output["jobs"][0]["topic"]["name"] == "osp"
+    assert output["jobs"][0]["id"] == l_job["jobs"][0]["id"]
 
     l_job = runner.invoke(["job-list", "--where", "remoteci_id:" + remoteci_id])
     assert len(l_job["jobs"]) == 1
@@ -84,9 +77,9 @@ def test_list_as_remoteci(job, remoteci_id, runner_remoteci):
     assert len(l_job["jobs"]) == 1
     assert l_job["jobs"][0]["remoteci"]["id"] == remoteci_id
     assert l_job["jobs"][0]["topic"]["id"] == job["topic_id"]
-    output = runner_remoteci.invoke_raw_parse(["job-list"])
-    assert output["topic/name"] == "foo_topic"
-    assert output["id"] == job["id"]
+    output = runner_remoteci.invoke(["job-list"])
+    assert output["jobs"][0]["topic"]["name"] == "foo_topic"
+    assert output["jobs"][0]["id"] == job["id"]
 
     l_job = runner_remoteci.invoke(
         ["job-list", "--where", "remoteci_id:" + remoteci_id]
@@ -100,7 +93,7 @@ def test_list_with_limit(runner, job_factory):
     # test --limit XX
     l_job = runner.invoke(["job-list"])
     assert len(l_job["jobs"]) == 6
-    l_job = runner.invoke(["job-list", "--limit", 1])
+    l_job = runner.invoke(["job-list", "--limit", "1"])
     assert len(l_job["jobs"]) == 1
 
 
@@ -108,9 +101,9 @@ def test_delete(runner, job_id):
     l_job = runner.invoke(["job-show", job_id])
     l_job_etag = l_job["job"]["etag"]
 
-    result = runner.invoke(["job-delete", job_id, "--etag", l_job_etag])
+    result = runner.invoke_raw(["job-delete", job_id, "--etag", l_job_etag])
 
-    assert result["message"] == "Job deleted."
+    assert result.status_code == 204
 
 
 def test_results(runner, job_id):
@@ -160,7 +153,7 @@ def test_unattach_issue(runner, job_id):
     issue_id = result["issues"][0]["id"]
     assert res == 1
 
-    runner.invoke(["job-unattach-issue", job_id, "--issue-id", issue_id])
+    runner.invoke_raw(["job-unattach-issue", job_id, "--issue-id", issue_id])
     result = runner.invoke(["job-list-issue", job_id])
     count = result["_meta"]["count"]
     assert count == 0
@@ -168,7 +161,7 @@ def test_unattach_issue(runner, job_id):
 
 def test_job_output(runner, job_id):
     result = runner.invoke_raw(["job-output", job_id])
-    assert result.output.startswith("[pre-run]")
+    assert result[0].startswith("pre-run")
 
 
 def test_tags(runner, job_id):
@@ -179,7 +172,7 @@ def test_tags(runner, job_id):
     assert len(tags) == 1
     assert tags[0]["id"] == tag["id"]
     assert tags[0]["name"] == "foo"
-    runner.invoke(["job-delete-tag", job_id, tag["id"]])
+    runner.invoke_raw(["job-delete-tag", job_id, tag["id"]])
     tags = runner.invoke(["job-list-tags", job_id])["tags"]
     assert len(tags) == 0
 
@@ -229,8 +222,8 @@ def test_file_support(runner, tmpdir, job_id):
 
     # delete
     runner.invoke_raw(["job-delete-file", job_id, "--file-id", new_f["id"]])
-    result = runner.invoke(["job-show-file", job_id, "--file-id", new_f["id"]])
-    assert result["status_code"] == 404
+    result = runner.invoke_raw(["job-show-file", job_id, "--file-id", new_f["id"]])
+    assert result.status_code == 404
 
 
 def test_file_support_as_remoteci(runner_remoteci, tmpdir, job_id):
@@ -273,5 +266,7 @@ def test_file_support_as_remoteci(runner_remoteci, tmpdir, job_id):
 
     # delete
     runner_remoteci.invoke_raw(["job-delete-file", job_id, "--file-id", new_f["id"]])
-    result = runner_remoteci.invoke(["job-show-file", job_id, "--file-id", new_f["id"]])
-    assert result["status_code"] == 404
+    result = runner_remoteci.invoke_raw(
+        ["job-show-file", job_id, "--file-id", new_f["id"]]
+    )
+    assert result.status_code == 404
