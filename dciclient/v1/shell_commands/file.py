@@ -14,75 +14,18 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import click
-
 from dciclient.v1.api import job
-from dciclient.v1.shell_commands import cli
-from dciclient.v1 import utils
-
 from dciclient.v1.api import file
 
 
-@cli.command("file-list", help="List all files.")
-@click.argument("job-id")
-@click.option("--sort", default="-created_at")
-@click.option("--limit", default=50)
-@click.option("--offset", default=0)
-@click.option("--where", help="An optional filter criteria.", required=False)
-@click.option(
-    "--long", "--verbose", "verbose", required=False, default=False, is_flag=True
-)
-@click.pass_obj
-def list(context, job_id, sort, limit, offset, where, verbose):
-    """list(context, job_id, sort, limit, offset, where, verbose)
-
-    List all files.
-
-    >>> dcictl file-list job-id [OPTIONS]
-
-    :param string sort: Field to apply sort
-    :param integer limit: Max number of rows to return
-    :param integer offset: Offset associated with the limit
-    :param string where: An optional filter criteria
-    :param boolean verbose: Display verbose output
-    """
-    result = job.list_files(
-        context, id=job_id, sort=sort, limit=limit, offset=offset, where=where
-    )
-    utils.format_output(result, context.format, verbose=verbose)
+def list(context, args):
+    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
+    return job.list_files(context, id=args.job_id, **params)
 
 
-@cli.command("file-show", help="Show a file.")
-@click.argument("id", required=True)
-@click.pass_obj
-def show(context, id):
-    """show(context, id)
-
-    Show a file.
-
-    >>> dcictl file-show [OPTIONS]
-
-    :param string id: ID of the file to show [required]
-    """
-    content = file.content(context, id=id)
-    click.echo(content.text)
+def show(context, args):
+    return file.content(context, id=args.id)
 
 
-@cli.command("file-delete", help="Delete a file.")
-@click.argument("id")
-@click.pass_obj
-def delete(context, id):
-    """delete(context, id)
-
-    Delete a file.
-
-    >>> dcictl file-delete [OPTIONS]
-
-    :param string id: ID of the file to delete [required]
-    """
-    result = file.delete(context, id=id)
-
-    if result.status_code == 204:
-        utils.print_json({"id": id, "message": "File deleted."})
-    else:
-        utils.format_output(result, context.format)
+def delete(context, args):
+    return file.delete(context, id=args.id)
