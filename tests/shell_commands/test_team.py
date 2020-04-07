@@ -17,12 +17,6 @@
 from __future__ import unicode_literals
 
 
-def test_prettytable_output(runner):
-    team = runner.invoke_raw_parse(["team-create", "--name", "foo"])
-    assert team["name"] == "foo"
-    assert team == runner.invoke_raw_parse(["team-show", team["id"]])
-
-
 def test_list(runner):
     teams = runner.invoke(["team-list"])["teams"]
     current_nb_teams = len(teams)
@@ -49,13 +43,13 @@ def test_create_inactive(runner):
 
 
 def test_create_fail_unauthorized_user_admin(runner_user_admin):
-    team = runner_user_admin.invoke(["team-create", "--name", "foo"])
-    assert team["status_code"] == 401
+    team = runner_user_admin.invoke_raw(["team-create", "--name", "foo"])
+    assert team.status_code == 401
 
 
 def test_create_fail_unauthorized_user(runner_user):
-    team = runner_user.invoke(["team-create", "--name", "foo"])
-    assert team["status_code"] == 401
+    team = runner_user.invoke_raw(["team-create", "--name", "foo"])
+    assert team.status_code == 401
 
 
 def test_update(runner):
@@ -122,9 +116,9 @@ def test_update_team_external(runner):
 def test_delete(runner):
     team = runner.invoke(["team-create", "--name", "foo"])["team"]
 
-    result = runner.invoke(["team-delete", team["id"], "--etag", team["etag"]])
+    result = runner.invoke_raw(["team-delete", team["id"], "--etag", team["etag"]])
 
-    assert result["message"] == "Team deleted."
+    assert result.status_code == 204
 
 
 def test_show(runner):
