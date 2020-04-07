@@ -37,7 +37,6 @@ def list(context, resource, **kwargs):
         uri = "%s/%s/%s/%s" % (context.dci_cs_api, resource, id, subresource)
     else:
         uri = "%s/%s" % (context.dci_cs_api, resource)
-
     return context.session.get(uri, timeout=HTTP_TIMEOUT, params=data)
 
 
