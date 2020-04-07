@@ -27,6 +27,7 @@ import dci
 import dci.app
 import dci.dci_config
 from dciclient import shell
+from dciclient.v1.shell_commands import runner as toto
 from dciclient.v1 import api
 from tests.shell_commands import utils
 
@@ -224,6 +225,19 @@ def signature_context_factory(
         return test_context
 
     return f
+
+
+@pytest.fixture
+def runner_invoke(remoteci_id, remoteci_api_secret):
+    def inner(args):
+        environment = {
+            "DCI_CLIENT_ID": "remoteci/%s" % remoteci_id,
+            "DCI_API_SECRET": "%s" % remoteci_api_secret,
+            "DCI_CS_URL": "http://api:5000/",
+        }
+        return toto.run(args, environment)
+
+    return inner
 
 
 @pytest.fixture
