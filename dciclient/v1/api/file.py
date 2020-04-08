@@ -38,7 +38,7 @@ def create(context, name, content=None, file_path=None, mime='text/plain',
 
     if content and file_path:
         raise Exception('content and file_path are mutually exclusive')
-    elif not content and not file_path:
+    elif content is None and not file_path:
         raise Exception(
             'At least one of content or file_path must be specified'
         )
