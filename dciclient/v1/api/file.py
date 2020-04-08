@@ -36,9 +36,9 @@ def create(context, name, content=None, file_path=None, mime='text/plain',
 
     """
 
-    if content and file_path:
+    if content is not None and file_path:
         raise Exception('content and file_path are mutually exclusive')
-    elif not content and not file_path:
+    elif content is None and not file_path:
         raise Exception(
             'At least one of content or file_path must be specified'
         )
@@ -52,7 +52,7 @@ def create(context, name, content=None, file_path=None, mime='text/plain',
     headers = utils.sanitize_kwargs(**headers)
     uri = '%s/%s' % (context.dci_cs_api, RESOURCE)
 
-    if content:
+    if content is not None:
         if not hasattr(content, 'read'):
             if not isinstance(content, bytes):
                 content = content.encode('utf-8')
