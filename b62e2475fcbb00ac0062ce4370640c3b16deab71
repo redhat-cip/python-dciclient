@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89717868_ee68b376",
+        "filename": "tests/conftest.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 166
+      },
+      "writtenOn": "2020-04-14T14:23:29Z",
+      "side": 1,
+      "message": "I don\u0027t like having such specific handler, but it is due to the control server returning an incorrect answer here:\nhttps://github.com/redhat-cip/dci-control-server/blob/master/dci/api/v1/users.py#L240\n\u003d\u003e response.json() badly crashes by trying to parse a None object, and old dciclient code just hid it, by printing a properly formatted json.",
+      "revId": "b62e2475fcbb00ac0062ce4370640c3b16deab71",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
