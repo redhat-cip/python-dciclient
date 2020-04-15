@@ -131,5 +131,200 @@ def parse_arguments(args, environment={}):
     p.add_argument("id")
     p.set_defaults(command="user-show")
 
+    # team commands
+    p = subparsers.add_parser("team-list", help="List all teams.")
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--verbose", default=False, action="store_true")
+    p.set_defaults(command="team-list")
+
+    p = subparsers.add_parser("team-create", help="Create a team.")
+    p.add_argument("--name", required=True)
+    p.add_argument("--country")
+    _create_boolean_flags(p, "--active/--no-active", default=True, dest="state")
+    p.set_defaults(command="team-create")
+
+    p = subparsers.add_parser("team-update", help="Update a team.")
+    p.add_argument("id")
+    p.add_argument("--etag", required=True)
+    p.add_argument("--name")
+    p.add_argument("--country")
+    _create_boolean_flags(p, "--active/--no-active", default=None, dest="state")
+    _create_boolean_flags(p, "--external/--no-external", default=None, dest="external")
+    p.set_defaults(command="team-update")
+
+    p = subparsers.add_parser("team-delete", help="Update a team.")
+    p.add_argument("id")
+    p.add_argument("--etag", required=True)
+    p.set_defaults(command="team-delete")
+
+    p = subparsers.add_parser("team-show", help="Show a team.")
+    p.add_argument("id")
+    p.set_defaults(command="team-show")
+
+    # topic commands
+    p = subparsers.add_parser("topic-list", help="List all topics.")
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--verbose", default=False, action="store_true")
+    p.set_defaults(command="topic-list")
+
+    p = subparsers.add_parser("topic-create", help="Create a topic.")
+    p.add_argument("--name", required=True)
+    p.add_argument("--product-id")
+    p.add_argument(
+        "--component_types", default=None, help="Component types separated by commas."
+    )
+    _create_boolean_flags(p, "--active/--no-active", default=True, dest="state")
+    _create_boolean_flags(
+        p, "--export-control/--no-export-control", default=False, dest="export_control"
+    )
+    p.add_argument("--data")
+    p.set_defaults(command="topic-create")
+
+    p = subparsers.add_parser("topic-update", help="Update a topic.")
+    p.add_argument("id")
+    p.add_argument("--etag", required=True)
+    p.add_argument("--name")
+    p.add_argument(
+        "--component_types", default=None, help="Component types separated by commas."
+    )
+    p.add_argument("--label")
+    p.add_argument("--next-topic-id")
+    _create_boolean_flags(p, "--active/--no-active", default=False, dest="state")
+    _create_boolean_flags(
+        p, "--export-control/--no-export-control", default=None, dest="export_control"
+    )
+    p.add_argument("--product-id")
+    p.add_argument("--data")
+    p.set_defaults(command="topic-update")
+
+    p = subparsers.add_parser("topic-delete", help="Delete a topic.")
+    p.add_argument("id")
+    p.set_defaults(command="topic-delete")
+
+    p = subparsers.add_parser("topic-show", help="Show a topic.")
+    p.add_argument("id")
+    p.set_defaults(command="topic-show")
+
+    p = subparsers.add_parser("topic-attach-team", help="Attach a team to a topic.")
+    p.add_argument("id")
+    p.add_argument("--team-id")
+    p.set_defaults(command="topic-attach-team")
+
+    p = subparsers.add_parser("topic-unattach-team", help="Unattach a team to a topic.")
+    p.add_argument("id")
+    p.add_argument("--team-id")
+    p.set_defaults(command="topic-unattach-team")
+
+    p = subparsers.add_parser("topic-list-team", help="List teams attached to a topic.")
+    p.add_argument("id")
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--verbose", default=False, action="store_true")
+    p.set_defaults(command="topic-list-team")
+
+    # component commands
+    p = subparsers.add_parser("component-list", help="List all components.")
+    p.add_argument("--topic-id", required=True, dest="id")
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--verbose", default=False, action="store_true")
+    p.set_defaults(command="component-list")
+
+    p = subparsers.add_parser("component-create", help="Create a component.")
+    p.add_argument("--name", required=True, help="Name of component")
+    p.add_argument("--type", required=True, help="Type of component")
+    p.add_argument(
+        "--canonical_project_name", default=None, help="Canoncial project name."
+    )
+    p.add_argument("--title", help="Title of component")
+    p.add_argument("--message", help="Component message")
+    p.add_argument("--url", help="URL to look for the component")
+    p.add_argument("--topic-id", required=True, help="Topic ID")
+    _create_boolean_flags(p, "--active/--no-active", default=True, dest="state")
+    p.add_argument("--data", default="{}", help="Data to pass (JSON)")
+    p.set_defaults(command="component-create")
+
+    p = subparsers.add_parser("component-update", help="Update a component.")
+    p.add_argument("id")
+    _create_boolean_flags(p, "--active/--no-active", default=None, dest="state")
+    p.set_defaults(command="component-update")
+
+    p = subparsers.add_parser("component-delete", help="Delete a component.")
+    p.add_argument("id")
+    p.set_defaults(command="component-delete")
+
+    p = subparsers.add_parser("component-show", help="Show a component.")
+    p.add_argument("id")
+    p.set_defaults(command="component-show")
+
+    p = subparsers.add_parser(
+        "component-attach-issue", help="Attach an issue to a component."
+    )
+    p.add_argument("id")
+    p.add_argument("--url", required=True)
+    p.set_defaults(command="component-attach-issue")
+
+    p = subparsers.add_parser(
+        "component-unattach-issue", help="Unattach an issue to a component."
+    )
+    p.add_argument("id")
+    p.add_argument("--issue-id", required=True)
+    p.set_defaults(command="component-unattach-issue")
+
+    p = subparsers.add_parser(
+        "component-list-issue", help="List all component attached issues."
+    )
+    p.add_argument("id")
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.set_defaults(command="component-list-issue")
+
+    p = subparsers.add_parser(
+        "component-file-upload", help="Attach a file to a component."
+    )
+    p.add_argument("id")
+    p.add_argument("--path", required=True)
+    p.set_defaults(command="component-file-upload")
+
+    p = subparsers.add_parser("component-file-show", help="Show a component file.")
+    p.add_argument("id")
+    p.add_argument("--file-id", required=True)
+    p.set_defaults(command="component-file-show")
+
+    p = subparsers.add_parser(
+        "component-file-download", help="Retrieve a component file."
+    )
+    p.add_argument("id")
+    p.add_argument("--file-id", required=True)
+    p.add_argument("--target", required=True)
+    p.set_defaults(command="component-file-download")
+
+    p = subparsers.add_parser(
+        "component-file-list", help="List files attached to a component."
+    )
+    p.add_argument("id")
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--verbose", default=False, action="store_true")
+    p.set_defaults(command="component-list")
+
+    p = subparsers.add_parser("component-file-delete", help="Delete a component file.")
+    p.add_argument("id")
+    p.add_argument("--file-id", required=True)
+    p.set_defaults(command="component-file-delete")
+
     args = parser.parse_args(args)
     return args

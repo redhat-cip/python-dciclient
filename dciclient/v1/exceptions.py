@@ -25,3 +25,7 @@ class ServerError(Exception):
 
 class DuplicateResource(ServerError):
     """The resource already exist"""
+
+
+class BadParameter(Exception):
+    """Bad parameter"""

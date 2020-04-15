@@ -17,51 +17,47 @@
 from __future__ import unicode_literals
 
 
-def test_prettytable_output(runner):
-    team = runner.invoke_raw_parse(["team-create", "--name", "foo"])
-    assert team["name"] == "foo"
-    assert team == runner.invoke_raw_parse(["team-show", team["id"]])
-
-
-def test_list(runner):
-    teams = runner.invoke(["team-list"])["teams"]
+def test_list(toto_context):
+    teams = toto_context.invoke(["team-list"])["teams"]
     current_nb_teams = len(teams)
-    runner.invoke(["team-create", "--name", "foo"])
-    runner.invoke(["team-create", "--name", "bar"])
-    teams = runner.invoke(["team-list"])["teams"]
+    toto_context.invoke(["team-create", "--name", "foo"])
+    toto_context.invoke(["team-create", "--name", "bar"])
+    teams = toto_context.invoke(["team-list"])["teams"]
     assert (current_nb_teams + 2) == len(teams)
 
 
-def test_create(runner, team_admin_id):
-    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+def test_create(toto_context, team_admin_id):
+    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
     assert team["name"] == "foo"
 
 
-def test_create_with_country_and_email(runner):
-    team = runner.invoke(["team-create", "--name", "foo", "--country", "FR"])["team"]
+def test_create_with_country_and_email(toto_context):
+    team = toto_context.invoke(["team-create", "--name", "foo", "--country", "FR"])[
+        "team"
+    ]
     assert team["name"] == "foo"
     assert team["country"] == "FR"
 
 
-def test_create_inactive(runner):
-    team = runner.invoke(["team-create", "--name", "foo", "--no-active"])["team"]
+def test_create_inactive(toto_context):
+    team = toto_context.invoke(["team-create", "--name", "foo", "--no-active"])["team"]
     assert team["state"] == "inactive"
 
 
-def test_create_fail_unauthorized_user_admin(runner_user_admin):
-    team = runner_user_admin.invoke(["team-create", "--name", "foo"])
-    assert team["status_code"] == 401
+def test_create_fail_unauthorized_user_admin(toto_context_user_admin):
+    team = toto_context_user_admin.invoke_raw(["team-create", "--name", "foo"])
+    assert team.status_code == 401
 
 
-def test_create_fail_unauthorized_user(runner_user):
-    team = runner_user.invoke(["team-create", "--name", "foo"])
-    assert team["status_code"] == 401
+def test_create_fail_unauthorized_user(toto_context_user):
+    team = toto_context_user.invoke_raw(["team-create", "--name", "foo"])
+    assert team.status_code == 401
 
 
-def test_update(runner):
-    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+def test_update(toto_context):
+    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
 
-    result = runner.invoke(
+    result = toto_context.invoke(
         [
             "team-update",
             team["id"],
@@ -79,18 +75,18 @@ def test_update(runner):
     assert result["team"]["country"] == "JP"
 
 
-def test_update_active(runner):
-    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+def test_update_active(toto_context):
+    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
     assert team["state"] == "active"
 
-    result = runner.invoke(
+    result = toto_context.invoke(
         ["team-update", team["id"], "--etag", team["etag"], "--no-active"]
     )
 
     assert result["team"]["id"] == team["id"]
     assert result["team"]["state"] == "inactive"
 
-    result = runner.invoke(
+    result = toto_context.invoke(
         [
             "team-update",
             team["id"],
@@ -104,40 +100,45 @@ def test_update_active(runner):
     assert result["team"]["id"] == team["id"]
     assert result["team"]["state"] == "inactive"
 
-    result = runner.invoke(
+    result = toto_context.invoke(
         ["team-update", team["id"], "--etag", result["team"]["etag"], "--active"]
     )
 
     assert result["team"]["state"] == "active"
 
 
-def test_update_team_external(runner):
-    team = runner.invoke(["team-create", "--name", "foo"])["team"]
-    runner.invoke(["team-update", team["id"], "--etag", team["etag"], "--no-external"])
-    team = runner.invoke(["team-show", team["id"]])["team"]
+def test_update_team_external(toto_context):
+    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
+    toto_context.invoke(
+        ["team-update", team["id"], "--etag", team["etag"], "--no-external"]
+    )
+    team = toto_context.invoke(["team-show", team["id"]])["team"]
 
     assert team["external"] is False
 
 
-def test_delete(runner):
-    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+def test_delete(toto_context):
+    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
 
-    result = runner.invoke(["team-delete", team["id"], "--etag", team["etag"]])
+    result = toto_context.invoke_raw(
+        ["team-delete", team["id"], "--etag", team["etag"]]
+    )
 
-    assert result["message"] == "Team deleted."
+    assert result.status_code == 204
 
 
-def test_show(runner):
-    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+def test_show(toto_context):
+    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
 
-    team = runner.invoke(["team-show", team["id"]])["team"]
+    team = toto_context.invoke(["team-show", team["id"]])["team"]
 
     assert team["name"] == "foo"
 
 
-def test_where_on_list(runner):
-    runner.invoke(["team-create", "--name", "foobar42"])
+def test_where_on_list(toto_context):
+    toto_context.invoke(["team-create", "--name", "foobar42"])
 
     assert (
-        runner.invoke(["team-list", "--where", "name:foobar42"])["_meta"]["count"] == 1
+        toto_context.invoke(["team-list", "--where", "name:foobar42"])["_meta"]["count"]
+        == 1
     )
