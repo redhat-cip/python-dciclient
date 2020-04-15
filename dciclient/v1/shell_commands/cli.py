@@ -131,5 +131,46 @@ def parse_arguments(args, environment={}):
     p.add_argument("id")
     p.set_defaults(command="user-show")
 
+    # feeder commands
+    p = subparsers.add_parser("feeder-list", help="List all feeders.")
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--verbose", default=False, action="store_true")
+    p.set_defaults(command="feeder-list")
+
+    p = subparsers.add_parser("feeder-create", help="Create a feeder.")
+    p.add_argument("--name", required=True)
+    p.add_argument("--data")
+    _create_boolean_flags(p, "--active/--no-active", default=True, dest="state")
+    p.add_argument("--team-id")
+    p.set_defaults(command="feeder-create")
+
+    p = subparsers.add_parser("feeder-update", help="Update a feeder.")
+    p.add_argument("id")
+    p.add_argument("--etag", required=True)
+    p.add_argument("--name")
+    p.add_argument("--data")
+    p.add_argument("--team-id")
+    _create_boolean_flags(p, "--active/--no-active", default=None, dest="state")
+    p.set_defaults(command="feeder-update")
+
+    p = subparsers.add_parser("feeder-delete", help="Update a feeder.")
+    p.add_argument("id")
+    p.add_argument("--etag", required=True)
+    p.set_defaults(command="feeder-delete")
+
+    p = subparsers.add_parser("feeder-show", help="Show a feeder.")
+    p.add_argument("id")
+    p.set_defaults(command="feeder-show")
+
+    p = subparsers.add_parser(
+        "feeder-reset-api-secret", help="reset api secret for a feeder."
+    )
+    p.add_argument("id")
+    p.add_argument("--etag", required=True)
+    p.set_defaults(command="feeder-reset-api-secret")
+
     args = parser.parse_args(args)
     return args

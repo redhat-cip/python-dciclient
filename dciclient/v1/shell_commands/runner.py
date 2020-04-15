@@ -15,6 +15,7 @@
 # under the License.
 
 from dciclient.v1.shell_commands import user
+from dciclient.v1.shell_commands import feeder
 
 
 command_function = {
@@ -23,6 +24,12 @@ command_function = {
     "user-show": user.show,
     "user-update": user.update,
     "user-delete": user.delete,
+    "feeder-list": feeder.list,
+    "feeder-create": feeder.create,
+    "feeder-show": feeder.show,
+    "feeder-update": feeder.update,
+    "feeder-delete": feeder.delete,
+    "feeder-reset-api-secret": feeder.reset_api_secret,
 }
 
 
