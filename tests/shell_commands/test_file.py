@@ -17,24 +17,26 @@
 from __future__ import unicode_literals
 
 
-def test_show(runner, file_id):
-    result = runner.invoke_raw(["file-show", file_id])
-    assert "testsuite errors" in result.output
+def test_show(toto_context, file_id):
+    result = toto_context.invoke_raw(["file-show", file_id])
+    assert "testsuite errors" in result.text
 
 
-def test_list(runner, job_id):
-    files = runner.invoke(["file-list", job_id])["files"]
+def test_list(toto_context, job_id):
+    files = toto_context.invoke(["file-list", job_id])["files"]
     assert len(files)
     assert "res_junit.xml" in [i["name"] for i in files]
 
 
-def test_delete(runner, file_id):
-    result = runner.invoke(["file-delete", file_id])
-    assert result["message"] == "File deleted."
+def test_delete(toto_context, file_id):
+    result = toto_context.invoke_raw(["file-delete", file_id])
+    assert result.status_code == 204
 
 
-def test_where_on_list(runner, job_id):
+def test_where_on_list(toto_context, job_id):
     assert (
-        runner.invoke(["file-list", job_id, "--where", "size:785"])["_meta"]["count"]
+        toto_context.invoke(["file-list", job_id, "--where", "size:785"])["_meta"][
+            "count"
+        ]
         == 1
     )

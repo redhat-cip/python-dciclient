@@ -255,6 +255,16 @@ def toto_context(dci_context):
 
 
 @pytest.fixture
+def toto_context_user_admin(dci_context_user_admin):
+    return toto_factory(dci_context_user_admin)
+
+
+@pytest.fixture
+def toto_context_user(dci_context_user):
+    return toto_factory(dci_context_user)
+
+
+@pytest.fixture
 def dci_context_remoteci(
     server, db_provisioning, remoteci_id, signature_context_factory, remoteci_api_secret
 ):
