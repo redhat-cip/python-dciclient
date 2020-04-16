@@ -164,7 +164,7 @@ def parse_arguments(args, environment={}):
     p.add_argument("id")
     p.set_defaults(command="team-show")
 
-# feeder commands
+    # feeder commands
     p = subparsers.add_parser("feeder-list", help="List all feeders.")
     p.add_argument("--sort", default="-created_at")
     p.add_argument("--limit", default=50)
@@ -204,6 +204,72 @@ def parse_arguments(args, environment={}):
     p.add_argument("id")
     p.add_argument("--etag", required=True)
     p.set_defaults(command="feeder-reset-api-secret")
+
+    # topic commands
+    p = subparsers.add_parser("topic-list", help="List all topics.")
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--verbose", default=False, action="store_true")
+    p.set_defaults(command="topic-list")
+
+    p = subparsers.add_parser("topic-create", help="Create a topic.")
+    p.add_argument("--name", required=True)
+    p.add_argument("--product-id")
+    p.add_argument(
+        "--component_types", default=None, help="Component types separated by commas."
+    )
+    _create_boolean_flags(p, "--active/--no-active", default=True, dest="state")
+    _create_boolean_flags(
+        p, "--export-control/--no-export-control", default=False, dest="export_control"
+    )
+    p.add_argument("--data")
+    p.set_defaults(command="topic-create")
+
+    p = subparsers.add_parser("topic-update", help="Update a topic.")
+    p.add_argument("id")
+    p.add_argument("--etag", required=True)
+    p.add_argument("--name")
+    p.add_argument(
+        "--component_types", default=None, help="Component types separated by commas."
+    )
+    p.add_argument("--label")
+    p.add_argument("--next-topic-id")
+    _create_boolean_flags(p, "--active/--no-active", default=False, dest="state")
+    _create_boolean_flags(
+        p, "--export-control/--no-export-control", default=None, dest="export_control"
+    )
+    p.add_argument("--product-id")
+    p.add_argument("--data")
+    p.set_defaults(command="topic-update")
+
+    p = subparsers.add_parser("topic-delete", help="Delete a topic.")
+    p.add_argument("id")
+    p.set_defaults(command="topic-delete")
+
+    p = subparsers.add_parser("topic-show", help="Show a topic.")
+    p.add_argument("id")
+    p.set_defaults(command="topic-show")
+
+    p = subparsers.add_parser("topic-attach-team", help="Attach a team to a topic.")
+    p.add_argument("id")
+    p.add_argument("--team-id")
+    p.set_defaults(command="topic-attach-team")
+
+    p = subparsers.add_parser("topic-unattach-team", help="Unattach a team to a topic.")
+    p.add_argument("id")
+    p.add_argument("--team-id")
+    p.set_defaults(command="topic-unattach-team")
+
+    p = subparsers.add_parser("topic-list-team", help="List teams attached to a topic.")
+    p.add_argument("id")
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--verbose", default=False, action="store_true")
+    p.set_defaults(command="topic-list-team")
 
     args = parser.parse_args(args)
     return args

@@ -17,6 +17,7 @@
 from dciclient.v1.shell_commands import user
 from dciclient.v1.shell_commands import team
 from dciclient.v1.shell_commands import feeder
+from dciclient.v1.shell_commands import topic
 
 
 command_function = {
@@ -36,6 +37,14 @@ command_function = {
     "feeder-update": feeder.update,
     "feeder-delete": feeder.delete,
     "feeder-reset-api-secret": feeder.reset_api_secret,
+    "topic-list": topic.list,
+    "topic-create": topic.create,
+    "topic-show": topic.show,
+    "topic-attach-team": topic.attach_team,
+    "topic-unattach-team": topic.unattach_team,
+    "topic-list-team": topic.list_team,
+    "topic-update": topic.update,
+    "topic-delete": topic.delete,
 }
 
 

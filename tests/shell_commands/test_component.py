@@ -26,13 +26,13 @@ def test_prettytable_output(runner, topic_id):
 
 
 def test_list(runner, toto_context, product_id):
-    topic = runner.invoke(
+    topic = toto_context.invoke(
         ["topic-create", "--name", "osp", "--product-id", product_id]
     )["topic"]
     teams = toto_context.invoke(["team-list"])["teams"]
     team_id = teams[0]["id"]
 
-    runner.invoke(["topic-attach-team", topic["id"], "--team-id", team_id])
+    toto_context.invoke(["topic-attach-team", topic["id"], "--team-id", team_id])
 
     runner.invoke(
         [
@@ -65,8 +65,8 @@ def test_list(runner, toto_context, product_id):
     assert components[1]["name"] == "foo"
 
 
-def test_create(runner, product_id):
-    topic = runner.invoke(
+def test_create(runner, toto_context, product_id):
+    topic = toto_context.invoke(
         ["topic-create", "--name", "osp", "--product-id", product_id]
     )["topic"]
 
@@ -84,8 +84,8 @@ def test_create(runner, product_id):
     assert component["name"] == "foo"
 
 
-def test_create_inactive(runner, product_id):
-    topic = runner.invoke(
+def test_create_inactive(runner, toto_context, product_id):
+    topic = toto_context.invoke(
         ["topic-create", "--name", "osp", "--product-id", product_id]
     )["topic"]
 
@@ -104,8 +104,8 @@ def test_create_inactive(runner, product_id):
     assert component["state"] == "inactive"
 
 
-def test_delete(runner, product_id):
-    topic = runner.invoke(
+def test_delete(runner, toto_context, product_id):
+    topic = toto_context.invoke(
         ["topic-create", "--name", "osp", "--product-id", product_id]
     )["topic"]
     component = runner.invoke(
@@ -125,8 +125,8 @@ def test_delete(runner, product_id):
     assert result["message"] == "Component deleted."
 
 
-def test_show(runner, product_id):
-    topic = runner.invoke(
+def test_show(runner, toto_context, product_id):
+    topic = toto_context.invoke(
         ["topic-create", "--name", "osp", "--product-id", product_id]
     )["topic"]
     assert topic["name"] == "osp"
@@ -148,11 +148,11 @@ def test_show(runner, product_id):
     assert result["component"]["name"] == "foo"
 
 
-def test_file_support(runner, tmpdir, product_id):
+def test_file_support(runner, toto_context, tmpdir, product_id):
     td = tmpdir
     p = td.join("hello.txt")
     p.write("content")
-    topic = runner.invoke(
+    topic = toto_context.invoke(
         ["topic-create", "--name", "osp", "--product-id", product_id]
     )["topic"]
 
@@ -208,8 +208,8 @@ def test_file_support(runner, tmpdir, product_id):
     assert result["status_code"] == 404
 
 
-def test_update_active(runner, product_id):
-    topic = runner.invoke(
+def test_update_active(runner, toto_context, product_id):
+    topic = toto_context.invoke(
         ["topic-create", "--name", "osp", "--product-id", product_id]
     )["topic"]
 
@@ -235,13 +235,13 @@ def test_update_active(runner, product_id):
 
 
 def test_where_on_list(runner, toto_context, product_id):
-    topic = runner.invoke(
+    topic = toto_context.invoke(
         ["topic-create", "--name", "osp", "--product-id", product_id]
     )["topic"]
     teams = toto_context.invoke(["team-list"])["teams"]
     team_id = teams[0]["id"]
 
-    runner.invoke(["topic-attach-team", topic["id"], "--team-id", team_id])
+    toto_context.invoke(["topic-attach-team", topic["id"], "--team-id", team_id])
 
     runner.invoke(
         [

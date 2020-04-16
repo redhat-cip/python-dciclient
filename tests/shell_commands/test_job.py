@@ -37,9 +37,15 @@ def test_prettytable_output(runner, job_id):
 
 
 def test_list(
-    runner, dci_context, dci_context_remoteci, team_user_id, remoteci_id, product_id
+    runner,
+    toto_context,
+    dci_context,
+    dci_context_remoteci,
+    team_user_id,
+    remoteci_id,
+    product_id,
 ):
-    topic = runner.invoke(
+    topic = toto_context.invoke(
         [
             "topic-create",
             "--name",
@@ -52,7 +58,7 @@ def test_list(
         ]
     )["topic"]
 
-    runner.invoke(["topic-attach-team", topic["id"], "--team-id", team_user_id])
+    toto_context.invoke(["topic-attach-team", topic["id"], "--team-id", team_user_id])
 
     runner.invoke(
         [

@@ -36,15 +36,15 @@ def test_purge_fail_unauthorized_user_admin(runner_user_admin):
     assert result["status_code"] == 401
 
 
-def test_purge_noop(runner, remoteci_id, product_id):
-    runner.invoke(["topic-create", "--name", "osp", "--product-id", product_id])
-    runner.invoke(["topic-create", "--name", "osp2", "--product-id", product_id])
-    topics = runner.invoke(["topic-list"])["topics"]
+def test_purge_noop(runner, toto_context, remoteci_id, product_id):
+    toto_context.invoke(["topic-create", "--name", "osp", "--product-id", product_id])
+    toto_context.invoke(["topic-create", "--name", "osp2", "--product-id", product_id])
+    topics = toto_context.invoke(["topic-list"])["topics"]
     topic_id = topics[0]["id"]
     assert len(topics) == 2
 
-    runner.invoke(["topic-delete", topic_id])
-    topics = runner.invoke(["topic-list"])["topics"]
+    toto_context.invoke_raw(["topic-delete", topic_id])
+    topics = toto_context.invoke(["topic-list"])["topics"]
     assert len(topics) == 1
 
     purge_res = runner.invoke(["purge", "--resource", "topics"])
@@ -56,5 +56,5 @@ def test_purge_noop(runner, remoteci_id, product_id):
     purge_res = runner.invoke(["purge", "--resource", "topics"])
     assert len(purge_res) == 0
 
-    topics = runner.invoke(["topic-list"])["topics"]
+    topics = toto_context.invoke(["topic-list"])["topics"]
     assert len(topics) == 1
