@@ -23,6 +23,7 @@ from dciclient.v1.shell_commands import topic
 from dciclient.v1.shell_commands import component
 from dciclient.v1.shell_commands import file
 from dciclient.v1.shell_commands import job
+from dciclient.v1.shell_commands import test
 
 
 command_function = {
@@ -96,6 +97,11 @@ command_function = {
     "job-show-file": job.file_show,
     "job-list-file": job.file_list,
     "job-delete-file": job.file_delete,
+    "test-list": test.list,
+    "test-create": test.create,
+    "test-update": test.update,
+    "test-delete": test.delete,
+    "test-show": test.show,
 }
 
 

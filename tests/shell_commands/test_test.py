@@ -18,47 +18,47 @@ import pytest
 from dciclient.v1.exceptions import BadParameter
 
 
-def test_create_list(runner):
-    runner.invoke(["test-create", "--name", "foo"])
-    runner.invoke(["test-create", "--name", "bar"])
-    tests = runner.invoke(["test-list"])["tests"]
+def test_create_list(toto_context):
+    toto_context.invoke(["test-create", "--name", "foo"])
+    toto_context.invoke(["test-create", "--name", "bar"])
+    tests = toto_context.invoke(["test-list"])["tests"]
     assert len(tests) == 2
     assert tests[0]["name"] == "bar"
     assert tests[1]["name"] == "foo"
 
 
-def test_create_inactive(runner):
-    test = runner.invoke(["test-create", "--name", "foo", "--no-active"])["test"]
+def test_create_inactive(toto_context):
+    test = toto_context.invoke(["test-create", "--name", "foo", "--no-active"])["test"]
     assert test["state"] == "inactive"
 
 
-def test_create_data(runner):
-    test = runner.invoke(["test-create", "--name", "foo", "--data", '{"Foo": 2}'])[
-        "test"
-    ]
+def test_create_data(toto_context):
+    test = toto_context.invoke(
+        ["test-create", "--name", "foo", "--data", '{"Foo": 2}']
+    )["test"]
     assert test["name"] == "foo"
 
 
-def test_create_bad_data(runner):
+def test_create_bad_data(toto_context):
     with pytest.raises(BadParameter):
-        runner.invoke_raw_parse(["test-create", "foo", "--data", "{Foo: 2}"])
+        toto_context.invoke_raw(["test-create", "--name", "foo", "--data", "{Foo: 2}"])
 
 
-def test_update_active(runner):
-    test = runner.invoke(["test-create", "--name", "foo", "--data", '{"Foo": 2}'])[
-        "test"
-    ]
+def test_update_active(toto_context):
+    test = toto_context.invoke(
+        ["test-create", "--name", "foo", "--data", '{"Foo": 2}']
+    )["test"]
 
     assert test["state"] == "active"
 
-    result = runner.invoke(
+    result = toto_context.invoke(
         ["test-update", test["id"], "--etag", test["etag"], "--no-active"]
     )
 
     assert result["test"]["id"] == test["id"]
     assert result["test"]["state"] == "inactive"
 
-    result = runner.invoke(
+    result = toto_context.invoke(
         [
             "test-update",
             test["id"],
@@ -73,28 +73,28 @@ def test_update_active(runner):
     assert result["test"]["state"] == "inactive"
     assert result["test"]["name"] == "foobar"
 
-    result = runner.invoke(
+    result = toto_context.invoke(
         ["test-update", test["id"], "--etag", result["test"]["etag"], "--active"]
     )
 
     assert result["test"]["state"] == "active"
 
 
-def test_delete(runner):
-    test = runner.invoke(["test-create", "--name", "foo"])["test"]
-    tests = runner.invoke(["test-list"])["tests"]
+def test_delete(toto_context):
+    test = toto_context.invoke(["test-create", "--name", "foo"])["test"]
+    tests = toto_context.invoke(["test-list"])["tests"]
     len_tests = len(tests)
 
-    runner.invoke(["test-delete", test["id"]])
-    tests = runner.invoke(["test-list"])["tests"]
+    toto_context.invoke_raw(["test-delete", test["id"]])
+    tests = toto_context.invoke(["test-list"])["tests"]
     len_tests2 = len(tests)
 
     assert len_tests2 == (len_tests - 1)
 
 
-def test_show(runner):
-    test = runner.invoke(["test-create", "--name", "foo"])["test"]
+def test_show(toto_context):
+    test = toto_context.invoke(["test-create", "--name", "foo"])["test"]
 
-    test = runner.invoke(["test-show", test["id"]])["test"]
+    test = toto_context.invoke(["test-show", test["id"]])["test"]
 
     assert test["name"] == "foo"

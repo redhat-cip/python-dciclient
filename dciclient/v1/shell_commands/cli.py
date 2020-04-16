@@ -577,5 +577,36 @@ def parse_arguments(args, environment={}):
     p.add_argument("--file-id", required=True)
     p.set_defaults(command="job-delete-file")
 
+    # test commands
+    p = subparsers.add_parser("test-list", help="List all tests.")
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--verbose", default=False, action="store_true")
+    p.set_defaults(command="test-list")
+
+    p = subparsers.add_parser("test-create", help="Create a test.")
+    p.add_argument("--name")
+    p.add_argument("--data", default="{}")
+    _create_boolean_flags(p, "--active/--no-active", default=True, dest="state")
+    p.set_defaults(command="test-create")
+
+    p = subparsers.add_parser("test-update", help="Update a test.")
+    p.add_argument("id")
+    p.add_argument("--etag", required=True)
+    p.add_argument("--name")
+    p.add_argument("--data", default="{}")
+    _create_boolean_flags(p, "--active/--no-active", default=None, dest="state")
+    p.set_defaults(command="test-update")
+
+    p = subparsers.add_parser("test-delete", help="Delete a test.")
+    p.add_argument("id")
+    p.set_defaults(command="test-delete")
+
+    p = subparsers.add_parser("test-show", help="Show a test.")
+    p.add_argument("id")
+    p.set_defaults(command="test-show")
+
     args = parser.parse_args(args)
     return args
