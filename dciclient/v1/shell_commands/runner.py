@@ -16,6 +16,7 @@
 
 from dciclient.v1.shell_commands import user
 from dciclient.v1.shell_commands import team
+from dciclient.v1.shell_commands import product
 from dciclient.v1.shell_commands import feeder
 from dciclient.v1.shell_commands import topic
 from dciclient.v1.shell_commands import component
@@ -33,6 +34,14 @@ command_function = {
     "team-show": team.show,
     "team-update": team.update,
     "team-delete": team.delete,
+    "product-list": product.list,
+    "product-create": product.create,
+    "product-show": product.show,
+    "product-update": product.update,
+    "product-delete": product.delete,
+    "product-attach-team": product.attach_team,
+    "product-detach-team": product.detach_team,
+    "product-list-teams": product.list_teams,
     "feeder-list": feeder.list,
     "feeder-create": feeder.create,
     "feeder-show": feeder.show,

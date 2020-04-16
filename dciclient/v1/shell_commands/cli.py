@@ -164,6 +164,61 @@ def parse_arguments(args, environment={}):
     p.add_argument("id")
     p.set_defaults(command="team-show")
 
+    # product commands
+    p = subparsers.add_parser("product-list", help="List all products.")
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--verbose", default=False, action="store_true")
+    p.set_defaults(command="product-list")
+
+    p = subparsers.add_parser("product-create", help="Create a product.")
+    p.add_argument("--name", required=True)
+    p.add_argument("--label")
+    p.add_argument("--description")
+    _create_boolean_flags(p, "--active/--no-active", default=True, dest="state")
+    p.set_defaults(command="product-create")
+
+    p = subparsers.add_parser("product-update", help="Update a product.")
+    p.add_argument("id")
+    p.add_argument("--etag", required=True)
+    p.add_argument("--name")
+    p.add_argument("--label")
+    p.add_argument("--description")
+    _create_boolean_flags(p, "--active/--no-active", default=None, dest="state")
+    _create_boolean_flags(p, "--external/--no-external", default=None, dest="external")
+    p.set_defaults(command="product-update")
+
+    p = subparsers.add_parser("product-delete", help="Update a product.")
+    p.add_argument("id")
+    p.add_argument("--etag", required=True)
+    p.set_defaults(command="product-delete")
+
+    p = subparsers.add_parser("product-show", help="Show a product.")
+    p.add_argument("id")
+    p.set_defaults(command="product-show")
+
+    p = subparsers.add_parser("product-attach-team", help="Attach team to a product.")
+    p.add_argument("id")
+    p.add_argument("--team-id")
+    p.set_defaults(command="product-attach-team")
+
+    p = subparsers.add_parser("product-detach-team", help="Detach team to a product.")
+    p.add_argument("id")
+    p.add_argument("--team-id")
+    p.set_defaults(command="product-detach-team")
+
+    p = subparsers.add_parser(
+        "product-list-teams", help="List all teams attached to a product."
+    )
+    p.add_argument("id")
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.set_defaults(command="product-list-teams")
+
     # feeder commands
     p = subparsers.add_parser("feeder-list", help="List all feeders.")
     p.add_argument("--sort", default="-created_at")
