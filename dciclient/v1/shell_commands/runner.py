@@ -24,6 +24,7 @@ from dciclient.v1.shell_commands import component
 from dciclient.v1.shell_commands import file
 from dciclient.v1.shell_commands import job
 from dciclient.v1.shell_commands import test
+from dciclient.v1.shell_commands import remoteci
 
 
 command_function = {
@@ -102,6 +103,20 @@ command_function = {
     "test-update": test.update,
     "test-delete": test.delete,
     "test-show": test.show,
+    "remoteci-list": remoteci.list,
+    "remoteci-create": remoteci.create,
+    "remoteci-update": remoteci.update,
+    "remoteci-delete": remoteci.delete,
+    "remoteci-show": remoteci.show,
+    "remoteci-get-data": remoteci.get_data,
+    "remoteci-attach-test": remoteci.attach_test,
+    "remoteci-unattach-test": remoteci.unattach_test,
+    "remoteci-list-test": remoteci.list_test,
+    "remoteci-attach-user": remoteci.attach_user,
+    "remoteci-unattach-user": remoteci.unattach_user,
+    "remoteci-list-user": remoteci.list_user,
+    "remoteci-reset-api-secret": remoteci.reset_api_secret,
+    "remoteci-refresh-keys": remoteci.refresh_keys,
 }
 
 

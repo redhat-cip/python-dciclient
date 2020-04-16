@@ -608,5 +608,110 @@ def parse_arguments(args, environment={}):
     p.add_argument("id")
     p.set_defaults(command="test-show")
 
+    # remoteci commands
+    p = subparsers.add_parser("remoteci-list", help="List all remotecis.")
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--verbose", default=False, action="store_true")
+    p.set_defaults(command="remoteci-list")
+
+    p = subparsers.add_parser("remoteci-create", help="Create a remoteci.")
+    p.add_argument("--name", required=True)
+    p.add_argument("--team-id", required=False)
+    p.add_argument("--data", default="{}")
+    _create_boolean_flags(p, "--active/--no-active", default=None, dest="state")
+    p.set_defaults(command="remoteci-create")
+
+    p = subparsers.add_parser("remoteci-update", help="Update a remoteci.")
+    p.add_argument("id")
+    p.add_argument("--etag", required=True)
+    p.add_argument("--name")
+    p.add_argument("--team-id")
+    p.add_argument("--data", default="{}")
+    _create_boolean_flags(p, "--active/--no-active", default=None, dest="state")
+    p.set_defaults(command="remoteci-update")
+
+    p = subparsers.add_parser("remoteci-delete", help="Delete a remoteci.")
+    p.add_argument("id")
+    p.add_argument("--etag", required=True)
+    p.set_defaults(command="remoteci-delete")
+
+    p = subparsers.add_parser("remoteci-show", help="Show a remoteci.")
+    p.add_argument("id")
+    p.set_defaults(command="remoteci-show")
+
+    p = subparsers.add_parser(
+        "remoteci-get-data", help="Retrieve data field from a remoteci."
+    )
+    p.add_argument("id")
+    p.add_argument("--keys", default=None)
+    p.set_defaults(command="remoteci-get-data")
+
+    p = subparsers.add_parser(
+        "remoteci-attach-test", help="Attach a test to a remoteci."
+    )
+    p.add_argument("id")
+    p.add_argument("--test-id", required=True)
+    p.set_defaults(command="remoteci-attach-test")
+
+    p = subparsers.add_parser(
+        "remoteci-unattach-test", help="Unattach a test to a remoteci."
+    )
+    p.add_argument("id")
+    p.add_argument("--test-id", required=True)
+    p.set_defaults(command="remoteci-unattach-test")
+
+    p = subparsers.add_parser(
+        "remoteci-list-test", help="List tests attached to a remoteci."
+    )
+    p.add_argument("id")
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--verbose", default=False, action="store_true")
+    p.set_defaults(command="remoteci-list-test")
+
+    p = subparsers.add_parser(
+        "remoteci-reset-api-secret", help="Reset a remoteci api secret."
+    )
+    p.add_argument("id")
+    p.add_argument("--etag", required=True)
+    p.set_defaults(command="remoteci-reset-api-secret")
+
+    p = subparsers.add_parser(
+        "remoteci-refresh-keys", help="Refresh a remoteci key pair."
+    )
+    p.add_argument("id")
+    p.add_argument("--etag", required=True)
+    p.set_defaults(command="remoteci-refresh-keys")
+
+    p = subparsers.add_parser(
+        "remoteci-attach-user", help="Attach a user to a remoteci."
+    )
+    p.add_argument("id")
+    p.add_argument("--user-id", required=True)
+    p.set_defaults(command="remoteci-attach-user")
+
+    p = subparsers.add_parser(
+        "remoteci-unattach-user", help="Unattach a user to a remoteci."
+    )
+    p.add_argument("id")
+    p.add_argument("--user-id", required=True)
+    p.set_defaults(command="remoteci-unattach-user")
+
+    p = subparsers.add_parser(
+        "remoteci-list-user", help="List users attached to a remoteci."
+    )
+    p.add_argument("id")
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--verbose", default=False, action="store_true")
+    p.set_defaults(command="remoteci-list-user")
+
     args = parser.parse_args(args)
     return args
