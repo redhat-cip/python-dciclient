@@ -273,6 +273,11 @@ def dci_context_remoteci(
     )
 
 
+@pytest.fixture
+def toto_context_remoteci(dci_context_remoteci):
+    return toto_factory(dci_context_remoteci)
+
+
 def runner_factory(context):
     api.context.build_dci_context = lambda **kwargs: context
     runner = click.testing.CliRunner(

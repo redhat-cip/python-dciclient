@@ -14,10 +14,10 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import click
 import csv
 import json
 import prettytable
+from dciclient.v1.exceptions import BadParameter
 from six import StringIO
 
 
@@ -164,7 +164,7 @@ def validate_json(ctx, param, value):
     try:
         return json.loads(value)
     except ValueError:
-        raise click.BadParameter("this option expects a valid JSON")
+        raise BadParameter("this option expects a valid JSON")
 
 
 def active_string(value):

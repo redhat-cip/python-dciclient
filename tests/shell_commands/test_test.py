@@ -14,7 +14,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from __future__ import unicode_literals
+import pytest
+from dciclient.v1.exceptions import BadParameter
 
 
 def test_create_list(runner):
@@ -39,9 +40,8 @@ def test_create_data(runner):
 
 
 def test_create_bad_data(runner):
-    r = runner.invoke_raw_parse(["test-create", "foo", "--data", "{Foo: 2}"])
-    # TODO(Gonéri): should instead ensure we print the fine message
-    assert '"--data": this option expects a valid JSON' in r
+    with pytest.raises(BadParameter):
+        runner.invoke_raw_parse(["test-create", "foo", "--data", "{Foo: 2}"])
 
 
 def test_update_active(runner):

@@ -22,6 +22,7 @@ from dciclient.v1.shell_commands import jobstate
 from dciclient.v1.shell_commands import topic
 from dciclient.v1.shell_commands import component
 from dciclient.v1.shell_commands import file
+from dciclient.v1.shell_commands import job
 
 
 command_function = {
@@ -78,6 +79,23 @@ command_function = {
     "file-list": file.list,
     "file-show": file.show,
     "file-delete": file.delete,
+    "job-list": job.list,
+    "job-show": job.show,
+    "job-delete": job.delete,
+    "job-results": job.list_results,
+    "job-attach-issue": job.attach_issue,
+    "job-unattach-issue": job.unattach_issue,
+    "job-list-issue": job.list_issues,
+    "job-output": job.output,
+    "job-list-test": job.list_tests,
+    "job-add-tag": job.add_tag,
+    "job-delete-tag": job.delete_tag,
+    "job-list-tags": job.list_tags,
+    "job-upload-file": job.file_upload,
+    "job-download-file": job.file_download,
+    "job-show-file": job.file_show,
+    "job-list-file": job.file_list,
+    "job-delete-file": job.file_delete,
 }
 
 
