@@ -164,6 +164,34 @@ def parse_arguments(args, environment={}):
     p.add_argument("id")
     p.set_defaults(command="team-show")
 
+    # analytic commands
+    p = subparsers.add_parser("analytic-list", help="List all analytics.")
+    p.add_argument("--job-id")
+    p.set_defaults(command="analytic-list")
+
+    p = subparsers.add_parser("analytic-create", help="Create a analytic.")
+    p.add_argument("--job-id", required=True)
+    p.add_argument("--name", required=True)
+    p.add_argument("--type", required=True)
+    p.add_argument("--url")
+    p.add_argument("--data", default="{}")
+    p.set_defaults(command="analytic-create")
+
+    p = subparsers.add_parser("analytic-update", help="Update a analytic.")
+    p.add_argument("id")
+    p.add_argument("--etag", required=True)
+    p.add_argument("--job-id", required=True)
+    p.add_argument("--name", required=True)
+    p.add_argument("--type", required=True)
+    p.add_argument("--url")
+    p.add_argument("--data", default="{}")
+    p.set_defaults(command="analytic-update")
+
+    p = subparsers.add_parser("analytic-show", help="Show a analytic.")
+    p.add_argument("id")
+    p.add_argument("--job-id", required=True)
+    p.set_defaults(command="analytic-show")
+
     # product commands
     p = subparsers.add_parser("product-list", help="List all products.")
     p.add_argument("--sort", default="-created_at")

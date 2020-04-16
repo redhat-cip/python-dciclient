@@ -13,7 +13,7 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations
 # under the License.
-
+from dciclient.v1.shell_commands import analytic
 from dciclient.v1.shell_commands import user
 from dciclient.v1.shell_commands import team
 from dciclient.v1.shell_commands import product
@@ -25,6 +25,10 @@ from dciclient.v1.shell_commands import file
 
 
 command_function = {
+    "analytic-list": analytic.list,
+    "analytic-create": analytic.create,
+    "analytic-show": analytic.show,
+    "analytic-update": analytic.update,
     "user-list": user.list,
     "user-create": user.create,
     "user-show": user.show,
