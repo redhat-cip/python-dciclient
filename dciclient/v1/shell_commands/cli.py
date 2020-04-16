@@ -131,5 +131,38 @@ def parse_arguments(args, environment={}):
     p.add_argument("id")
     p.set_defaults(command="user-show")
 
+    # team commands
+    p = subparsers.add_parser("team-list", help="List all teams.")
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--verbose", default=False, action="store_true")
+    p.set_defaults(command="team-list")
+
+    p = subparsers.add_parser("team-create", help="Create a team.")
+    p.add_argument("--name", required=True)
+    p.add_argument("--country")
+    _create_boolean_flags(p, "--active/--no-active", default=True, dest="state")
+    p.set_defaults(command="team-create")
+
+    p = subparsers.add_parser("team-update", help="Update a team.")
+    p.add_argument("id")
+    p.add_argument("--etag", required=True)
+    p.add_argument("--name")
+    p.add_argument("--country")
+    _create_boolean_flags(p, "--active/--no-active", default=None, dest="state")
+    _create_boolean_flags(p, "--external/--no-external", default=None, dest="external")
+    p.set_defaults(command="team-update")
+
+    p = subparsers.add_parser("team-delete", help="Update a team.")
+    p.add_argument("id")
+    p.add_argument("--etag", required=True)
+    p.set_defaults(command="team-delete")
+
+    p = subparsers.add_parser("team-show", help="Show a team.")
+    p.add_argument("id")
+    p.set_defaults(command="team-show")
+
     args = parser.parse_args(args)
     return args

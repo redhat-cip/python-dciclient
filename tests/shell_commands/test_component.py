@@ -25,11 +25,11 @@ def test_prettytable_output(runner, topic_id):
     assert component == runner.invoke_raw_parse(["component-show", component["id"]])
 
 
-def test_list(runner, product_id):
+def test_list(runner, toto_context, product_id):
     topic = runner.invoke(
         ["topic-create", "--name", "osp", "--product-id", product_id]
     )["topic"]
-    teams = runner.invoke(["team-list"])["teams"]
+    teams = toto_context.invoke(["team-list"])["teams"]
     team_id = teams[0]["id"]
 
     runner.invoke(["topic-attach-team", topic["id"], "--team-id", team_id])
@@ -234,11 +234,11 @@ def test_update_active(runner, product_id):
     assert result["component"]["state"] == "active"
 
 
-def test_where_on_list(runner, product_id):
+def test_where_on_list(runner, toto_context, product_id):
     topic = runner.invoke(
         ["topic-create", "--name", "osp", "--product-id", product_id]
     )["topic"]
-    teams = runner.invoke(["team-list"])["teams"]
+    teams = toto_context.invoke(["team-list"])["teams"]
     team_id = teams[0]["id"]
 
     runner.invoke(["topic-attach-team", topic["id"], "--team-id", team_id])

@@ -15,6 +15,7 @@
 # under the License.
 
 from dciclient.v1.shell_commands import user
+from dciclient.v1.shell_commands import team
 
 
 command_function = {
@@ -23,6 +24,11 @@ command_function = {
     "user-show": user.show,
     "user-update": user.update,
     "user-delete": user.delete,
+    "team-list": team.list,
+    "team-create": team.create,
+    "team-show": team.show,
+    "team-update": team.update,
+    "team-delete": team.delete,
 }
 
 
