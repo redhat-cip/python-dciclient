@@ -18,6 +18,7 @@ from dciclient.v1.shell_commands import user
 from dciclient.v1.shell_commands import team
 from dciclient.v1.shell_commands import feeder
 from dciclient.v1.shell_commands import topic
+from dciclient.v1.shell_commands import component
 
 
 command_function = {
@@ -45,6 +46,19 @@ command_function = {
     "topic-list-team": topic.list_team,
     "topic-update": topic.update,
     "topic-delete": topic.delete,
+    "component-list": component.list,
+    "component-create": component.create,
+    "component-show": component.show,
+    "component-attach-issue": component.attach_issue,
+    "component-unattach-issue": component.unattach_issue,
+    "component-list-issue": component.list_issues,
+    "component-update": component.update,
+    "component-delete": component.delete,
+    "component-file-list": component.file_list,
+    "component-file-upload": component.file_upload,
+    "component-file-show": component.file_show,
+    "component-file-download": component.file_download,
+    "component-file-delete": component.file_delete,
 }
 
 

@@ -60,7 +60,7 @@ def test_list(
 
     toto_context.invoke(["topic-attach-team", topic["id"], "--team-id", team_user_id])
 
-    runner.invoke(
+    toto_context.invoke(
         [
             "component-create",
             "--name",

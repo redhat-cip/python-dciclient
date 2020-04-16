@@ -271,5 +271,101 @@ def parse_arguments(args, environment={}):
     p.add_argument("--verbose", default=False, action="store_true")
     p.set_defaults(command="topic-list-team")
 
+    # component commands
+    p = subparsers.add_parser("component-list", help="List all components.")
+    p.add_argument("--topic-id", required=True, dest="id")
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--verbose", default=False, action="store_true")
+    p.set_defaults(command="component-list")
+
+    p = subparsers.add_parser("component-create", help="Create a component.")
+    p.add_argument("--name", required=True, help="Name of component")
+    p.add_argument("--type", required=True, help="Type of component")
+    p.add_argument(
+        "--canonical_project_name", default=None, help="Canoncial project name."
+    )
+    p.add_argument("--title", help="Title of component")
+    p.add_argument("--message", help="Component message")
+    p.add_argument("--url", help="URL to look for the component")
+    p.add_argument("--topic-id", required=True, help="Topic ID")
+    _create_boolean_flags(p, "--active/--no-active", default=True, dest="state")
+    p.add_argument("--data", default="{}", help="Data to pass (JSON)")
+    p.set_defaults(command="component-create")
+
+    p = subparsers.add_parser("component-update", help="Update a component.")
+    p.add_argument("id")
+    _create_boolean_flags(p, "--active/--no-active", default=None, dest="state")
+    p.set_defaults(command="component-update")
+
+    p = subparsers.add_parser("component-delete", help="Delete a component.")
+    p.add_argument("id")
+    p.set_defaults(command="component-delete")
+
+    p = subparsers.add_parser("component-show", help="Show a component.")
+    p.add_argument("id")
+    p.set_defaults(command="component-show")
+
+    p = subparsers.add_parser(
+        "component-attach-issue", help="Attach an issue to a component."
+    )
+    p.add_argument("id")
+    p.add_argument("--url", required=True)
+    p.set_defaults(command="component-attach-issue")
+
+    p = subparsers.add_parser(
+        "component-unattach-issue", help="Unattach an issue to a component."
+    )
+    p.add_argument("id")
+    p.add_argument("--issue-id", required=True)
+    p.set_defaults(command="component-unattach-issue")
+
+    p = subparsers.add_parser(
+        "component-list-issue", help="List all component attached issues."
+    )
+    p.add_argument("id")
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.set_defaults(command="component-list-issue")
+
+    p = subparsers.add_parser(
+        "component-file-upload", help="Attach a file to a component."
+    )
+    p.add_argument("id")
+    p.add_argument("--path", required=True)
+    p.set_defaults(command="component-file-upload")
+
+    p = subparsers.add_parser("component-file-show", help="Show a component file.")
+    p.add_argument("id")
+    p.add_argument("--file-id", required=True)
+    p.set_defaults(command="component-file-show")
+
+    p = subparsers.add_parser(
+        "component-file-download", help="Retrieve a component file."
+    )
+    p.add_argument("id")
+    p.add_argument("--file-id", required=True)
+    p.add_argument("--target", required=True)
+    p.set_defaults(command="component-file-download")
+
+    p = subparsers.add_parser(
+        "component-file-list", help="List files attached to a component."
+    )
+    p.add_argument("id")
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--verbose", default=False, action="store_true")
+    p.set_defaults(command="component-file-list")
+
+    p = subparsers.add_parser("component-file-delete", help="Delete a component file.")
+    p.add_argument("id")
+    p.add_argument("--file-id", required=True)
+    p.set_defaults(command="component-file-delete")
+
     args = parser.parse_args(args)
     return args
