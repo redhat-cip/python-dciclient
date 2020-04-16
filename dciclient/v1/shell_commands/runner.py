@@ -19,6 +19,7 @@ from dciclient.v1.shell_commands import team
 from dciclient.v1.shell_commands import feeder
 from dciclient.v1.shell_commands import topic
 from dciclient.v1.shell_commands import component
+from dciclient.v1.shell_commands import file
 
 
 command_function = {
@@ -59,6 +60,9 @@ command_function = {
     "component-file-show": component.file_show,
     "component-file-download": component.file_download,
     "component-file-delete": component.file_delete,
+    "file-list": file.list,
+    "file-show": file.show,
+    "file-delete": file.delete,
 }
 
 

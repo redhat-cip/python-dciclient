@@ -367,5 +367,23 @@ def parse_arguments(args, environment={}):
     p.add_argument("--file-id", required=True)
     p.set_defaults(command="component-file-delete")
 
+    # file commands
+    p = subparsers.add_parser("file-list", help="List all files.")
+    p.add_argument("job_id")
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--verbose", default=False, action="store_true")
+    p.set_defaults(command="file-list")
+
+    p = subparsers.add_parser("file-show", help="Show a file.")
+    p.add_argument("id")
+    p.set_defaults(command="file-show")
+
+    p = subparsers.add_parser("file-delete", help="Delete a file.")
+    p.add_argument("id")
+    p.set_defaults(command="file-delete")
+
     args = parser.parse_args(args)
     return args
