@@ -18,6 +18,7 @@ from dciclient.v1.shell_commands import user
 from dciclient.v1.shell_commands import team
 from dciclient.v1.shell_commands import product
 from dciclient.v1.shell_commands import feeder
+from dciclient.v1.shell_commands import jobstate
 from dciclient.v1.shell_commands import topic
 from dciclient.v1.shell_commands import component
 from dciclient.v1.shell_commands import file
@@ -48,6 +49,7 @@ command_function = {
     "feeder-update": feeder.update,
     "feeder-delete": feeder.delete,
     "feeder-reset-api-secret": feeder.reset_api_secret,
+    "jobstate-show": jobstate.show,
     "topic-list": topic.list,
     "topic-create": topic.create,
     "topic-show": topic.show,

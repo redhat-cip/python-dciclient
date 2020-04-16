@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 #
-# Copyright 2015-2016 Red Hat, Inc.
+# Copyright 2020 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -14,8 +14,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from dciclient.v1.api import jobstate
 
-
-def show(context, args):
-    return jobstate.get(context, args.id)
+def test_show(toto_context, jobstate_id):
+    jobstate = toto_context.invoke(["jobstate-show", jobstate_id])["jobstate"]
+    assert jobstate["id"] == jobstate_id

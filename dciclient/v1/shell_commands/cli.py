@@ -326,6 +326,11 @@ def parse_arguments(args, environment={}):
     p.add_argument("--verbose", default=False, action="store_true")
     p.set_defaults(command="topic-list-team")
 
+    # jobstate commands
+    p = subparsers.add_parser("jobstate-show", help="Show a jobstate.")
+    p.add_argument("id")
+    p.set_defaults(command="jobstate-show")
+
     # component commands
     p = subparsers.add_parser("component-list", help="List all components.")
     p.add_argument("--topic-id", required=True, dest="id")
