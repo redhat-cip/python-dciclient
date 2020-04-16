@@ -136,8 +136,8 @@ def test_show(runner, product_id):
     assert topic["name"] == "osp"
 
 
-def test_attach_team(runner, product_id):
-    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+def test_attach_team(runner, toto_context, product_id):
+    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
     assert team["name"] == "foo"
 
     topic = runner.invoke(
@@ -152,8 +152,8 @@ def test_attach_team(runner, product_id):
     assert topic_team["topic_id"] == topic["id"]
 
 
-def test_list_team(runner, product_id):
-    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+def test_list_team(runner, toto_context, product_id):
+    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
     assert team["name"] == "foo"
 
     topic = runner.invoke(
@@ -172,8 +172,8 @@ def test_list_team(runner, product_id):
     assert result[0]["name"] == "foo"
 
 
-def test_unattach_team(runner, product_id):
-    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+def test_unattach_team(runner, toto_context, product_id):
+    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
     assert team["name"] == "foo"
 
     topic = runner.invoke(

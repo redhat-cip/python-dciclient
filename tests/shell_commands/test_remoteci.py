@@ -22,14 +22,8 @@ from dciclient.v1.api import team
 import mock
 
 
-def test_prettytable_output(runner):
-    team = runner.invoke_raw_parse(["team-create", "--name", "foo"])
-    assert team["name"] == "foo"
-    assert team == runner.invoke_raw_parse(["team-show", team["id"]])
-
-
-def test_list(runner):
-    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+def test_list(runner, toto_context):
+    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
     runner.invoke(["remoteci-create", "--name", "foo", "--team-id", team["id"]])
     runner.invoke(["remoteci-create", "--name", "bar", "--team-id", team["id"]])
     remotecis = runner.invoke(["remoteci-list"])["remotecis"]
@@ -39,8 +33,8 @@ def test_list(runner):
     assert remotecis[1]["name"] == "foo"
 
 
-def test_create(runner):
-    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+def test_create(runner, toto_context):
+    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
     remoteci = runner.invoke(
         ["remoteci-create", "--name", "foo", "--team-id", team["id"]]
     )["remoteci"]
@@ -48,16 +42,16 @@ def test_create(runner):
     assert remoteci["state"] == "active"
 
 
-def test_create_inactive(runner):
-    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+def test_create_inactive(runner, toto_context):
+    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
     remoteci = runner.invoke(
         ["remoteci-create", "--name", "foo", "--team-id", team["id"], "--no-active"]
     )["remoteci"]
     assert remoteci["state"] == "inactive"
 
 
-def test_update(runner):
-    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+def test_update(runner, toto_context):
+    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
     remoteci = runner.invoke(
         ["remoteci-create", "--name", "foo", "--team-id", team["id"]]
     )["remoteci"]
@@ -78,8 +72,8 @@ def test_update(runner):
     assert result["remoteci"]["name"] == "bar"
 
 
-def test_update_active(runner):
-    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+def test_update_active(runner, toto_context):
+    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
     remoteci = runner.invoke(
         ["remoteci-create", "--name", "foo", "--team-id", team["id"]]
     )["remoteci"]
@@ -120,8 +114,8 @@ def test_update_active(runner):
     assert result["remoteci"]["state"] == "active"
 
 
-def test_delete(runner):
-    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+def test_delete(runner, toto_context):
+    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
 
     remoteci = runner.invoke(
         ["remoteci-create", "--name", "foo", "--team-id", team["id"]]
@@ -134,8 +128,8 @@ def test_delete(runner):
     assert result["message"] == "Remote CI deleted."
 
 
-def test_show(runner):
-    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+def test_show(runner, toto_context):
+    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
     remoteci = runner.invoke(
         ["remoteci-create", "--name", "foo", "--team-id", team["id"]]
     )["remoteci"]
@@ -145,8 +139,8 @@ def test_show(runner):
     assert remoteci["name"] == "foo"
 
 
-def test_get_data(runner):
-    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+def test_get_data(runner, toto_context):
+    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
     remoteci = runner.invoke(
         ["remoteci-create", "--name", "foo", "--team-id", team["id"]]
     )["remoteci"]
@@ -167,8 +161,8 @@ def test_get_data(runner):
     assert result == {"foo": "bar"}
 
 
-def test_get_data_missing_key(runner):
-    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+def test_get_data_missing_key(runner, toto_context):
+    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
     remoteci = runner.invoke(
         ["remoteci-create", "--name", "foo", "--team-id", team["id"]]
     )["remoteci"]
