@@ -32,9 +32,7 @@ def test_create(runner, team_admin_id):
 
 
 def test_create_with_country_and_email(runner):
-    team = runner.invoke(["team-create", "--name", "foo", "--country", "FR"])[
-        "team"
-    ]
+    team = runner.invoke(["team-create", "--name", "foo", "--country", "FR"])["team"]
     assert team["name"] == "foo"
     assert team["country"] == "FR"
 
@@ -109,9 +107,7 @@ def test_update_active(runner):
 
 def test_update_team_external(runner):
     team = runner.invoke(["team-create", "--name", "foo"])["team"]
-    runner.invoke(
-        ["team-update", team["id"], "--etag", team["etag"], "--no-external"]
-    )
+    runner.invoke(["team-update", team["id"], "--etag", team["etag"], "--no-external"])
     team = runner.invoke(["team-show", team["id"]])["team"]
 
     assert team["external"] is False
@@ -120,9 +116,7 @@ def test_update_team_external(runner):
 def test_delete(runner):
     team = runner.invoke(["team-create", "--name", "foo"])["team"]
 
-    result = runner.invoke_raw(
-        ["team-delete", team["id"], "--etag", team["etag"]]
-    )
+    result = runner.invoke_raw(["team-delete", team["id"], "--etag", team["etag"]])
 
     assert result.status_code == 204
 
@@ -139,6 +133,5 @@ def test_where_on_list(runner):
     runner.invoke(["team-create", "--name", "foobar42"])
 
     assert (
-        runner.invoke(["team-list", "--where", "name:foobar42"])["_meta"]["count"]
-        == 1
+        runner.invoke(["team-list", "--where", "name:foobar42"])["_meta"]["count"] == 1
     )
