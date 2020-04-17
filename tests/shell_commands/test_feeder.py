@@ -15,43 +15,43 @@
 # under the License.
 
 
-def test_list(toto_context):
-    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
-    toto_context.invoke(["feeder-create", "--name", "foo", "--team-id", team["id"]])
-    toto_context.invoke(["feeder-create", "--name", "bar", "--team-id", team["id"]])
-    feeders = toto_context.invoke(["feeder-list"])["feeders"]
+def test_list(runner):
+    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+    runner.invoke(["feeder-create", "--name", "foo", "--team-id", team["id"]])
+    runner.invoke(["feeder-create", "--name", "bar", "--team-id", team["id"]])
+    feeders = runner.invoke(["feeder-list"])["feeders"]
 
     assert len(feeders) == 2
     assert feeders[0]["name"] == "bar"
     assert feeders[1]["name"] == "foo"
 
 
-def test_create(toto_context):
-    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
-    feeder = toto_context.invoke(
+def test_create(runner):
+    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+    feeder = runner.invoke(
         ["feeder-create", "--name", "foo", "--team-id", team["id"]]
     )["feeder"]
     assert feeder["name"] == "foo"
     assert feeder["state"] == "active"
 
 
-def test_create_inactive(toto_context):
-    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
-    feeder = toto_context.invoke(
+def test_create_inactive(runner):
+    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+    feeder = runner.invoke(
         ["feeder-create", "--name", "foo", "--team-id", team["id"], "--no-active"]
     )["feeder"]
     assert feeder["state"] == "inactive"
 
 
-def test_update(toto_context):
-    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
-    feeder = toto_context.invoke(
+def test_update(runner):
+    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+    feeder = runner.invoke(
         ["feeder-create", "--name", "foo", "--team-id", team["id"]]
     )["feeder"]
 
     assert feeder["state"] == "active"
 
-    result = toto_context.invoke(
+    result = runner.invoke(
         [
             "feeder-update",
             feeder["id"],
@@ -67,26 +67,26 @@ def test_update(toto_context):
     assert result["feeder"]["state"] == "inactive"
 
 
-def test_delete(toto_context):
-    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
+def test_delete(runner):
+    team = runner.invoke(["team-create", "--name", "foo"])["team"]
 
-    feeder = toto_context.invoke(
+    feeder = runner.invoke(
         ["feeder-create", "--name", "foo", "--team-id", team["id"]]
     )["feeder"]
 
-    result = toto_context.invoke_raw(
+    result = runner.invoke_raw(
         ["feeder-delete", feeder["id"], "--etag", feeder["etag"]]
     )
 
     assert result.status_code == 204
 
 
-def test_show(toto_context):
-    team = toto_context.invoke(["team-create", "--name", "foo"])["team"]
-    feeder = toto_context.invoke(
+def test_show(runner):
+    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+    feeder = runner.invoke(
         ["feeder-create", "--name", "foo", "--team-id", team["id"]]
     )["feeder"]
 
-    feeder = toto_context.invoke(["feeder-show", feeder["id"]])["feeder"]
+    feeder = runner.invoke(["feeder-show", feeder["id"]])["feeder"]
 
     assert feeder["name"] == "foo"

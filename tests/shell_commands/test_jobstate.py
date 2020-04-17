@@ -15,6 +15,6 @@
 # under the License.
 
 
-def test_show(toto_context, jobstate_id):
-    jobstate = toto_context.invoke(["jobstate-show", jobstate_id])["jobstate"]
+def test_show(runner, jobstate_id):
+    jobstate = runner.invoke(["jobstate-show", jobstate_id])["jobstate"]
     assert jobstate["id"] == jobstate_id

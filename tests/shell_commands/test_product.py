@@ -17,13 +17,13 @@
 from __future__ import unicode_literals
 
 
-def test_success_create_basic(toto_context):
-    product = toto_context.invoke(["product-create", "--name", "myproduct"])["product"]
+def test_success_create_basic(runner):
+    product = runner.invoke(["product-create", "--name", "myproduct"])["product"]
     assert product["name"] == "myproduct"
 
 
-def test_success_create_full(toto_context):
-    product = toto_context.invoke(
+def test_success_create_full(runner):
+    product = runner.invoke(
         [
             "product-create",
             "--name",
@@ -41,40 +41,40 @@ def test_success_create_full(toto_context):
     assert product["state"] == "active"
 
 
-def test_create_inactive(toto_context):
-    product = toto_context.invoke(
+def test_create_inactive(runner):
+    product = runner.invoke(
         ["product-create", "--name", "myproduct", "--no-active"]
     )["product"]
     assert product["state"] == "inactive"
 
 
-def test_list(toto_context):
-    products_number = len(toto_context.invoke(["product-list"])["products"])
+def test_list(runner):
+    products_number = len(runner.invoke(["product-list"])["products"])
 
-    toto_context.invoke(["product-create", "--name", "foo"])
-    toto_context.invoke(["product-create", "--name", "bar"])
+    runner.invoke(["product-create", "--name", "foo"])
+    runner.invoke(["product-create", "--name", "bar"])
 
-    products_new_number = len(toto_context.invoke(["product-list"])["products"])
+    products_new_number = len(runner.invoke(["product-list"])["products"])
 
     assert products_new_number == products_number + 2
 
 
-def test_fail_create_unauthorized_user_admin(toto_context_user_admin):
-    product = toto_context_user_admin.invoke_raw(["product-create", "--name", "foo"])
+def test_fail_create_unauthorized_user_admin(runner_user_admin):
+    product = runner_user_admin.invoke_raw(["product-create", "--name", "foo"])
     assert product.status_code == 401
 
 
-def test_fail_create_unauthorized_user(toto_context_user):
-    product = toto_context_user.invoke_raw(["product-create", "--name", "foo"])
+def test_fail_create_unauthorized_user(runner_user):
+    product = runner_user.invoke_raw(["product-create", "--name", "foo"])
     assert product.status_code == 401
 
 
-def test_success_update(toto_context):
-    product = toto_context.invoke(
+def test_success_update(runner):
+    product = runner.invoke(
         ["product-create", "--name", "foo", "--description", "foo_desc"]
     )["product"]
 
-    result = toto_context.invoke(
+    result = runner.invoke(
         [
             "product-update",
             product["id"],
@@ -92,18 +92,18 @@ def test_success_update(toto_context):
     assert result["product"]["description"] == "bar_desc"
 
 
-def test_update_active(toto_context):
-    product = toto_context.invoke(["product-create", "--name", "myproduct"])["product"]
+def test_update_active(runner):
+    product = runner.invoke(["product-create", "--name", "myproduct"])["product"]
     assert product["state"] == "active"
 
-    result = toto_context.invoke(
+    result = runner.invoke(
         ["product-update", product["id"], "--etag", product["etag"], "--no-active"]
     )
 
     assert result["product"]["id"] == product["id"]
     assert result["product"]["state"] == "inactive"
 
-    result = toto_context.invoke(
+    result = runner.invoke(
         [
             "product-update",
             product["id"],
@@ -116,7 +116,7 @@ def test_update_active(toto_context):
 
     assert result["product"]["state"] == "inactive"
 
-    result = toto_context.invoke(
+    result = runner.invoke(
         [
             "product-update",
             product["id"],
@@ -129,71 +129,71 @@ def test_update_active(toto_context):
     assert result["product"]["state"] == "active"
 
 
-def test_delete(toto_context):
-    product = toto_context.invoke(["product-create", "--name", "foo"])["product"]
+def test_delete(runner):
+    product = runner.invoke(["product-create", "--name", "foo"])["product"]
 
-    result = toto_context.invoke_raw(
+    result = runner.invoke_raw(
         ["product-delete", product["id"], "--etag", product["etag"]]
     )
 
     assert result.status_code == 204
 
-    result = toto_context.invoke_raw(["product-show", product["id"]])
+    result = runner.invoke_raw(["product-show", product["id"]])
 
     assert result.status_code == 404
 
 
-def test_show(toto_context):
-    product = toto_context.invoke(["product-create", "--name", "foo"])["product"]
+def test_show(runner):
+    product = runner.invoke(["product-create", "--name", "foo"])["product"]
 
-    product = toto_context.invoke(["product-show", product["id"]])["product"]
+    product = runner.invoke(["product-show", product["id"]])["product"]
 
     assert product["name"] == "foo"
 
 
-def test_list_teams_empty(toto_context, product_id, team_id):
-    no_teams = toto_context.invoke(["product-list-teams", product_id])
+def test_list_teams_empty(runner, product_id, team_id):
+    no_teams = runner.invoke(["product-list-teams", product_id])
     assert no_teams["_meta"]["count"] == 0
     assert len(no_teams["teams"]) == 0
 
 
-def test_attach_team_and_list(toto_context, product_id, team_id):
-    no_teams = toto_context.invoke(["product-list-teams", product_id])
+def test_attach_team_and_list(runner, product_id, team_id):
+    no_teams = runner.invoke(["product-list-teams", product_id])
     assert no_teams["_meta"]["count"] == 0
     assert len(no_teams["teams"]) == 0
 
-    attached = toto_context.invoke(
+    attached = runner.invoke(
         ["product-attach-team", product_id, "--team-id", team_id]
     )
 
     assert attached["product_id"] == product_id
     assert attached["team_id"] == team_id
 
-    one_team = toto_context.invoke(["product-list-teams", product_id])
+    one_team = runner.invoke(["product-list-teams", product_id])
     assert one_team["_meta"]["count"] == 1
     assert len(one_team["teams"]) == 1
     assert one_team["teams"][0]["id"] == team_id
 
 
-def test_attach_detach_team_and_list(toto_context, product_id, team_id):
-    no_teams = toto_context.invoke(["product-list-teams", product_id])
+def test_attach_detach_team_and_list(runner, product_id, team_id):
+    no_teams = runner.invoke(["product-list-teams", product_id])
     assert no_teams["_meta"]["count"] == 0
     assert len(no_teams["teams"]) == 0
 
-    attached = toto_context.invoke(
+    attached = runner.invoke(
         ["product-attach-team", product_id, "--team-id", team_id]
     )
 
     assert attached["product_id"] == product_id
     assert attached["team_id"] == team_id
 
-    one_team = toto_context.invoke(["product-list-teams", product_id])
+    one_team = runner.invoke(["product-list-teams", product_id])
 
     assert one_team["_meta"]["count"] == 1
     assert len(one_team["teams"]) == 1
     assert one_team["teams"][0]["id"] == team_id
 
-    toto_context.invoke_raw(["product-detach-team", product_id, "--team-id", team_id])
-    no_teams_again = toto_context.invoke(["product-list-teams", product_id])
+    runner.invoke_raw(["product-detach-team", product_id, "--team-id", team_id])
+    no_teams_again = runner.invoke(["product-list-teams", product_id])
     assert no_teams_again["_meta"]["count"] == 0
     assert len(no_teams_again["teams"]) == 0

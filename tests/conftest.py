@@ -23,7 +23,7 @@ import passlib.apps as passlib_apps
 import dci
 import dci.app
 import dci.dci_config
-from dciclient.v1.shell_commands import runner as toto
+from dciclient.v1.shell_commands import runner as dci_runner
 from dciclient.v1.shell_commands.cli import parse_arguments
 from dciclient.v1 import api
 from tests.shell_commands import utils
@@ -224,17 +224,17 @@ def signature_context_factory(
     return f
 
 
-def toto_factory(context):
+def runner_factory(context):
     def invoke(arguments):
         environment = {}
         args = parse_arguments(arguments, environment)
-        response = toto.run(context, args)
+        response = dci_runner.run(context, args)
         return response.json() if response else None
 
     def invoke_raw(arguments):
         environment = {}
         args = parse_arguments(arguments, environment)
-        return toto.run(context, args)
+        return dci_runner.run(context, args)
 
     class Runner(object):
         pass
@@ -246,18 +246,18 @@ def toto_factory(context):
 
 
 @pytest.fixture
-def toto_context(dci_context):
-    return toto_factory(dci_context)
+def runner(dci_context):
+    return runner_factory(dci_context)
 
 
 @pytest.fixture
-def toto_context_user_admin(dci_context_user_admin):
-    return toto_factory(dci_context_user_admin)
+def runner_user_admin(dci_context_user_admin):
+    return runner_factory(dci_context_user_admin)
 
 
 @pytest.fixture
-def toto_context_user(dci_context_user):
-    return toto_factory(dci_context_user)
+def runner_user(dci_context_user):
+    return runner_factory(dci_context_user)
 
 
 @pytest.fixture
@@ -270,8 +270,8 @@ def dci_context_remoteci(
 
 
 @pytest.fixture
-def toto_context_remoteci(dci_context_remoteci):
-    return toto_factory(dci_context_remoteci)
+def runner_remoteci(dci_context_remoteci):
+    return runner_factory(dci_context_remoteci)
 
 
 @pytest.fixture
@@ -446,8 +446,8 @@ def jobstate_id(dci_context, job_id):
 
 
 @pytest.fixture
-def test_user(toto_context, team_user_id):
-    return toto_context.invoke(
+def test_user(runner, team_user_id):
+    return runner.invoke(
         [
             "user-create",
             "--name",

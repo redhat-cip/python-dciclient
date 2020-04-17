@@ -17,8 +17,8 @@
 from dciclient.printer import print_response
 
 
-def test_printer(capsys, toto_context, team_id):
-    toto_context.invoke_raw(
+def test_printer(capsys, runner, team_id):
+    runner.invoke_raw(
         [
             "user-create",
             "--name",
@@ -32,14 +32,14 @@ def test_printer(capsys, toto_context, team_id):
         ]
     )
     print_response(
-        toto_context.invoke_raw(["user-list"]), format="table", verbose=True,
+        runner.invoke_raw(["user-list"]), format="table", verbose=True,
     )
     captured = capsys.readouterr()
     assert "etag" in captured.out
 
 
-def test_printer_verbose(capsys, toto_context, team_id):
-    toto_context.invoke_raw(
+def test_printer_verbose(capsys, runner, team_id):
+    runner.invoke_raw(
         [
             "user-create",
             "--name",
@@ -53,7 +53,7 @@ def test_printer_verbose(capsys, toto_context, team_id):
         ]
     )
     print_response(
-        toto_context.invoke_raw(["user-list"]), format="table", verbose=False,
+        runner.invoke_raw(["user-list"]), format="table", verbose=False,
     )
     captured = capsys.readouterr()
     assert "etag" not in captured.out

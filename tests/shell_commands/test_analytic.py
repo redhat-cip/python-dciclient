@@ -15,8 +15,8 @@
 # under the License.
 
 
-def test_create(toto_context, job_id):
-    analytic = toto_context.invoke(
+def test_create(runner, job_id):
+    analytic = runner.invoke(
         [
             "analytic-create",
             "--job-id",
@@ -38,8 +38,8 @@ def test_create(toto_context, job_id):
     assert analytic["data"] == {"root_cause": {}}
 
 
-def test_show(toto_context, job_id):
-    analytic = toto_context.invoke(
+def test_show(runner, job_id):
+    analytic = runner.invoke(
         [
             "analytic-create",
             "--job-id",
@@ -56,7 +56,7 @@ def test_show(toto_context, job_id):
     )["analytic"]
     assert analytic["name"] == "bug1"
 
-    analytic = toto_context.invoke(
+    analytic = runner.invoke(
         ["analytic-show", "--job-id", job_id, analytic["id"]]
     )["analytic"]
     assert analytic["name"] == "bug1"
@@ -65,8 +65,8 @@ def test_show(toto_context, job_id):
     assert analytic["data"] == {"root_cause": {}}
 
 
-def test_list(toto_context, job_id):
-    analytic = toto_context.invoke(
+def test_list(runner, job_id):
+    analytic = runner.invoke(
         [
             "analytic-create",
             "--job-id",
@@ -83,7 +83,7 @@ def test_list(toto_context, job_id):
     )["analytic"]
     assert analytic["name"] == "bug1"
 
-    analytic = toto_context.invoke(
+    analytic = runner.invoke(
         [
             "analytic-create",
             "--job-id",
@@ -100,12 +100,12 @@ def test_list(toto_context, job_id):
     )["analytic"]
     assert analytic["name"] == "bug2"
 
-    all_anc = toto_context.invoke(["analytic-list", "--job-id", job_id])
+    all_anc = runner.invoke(["analytic-list", "--job-id", job_id])
     assert len(all_anc["analytics"]) == 2
 
 
-def test_update(toto_context, job_id, dci_context):
-    analytic = toto_context.invoke(
+def test_update(runner, job_id, dci_context):
+    analytic = runner.invoke(
         [
             "analytic-create",
             "--job-id",
@@ -122,7 +122,7 @@ def test_update(toto_context, job_id, dci_context):
     )["analytic"]
     assert analytic["name"] == "bug1"
 
-    analytic = toto_context.invoke(
+    analytic = runner.invoke(
         [
             "analytic-update",
             analytic["id"],
