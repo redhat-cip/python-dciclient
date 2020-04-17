@@ -52,8 +52,11 @@ def main():
     if dci_client_id is not None and dci_api_secret is not None:
         context = dci_context.build_signature_context(
             dci_cs_url=dci_cs_url,
-            dci_client_id=dci_client_id,
+            dci_cglient_id=dci_client_id,
             dci_api_secret=dci_api_secret,
         )
+    if not context:
+        print("No credentials provided.")
+        sys.exit(1)
     response = run(context, args)
     print_response(response, args.format, args.verbose)
