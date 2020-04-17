@@ -91,6 +91,7 @@ def parse_arguments(args, environment={}):
         choices=["table", "json", "csv", "tsv"],
         help="Output format",
     )
+    parser.add_argument("--verbose", default=False, action="store_true")
 
     subparsers = parser.add_subparsers()
     # user commands
@@ -99,7 +100,6 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.add_argument("--verbose", default=False, action="store_true")
     p.set_defaults(command="user-list")
 
     p = subparsers.add_parser("user-create", help="Create a user.")
@@ -137,7 +137,6 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.add_argument("--verbose", default=False, action="store_true")
     p.set_defaults(command="team-list")
 
     p = subparsers.add_parser("team-create", help="Create a team.")
@@ -198,7 +197,6 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.add_argument("--verbose", default=False, action="store_true")
     p.set_defaults(command="product-list")
 
     p = subparsers.add_parser("product-create", help="Create a product.")
@@ -253,7 +251,6 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.add_argument("--verbose", default=False, action="store_true")
     p.set_defaults(command="feeder-list")
 
     p = subparsers.add_parser("feeder-create", help="Create a feeder.")
@@ -294,7 +291,6 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.add_argument("--verbose", default=False, action="store_true")
     p.set_defaults(command="topic-list")
 
     p = subparsers.add_parser("topic-create", help="Create a topic.")
@@ -351,7 +347,6 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.add_argument("--verbose", default=False, action="store_true")
     p.set_defaults(command="topic-list-team")
 
     # jobstate commands
@@ -366,7 +361,6 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.add_argument("--verbose", default=False, action="store_true")
     p.set_defaults(command="component-list")
 
     p = subparsers.add_parser("component-create", help="Create a component.")
@@ -447,7 +441,6 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.add_argument("--verbose", default=False, action="store_true")
     p.set_defaults(command="component-file-list")
 
     p = subparsers.add_parser("component-file-delete", help="Delete a component file.")
@@ -462,7 +455,6 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.add_argument("--verbose", default=False, action="store_true")
     p.set_defaults(command="file-list")
 
     p = subparsers.add_parser("file-show", help="Show a file.")
@@ -479,7 +471,6 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=10)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.add_argument("--verbose", default=False, action="store_true")
     p.set_defaults(command="job-list")
 
     p = subparsers.add_parser("job-show", help="Show a job.")
@@ -526,7 +517,6 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.add_argument("--verbose", default=False, action="store_true")
     p.set_defaults(command="job-list-issue")
 
     p = subparsers.add_parser("job-add-tag", help="Add a tag to a job.")
@@ -569,7 +559,6 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.add_argument("--verbose", default=False, action="store_true")
     p.set_defaults(command="job-list-file")
 
     p = subparsers.add_parser("job-delete-file", help="Delete a job file.")
@@ -583,7 +572,6 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.add_argument("--verbose", default=False, action="store_true")
     p.set_defaults(command="test-list")
 
     p = subparsers.add_parser("test-create", help="Create a test.")
@@ -614,7 +602,6 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.add_argument("--verbose", default=False, action="store_true")
     p.set_defaults(command="remoteci-list")
 
     p = subparsers.add_parser("remoteci-create", help="Create a remoteci.")
@@ -671,7 +658,6 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.add_argument("--verbose", default=False, action="store_true")
     p.set_defaults(command="remoteci-list-test")
 
     p = subparsers.add_parser(
@@ -710,7 +696,6 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.add_argument("--verbose", default=False, action="store_true")
     p.set_defaults(command="remoteci-list-user")
 
     # purge commands
