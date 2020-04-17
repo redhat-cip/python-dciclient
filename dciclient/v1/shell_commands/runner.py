@@ -25,6 +25,7 @@ from dciclient.v1.shell_commands import file
 from dciclient.v1.shell_commands import job
 from dciclient.v1.shell_commands import test
 from dciclient.v1.shell_commands import remoteci
+from dciclient.v1.shell_commands import purge
 
 
 command_function = {
@@ -117,6 +118,7 @@ command_function = {
     "remoteci-list-user": remoteci.list_user,
     "remoteci-reset-api-secret": remoteci.reset_api_secret,
     "remoteci-refresh-keys": remoteci.refresh_keys,
+    "purge": purge.purge,
 }
 
 
