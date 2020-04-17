@@ -14,4 +14,4 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import dciclient.v1.shell_commands.main  # noqa
+import dciclient.v1.api

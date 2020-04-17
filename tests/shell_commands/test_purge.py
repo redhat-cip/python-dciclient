@@ -16,9 +16,7 @@
 
 
 def test_purge_wrong_resource(runner):
-    result = runner.invoke_raw(
-        ["purge", "--force", "--resource", "wrongresource"]
-    )
+    result = runner.invoke_raw(["purge", "--force", "--resource", "wrongresource"])
     assert "Unkown resource have been specified:" in result
     assert "wrongresource" in result
 

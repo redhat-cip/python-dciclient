@@ -3,8 +3,8 @@
 %endif
 
 Name:           python-dciclient
-Version:        0.7.0
-Release:        2.VERS%{?dist}
+Version:        1.0.0
+Release:        1.VERS%{?dist}
 
 Summary:        Python client for DCI control server
 License:        ASL 2.0
@@ -94,6 +94,9 @@ install -d %{buildroot}%{_bindir}
 
 
 %changelog
+* Fri Apr 17 2020 Haïkel Guémar <hguemar@fedoraproject.org> - 1.0.0-1
+- Remove click
+
 * Thu Jan 30 2020 Haïkel Guémar <hguemar@fedoraproject.org> - 0.7.0-2
 - Add six to the requirements
 - Fix BR pulling python3 package when building python2 package
