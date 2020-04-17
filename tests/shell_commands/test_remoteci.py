@@ -165,9 +165,7 @@ def test_get_data_missing_key(runner):
         ["remoteci-create", "--name", "foo", "--team-id", team["id"]]
     )["remoteci"]
 
-    result = runner.invoke(
-        ["remoteci-get-data", remoteci["id"], "--keys", "missing"]
-    )
+    result = runner.invoke(["remoteci-get-data", remoteci["id"], "--keys", "missing"])
     assert result == {}
 
 
@@ -187,8 +185,7 @@ def test_where_on_list(runner, team_id):
     runner.invoke(["remoteci-create", "--name", "bar1", "--team-id", team_id])
     runner.invoke(["remoteci-create", "--name", "bar2", "--team-id", team_id])
     assert (
-        runner.invoke(["remoteci-list", "--where", "name:bar1"])["_meta"]["count"]
-        == 1
+        runner.invoke(["remoteci-list", "--where", "name:bar1"])["_meta"]["count"] == 1
     )
 
 

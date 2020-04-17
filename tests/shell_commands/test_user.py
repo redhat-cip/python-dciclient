@@ -213,6 +213,4 @@ def test_where_on_list(runner, test_user, team_id):
     )
     users_cnt = len(runner.invoke(["user-list"])["users"])
     assert runner.invoke(["user-list"])["_meta"]["count"] == users_cnt
-    assert (
-        runner.invoke(["user-list", "--where", "name:foo"])["_meta"]["count"] == 1
-    )
+    assert runner.invoke(["user-list", "--where", "name:foo"])["_meta"]["count"] == 1

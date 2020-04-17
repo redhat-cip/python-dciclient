@@ -33,9 +33,9 @@ def test_create_inactive(runner):
 
 
 def test_create_data(runner):
-    test = runner.invoke(
-        ["test-create", "--name", "foo", "--data", '{"Foo": 2}']
-    )["test"]
+    test = runner.invoke(["test-create", "--name", "foo", "--data", '{"Foo": 2}'])[
+        "test"
+    ]
     assert test["name"] == "foo"
 
 
@@ -45,9 +45,9 @@ def test_create_bad_data(runner):
 
 
 def test_update_active(runner):
-    test = runner.invoke(
-        ["test-create", "--name", "foo", "--data", '{"Foo": 2}']
-    )["test"]
+    test = runner.invoke(["test-create", "--name", "foo", "--data", '{"Foo": 2}'])[
+        "test"
+    ]
 
     assert test["state"] == "active"
 

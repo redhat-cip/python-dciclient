@@ -23,9 +23,20 @@ import passlib.apps as passlib_apps
 import dci
 import dci.app
 import dci.dci_config
+from dciclient.v1.api import context as api_context
+from dciclient.v1.api import team as api_team
+from dciclient.v1.api import user as api_user
+from dciclient.v1.api import product as api_product
+from dciclient.v1.api import remoteci as api_remoteci
+from dciclient.v1.api import component as api_component
+from dciclient.v1.api import file as api_file
+from dciclient.v1.api import topic as api_topic
+from dciclient.v1.api import job as api_job
+from dciclient.v1.api import jobstate as api_jobstate
+from dciclient.v1.api import test as api_test
+from dciclient.v1.api import base as api_base
 from dciclient.v1.shell_commands import runner as dci_runner
-from dciclient.v1.shell_commands.cli import parse_arguments
-from dciclient.v1 import api
+from dciclient.v1.shell_commands import cli
 from tests.shell_commands import utils
 
 
@@ -151,7 +162,7 @@ def context_factory(
     extras = {}
     if user_agent:
         extras["user_agent"] = user_agent
-    test_context = api.context.DciContext(url, login, password, **extras)
+    test_context = api_context.DciContext(url, login, password, **extras)
     flask_adapter = utils.FlaskHTTPAdapter(server.test_client())
     test_context.session.mount(url, flask_adapter)
     return test_context
@@ -191,7 +202,7 @@ def dci_context_other_user_agent(server, db_provisioning):
 
 @pytest.fixture
 def dci_context_broken(server, db_provisioning):
-    test_context = api.context.DciContext("http://no_where.com", "admin", "admin")
+    test_context = api_context.DciContext("http://no_where.com", "admin", "admin")
     test_context.last_job_id = 1
     return test_context
 
@@ -216,7 +227,7 @@ def signature_context_factory(
         extras = {}
         if user_agent:
             extras["user_agent"] = user_agent
-        test_context = api.context.DciSignatureContext(url, client_id, api_secret)
+        test_context = api_context.DciSignatureContext(url, client_id, api_secret)
         flask_adapter = utils.FlaskHTTPAdapter(server.test_client())
         test_context.session.mount(url, flask_adapter)
         return test_context
@@ -227,13 +238,13 @@ def signature_context_factory(
 def runner_factory(context):
     def invoke(arguments):
         environment = {}
-        args = parse_arguments(arguments, environment)
+        args = cli.parse_arguments(arguments, environment)
         response = dci_runner.run(context, args)
         return response.json() if response else None
 
     def invoke_raw(arguments):
         environment = {}
-        args = parse_arguments(arguments, environment)
+        args = cli.parse_arguments(arguments, environment)
         return dci_runner.run(context, args)
 
     class Runner(object):
@@ -276,23 +287,23 @@ def runner_remoteci(dci_context_remoteci):
 
 @pytest.fixture
 def team_id(dci_context):
-    return api.team.create(dci_context, name="tname").json()["team"]["id"]
+    return api_team.create(dci_context, name="tname").json()["team"]["id"]
 
 
 @pytest.fixture
 def team_admin_id(dci_context):
-    return api.team.list(dci_context, where="name:admin").json()["teams"][0]["id"]
+    return api_team.list(dci_context, where="name:admin").json()["teams"][0]["id"]
 
 
 @pytest.fixture
 def team_user_id(dci_context):
-    user = api.user.list(dci_context, where="name:user")
+    user = api_user.list(dci_context, where="name:user")
     return user.json()["users"][0]["team_id"]
 
 
 @pytest.fixture
 def product_id(dci_context, team_id):
-    return api.product.create(dci_context, name="myproduct").json()["product"]["id"]
+    return api_product.create(dci_context, name="myproduct").json()["product"]["id"]
 
 
 @pytest.fixture
@@ -303,19 +314,19 @@ def topic_id(dci_context, product_id):
         "product_id": product_id,
         "export_control": False,
     }
-    return api.topic.create(dci_context, **kwargs).json()["topic"]["id"]
+    return api_topic.create(dci_context, **kwargs).json()["topic"]["id"]
 
 
 @pytest.fixture
 def test_id(dci_context, team_id):
     kwargs = {"name": "test_name", "team_id": team_id}
-    return api.test.create(dci_context, **kwargs).json()["test"]["id"]
+    return api_test.create(dci_context, **kwargs).json()["test"]["id"]
 
 
 @pytest.fixture
 def test_user_id(dci_context, team_user_id):
     kwargs = {"name": "test_user_name", "team_id": team_user_id}
-    return api.test.create(dci_context, **kwargs).json()["test"]["id"]
+    return api_test.create(dci_context, **kwargs).json()["test"]["id"]
 
 
 @pytest.fixture
@@ -325,13 +336,13 @@ def remoteci_id(dci_context, team_user_id):
         "team_id": team_user_id,
         "data": {"remoteci": "remoteci"},
     }
-    rci = api.remoteci.create(dci_context, **kwargs).json()
+    rci = api_remoteci.create(dci_context, **kwargs).json()
     return rci["remoteci"]["id"]
 
 
 @pytest.fixture
 def remoteci_api_secret(dci_context, remoteci_id):
-    rci = api.remoteci.get(dci_context, remoteci_id).json()
+    rci = api_remoteci.get(dci_context, remoteci_id).json()
     return rci["remoteci"]["api_secret"]
 
 
@@ -344,7 +355,7 @@ def component_id(dci_context, topic_id):
         "topic_id": topic_id,
     }
 
-    component = api.component.create(dci_context, **kwargs).json()
+    component = api_component.create(dci_context, **kwargs).json()
     return component["component"]["id"]
 
 
@@ -358,11 +369,11 @@ def components_ids(dci_context, topic_id):
         "topic_id": topic_id,
     }
 
-    component = api.component.create(dci_context, **kwargs).json()
+    component = api_component.create(dci_context, **kwargs).json()
     ids.append(component["component"]["id"])
     kwargs["name"] = "component2"
     kwargs["type"] = "type_2"
-    component = api.component.create(dci_context, **kwargs).json()
+    component = api_component.create(dci_context, **kwargs).json()
     ids.append(component["component"]["id"])
     return ids
 
@@ -377,26 +388,26 @@ def job_factory(
     components_ids,
 ):
     def create():
-        job = api.job.schedule(dci_context_remoteci, topic_id).json()
+        job = api_job.schedule(dci_context_remoteci, topic_id).json()
         job_id = job["job"]["id"]
-        api.file.create(
+        api_file.create(
             dci_context_remoteci,
             name="res_junit.xml",
             content=JUNIT,
             mime="application/junit",
             job_id=job_id,
         )
-        jobstate_id = api.jobstate.create(
+        jobstate_id = api_jobstate.create(
             dci_context_remoteci, "pre-run", "starting", job_id
         ).json()["jobstate"]["id"]
-        api.file.create(
+        api_file.create(
             dci_context_remoteci,
             name="pre-run",
             content="pre-run ongoing",
             mime="plain/text",
             jobstate_id=jobstate_id,
         )
-        api.jobstate.create(
+        api_jobstate.create(
             dci_context_remoteci, "running", "starting the build", job_id
         )
         return job
@@ -419,7 +430,7 @@ def job_factory(
               name="test_cors_headers" time="0.574683904648"/>
     </testsuite>"""
 
-    api.topic.attach_team(dci_context, topic_id, team_user_id)
+    api_topic.attach_team(dci_context, topic_id, team_user_id)
     return create
 
 
@@ -435,13 +446,13 @@ def job(job_factory):
 
 @pytest.fixture
 def file_id(dci_context, job_id):
-    return api.job.list_files(dci_context, id=job_id).json()["files"][-1]["id"]
+    return api_job.list_files(dci_context, id=job_id).json()["files"][-1]["id"]
 
 
 @pytest.fixture
 def jobstate_id(dci_context, job_id):
     kwargs = {"job_id": job_id, "status": "running", "comment": "some comment"}
-    jobstate = api.jobstate.create(dci_context, **kwargs).json()
+    jobstate = api_jobstate.create(dci_context, **kwargs).json()
     return jobstate["jobstate"]["id"]
 
 
@@ -466,12 +477,12 @@ def test_user(runner, team_user_id):
 
 @pytest.fixture
 def team_test(dci_context, team_id):
-    test = api.test.create(dci_context, "sometest", team_id=team_id).json()
+    test = api_test.create(dci_context, "sometest", team_id=team_id).json()
     return test["test"]
 
 
 @pytest.fixture
 def feeder(dci_context, team_id):
     kwargs = {"name": "feeder", "team_id": team_id, "state": "active"}
-    feeder = api.base.create(dci_context, "feeders", **kwargs).json()
+    feeder = api_base.create(dci_context, "feeders", **kwargs).json()
     return feeder["feeder"]

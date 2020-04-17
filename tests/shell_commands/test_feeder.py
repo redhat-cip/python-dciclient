@@ -28,9 +28,9 @@ def test_list(runner):
 
 def test_create(runner):
     team = runner.invoke(["team-create", "--name", "foo"])["team"]
-    feeder = runner.invoke(
-        ["feeder-create", "--name", "foo", "--team-id", team["id"]]
-    )["feeder"]
+    feeder = runner.invoke(["feeder-create", "--name", "foo", "--team-id", team["id"]])[
+        "feeder"
+    ]
     assert feeder["name"] == "foo"
     assert feeder["state"] == "active"
 
@@ -45,9 +45,9 @@ def test_create_inactive(runner):
 
 def test_update(runner):
     team = runner.invoke(["team-create", "--name", "foo"])["team"]
-    feeder = runner.invoke(
-        ["feeder-create", "--name", "foo", "--team-id", team["id"]]
-    )["feeder"]
+    feeder = runner.invoke(["feeder-create", "--name", "foo", "--team-id", team["id"]])[
+        "feeder"
+    ]
 
     assert feeder["state"] == "active"
 
@@ -70,9 +70,9 @@ def test_update(runner):
 def test_delete(runner):
     team = runner.invoke(["team-create", "--name", "foo"])["team"]
 
-    feeder = runner.invoke(
-        ["feeder-create", "--name", "foo", "--team-id", team["id"]]
-    )["feeder"]
+    feeder = runner.invoke(["feeder-create", "--name", "foo", "--team-id", team["id"]])[
+        "feeder"
+    ]
 
     result = runner.invoke_raw(
         ["feeder-delete", feeder["id"], "--etag", feeder["etag"]]
@@ -83,9 +83,9 @@ def test_delete(runner):
 
 def test_show(runner):
     team = runner.invoke(["team-create", "--name", "foo"])["team"]
-    feeder = runner.invoke(
-        ["feeder-create", "--name", "foo", "--team-id", team["id"]]
-    )["feeder"]
+    feeder = runner.invoke(["feeder-create", "--name", "foo", "--team-id", team["id"]])[
+        "feeder"
+    ]
 
     feeder = runner.invoke(["feeder-show", feeder["id"]])["feeder"]
 

@@ -42,9 +42,9 @@ def test_success_create_full(runner):
 
 
 def test_create_inactive(runner):
-    product = runner.invoke(
-        ["product-create", "--name", "myproduct", "--no-active"]
-    )["product"]
+    product = runner.invoke(["product-create", "--name", "myproduct", "--no-active"])[
+        "product"
+    ]
     assert product["state"] == "inactive"
 
 
@@ -162,9 +162,7 @@ def test_attach_team_and_list(runner, product_id, team_id):
     assert no_teams["_meta"]["count"] == 0
     assert len(no_teams["teams"]) == 0
 
-    attached = runner.invoke(
-        ["product-attach-team", product_id, "--team-id", team_id]
-    )
+    attached = runner.invoke(["product-attach-team", product_id, "--team-id", team_id])
 
     assert attached["product_id"] == product_id
     assert attached["team_id"] == team_id
@@ -180,9 +178,7 @@ def test_attach_detach_team_and_list(runner, product_id, team_id):
     assert no_teams["_meta"]["count"] == 0
     assert len(no_teams["teams"]) == 0
 
-    attached = runner.invoke(
-        ["product-attach-team", product_id, "--team-id", team_id]
-    )
+    attached = runner.invoke(["product-attach-team", product_id, "--team-id", team_id])
 
     assert attached["product_id"] == product_id
     assert attached["team_id"] == team_id
