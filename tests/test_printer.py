@@ -57,3 +57,24 @@ def test_printer_verbose(capsys, runner, team_id):
     )
     captured = capsys.readouterr()
     assert "etag" not in captured.out
+
+def test_printer_delete(capsys, runner, team_id):
+    user = runner.invoke(
+        [
+            "user-create",
+            "--name",
+            "todelete",
+            "--email",
+            "todelete@example.org",
+            "--password",
+            "pass",
+            "--team-id",
+            team_id,
+        ]
+    )['user']
+    result = runner.invoke_raw(
+        ["user-delete", user["id"], "--etag", user["etag"]]
+    )
+    print_response(result)
+    captured = capsys.readouterr()
+    assert "resource deleted." in captured.out

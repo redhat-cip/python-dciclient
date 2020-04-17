@@ -205,3 +205,32 @@ def test_parse_arguments_sso_token_env():
 
     assert args.sso_token == "efg"
     assert args.refresh_sso_token is False
+
+
+def test_verbose():
+    args = parse_arguments(
+        [
+            "user-create",
+            "--name",
+            "toto",
+            "--password",
+            "toto",
+            "--email",
+            "toto@example.org",
+        ]
+    )
+    assert args.verbose is False
+
+    args = parse_arguments(
+        [
+            "--verbose",
+            "user-create",
+            "--name",
+            "toto",
+            "--password",
+            "toto",
+            "--email",
+            "toto@example.org",
+        ]
+    )
+    assert args.verbose is True
