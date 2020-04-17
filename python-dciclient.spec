@@ -21,7 +21,6 @@ Python client for DCI control server for the remote CIs.
 Summary:        Python client for DCI control server
 %{?python_provide:%python_provide python2-dciclient}
 BuildRequires:  PyYAML
-BuildRequires:  python-click
 BuildRequires:  python-prettytable
 BuildRequires:  python-psycopg2
 BuildRequires:  python-requests >= 2.6
@@ -31,7 +30,6 @@ BuildRequires:  python2-rpm-macros
 BuildRequires:  python-dciauth
 BuildRequires:  python2-six
 Requires:       PyYAML
-Requires:       python-click
 Requires:       python-prettytable
 Requires:       python-requests >= 2.6
 Requires:       python2-setuptools
@@ -47,7 +45,6 @@ Summary:        Python client for DCI control server
 %{?python_provide:%python_provide python3-dciclient}
 
 BuildRequires:  python3-PyYAML
-BuildRequires:  python3-click
 BuildRequires:  python3-prettytable
 BuildRequires:  python3-psycopg2
 BuildRequires:  python3-requests
@@ -56,7 +53,6 @@ BuildRequires:  python3-rpm-macros
 BuildRequires:  python3-dciauth
 BuildRequires:  python3-six
 Requires:       python3-PyYAML
-Requires:       python3-click
 Requires:       python3-prettytable
 Requires:       python3-requests
 Requires:       python3-dciauth

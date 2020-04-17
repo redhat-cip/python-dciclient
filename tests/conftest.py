@@ -17,16 +17,12 @@
 import pytest
 import sqlalchemy
 import sqlalchemy_utils.functions
-import click.testing
-import functools
-import json
 import os
 import passlib.apps as passlib_apps
 
 import dci
 import dci.app
 import dci.dci_config
-from dciclient import shell
 from dciclient.v1.shell_commands import runner as toto
 from dciclient.v1.shell_commands.cli import parse_arguments
 from dciclient.v1 import api
@@ -276,79 +272,6 @@ def dci_context_remoteci(
 @pytest.fixture
 def toto_context_remoteci(dci_context_remoteci):
     return toto_factory(dci_context_remoteci)
-
-
-def runner_factory(context):
-    api.context.build_dci_context = lambda **kwargs: context
-    runner = click.testing.CliRunner(
-        env={
-            "DCI_LOGIN": "",
-            "DCI_PASSWORD": "",
-            "DCI_CLIENT_ID": "",
-            "DCI_API_SECRET": "",
-            "DCI_CLI_OUTPUT_FORMAT": "json",
-        }
-    )
-    invoke_raw = functools.partial(runner.invoke, shell.main, catch_exceptions=False)
-
-    def invoke_json(*kargs):
-        r = invoke_raw(*kargs)
-        try:
-            return json.loads(r.output)
-        except ValueError as e:
-            print("Failed to JSON decode: >>%s<<" % r.output)
-            print("Exit code was: %d" % r.exit_code)
-            raise e
-
-    def invoke_raw_parse(*kargs):
-        r = invoke_raw(["--format", "table"] + kargs[0])
-        if r.exit_code != 0:
-            return r.output
-        fields = r.output.split("\n")[1].split("|")
-        # NOTE(Gonéri): we only return the very first row because
-        # there is no way to know if it a multi-line result
-        data = r.output.split("\n")[3].split("|")
-        fields = [i.lstrip(" ").rstrip(" ") for i in fields[1:-1]]
-        data = [i.lstrip(" ").rstrip(" ") for i in data[1:]]
-        result = {}
-        for f in fields:
-            result[f] = data.pop(0)
-        return result
-
-    runner.invoke = invoke_json
-    runner.invoke_raw = invoke_raw
-    runner.invoke_raw_parse = invoke_raw_parse
-    return runner
-
-
-@pytest.fixture
-def runner(dci_context):
-    return runner_factory(dci_context)
-
-
-@pytest.fixture
-def runner_user_admin(dci_context_user_admin):
-    return runner_factory(dci_context_user_admin)
-
-
-@pytest.fixture
-def runner_user(dci_context_user):
-    return runner_factory(dci_context_user)
-
-
-@pytest.fixture
-def runner_test_user(dci_context_test_user):
-    return runner_factory(dci_context_test_user)
-
-
-@pytest.fixture
-def runner_remoteci(dci_context_remoteci):
-    return runner_factory(dci_context_remoteci)
-
-
-@pytest.fixture
-def runner_product_owner(dci_context_product_owner):
-    return runner_factory(dci_context_product_owner)
 
 
 @pytest.fixture
