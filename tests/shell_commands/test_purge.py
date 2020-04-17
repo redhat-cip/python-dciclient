@@ -15,28 +15,30 @@
 # under the License.
 
 
-def test_purge_wrong_resource(runner):
-    result = runner.invoke(["purge", "--force", "--resource", "wrongresource"])
+def test_purge_wrong_resource(toto_context):
+    result = toto_context.invoke_raw(
+        ["purge", "--force", "--resource", "wrongresource"]
+    )
     assert "Unkown resource have been specified:" in result
     assert "wrongresource" in result
 
 
-def test_purge_success_authorized_admin(runner):
-    result = runner.invoke(["purge"])
+def test_purge_success_authorized_admin(toto_context):
+    result = toto_context.invoke_raw(["purge"])
     assert result == {}
 
 
-def test_purge_fail_unauthorized_user(runner_user):
-    result = runner_user.invoke(["purge"])
-    assert result["status_code"] == 401
+def test_purge_fail_unauthorized_user(toto_context_user):
+    result = toto_context_user.invoke_raw(["purge"])
+    assert result.status_code == 401
 
 
-def test_purge_fail_unauthorized_user_admin(runner_user_admin):
-    result = runner_user_admin.invoke(["purge"])
-    assert result["status_code"] == 401
+def test_purge_fail_unauthorized_user_admin(toto_context_user_admin):
+    result = toto_context_user_admin.invoke_raw(["purge"])
+    assert result.status_code == 401
 
 
-def test_purge_noop(runner, toto_context, remoteci_id, product_id):
+def test_purge_noop(toto_context, remoteci_id, product_id):
     toto_context.invoke(["topic-create", "--name", "osp", "--product-id", product_id])
     toto_context.invoke(["topic-create", "--name", "osp2", "--product-id", product_id])
     topics = toto_context.invoke(["topic-list"])["topics"]
@@ -47,13 +49,13 @@ def test_purge_noop(runner, toto_context, remoteci_id, product_id):
     topics = toto_context.invoke(["topic-list"])["topics"]
     assert len(topics) == 1
 
-    purge_res = runner.invoke(["purge", "--resource", "topics"])
-    assert purge_res[0]["id"] == topic_id
-    assert purge_res[0]["state"] == "archived"
+    purge_res = toto_context.invoke_raw(["purge", "--resource", "topics"])
+    assert purge_res["topics"]["topics"][0]["id"] == topic_id
+    assert purge_res["topics"]["topics"][0]["state"] == "archived"
 
-    runner.invoke(["purge", "--resource", "topics", "--force"])
+    toto_context.invoke_raw(["purge", "--resource", "topics", "--force"])
 
-    purge_res = runner.invoke(["purge", "--resource", "topics"])
+    purge_res = toto_context.invoke_raw(["purge", "--resource", "topics"])
     assert len(purge_res) == 0
 
     topics = toto_context.invoke(["topic-list"])["topics"]

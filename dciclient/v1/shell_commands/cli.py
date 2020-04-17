@@ -713,5 +713,15 @@ def parse_arguments(args, environment={}):
     p.add_argument("--verbose", default=False, action="store_true")
     p.set_defaults(command="remoteci-list-user")
 
+    # purge commands
+    p = subparsers.add_parser("purge", help="Purge soft-deleted resources.")
+    p.add_argument(
+        "--resource", default=None, help="Comma separated list of resource to purge."
+    )
+    p.add_argument(
+        "--force", default=False, action="store_true", help="Purge resources."
+    )
+    p.set_defaults(command="purge")
+
     args = parser.parse_args(args)
     return args
