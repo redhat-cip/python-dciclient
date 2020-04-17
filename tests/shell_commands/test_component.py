@@ -186,9 +186,7 @@ def test_file_support(runner, tmpdir, product_id):
     assert open(td.strpath + "/my_file", "r").read() == "content"
 
     # list
-    my_list = runner.invoke(["component-file-list", component["id"]])[
-        "component_files"
-    ]
+    my_list = runner.invoke(["component-file-list", component["id"]])["component_files"]
     assert len(my_list) == 1
     assert my_list[0]["size"] == 7
 

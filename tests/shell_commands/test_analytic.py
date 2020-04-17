@@ -56,9 +56,9 @@ def test_show(runner, job_id):
     )["analytic"]
     assert analytic["name"] == "bug1"
 
-    analytic = runner.invoke(
-        ["analytic-show", "--job-id", job_id, analytic["id"]]
-    )["analytic"]
+    analytic = runner.invoke(["analytic-show", "--job-id", job_id, analytic["id"]])[
+        "analytic"
+    ]
     assert analytic["name"] == "bug1"
     assert analytic["type"] == "infrastructure"
     assert analytic["url"] == "http://bugzilla/1"
