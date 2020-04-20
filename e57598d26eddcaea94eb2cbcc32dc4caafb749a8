@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5601e11d_fc02c8dc",
+        "filename": "start_db.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 606
+      },
+      "writtenOn": "2020-04-20T14:24:41Z",
+      "side": 1,
+      "message": "I think I would simply expand the condition below to have a platform \u003d\u003d rhel or platform \u003d\u003d centos",
+      "revId": "e57598d26eddcaea94eb2cbcc32dc4caafb749a8",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
