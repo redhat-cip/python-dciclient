@@ -16,6 +16,24 @@
       "revId": "e57598d26eddcaea94eb2cbcc32dc4caafb749a8",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6dab731_dcf02a3a",
+        "filename": "start_db.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 166
+      },
+      "writtenOn": "2020-04-20T17:03:02Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s just that I couldn\u0027t remember the proper syntax when using the [[ operator rather than the old unix [ ^^",
+      "parentUuid": "5601e11d_fc02c8dc",
+      "revId": "e57598d26eddcaea94eb2cbcc32dc4caafb749a8",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
     }
   ]
 }
