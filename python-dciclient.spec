@@ -3,7 +3,7 @@
 %endif
 
 Name:           python-dciclient
-Version:        1.0.0
+Version:        1.0.1
 Release:        1.VERS%{?dist}
 
 Summary:        Python client for DCI control server
@@ -90,6 +90,9 @@ install -d %{buildroot}%{_bindir}
 
 
 %changelog
+* Wed May 06 2020 Haïkel Guémar <hguemar@fedoraproject.org> - 1.0.1-1
+- Bump to 1.0.1 to match pypi release
+
 * Fri Apr 17 2020 Haïkel Guémar <hguemar@fedoraproject.org> - 1.0.0-1
 - Remove click
 - Remove six
