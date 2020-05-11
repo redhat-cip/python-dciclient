@@ -221,8 +221,22 @@ def test_verbose():
 
     args = parse_arguments(
         [
-            "--verbose",
             "user-create",
+            "--verbose",
+            "--name",
+            "toto",
+            "--password",
+            "toto",
+            "--email",
+            "toto@example.org",
+        ]
+    )
+    assert args.verbose is True
+
+    args = parse_arguments(
+        [
+            "user-create",
+            "--long",
             "--name",
             "toto",
             "--password",
