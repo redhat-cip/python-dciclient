@@ -91,7 +91,7 @@ def file_upload(context, args):
 
 def file_download(context, args):
     params = {k: getattr(args, k) for k in ["id", "file_id", "target"]}
-    dci_file.download(context, **params)
+    return dci_file.download(context, **params)
 
 
 def file_show(context, args):
