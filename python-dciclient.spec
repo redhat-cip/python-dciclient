@@ -3,7 +3,7 @@
 %endif
 
 Name:           python-dciclient
-Version:        1.0.3
+Version:        1.0.4
 Release:        1.VERS%{?dist}
 
 Summary:        Python client for DCI control server
@@ -90,6 +90,9 @@ install -d %{buildroot}%{_bindir}
 
 
 %changelog
+* Tue May 26 2020 Guillaume Vincent <gvincent@redhat.com> - 1.0.4-1
+- Dont print output if no content or no respopnse
+
 * Tue May 12 2020 Guillaume Vincent <gvincent@redhat.com> - 1.0.3-1
 - Fix file download issue
 
