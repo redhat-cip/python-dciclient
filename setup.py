@@ -44,7 +44,7 @@ def _get_readme():
 setuptools.setup(
     name="dciclient",
     version=version.__version__,
-    packages=setuptools.find_packages(),
+    packages=setuptools.find_packages(exclude=["tests", "tests.*"]),
     author="Distributed CI team",
     author_email="distributed-ci@redhat.com",
     description="Python client for DCI Control Server",
