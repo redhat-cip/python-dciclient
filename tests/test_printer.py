@@ -76,4 +76,4 @@ def test_printer_delete(capsys, runner, team_id):
     result = runner.invoke_raw(["user-delete", user["id"], "--etag", user["etag"]])
     print_response(result, format="table", verbose=False)
     captured = capsys.readouterr()
-    assert "resource deleted" in captured.out
+    assert captured.out == ""

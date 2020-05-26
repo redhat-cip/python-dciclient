@@ -122,7 +122,7 @@ def content(context, id):
 
 def download(context, id, file_id, target):
     uri = "%s/files/%s/content" % (context.dci_cs_api, file_id)
-    return base.download(context, uri, target)
+    base.download(context, uri, target)
 
 
 class FileErrorException(Exception):

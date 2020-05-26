@@ -33,7 +33,7 @@ def test_success_download_component_file_returns_http_response(
 
     res = component.file_download(dci_context, component_id, file_id, tmp_file.strpath)
 
-    assert res.status_code == 200
+    assert res is None
 
 
 def test_add_tag(dci_context, component_id):
