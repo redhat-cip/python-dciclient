@@ -1,10 +1,12 @@
-%if 0%{?fedora}
+%if 0%{?rhel} && 0%{?rhel} < 8
+%global with_python2 1
+%else
 %global with_python3 1
 %endif
 
 Name:           python-dciclient
 Version:        1.0.4
-Release:        1.VERS%{?dist}
+Release:        2.VERS%{?dist}
 
 Summary:        Python client for DCI control server
 License:        ASL 2.0
@@ -17,6 +19,7 @@ BuildArch:      noarch
 %description
 Python client for DCI control server for the remote CIs.
 
+%if 0%{?with_python2}
 %package -n python2-dciclient
 Summary:        Python client for DCI control server
 %{?python_provide:%python_provide python2-dciclient}
@@ -28,6 +31,7 @@ BuildRequires:  python-rpm-macros
 BuildRequires:  python2-setuptools
 BuildRequires:  python2-rpm-macros
 BuildRequires:  python-dciauth
+BuildRequires:  python2-devel
 Requires:       PyYAML
 Requires:       python-prettytable
 Requires:       python-requests >= 2.6
@@ -36,12 +40,12 @@ Requires:       python-dciauth
 
 %description -n python2-dciclient
 A Python 2 implementation of the client for DCI control server.
+%endif
 
 %if 0%{?with_python3}
 %package -n python3-dciclient
 Summary:        Python client for DCI control server
 %{?python_provide:%python_provide python3-dciclient}
-
 BuildRequires:  python3-PyYAML
 BuildRequires:  python3-prettytable
 BuildRequires:  python3-psycopg2
@@ -49,6 +53,7 @@ BuildRequires:  python3-requests
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-rpm-macros
 BuildRequires:  python3-dciauth
+BuildRequires:  python3-devel
 Requires:       python3-PyYAML
 Requires:       python3-prettytable
 Requires:       python3-requests
@@ -62,23 +67,29 @@ A Python 3 implementation of the client for DCI control server.
 %autosetup -n dciclient-%{version}
 
 %build
+%if 0%{?with_python2}
 %py2_build
+%endif
 %if 0%{?with_python3}
 %py3_build
 %endif
 
 %install
 install -d %{buildroot}%{_bindir}
+%if 0%{?with_python2}
 %py2_install
+%endif
 %if 0%{?with_python3}
 %py3_install
 %endif
 
+%if 0%{?with_python2}
 %files -n python2-dciclient
 %doc README.md
 %license LICENSE
 %{python2_sitelib}/*
 %{_bindir}/dcictl
+%endif
 
 %if 0%{?with_python3}
 %files -n python3-dciclient
@@ -90,6 +101,9 @@ install -d %{buildroot}%{_bindir}
 
 
 %changelog
+* Thu Jun 04 2020 Bill Peck <bpeck@redhat.com> - 1.0.4-2
+- Rebuild for RHEL-8
+
 * Tue May 26 2020 Guillaume Vincent <gvincent@redhat.com> - 1.0.4-1
 - Dont print output if no content or no respopnse
 
