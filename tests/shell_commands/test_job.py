@@ -167,14 +167,13 @@ def test_job_output(runner, job_id):
 def test_tags(runner, job_id):
     tags = runner.invoke(["job-list-tags", job_id])["tags"]
     assert len(tags) == 0
-    tag = runner.invoke(["job-add-tag", job_id, "foo"])["tag"]
+    runner.invoke(["job-add-tag", job_id, "foo"])
     tags = runner.invoke(["job-list-tags", job_id])["tags"]
     assert len(tags) == 1
-    assert tags[0]["id"] == tag["id"]
-    assert tags[0]["name"] == "foo"
-    runner.invoke_raw(["job-delete-tag", job_id, tag["id"]])
-    tags = runner.invoke(["job-list-tags", job_id])["tags"]
-    assert len(tags) == 0
+    assert tags[0] == "foo"
+    #runner.invoke_raw(["job-delete-tag", job_id, tag["id"]])
+    #tags = runner.invoke(["job-list-tags", job_id])["tags"]
+    #assert len(tags) == 0
 
 
 def test_file_support(runner, tmpdir, job_id):
