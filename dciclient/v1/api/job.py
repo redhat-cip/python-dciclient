@@ -140,5 +140,5 @@ def add_tag(context, id, name):
     return add_tag_to_resource(context, RESOURCE, id, name)
 
 
-def delete_tag(context, id, tag_id):
-    return delete_tag_from_resource(context, RESOURCE, id, tag_id)
+def delete_tag(context, id, tag_id, tag_name=None):
+    return delete_tag_from_resource(context, RESOURCE, id, tag_id, tag_name)

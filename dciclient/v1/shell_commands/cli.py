@@ -643,6 +643,7 @@ def parse_arguments(args, environment={}):
     )
     p.add_argument("id")
     p.add_argument("tag_id")
+    p.add_argument("tag_name")
     p.set_defaults(command="job-delete-tag")
 
     p = subparsers.add_parser(

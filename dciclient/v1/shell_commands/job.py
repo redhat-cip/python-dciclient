@@ -74,7 +74,11 @@ def add_tag(context, args):
 
 
 def delete_tag(context, args):
-    return job.delete_tag(context, id=args.id, tag_id=args.tag_id)
+    return job.delete_tag(
+        context,
+        id=args.id,
+        tag_id=args.tag_id,
+        tag_name=args.tag_name)
 
 
 def list_tags(context, args):

@@ -33,8 +33,20 @@ def list(context):
     return base.get(context, RESOURCE)
 
 
-def delete_tag_from_resource(context, resource, id, tag_id):
-    return base.delete(context, resource, id, subresource="tags", subresource_id=tag_id)
+def delete_tag_from_resource(context, resource, id, tag_id, tag_name=None):
+    if tag_name is None:
+        return base.delete(
+            context,
+            resource,
+            id,
+            subresource="tags",
+            subresource_id=tag_id)
+    else:
+        return base.delete(
+            context,
+            resource, id,
+            subresource="tags",
+            json={"name": tag_name})
 
 
 def delete(context, id):
