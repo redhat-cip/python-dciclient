@@ -25,7 +25,6 @@ import dci.app
 import dci.dci_config
 from dciclient.v1.api import context as api_context
 from dciclient.v1.api import team as api_team
-from dciclient.v1.api import user as api_user
 from dciclient.v1.api import product as api_product
 from dciclient.v1.api import remoteci as api_remoteci
 from dciclient.v1.api import component as api_component
@@ -297,13 +296,15 @@ def team_admin_id(dci_context):
 
 @pytest.fixture
 def team_user_id(dci_context):
-    user = api_user.list(dci_context, where="name:user")
-    return user.json()["users"][0]["team_id"]
+    user = api_team.list(dci_context, where="name:user")
+    return user.json()["teams"][0]["id"]
 
 
 @pytest.fixture
 def product_id(dci_context, team_id):
-    return api_product.create(dci_context, name="myproduct").json()["product"]["id"]
+    return api_product.list(
+        dci_context,
+        where="name:dci_product").json()["products"][0]['id']
 
 
 @pytest.fixture

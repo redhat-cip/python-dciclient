@@ -115,7 +115,6 @@ def provision(db_conn):
     team_admin_id = db_insert(models.TEAMS, name="admin")
     db_insert(models.TEAMS, name="Red Hat")
     db_insert(models.TEAMS, name="EPM")
-    team_product_id = db_insert(models.TEAMS, name="product")
     team_user_id = db_insert(models.TEAMS, name="user")
 
     # Create users
@@ -126,8 +125,7 @@ def provision(db_conn):
         sso_username="user",
         password=user_pw_hash,
         fullname="User",
-        email="user@example.org",
-        team_id=team_user_id,
+        email="user@example.org"
     )
 
     db_insert(
@@ -141,8 +139,7 @@ def provision(db_conn):
         sso_username="user_no_team",
         password=user_no_team_pw_hash,
         fullname="User No Team",
-        email="user_no_team@example.org",
-        team_id=None,
+        email="user_no_team@example.org"
     )
 
     db_insert(models.JOIN_USERS_TEAMS, return_pk=False, user_id=u_id, team_id=None)
@@ -155,11 +152,10 @@ def provision(db_conn):
         password=product_owner_pw_hash,
         fullname="Product Owner",
         email="product_ownern@example.org",
-        team_id=team_product_id,
     )
 
     db_insert(
-        models.JOIN_USERS_TEAMS, return_pk=False, user_id=u_id, team_id=team_product_id
+        models.JOIN_USERS_TEAMS, return_pk=False, user_id=u_id
     )
 
     admin_pw_hash = auth.hash_password("admin")
@@ -170,7 +166,6 @@ def provision(db_conn):
         password=admin_pw_hash,
         fullname="Admin",
         email="admin@example.org",
-        team_id=team_admin_id,
     )
 
     db_insert(
@@ -178,9 +173,15 @@ def provision(db_conn):
     )
 
     # Create a product
-    db_insert(
+    p_id = db_insert(
         models.PRODUCTS,
-        name="Awesome product",
-        label="AWSM",
+        return_pk=True,
+        name="dci_product",
+        label="dci_product",
         description="My Awesome product",
+    )
+
+    # associate the team user to the product
+    db_insert(
+        models.JOIN_PRODUCTS_TEAMS, product_id=p_id, team_id=team_user_id
     )
