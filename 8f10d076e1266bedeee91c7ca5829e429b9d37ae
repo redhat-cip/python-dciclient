@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a93b20ef_57effb04",
+        "filename": "python-dciclient.spec",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 166
+      },
+      "writtenOn": "2020-06-08T17:09:52Z",
+      "side": 1,
+      "message": "I don\u0027t think this global",
+      "revId": "8f10d076e1266bedeee91c7ca5829e429b9d37ae",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
