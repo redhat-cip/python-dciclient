@@ -1,0 +1,8 @@
+Code-Review+2: Haïkel Guémar <hguemar@fedoraproject.org>
+Workflow+1: Bill Peck <bill@pecknet.com>
+Verified+2: Zuul CI <zuul@softwarefactory-project.io>
+Submitted-by: Zuul CI <zuul@softwarefactory-project.io>
+Submitted-at: Mon, 08 Jun 2020 17:28:12 +0000
+Reviewed-on: https://softwarefactory-project.io/r/18536
+Project: python-dciclient
+Branch: refs/heads/master
