@@ -44,7 +44,8 @@ def delete_tag_from_resource(context, resource, id, tag_id, tag_name=None):
     else:
         return base.delete(
             context,
-            resource, id,
+            resource,
+            id,
             subresource="tags",
             json={"name": tag_name})
 
