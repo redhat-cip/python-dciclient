@@ -13,7 +13,6 @@ License:        ASL 2.0
 URL:            https://github.com/redhat-cip/python-dciclient
 
 Source0:        dciclient-%{version}.tar.gz
-
 BuildArch:      noarch
 
 %description
