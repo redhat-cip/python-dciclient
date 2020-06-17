@@ -109,12 +109,16 @@ def delete(context, resource, id, **kwargs):
     id = id
     subresource = kwargs.pop("subresource", None)
     subresource_id = kwargs.pop("subresource_id", None)
+    json = kwargs.pop("json", None)
 
-    uri = "%s/%s/%s" % (context.dci_cs_api, resource, id)
-    if subresource:
-        uri = "%s/%s/%s" % (uri, subresource, subresource_id)
+    origin_uri = "%s/%s/%s" % (context.dci_cs_api, resource, id)
+    uri = origin_uri
+    if subresource is not None:
+        uri = "%s/%s" % (origin_uri, subresource)
+    if subresource is not None and subresource_id is not None:
+        uri = "%s/%s/%s" % (origin_uri, subresource, subresource_id)
 
-    r = context.session.delete(uri, timeout=HTTP_TIMEOUT, headers={"If-match": etag})
+    r = context.session.delete(uri, timeout=HTTP_TIMEOUT, headers={"If-match": etag}, json=json)  # noqa
     return r
 
 
