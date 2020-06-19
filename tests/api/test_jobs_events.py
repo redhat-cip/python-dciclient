@@ -13,13 +13,13 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations
 # under the License.
-
+import mock
 from dciclient.v1.api import jobs_events
 from dciclient.v1.api import jobstate
 
 
-def test_jobs_events_create(dci_context, job_id):
-
+@mock.patch("dci.api.v1.notifications.dispatcher")
+def test_jobs_events_create(mocked_disp, dci_context, job_id):
     js = jobstate.create(dci_context, "success", "lol", job_id)
     assert js.status_code == 201
     all_je = jobs_events.list(dci_context, 0)
@@ -28,8 +28,8 @@ def test_jobs_events_create(dci_context, job_id):
     assert len(all_je_data["jobs_events"]) > 0
 
 
-def test_jobs_events_delete_from_sequence(dci_context, job_id):
-
+@mock.patch("dci.api.v1.notifications.dispatcher")
+def test_jobs_events_delete_from_sequence(mocked_disp, dci_context, job_id):
     js = jobstate.create(dci_context, "success", "lol", job_id)
     assert js.status_code == 201
     all_je = jobs_events.list(dci_context, 0)
