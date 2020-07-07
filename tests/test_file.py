@@ -14,7 +14,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-
+import json
 from dciclient.v1.api import file as dci_file
 from dciclient.v1.api import job
 
@@ -39,3 +39,21 @@ def test_iter(dci_context, job_id):
     assert all_files == 100 + 2
     assert cpt == 100 + 2
     assert len(set(seen_names) - set(f_names)) == 2
+
+
+def test_nrt_file_upload_json(
+    remoteci_id, remoteci_api_secret, signature_context_factory, job_id
+):
+    dci_context = signature_context_factory(
+        client_id=remoteci_id,
+        api_secret=remoteci_api_secret,
+        url="https://api.distributed-ci.io/",
+    )
+    r = dci_file.create(
+        dci_context,
+        name="dci.json",
+        content=json.dumps({"name": "dci"}),
+        mime="application/json",
+        job_id=job_id,
+    )
+    assert r.status_code == 201
