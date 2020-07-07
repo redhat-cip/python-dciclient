@@ -17,7 +17,6 @@
 from dciclient.v1.api import base
 from dciclient.v1 import utils
 
-import io
 import os
 
 RESOURCE = "files"
@@ -62,16 +61,13 @@ def create(
     uri = "%s/%s" % (context.dci_cs_api, RESOURCE)
 
     if content:
-        if not hasattr(content, "read"):
-            if not isinstance(content, bytes):
-                content = content.encode("utf-8")
-            content = io.BytesIO(content)
         return context.session.post(uri, headers=headers, data=content)
-    else:
-        if not os.path.exists(file_path):
-            raise FileErrorException()
-        with open(file_path, "rb") as f:
-            return context.session.post(uri, headers=headers, data=f)
+
+    if not os.path.exists(file_path):
+        raise FileErrorException()
+
+    with open(file_path, "r") as f:
+        return context.session.post(uri, headers=headers, data=f.read())
 
 
 # TODO(spredzy): Remove this method once all the party using this method has
