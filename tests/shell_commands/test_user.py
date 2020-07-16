@@ -15,14 +15,13 @@
 # under the License.
 
 
-def test_create_user(runner, test_user, team_user_id):
+def test_create_user(runner, test_user):
     assert test_user["name"] == "foo"
     assert test_user["fullname"] == "Foo Bar"
     assert test_user["email"] == "foo@example.org"
-    assert test_user["team_id"] == team_user_id
 
 
-def test_create_admin(runner, team_id):
+def test_create_admin(runner):
     user = runner.invoke(
         [
             "user-create",
@@ -31,18 +30,15 @@ def test_create_admin(runner, team_id):
             "--email",
             "foo@example.org",
             "--password",
-            "pass",
-            "--team-id",
-            team_id,
+            "pass"
         ]
     )["user"]
     assert user["name"] == "foo"
     assert user["fullname"] == "foo"
     assert user["email"] == "foo@example.org"
-    assert user["team_id"] == team_id
 
 
-def test_create_super_admin(runner, team_id):
+def test_create_super_admin(runner):
     user = runner.invoke(
         [
             "user-create",
@@ -51,18 +47,15 @@ def test_create_super_admin(runner, team_id):
             "--email",
             "foo@example.org",
             "--password",
-            "pass",
-            "--team-id",
-            team_id,
+            "pass"
         ]
     )["user"]
     assert user["name"] == "foo"
     assert user["fullname"] == "foo"
     assert user["email"] == "foo@example.org"
-    assert user["team_id"] == team_id
 
 
-def test_create_inactive(runner, team_id):
+def test_create_inactive(runner):
     user = runner.invoke(
         [
             "user-create",
@@ -72,15 +65,13 @@ def test_create_inactive(runner, team_id):
             "pass",
             "--email",
             "foo@example.org",
-            "--team-id",
-            team_id,
             "--no-active",
         ]
     )["user"]
     assert user["state"] == "inactive"
 
 
-def test_list(runner, team_id):
+def test_list(runner):
     users_cnt = len(runner.invoke(["user-list"])["users"])
     runner.invoke(
         [
@@ -91,8 +82,6 @@ def test_list(runner, team_id):
             "bar@example.org",
             "--password",
             "pass",
-            "--team-id",
-            team_id,
         ]
     )
     new_users_cnt = len(runner.invoke(["user-list"])["users"])
@@ -119,24 +108,6 @@ def test_update(runner, test_user):
     assert user["name"] == "bar"
     assert user["fullname"] == "Barry White"
     assert user["email"] == "bar@example.org"
-
-
-def test_update_team_id(runner, test_user, team_user_id, team_id):
-    user = runner.invoke(["user-show", test_user["id"]])["user"]
-    assert user["team_id"] == team_user_id
-
-    runner.invoke(
-        [
-            "user-update",
-            test_user["id"],
-            "--etag",
-            test_user["etag"],
-            "--team-id",
-            team_id,
-        ]
-    )
-    user = runner.invoke(["user-show", test_user["id"]])["user"]
-    assert user["team_id"] == team_id
 
 
 def test_update_active(runner, test_user, team_id):
@@ -194,8 +165,6 @@ def test_where_on_list(runner, test_user, team_id):
             "foo2@example.org",
             "--password",
             "pass",
-            "--team-id",
-            team_id,
         ]
     )
     runner.invoke(
@@ -207,8 +176,6 @@ def test_where_on_list(runner, test_user, team_id):
             "foo3@example.org",
             "--password",
             "pass",
-            "--team-id",
-            team_id,
         ]
     )
     users_cnt = len(runner.invoke(["user-list"])["users"])

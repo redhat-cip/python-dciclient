@@ -20,13 +20,12 @@ from dciclient.v1.api import base
 RESOURCE = "users"
 
 
-def create(context, name, password, team_id, email, fullname, state="active"):
+def create(context, name, password, email, fullname, state="active"):
     return base.create(
         context,
         RESOURCE,
         name=name,
         password=password,
-        team_id=team_id,
         state=state,
         email=email,
         fullname=fullname,
@@ -64,7 +63,6 @@ def update(
         etag=etag,
         name=name,
         password=password,
-        team_id=team_id,
         state=state,
         email=email,
         fullname=fullname,

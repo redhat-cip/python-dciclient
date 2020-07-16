@@ -26,7 +26,7 @@ def list(context, args):
 def create(context, args):
     params = {
         k: getattr(args, k)
-        for k in ["name", "password", "email", "team_id", "fullname", "state"]
+        for k in ["name", "password", "email", "fullname", "state"]
     }
     params["fullname"] = params["fullname"] or params["name"]
     params["state"] = active_string(params["state"])
@@ -44,7 +44,6 @@ def update(context, args):
             "name",
             "password",
             "email",
-            "team_id",
             "fullname",
             "state",
             "id",
