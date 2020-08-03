@@ -27,8 +27,6 @@ def test_printer(capsys, runner, team_id):
             "foo@example.org",
             "--password",
             "pass",
-            "--team-id",
-            team_id,
         ]
     )
     print_response(
@@ -47,9 +45,7 @@ def test_printer_verbose(capsys, runner, team_id):
             "--email",
             "foo@example.org",
             "--password",
-            "pass",
-            "--team-id",
-            team_id,
+            "pass"
         ]
     )
     print_response(
@@ -68,9 +64,7 @@ def test_printer_delete(capsys, runner, team_id):
             "--email",
             "todelete@example.org",
             "--password",
-            "pass",
-            "--team-id",
-            team_id,
+            "pass"
         ]
     )["user"]
     result = runner.invoke_raw(["user-delete", user["id"], "--etag", user["etag"]])
