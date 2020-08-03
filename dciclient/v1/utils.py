@@ -16,13 +16,22 @@
 
 import csv
 import json
-import prettytable
 from dciclient.v1.exceptions import BadParameter
 
 try:
     from StringIO import StringIO
 except ImportError:
     from io import StringIO
+
+
+from dciclient.printer import (
+    get_headers_and_sizes_from_data,
+    format_line,
+    format_data_line,
+    format_headers_line,
+    _data_to_string,
+    get_default_console_width,
+)
 
 
 def flatten(d, prefix=""):
@@ -96,20 +105,46 @@ def _sort_headers(headers):
     return sorted_headers
 
 
-def print_prettytable(data, headers=None, skip_columns=[]):
-    data = _tablify_result(data)
-    headers = headers or _find_headers_from_data(data)
+def format_lines_adjusted_to_console(data, options={}, sort_callback=_sort_headers):
+    if not data:
+        return []
+
+    headers = _find_headers_from_data(data)
     headers = _sort_headers(headers)
-    headers = [i for i in headers if i not in skip_columns]
-    table = prettytable.PrettyTable(headers)
 
-    for record in data:
-        row = []
-        for item in headers:
-            row.append(_get_field(record, field_path=item.split("/")))
-        table.add_row(row)
+    if "skip_columns" in options:
+        headers = [i for i in headers if i not in options["skip_columns"]]
 
-    print(table)
+    console_width = (
+        options["console_width"]
+        if "console_width" in options
+        else get_default_console_width()
+    )
+
+    data = _data_to_string(data)
+
+    headers_and_sizes = get_headers_and_sizes_from_data(data, headers, console_width)
+    lines_to_print = []
+    lines_to_print.append(format_line(headers_and_sizes, "top"))
+
+    headers_line = format_headers_line(headers_and_sizes)
+    for string in headers_line:
+        lines_to_print.append(string)
+    lines_to_print.append(format_line(headers_and_sizes, "separator"))
+
+    for row in data[:-1]:
+        data_line = format_data_line(row, headers_and_sizes)
+        for string in data_line:
+            lines_to_print.append(string)
+        lines_to_print.append(format_line(headers_and_sizes, "separator"))
+
+    data_last_row = format_data_line(data[-1], headers_and_sizes)
+    for string in data_last_row:
+        lines_to_print.append(string)
+    lines_to_print.append(format_line(headers_and_sizes, "bottom"))
+
+    for line in lines_to_print:
+        print(line)
 
 
 def sanitize_kwargs(**kwargs):
@@ -159,7 +194,12 @@ def format_output(
             delimiter = "\t" if format == "tsv" else ","
             print_csv(to_display, headers, skip_columns, delimiter=delimiter)
         else:
-            print_prettytable(to_display, headers, skip_columns)
+            format_lines_adjusted_to_console(
+                to_display["topics"],
+                options={
+                    "skip_columns": ["etag", "created_at", "updated_at", "data"],
+                },
+            )
 
 
 def validate_json(ctx, param, value):
