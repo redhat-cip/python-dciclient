@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b23abee_2f958468",
+        "filename": "tests/test_printer_next/test_printer.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 166
+      },
+      "writtenOn": "2020-08-04T10:39:56Z",
+      "side": 1,
+      "message": "the comment disable pep8 checks on this line.",
+      "revId": "07209d8a4aac5eeeeea2b3ae7c2f7cad99c0b0bc",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90995ef7_64f02633",
+        "filename": "tox.ini",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 166
+      },
+      "writtenOn": "2020-08-04T10:39:56Z",
+      "side": 1,
+      "message": "Ignore, just a fix to run pep8 locally.\nsome deps doesn\u0027t build with python3.8",
+      "revId": "07209d8a4aac5eeeeea2b3ae7c2f7cad99c0b0bc",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
