@@ -437,7 +437,7 @@ def parse_arguments(args, environment={}):
     p = subparsers.add_parser(
         "component-list", help="List all components.", parents=[base_parser]
     )
-    p.add_argument("--topic-id", required=True, dest="id")
+    p.add_argument("--topic-id", required=True, dest="topic_id")
     p.add_argument("--sort", default="-created_at")
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
@@ -450,6 +450,7 @@ def parse_arguments(args, environment={}):
     p.add_argument("--name", required=True, help="Name of component")
     p.add_argument("--type", required=True, help="Type of component")
     p.add_argument("--topic-id", required=True, help="Topic ID")
+    p.add_argument("--team-id")
     _create_array_argument(p, "--tags", help="Comma separated list of tags")
     p.add_argument(
         "--canonical_project_name", default=None, help="Canoncial project name."
