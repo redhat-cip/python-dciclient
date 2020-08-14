@@ -18,12 +18,21 @@ from dciclient.v1.utils import active_string
 from dciclient.v1.utils import validate_json
 
 from dciclient.v1.api import component
+from dciclient.v1.api import team
 from dciclient.v1.api import topic
 
 
 def list(context, args):
-    params = {k: getattr(args, k) for k in ["id", "sort", "limit", "offset", "where"]}
-    return topic.list_components(context, **params)
+    _params = ["topic_id", "team_id", "sort", "limit", "offset", "where"]
+    params = {k: getattr(args, k) for k in _params}
+    if 'topic_id' in params and params['topic_id'] is not None:
+        topic_id = params.pop('topic_id')
+        params['id'] = topic_id
+        return topic.list_components(context, **params)
+    if 'team_id' in params and params['team_id'] is not None:
+        team_id = params.pop('team_id')
+        params['id'] = team_id
+        return team.list_components(context, **params)
 
 
 def create(context, args):
@@ -36,6 +45,7 @@ def create(context, args):
             "title",
             "message",
             "url",
+            "team_id",
             "topic_id",
             "state",
             "data",

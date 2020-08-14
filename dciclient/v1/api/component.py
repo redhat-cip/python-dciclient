@@ -24,7 +24,8 @@ def create(
     context,
     name,
     type,
-    topic_id,
+    topic_id=None,
+    team_id=None,
     canonical_project_name=None,
     data={},
     title=None,
@@ -43,6 +44,7 @@ def create(
         message=message,
         url=url,
         topic_id=topic_id,
+        team_id=team_id,
         state=state,
     )
 

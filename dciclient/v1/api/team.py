@@ -28,6 +28,10 @@ def list(context, **kwargs):
     return base.list(context, RESOURCE, **kwargs)
 
 
+def list_components(context, id, **kwargs):
+    return base.list(context, RESOURCE, id=id, subresource="components", **kwargs)
+
+
 def get(context, id, **kwargs):
     return base.get(context, RESOURCE, id=id, **kwargs)
 
