@@ -15,6 +15,7 @@
 # under the License.
 
 from dciclient.v1.api import base
+from dciclient.v1 import utils
 
 
 RESOURCE = "topics"
@@ -105,8 +106,15 @@ def list_teams(context, id, **kwargs):
     return base.list(context, RESOURCE, id=id, subresource="teams", **kwargs)
 
 
-def list_components(context, id, **kwargs):
-    return base.list(context, RESOURCE, id=id, subresource="components", **kwargs)
+def list_components(context, **kwargs):
+    data = utils.sanitize_kwargs(**kwargs)
+    topic_id = data.pop('topic_id')
+    team_id = data.pop('team_id') if 'team_id' in data else None
+
+    uri = "%s/%s/%s/components" % (context.dci_cs_api, RESOURCE, topic_id)
+    if team_id is not None:
+        uri = "%s/%s/%s/%s/components" % (context.dci_cs_api, RESOURCE, topic_id, team_id)  # noqa
+    return context.session.get(uri, timeout=base.HTTP_TIMEOUT, params=data)
 
 
 def list_tests(context, id, **kwargs):

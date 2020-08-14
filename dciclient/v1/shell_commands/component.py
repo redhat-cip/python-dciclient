@@ -22,7 +22,8 @@ from dciclient.v1.api import topic
 
 
 def list(context, args):
-    params = {k: getattr(args, k) for k in ["id", "sort", "limit", "offset", "where"]}
+    _params = ["topic_id", "team_id", "sort", "limit", "offset", "where"]
+    params = {k: getattr(args, k) for k in _params}
     return topic.list_components(context, **params)
 
 
@@ -36,6 +37,7 @@ def create(context, args):
             "title",
             "message",
             "url",
+            "team_id",
             "topic_id",
             "state",
             "data",
