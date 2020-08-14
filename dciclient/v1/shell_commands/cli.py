@@ -450,6 +450,7 @@ def parse_arguments(args, environment={}):
     p.add_argument("--name", required=True, help="Name of component")
     p.add_argument("--type", required=True, help="Type of component")
     p.add_argument("--topic-id", required=True, help="Topic ID")
+    p.add_argument("--team-id")
     _create_array_argument(p, "--tags", help="Comma separated list of tags")
     p.add_argument(
         "--canonical_project_name", default=None, help="Canoncial project name."

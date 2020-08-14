@@ -36,6 +36,7 @@ def create(context, args):
             "title",
             "message",
             "url",
+            "team_id",
             "topic_id",
             "state",
             "data",
