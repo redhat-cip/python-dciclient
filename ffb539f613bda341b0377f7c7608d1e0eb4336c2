@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "181cb374_afa0627e",
+        "filename": "dciclient/v1/shell_commands/cli.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 166
+      },
+      "writtenOn": "2020-08-17T12:35:49Z",
+      "side": 1,
+      "message": "If they\u0027re mutually exclusive, then let\u0027s make explicit\n\u003d\u003e add_mutually_exclusive_group",
+      "revId": "ffb539f613bda341b0377f7c7608d1e0eb4336c2",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
