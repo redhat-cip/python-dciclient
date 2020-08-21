@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c737c69_b72ab261",
+        "filename": "dciclient/v1/api/topic.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 648
+      },
+      "writtenOn": "2020-08-21T14:02:06Z",
+      "side": 1,
+      "message": "use team_id \u003d data.get(\u0027team_id\u0027)",
+      "revId": "f2f8d36174c569f86237a9989d544c8cfc75b388",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afc956b9_bc230807",
+        "filename": "dciclient/v1/shell_commands/cli.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 648
+      },
+      "writtenOn": "2020-08-21T14:02:06Z",
+      "side": 1,
+      "message": "you don\u0027t need dest unless you want to change the name of the variable",
+      "revId": "f2f8d36174c569f86237a9989d544c8cfc75b388",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2fc359c_0827e069",
+        "filename": "dciclient/v1/shell_commands/cli.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 648
+      },
+      "writtenOn": "2020-08-21T14:02:06Z",
+      "side": 1,
+      "message": "duplicate?",
+      "revId": "f2f8d36174c569f86237a9989d544c8cfc75b388",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe0563b3_d2d3481f",
+        "filename": "dciclient/v1/shell_commands/component.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 648
+      },
+      "writtenOn": "2020-08-21T14:02:06Z",
+      "side": 1,
+      "message": "do you really need _params? I guess it is more readable this way.",
+      "revId": "f2f8d36174c569f86237a9989d544c8cfc75b388",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
