@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d2c82e5_507811d2",
+        "filename": "dciclient/v1/tablify.py",
+        "patchSetId": 25
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2020-09-02T12:28:31Z",
+      "side": 1,
+      "message": "not sure about 80 as a default, maybe it should be set to a very large value or disable the wrapping when it can\u0027t be read.",
+      "range": {
+        "startLine": 260,
+        "startChar": 0,
+        "endLine": 261,
+        "endChar": 21
+      },
+      "revId": "2f3f8fbce053b68fe33bea1caa778767863a799a",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "040447e6_0faeaab5",
+        "filename": "dciclient/v1/utils.py",
+        "patchSetId": 25
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2020-09-02T12:28:31Z",
+      "side": 1,
+      "message": "IMHO if the output is not a tty (e.g. piping to another command or writing to a file), the output should not be limited so that commands like awk or cut can be used.\n\nHowever maybe using csv or tsv should be encouraged for this purpose ?\n\nThere should also be an option/env var to disable the long-data wrapping completely or orverride the console width.",
+      "range": {
+        "startLine": 153,
+        "startChar": 20,
+        "endLine": 153,
+        "endChar": 65
+      },
+      "revId": "2f3f8fbce053b68fe33bea1caa778767863a799a",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
