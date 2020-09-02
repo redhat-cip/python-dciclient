@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2015-2017 Red Hat, Inc
+# Copyright (C) 2015-2020 Red Hat, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -16,8 +16,11 @@
 
 import csv
 import json
-import prettytable
 from dciclient.v1.exceptions import BadParameter
+from dciclient.v1.tablify import (
+    format_lines_adjusted_to_console,
+    get_default_console_width,
+)
 
 try:
     from StringIO import StringIO
@@ -43,10 +46,6 @@ def print_json(result_json):
 
 def print_csv(data, headers, skip_columns, delimiter=","):
     f = StringIO()
-    data = _tablify_result(data)
-    headers = headers or _find_headers_from_data(data)
-    headers = _sort_headers(headers)
-    headers = [i for i in headers if i not in skip_columns]
     data = [{k: v for k, v in d.items() if k not in skip_columns} for d in data]
     output = csv.DictWriter(f, headers, delimiter=delimiter)
     output.writerows(data)
@@ -96,22 +95,6 @@ def _sort_headers(headers):
     return sorted_headers
 
 
-def print_prettytable(data, headers=None, skip_columns=[]):
-    data = _tablify_result(data)
-    headers = headers or _find_headers_from_data(data)
-    headers = _sort_headers(headers)
-    headers = [i for i in headers if i not in skip_columns]
-    table = prettytable.PrettyTable(headers)
-
-    for record in data:
-        row = []
-        for item in headers:
-            row.append(_get_field(record, field_path=item.split("/")))
-        table.add_row(row)
-
-    print(table)
-
-
 def sanitize_kwargs(**kwargs):
     boolean_fields = ["active"]
 
@@ -155,11 +138,24 @@ def format_output(
             result = values[0]
     to_display = result[item] if item else result
     if to_display:
+        data = _tablify_result(to_display)
+        headers = headers or _find_headers_from_data(data)
+        headers = _sort_headers(headers)
+        headers = [i for i in headers if i not in skip_columns]
         if format in ["csv", "tsv"]:
             delimiter = "\t" if format == "tsv" else ","
-            print_csv(to_display, headers, skip_columns, delimiter=delimiter)
+            print_csv(data, headers, skip_columns, delimiter=delimiter)
         else:
-            print_prettytable(to_display, headers, skip_columns)
+            lines_to_print = format_lines_adjusted_to_console(
+                data,
+                options={
+                    "headers": headers,
+                    "console_width": get_default_console_width(),
+                },
+            )
+
+            for line in lines_to_print:
+                print(line)
 
 
 def validate_json(ctx, param, value):
