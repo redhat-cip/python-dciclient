@@ -31,6 +31,7 @@ def create(
     message=None,
     url=None,
     state="active",
+    tags=[]
 ):
     return base.create(
         context,
@@ -44,6 +45,7 @@ def create(
         url=url,
         topic_id=topic_id,
         state=state,
+        tags=tags
     )
 
 
@@ -114,5 +116,5 @@ def add_tag(context, id, name):
     return add_tag_to_resource(context, RESOURCE, id, name)
 
 
-def delete_tag(context, id, tag_id):
-    return delete_tag_from_resource(context, RESOURCE, id, tag_id)
+def delete_tag(context, id, name):
+    return delete_tag_from_resource(context, RESOURCE, id, name)

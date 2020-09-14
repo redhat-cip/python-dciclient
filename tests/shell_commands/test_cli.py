@@ -246,3 +246,46 @@ def test_verbose():
         ]
     )
     assert args.verbose is True
+
+
+def test_csv():
+    args = parse_arguments(
+        [
+            "component-create",
+            "--name",
+            "RHEL-8",
+            "--type",
+            "compose",
+            "--topic-id",
+            "t1",
+            "--tags",
+            "t1,t2,t3"
+        ]
+    )
+    assert args.tags == ['t1', 't2', 't3']
+    args = parse_arguments(
+        [
+            "component-create",
+            "--name",
+            "RHEL-8",
+            "--type",
+            "compose",
+            "--tags",
+            "t4, t2 ,t3",
+            "--topic-id",
+            "t1"
+        ]
+    )
+    assert args.tags == ['t4', 't2', 't3']
+    args = parse_arguments(
+        [
+            "component-create",
+            "--name",
+            "RHEL-8",
+            "--type",
+            "compose",
+            "--topic-id",
+            "t1"
+        ]
+    )
+    assert args.tags == []

@@ -17,38 +17,21 @@
 from dciclient.v1.api import base
 
 
-RESOURCE = "tags"
+def add_tag_to_resource(context, resource_name, id, tag_name):
+    r = base.get(context, resource_name, id=id)
+    resource_name_singular = resource_name[:-1]
+    resource = r.json()[resource_name_singular]
+    tags = resource["tags"]
+    if tag_name not in tags:
+        tags.append(tag_name)
+    return base.update(context, resource_name, id=id, etag=resource["etag"], tags=tags)
 
 
-def create(context, name):
-    return base.create(context, RESOURCE, name=name)
-
-
-def add_tag_to_resource(context, resource, id, name):
-    uri = "%s/%s/%s/tags" % (context.dci_cs_api, resource, id)
-    return context.session.post(uri, json={"name": name})
-
-
-def list(context):
-    return base.get(context, RESOURCE)
-
-
-def delete_tag_from_resource(context, resource, id, tag_id, tag_name=None):
-    if tag_name is None:
-        return base.delete(
-            context,
-            resource,
-            id,
-            subresource="tags",
-            subresource_id=tag_id)
-    else:
-        return base.delete(
-            context,
-            resource,
-            id,
-            subresource="tags",
-            json={"name": tag_name})
-
-
-def delete(context, id):
-    return base.delete(context, RESOURCE, id)
+def delete_tag_from_resource(context, resource_name, id, tag_name):
+    r = base.get(context, resource_name, id=id)
+    resource_name_singular = resource_name[:-1]
+    resource = r.json()[resource_name_singular]
+    tags = resource["tags"]
+    if tag_name in tags:
+        tags.remove(tag_name)
+    return base.update(context, resource_name, id=id, etag=resource["etag"], tags=tags)
