@@ -29,6 +29,15 @@ def _create_boolean_flags(parser, flags, default, dest=None):
     group.add_argument(flags[1], action="store_false", dest=dest)
 
 
+def _create_array_argument(parser, argument_name, help):
+    parser.add_argument(
+        argument_name,
+        type=lambda x: [v.strip() for v in x.split(",")],
+        help=help,
+        default=[],
+    )
+
+
 def parse_arguments(args, environment={}):
     base_parser = ArgumentParser(add_help=False)
     base_parser.add_argument("--verbose", "--long", default=False, action="store_true")
@@ -440,13 +449,14 @@ def parse_arguments(args, environment={}):
     )
     p.add_argument("--name", required=True, help="Name of component")
     p.add_argument("--type", required=True, help="Type of component")
+    p.add_argument("--topic-id", required=True, help="Topic ID")
+    _create_array_argument(p, "--tags", help="Comma separated list of tags")
     p.add_argument(
         "--canonical_project_name", default=None, help="Canoncial project name."
     )
     p.add_argument("--title", help="Title of component")
     p.add_argument("--message", help="Component message")
     p.add_argument("--url", help="URL to look for the component")
-    p.add_argument("--topic-id", required=True, help="Topic ID")
     _create_boolean_flags(p, "--active/--no-active", default=True, dest="state")
     p.add_argument("--data", default="{}", help="Data to pass (JSON)")
     p.set_defaults(command="component-create")
