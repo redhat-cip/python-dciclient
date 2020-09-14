@@ -36,11 +36,40 @@ def test_success_download_component_file_returns_http_response(
     assert res is None
 
 
-def test_add_tag(dci_context, component_id):
-    res = component.add_tag(dci_context, component_id, "tag 1")
-    assert res.status_code == 201
+def test_add_tags_with_an_update(dci_context, component_id):
+    r = component.get(dci_context, component_id)
+    data = r.json()["component"]
+    assert r.status_code == 200
+    assert data["tags"] == []
+    r = component.update(
+        dci_context, component_id, etag=data["etag"], tags=["t1", "t2"]
+    )
+    assert r.status_code == 200
+    assert r.json()["component"]["tags"] == ["t1", "t2"]
 
-# def test_delete_tag(dci_context, component_id):
-#    tag = component.add_tag(dci_context, component_id, "tag 1").json()["tag"]
-#    res = component.delete_tag(dci_context, component_id, tag["id"])
-#    assert res.status_code == 204
+
+def test_add_tag(dci_context, component_id):
+    r = component.get(dci_context, component_id)
+    assert r.status_code == 200
+    assert r.json()["component"]["tags"] == []
+    r = component.add_tag(dci_context, component_id, "tag 1")
+    assert r.status_code == 200
+    assert r.json()["component"]["tags"] == ["tag 1"]
+    r = component.add_tag(dci_context, component_id, "tag 2")
+    assert r.status_code == 200
+    assert r.json()["component"]["tags"] == ["tag 1", "tag 2"]
+
+
+def test_delete_tags(dci_context, component_id):
+    r = component.add_tag(dci_context, component_id, "tag 1")
+    r = component.add_tag(dci_context, component_id, "tag 2")
+    assert r.json()["component"]["tags"] == ["tag 1", "tag 2"]
+    r = component.delete_tag(dci_context, component_id, "tag 1")
+    assert r.status_code == 200
+    assert r.json()["component"]["tags"] == ["tag 2"]
+    r = component.delete_tag(dci_context, component_id, "tag 2")
+    assert r.status_code == 200
+    assert r.json()["component"]["tags"] == []
+    r = component.delete_tag(dci_context, component_id, "tag 2")
+    assert r.status_code == 200
+    assert r.json()["component"]["tags"] == []

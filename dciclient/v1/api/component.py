@@ -31,6 +31,7 @@ def create(
     message=None,
     url=None,
     state="active",
+    tags=[]
 ):
     return base.create(
         context,
@@ -44,6 +45,7 @@ def create(
         url=url,
         topic_id=topic_id,
         state=state,
+        tags=tags
     )
 
 
@@ -51,7 +53,9 @@ def get(context, id, **kwargs):
     return base.get(context, RESOURCE, id=id, **kwargs)
 
 
-def update(context, id=None, etag=None, name=None, content=None, state=None, data=None):
+def update(
+    context, id=None, etag=None, name=None, content=None, state=None, data=None, tags=[]
+):
     return base.update(
         context,
         RESOURCE,
@@ -61,6 +65,7 @@ def update(context, id=None, etag=None, name=None, content=None, state=None, dat
         content=content,
         state=state,
         data=data,
+        tags=tags
     )
 
 
@@ -114,5 +119,5 @@ def add_tag(context, id, name):
     return add_tag_to_resource(context, RESOURCE, id, name)
 
 
-def delete_tag(context, id, tag_id):
-    return delete_tag_from_resource(context, RESOURCE, id, tag_id)
+def delete_tag(context, id, name):
+    return delete_tag_from_resource(context, RESOURCE, id, name)

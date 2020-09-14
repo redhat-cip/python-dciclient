@@ -164,24 +164,6 @@ def test_job_output(runner, job_id):
     assert result[0].startswith("pre-run")
 
 
-def test_tags(runner, job_id):
-    tags = runner.invoke(["job-list-tags", job_id])["tags"]
-    assert len(tags) == 0
-    runner.invoke(["job-add-tag", job_id, "foo"])
-    tags = runner.invoke(["job-list-tags", job_id])["tags"]
-    assert len(tags) == 1
-    tag_id = None
-    if isinstance(tags[0], dict):
-        assert tags[0]['name'] == "foo"
-        tag_id = tags[0]['id']
-    else:
-        assert tags[0] == "foo"
-    runner.invoke_raw(["job-delete-tag", job_id, tag_id, None])
-    runner.invoke_raw(["job-delete-tag", job_id, None, "foo"])
-    tags = runner.invoke(["job-list-tags", job_id])["tags"]
-    assert len(tags) == 0
-
-
 def test_file_support(runner, tmpdir, job_id):
     td = tmpdir
     p = td.join("hello.txt")

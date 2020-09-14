@@ -5,8 +5,8 @@
 %endif
 
 Name:           python-dciclient
-Version:        1.0.4
-Release:        2.VERS%{?dist}
+Version:        2.0.0
+Release:        1.VERS%{?dist}
 
 Summary:        Python client for DCI control server
 License:        ASL 2.0
@@ -100,11 +100,15 @@ install -d %{buildroot}%{_bindir}
 
 
 %changelog
+* Mon Sep 14 2020 Guillaume Vincent <gvincent@redhat.com> - 2.0.0-1
+- Breaking change: remove capability to manipulate job tags directly in the cli.
+- Breaking change: job.delete_tag and component.delete_tag api change.
+
 * Thu Jun 04 2020 Bill Peck <bpeck@redhat.com> - 1.0.4-2
 - Rebuild for RHEL-8
 
 * Tue May 26 2020 Guillaume Vincent <gvincent@redhat.com> - 1.0.4-1
-- Dont print output if no content or no respopnse
+- Dont print output if no content or no response
 
 * Tue May 12 2020 Guillaume Vincent <gvincent@redhat.com> - 1.0.3-1
 - Fix file download issue
