@@ -46,6 +46,10 @@ def test_add_tags_with_an_update(dci_context, component_id):
     )
     assert r.status_code == 200
     assert r.json()["component"]["tags"] == ["t1", "t2"]
+    etag = r.json()["component"]["etag"]
+    r = component.update(dci_context, component_id, etag=etag)
+    assert r.status_code == 200
+    assert r.json()["component"]["tags"] == ["t1", "t2"]
 
 
 def test_add_tag(dci_context, component_id):

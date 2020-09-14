@@ -54,7 +54,14 @@ def get(context, id, **kwargs):
 
 
 def update(
-    context, id=None, etag=None, name=None, content=None, state=None, data=None, tags=[]
+    context,
+    id=None,
+    etag=None,
+    name=None,
+    content=None,
+    state=None,
+    data=None,
+    tags=None,
 ):
     return base.update(
         context,
