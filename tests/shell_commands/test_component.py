@@ -71,9 +71,12 @@ def test_create(runner, product_id):
             "foobar",
             "--topic-id",
             topic["id"],
+            "--tags",
+            "tag1,tag2",
         ]
     )["component"]
     assert component["name"] == "foo"
+    assert component["tags"] == ["tag1", "tag2"]
 
 
 def test_create_inactive(runner, product_id):
