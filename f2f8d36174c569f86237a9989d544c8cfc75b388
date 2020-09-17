@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "3e9258eb_fdec5490",
+        "filename": "dciclient/v1/shell_commands/cli.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2020-09-17T18:45:10Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "afc956b9_bc230807",
+      "revId": "f2f8d36174c569f86237a9989d544c8cfc75b388",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2fc359c_0827e069",
         "filename": "dciclient/v1/shell_commands/cli.py",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2020-08-21T14:02:06Z",
       "side": 1,
       "message": "duplicate?",
+      "revId": "f2f8d36174c569f86237a9989d544c8cfc75b388",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef4832e4_c322b9d7",
+        "filename": "dciclient/v1/shell_commands/cli.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 29
+      },
+      "writtenOn": "2020-09-17T18:45:10Z",
+      "side": 1,
+      "message": "yea",
+      "parentUuid": "b2fc359c_0827e069",
       "revId": "f2f8d36174c569f86237a9989d544c8cfc75b388",
       "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
       "unresolved": false
