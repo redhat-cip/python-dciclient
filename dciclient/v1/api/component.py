@@ -32,7 +32,8 @@ def create(
     message=None,
     url=None,
     state="active",
-    tags=[]
+    tags=[],
+    released_at=None,
 ):
     return base.create(
         context,
@@ -47,7 +48,8 @@ def create(
         topic_id=topic_id,
         team_id=team_id,
         state=state,
-        tags=tags
+        tags=tags,
+        released_at=released_at,
     )
 
 
@@ -64,6 +66,7 @@ def update(
     state=None,
     data=None,
     tags=None,
+    released_at=None,
 ):
     return base.update(
         context,
@@ -74,7 +77,8 @@ def update(
         content=content,
         state=state,
         data=data,
-        tags=tags
+        tags=tags,
+        released_at=None,
     )
 
 
