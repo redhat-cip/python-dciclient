@@ -40,7 +40,8 @@ def create(context, args):
             "topic_id",
             "state",
             "data",
-            "tags"
+            "tags",
+            "released_at"
         ]
     }
     params["data"] = validate_json(context, "data", params["data"])

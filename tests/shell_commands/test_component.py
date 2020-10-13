@@ -73,10 +73,13 @@ def test_create(runner, product_id):
             topic["id"],
             "--tags",
             "tag1,tag2",
+            "--released-at",
+            "2020-08-29T10:33:57.914078"
         ]
     )["component"]
     assert component["name"] == "foo"
     assert component["tags"] == ["tag1", "tag2"]
+    assert component["released_at"] == "2020-08-29T10:33:57.914078"
 
 
 def test_create_inactive(runner, product_id):

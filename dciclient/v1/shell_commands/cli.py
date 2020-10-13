@@ -15,6 +15,7 @@
 # under the License.
 
 from argparse import ArgumentParser
+from datetime import datetime
 from dciclient.version import __version__
 
 _default_dci_cs_url = "http://127.0.0.1:5000"
@@ -36,6 +37,13 @@ def _create_array_argument(parser, argument_name, help):
         help=help,
         default=[],
     )
+
+
+def _date_isoformat(v):
+    try:
+        datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
+    except ValueError:
+        raise argparse.ArgumentTypeError("'%s' is not an iso format date" % v)
 
 
 def parse_arguments(args, environment={}):
@@ -460,6 +468,7 @@ def parse_arguments(args, environment={}):
     p.add_argument("--url", help="URL to look for the component")
     _create_boolean_flags(p, "--active/--no-active", default=True, dest="state")
     p.add_argument("--data", default="{}", help="Data to pass (JSON)")
+    p.add_argument('--released-at', default=None, type=_date_isoformat)
     p.set_defaults(command="component-create")
 
     p = subparsers.add_parser(
