@@ -41,7 +41,8 @@ def create(context, args):
             "state",
             "data",
             "tags",
-            "released_at"
+            "released_at",
+            "job_id"
         ]
     }
     params["data"] = validate_json(context, "data", params["data"])

@@ -33,7 +33,8 @@ def create(
     url=None,
     state="active",
     tags=[],
-    released_at=None
+    released_at=None,
+    job_id=None
 ):
     return base.create(
         context,
@@ -49,7 +50,8 @@ def create(
         team_id=team_id,
         state=state,
         tags=tags,
-        released_at=released_at
+        released_at=released_at,
+        job_id=job_id
     )
 
 
