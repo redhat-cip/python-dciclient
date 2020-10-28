@@ -87,6 +87,12 @@ def iter(context, **kwargs):
     return base.iter(context, RESOURCE, **kwargs)
 
 
+def add_component(context, job_id, component_id):
+    uri = "%s/%s/%s/components" % (context.dci_cs_api, RESOURCE, job_id)
+    data = {'id': component_id}
+    return context.session.post(uri, json=data)
+
+
 def get_components(context, id):
     uri = "%s/%s/%s/components" % (context.dci_cs_api, RESOURCE, id)
     return context.session.get(uri)
