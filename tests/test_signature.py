@@ -25,13 +25,13 @@ import tests.shell_commands.utils as utils
 def make_blank_session(server):
     s = requests.Session()
     flask_adapter = utils.FlaskHTTPAdapter(server.test_client())
-    s.mount("http://dciserver.com", flask_adapter)
+    s.mount("http://localhost", flask_adapter)
     return s
 
 
 def test_get_job_with_no_auth_fails(server, job_id):
     s = make_blank_session(server)
-    r = s.get("http://dciserver.com/api/v1/jobs/%s" % job_id)
+    r = s.get("http://localhost/api/v1/jobs/%s" % job_id)
     assert r.status_code == 401
 
 
@@ -43,7 +43,7 @@ def test_get_job_with_signature_succeeds(
         client_type="remoteci", client_id=remoteci_id, secret=remoteci_api_secret
     )
     s = make_blank_session(server)
-    r = s.get("http://dciserver.com/api/v1/jobs/%s" % job_id, headers=headers)
+    r = s.get("http://localhost/api/v1/jobs/%s" % job_id, headers=headers)
     assert r.status_code == 200
 
 
@@ -79,7 +79,7 @@ def test_server_url_with_trailing_slash(
     dci_context = signature_context_factory(
         client_id=remoteci_id,
         api_secret=remoteci_api_secret,
-        url="http://dciserver.com/",
+        url="http://localhost/",
     )
 
     r = job.get(dci_context, job_id)
