@@ -5,7 +5,7 @@
 %endif
 
 Name:           python-dciclient
-Version:        2.0.1
+Version:        2.0.2
 Release:        1.VERS%{?dist}
 
 Summary:        Python client for DCI control server
@@ -96,6 +96,9 @@ install -d %{buildroot}%{_bindir}
 
 
 %changelog
+* Fri Dec 04 2020 Guillaume Vincent <gvincent@redhat.com> - 2.0.2-1
+- Use HMAC version 2 mechanism on python dciclient
+
 * Mon Nov 02 2020 Haïkel Guémar <hguemar@fedoraproject.org> - 2.0.1-1
 - Remove PyYAML
 
