@@ -11,11 +11,8 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations
 # under the License.
-import json
-
 import os
 import os.path
-from requests import compat
 
 try:
     from urlparse import parse_qsl
@@ -28,8 +25,7 @@ from requests.adapters import HTTPAdapter
 from requests.auth import AuthBase
 from requests.packages.urllib3.util.retry import Retry
 
-from dciauth.request import AuthRequest
-from dciauth.signature import Signature
+from dciauth.v2.headers import generate_headers
 from dciclient import version
 
 
@@ -103,32 +99,29 @@ class DciSignatureAuth(AuthBase):
 
     def __call__(self, r):
         url = urlparse(r.url)
-        params = dict(parse_qsl(url.query))
-        payload = self.get_payload(r)
-        request = AuthRequest(
-            method=r.method,
-            endpoint=url.path,
-            headers=r.headers,
-            params=params,
-            payload=payload,
+        r.headers.update(
+            generate_headers(
+                {
+                    "method": r.method,
+                    "endpoint": url.path,
+                    "params": dict(parse_qsl(url.query)),
+                    "host": url.netloc,
+                    "data": self.get_body(r.body),
+                },
+                {
+                    "access_key": "%s/%s" % (self.client_type, self.client_id),
+                    "secret_key": self.api_secret,
+                },
+            )
         )
-        headers = Signature(request).generate_headers(
-            client_type=self.client_type,
-            client_id=self.client_id,
-            secret=self.api_secret,
-        )
-        r.headers.update(headers)
         return r
 
-    def get_payload(self, r):
-        try:
-            if isinstance(r.body, compat.bytes):
-                body = r.body.decode("utf-8")
-            else:
-                body = r.body
-            return dict(json.loads(body or "{}"))
-        except TypeError:
-            return {}
+    def get_body(self, body):
+        if hasattr(body, "read"):
+            c = body.read()
+            body.seek(0)
+            return c
+        return body
 
 
 class DciSignatureContext(DciContextBase):
