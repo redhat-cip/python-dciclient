@@ -5,7 +5,7 @@
 %endif
 
 Name:           python-dciclient
-Version:        2.0.0
+Version:        2.0.1
 Release:        1.VERS%{?dist}
 
 Summary:        Python client for DCI control server
@@ -96,6 +96,9 @@ install -d %{buildroot}%{_bindir}
 
 
 %changelog
+* Mon Nov 02 2020 Haïkel Guémar <hguemar@fedoraproject.org> - 2.0.1-1
+- Remove PyYAML
+
 * Mon Sep 14 2020 Guillaume Vincent <gvincent@redhat.com> - 2.0.0-1
 - Breaking change: remove capability to manipulate job tags directly in the cli.
 - Breaking change: job.delete_tag and component.delete_tag api change.
