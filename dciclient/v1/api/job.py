@@ -36,7 +36,8 @@ def create(
         comment=comment,
         previous_job_id=previous_job_id,
     )
-    context.last_job_id = job.json()["job"]["id"]
+    if job.status_code == 201:
+        context.last_job_id = job.json()["job"]["id"]
     return job
 
 
