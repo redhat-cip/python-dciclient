@@ -25,8 +25,8 @@ RESOURCE = "jobs"
 
 
 def create(
-    context, topic_id, team_id=None, components=None, comment=None, previous_job_id=None
-):
+    context, topic_id, team_id=None, components=None, comment=None,
+    previous_job_id=None, data=None):
     job = base.create(
         context,
         RESOURCE,
@@ -35,6 +35,7 @@ def create(
         components=components,
         comment=comment,
         previous_job_id=previous_job_id,
+        data=data
     )
     if job.status_code == 201:
         context.last_job_id = job.json()["job"]["id"]
