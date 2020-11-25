@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca322d95_ad48fa69",
+        "filename": "dciclient/v1/api/job.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 166
+      },
+      "writtenOn": "2020-11-25T17:28:00Z",
+      "side": 1,
+      "message": "line too long by one character, failing pep8",
+      "revId": "695c296f688b39be49aa9192be48640df905a34b",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
