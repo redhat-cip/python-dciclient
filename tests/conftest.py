@@ -155,7 +155,7 @@ def context_factory(
     db_provisioning,
     login,
     password,
-    url="http://localhost",
+    url="http://dciserver.com",
     user_agent=None,
 ):
     extras = {}
@@ -212,7 +212,7 @@ def signature_context_factory(
     db_provisioning,
     client_id=None,
     api_secret=None,
-    url="http://localhost",
+    url="http://dciserver.com",
     user_agent=None,
 ):
     def f(
