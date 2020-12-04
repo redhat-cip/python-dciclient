@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d428b45_76c76cba",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2020-12-04T14:34:55Z",
+      "side": 1,
+      "message": "no decoding should happen here (plain binary data should be hashed)",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 42
+      },
+      "revId": "a4e098a1dad2ab58f7077770341c17059db45e48",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e628840_48eee257",
+        "filename": "dciclient/v1/api/context.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2020-12-04T14:34:55Z",
+      "side": 1,
+      "message": "same here, body should be *bytes*",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 43
+      },
+      "revId": "a4e098a1dad2ab58f7077770341c17059db45e48",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
