@@ -193,7 +193,7 @@ def test_refresh_remoteci_keys(runner, remoteci_id):
     with mock.patch("requests.sessions.Session.put") as post_mock:
         post_mock.return_value = '{"key": "XXX", "cert": "XXX" }'
         runner.invoke_raw(["remoteci-refresh-keys", remoteci_id, "--etag", "XX"])
-        url = "http://localhost/api/v1/remotecis/%s/keys" % remoteci_id
+        url = "http://dciserver.com/api/v1/remotecis/%s/keys" % remoteci_id
         post_mock.assert_called_once_with(
             url, headers={"If-match": "XX"}, json={}, timeout=600
         )
