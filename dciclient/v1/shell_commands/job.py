@@ -21,33 +21,33 @@ from dciclient.v1.api import job
 def list(context, args):
     params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
     params["embed"] = "topic,remoteci,team"
-    return job.list(context, **params)
+    return job.list(context, **params), None
 
 
 def show(context, args):
-    return job.get(context, id=args.id)
+    return job.get(context, id=args.id), None
 
 
 def delete(context, args):
-    return job.delete(context, id=args.id, etag=args.etag)
+    return job.delete(context, id=args.id, etag=args.etag), None
 
 
 def list_results(context, args):
     params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "id"]}
-    return job.list_results(context, **params)
+    return job.list_results(context, **params), None
 
 
 def attach_issue(context, args):
-    return job.attach_issue(context, id=args.id, url=args.url)
+    return job.attach_issue(context, id=args.id, url=args.url), None
 
 
 def unattach_issue(context, args):
-    return job.unattach_issue(context, id=args.id, issue_id=args.issue_id)
+    return job.unattach_issue(context, id=args.id, issue_id=args.issue_id), None
 
 
 def list_issues(context, args):
     params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "id", "where"]}
-    return job.list_issues(context, **params)
+    return job.list_issues(context, **params), None
 
 
 def output(context, args):
@@ -61,12 +61,12 @@ def output(context, args):
         )
         for f in f_l.json()["files"]:
             res.append(dci_file.content(context, id=f["id"]).text)
-    return res
+    return res, None
 
 
 def list_tests(context, args):
     params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "id", "where"]}
-    return job.list_tests(context, **params)
+    return job.list_tests(context, **params), None
 
 
 def file_upload(context, args):
@@ -74,7 +74,7 @@ def file_upload(context, args):
         k: getattr(args, k)
         for k in ["job_id", "name", "file_path", "jobstate_id", "test_id", "mime"]
     }
-    return dci_file.create_with_stream(context, **params)
+    return dci_file.create_with_stream(context, **params), None
 
 
 def file_download(context, args):
@@ -83,14 +83,14 @@ def file_download(context, args):
 
 
 def file_show(context, args):
-    return dci_file.get(context, id=args.file_id)
+    return dci_file.get(context, id=args.file_id), None
 
 
 def file_list(context, args):
     params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "id", "where"]}
-    return job.list_files(context, **params)
+    return job.list_files(context, **params), None
 
 
 def file_delete(context, args):
     dci_file.delete(context, id=args.file_id)
-    return dci_file.delete(context, id=args.file_id)
+    return dci_file.delete(context, id=args.file_id), None

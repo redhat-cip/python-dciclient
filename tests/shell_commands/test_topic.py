@@ -22,9 +22,7 @@ def test_list(runner, product_id):
     runner.invoke(["topic-create", "--name", "ovirt", "--product-id", product_id])
     topics = runner.invoke(["topic-list"])["topics"]
 
-    assert len(topics) == 2
-    # assert topics[0]['name'] == 'ovirt'
-    # assert topics[1]['name'] == 'osp'
+    assert set(['ovirt', 'osp']) == set([t['name'] for t in topics])
 
 
 def test_create(runner, product_id):
@@ -115,7 +113,7 @@ def test_delete(runner, product_id):
     topic = runner.invoke(
         ["topic-create", "--name", "osp", "--product-id", product_id]
     )["topic"]
-    result = runner.invoke_raw(["topic-delete", topic["id"]])
+    result, _ = runner.invoke_raw(["topic-delete", topic["id"]])
 
     assert result.status_code == 204
 

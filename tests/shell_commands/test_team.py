@@ -43,12 +43,12 @@ def test_create_inactive(runner):
 
 
 def test_create_fail_unauthorized_user_admin(runner_user_admin):
-    team = runner_user_admin.invoke_raw(["team-create", "--name", "foo"])
+    team, _ = runner_user_admin.invoke_raw(["team-create", "--name", "foo"])
     assert team.status_code == 401
 
 
 def test_create_fail_unauthorized_user(runner_user):
-    team = runner_user.invoke_raw(["team-create", "--name", "foo"])
+    team, _ = runner_user.invoke_raw(["team-create", "--name", "foo"])
     assert team.status_code == 401
 
 
@@ -116,7 +116,7 @@ def test_update_team_external(runner):
 def test_delete(runner):
     team = runner.invoke(["team-create", "--name", "foo"])["team"]
 
-    result = runner.invoke_raw(["team-delete", team["id"], "--etag", team["etag"]])
+    result, _ = runner.invoke_raw(["team-delete", team["id"], "--etag", team["etag"]])
 
     assert result.status_code == 204
 

@@ -119,7 +119,7 @@ def test_delete(runner):
         ["remoteci-create", "--name", "foo", "--team-id", team["id"]]
     )["remoteci"]
 
-    result = runner.invoke_raw(
+    result, _ = runner.invoke_raw(
         ["remoteci-delete", remoteci["id"], "--etag", remoteci["etag"]]
     )
 

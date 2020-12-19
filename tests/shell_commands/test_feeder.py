@@ -74,7 +74,7 @@ def test_delete(runner):
         "feeder"
     ]
 
-    result = runner.invoke_raw(
+    result, _ = runner.invoke_raw(
         ["feeder-delete", feeder["id"], "--etag", feeder["etag"]]
     )
 

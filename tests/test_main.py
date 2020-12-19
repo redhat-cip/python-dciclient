@@ -24,6 +24,7 @@ import sys
 def test_build_valid_remoteci_context(
     mock_run, mock_printer, remoteci_id, remoteci_api_secret
 ):
+    mock_run.return_value = None, None
     test_args = [
         "dcictl",
         "--dci-client-id",

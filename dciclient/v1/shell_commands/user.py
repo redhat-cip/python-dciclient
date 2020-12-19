@@ -17,10 +17,14 @@
 from dciclient.v1.api import user
 from dciclient.v1.utils import active_string
 
+_HEADERS = ["id", "created_at", "updated_at", "etag", "name",
+            "sso_username", "fullname", "email", "password",
+            "timezone", "state"]
+
 
 def list(context, args):
     params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
-    return user.list(context, **params)
+    return user.list(context, **params), _HEADERS
 
 
 def create(context, args):
@@ -30,11 +34,11 @@ def create(context, args):
     }
     params["fullname"] = params["fullname"] or params["name"]
     params["state"] = active_string(params["state"])
-    return user.create(context, **params)
+    return user.create(context, **params), _HEADERS
 
 
 def show(context, args):
-    return user.get(context, args.id)
+    return user.get(context, args.id), _HEADERS
 
 
 def update(context, args):
@@ -52,8 +56,8 @@ def update(context, args):
     }
     params["fullname"] = params["fullname"] or params["name"]
     params["state"] = active_string(params["state"])
-    return user.update(context, **params)
+    return user.update(context, **params), _HEADERS
 
 
 def delete(context, args):
-    return user.delete(context, args.id, args.etag)
+    return user.delete(context, args.id, args.etag), _HEADERS

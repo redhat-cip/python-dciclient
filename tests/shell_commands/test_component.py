@@ -126,7 +126,7 @@ def test_delete(runner, product_id):
         ]
     )["component"]
 
-    result = runner.invoke_raw(["component-delete", component["id"]])
+    result, _ = runner.invoke_raw(["component-delete", component["id"]])
 
     assert result.status_code == 204
 
@@ -208,7 +208,7 @@ def test_file_support(runner, tmpdir, product_id):
     runner.invoke_raw(
         ["component-file-delete", component["id"], "--file-id", new_f["id"]]
     )
-    result = runner.invoke_raw(
+    result, _ = runner.invoke_raw(
         ["component-file-show", component["id"], "--file-id", new_f["id"]]
     )
     assert result.status_code == 404

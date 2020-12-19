@@ -20,13 +20,13 @@ from dciclient.v1.api import team
 
 def list(context, args):
     params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
-    return team.list(context, **params)
+    return team.list(context, **params), None
 
 
 def create(context, args):
     params = {k: getattr(args, k) for k in ["name", "country", "state"]}
     params["state"] = active_string(params["state"])
-    return team.create(context, **params)
+    return team.create(context, **params), None
 
 
 def update(context, args):
@@ -35,12 +35,12 @@ def update(context, args):
         for k in ["id", "name", "country", "state", "etag", "external"]
     }
     params["state"] = active_string(params["state"])
-    return team.update(context, **params)
+    return team.update(context, **params), None
 
 
 def delete(context, args):
-    return team.delete(context, args.id, etag=args.etag)
+    return team.delete(context, args.id, etag=args.etag), None
 
 
 def show(context, args):
-    return team.get(context, args.id)
+    return team.get(context, args.id), None

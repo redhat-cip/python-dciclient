@@ -58,5 +58,5 @@ def main():
     if not context:
         print("No credentials provided.")
         sys.exit(1)
-    response = run(context, args)
-    print_response(response, args.format, args.verbose)
+    response, headers = run(context, args)
+    print_response(response, args.format, headers, args.verbose)

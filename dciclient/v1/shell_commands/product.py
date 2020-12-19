@@ -19,13 +19,13 @@ from dciclient.v1.api import product
 
 def list(context, args):
     params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
-    return product.list(context, **params)
+    return product.list(context, **params), None
 
 
 def create(context, args):
     params = {k: getattr(args, k) for k in ["name", "label", "description", "state"]}
     params["state"] = active_string(params["state"])
-    return product.create(context, **params)
+    return product.create(context, **params), None
 
 
 def update(context, args):
@@ -34,27 +34,27 @@ def update(context, args):
         for k in ["id", "etag", "name", "label", "description", "state"]
     }
     params["state"] = active_string(params["state"])
-    return product.update(context, **params)
+    return product.update(context, **params), None
 
 
 def delete(context, args):
-    return product.delete(context, args.id, etag=args.etag)
+    return product.delete(context, args.id, etag=args.etag), None
 
 
 def show(context, args):
-    return product.get(context, args.id)
+    return product.get(context, args.id), None
 
 
 def attach_team(context, args):
     params = {k: getattr(args, k) for k in ["id", "team_id"]}
-    return product.attach_team(context, **params)
+    return product.attach_team(context, **params), None
 
 
 def detach_team(context, args):
     params = {k: getattr(args, k) for k in ["id", "team_id"]}
-    return product.detach_team(context, **params)
+    return product.detach_team(context, **params), None
 
 
 def list_teams(context, args):
     params = {k: getattr(args, k) for k in ["id", "sort", "limit", "offset", "where"]}
-    return product.list_teams(context, **params)
+    return product.list_teams(context, **params), None

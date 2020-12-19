@@ -101,7 +101,7 @@ def test_delete(runner, job_id):
     l_job = runner.invoke(["job-show", job_id])
     l_job_etag = l_job["job"]["etag"]
 
-    result = runner.invoke_raw(["job-delete", job_id, "--etag", l_job_etag])
+    result, _ = runner.invoke_raw(["job-delete", job_id, "--etag", l_job_etag])
 
     assert result.status_code == 204
 
@@ -160,7 +160,7 @@ def test_unattach_issue(runner, job_id):
 
 
 def test_job_output(runner, job_id):
-    result = runner.invoke_raw(["job-output", job_id])
+    result, _ = runner.invoke_raw(["job-output", job_id])
     assert result[0].startswith("pre-run")
 
 
@@ -209,7 +209,7 @@ def test_file_support(runner, tmpdir, job_id):
 
     # delete
     runner.invoke_raw(["job-delete-file", job_id, "--file-id", new_f["id"]])
-    result = runner.invoke_raw(["job-show-file", job_id, "--file-id", new_f["id"]])
+    result, _ = runner.invoke_raw(["job-show-file", job_id, "--file-id", new_f["id"]])
     assert result.status_code == 404
 
 
@@ -253,7 +253,7 @@ def test_file_support_as_remoteci(runner_remoteci, tmpdir, job_id):
 
     # delete
     runner_remoteci.invoke_raw(["job-delete-file", job_id, "--file-id", new_f["id"]])
-    result = runner_remoteci.invoke_raw(
+    result, _ = runner_remoteci.invoke_raw(
         ["job-show-file", job_id, "--file-id", new_f["id"]]
     )
     assert result.status_code == 404

@@ -20,17 +20,17 @@ from dciclient.v1.utils import active_string
 
 def list(context, args):
     params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
-    return feeder.list(context, **params)
+    return feeder.list(context, **params), None
 
 
 def create(context, args):
     params = {k: getattr(args, k) for k in ["name", "team_id", "data", "state"]}
     params["state"] = active_string(params["state"])
-    return feeder.create(context, **params)
+    return feeder.create(context, **params), None
 
 
 def show(context, args):
-    return feeder.get(context, args.id)
+    return feeder.get(context, args.id), None
 
 
 def update(context, args):
@@ -38,12 +38,12 @@ def update(context, args):
         k: getattr(args, k) for k in ["name", "team_id", "data", "state", "id", "etag"]
     }
     params["state"] = active_string(params["state"])
-    return feeder.update(context, **params)
+    return feeder.update(context, **params), None
 
 
 def delete(context, args):
-    return feeder.delete(context, args.id, args.etag)
+    return feeder.delete(context, args.id, args.etag), None
 
 
 def reset_api_secret(context, args):
-    return feeder.reset_api_secret(context, args.id, args.etag)
+    return feeder.reset_api_secret(context, args.id, args.etag), None

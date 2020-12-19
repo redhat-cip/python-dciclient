@@ -20,7 +20,7 @@ from dciclient.v1.utils import active_string
 
 def list(context, args):
     params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
-    return topic.list(context, **params)
+    return topic.list(context, **params), None
 
 
 def create(context, args):
@@ -41,7 +41,7 @@ def create(context, args):
         else []
     )
     params["state"] = active_string(params["state"])
-    return topic.create(context, **params)
+    return topic.create(context, **params), None
 
 
 def update(context, args):
@@ -65,25 +65,25 @@ def update(context, args):
     )
     params["state"] = active_string(params["state"])
 
-    return topic.update(context, args.id, args.etag, **params)
+    return topic.update(context, args.id, args.etag, **params), None
 
 
 def delete(context, args):
-    return topic.delete(context, args.id)
+    return topic.delete(context, args.id), None
 
 
 def show(context, args):
-    return topic.get(context, args.id)
+    return topic.get(context, args.id), None
 
 
 def attach_team(context, args):
-    return topic.attach_team(context, args.id, args.team_id)
+    return topic.attach_team(context, args.id, args.team_id), None
 
 
 def unattach_team(context, args):
-    return topic.unattach_team(context, args.id, args.team_id)
+    return topic.unattach_team(context, args.id, args.team_id), None
 
 
 def list_team(context, args):
     params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
-    return topic.list_teams(context, args.id, **params)
+    return topic.list_teams(context, args.id, **params), None

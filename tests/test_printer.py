@@ -29,8 +29,9 @@ def test_printer(capsys, runner, team_id):
             "pass",
         ]
     )
+    response, headers = runner.invoke_raw(["user-list"])
     print_response(
-        runner.invoke_raw(["user-list"]), format="table", verbose=True,
+        response, format="table", headers=headers, verbose=True,
     )
     captured = capsys.readouterr()
     assert "etag" in captured.out
@@ -48,8 +49,9 @@ def test_printer_verbose(capsys, runner, team_id):
             "pass"
         ]
     )
+    response, headers = runner.invoke_raw(["user-list"])
     print_response(
-        runner.invoke_raw(["user-list"]), format="table", verbose=False,
+        response, format="table", headers=headers, verbose=False,
     )
     captured = capsys.readouterr()
     assert "etag" not in captured.out
@@ -67,7 +69,7 @@ def test_printer_delete(capsys, runner, team_id):
             "pass"
         ]
     )["user"]
-    result = runner.invoke_raw(["user-delete", user["id"], "--etag", user["etag"]])
-    print_response(result, format="table", verbose=False)
+    response, headers = runner.invoke_raw(["user-delete", user["id"], "--etag", user["etag"]])  # noqa
+    print_response(response, format="table", headers=headers, verbose=False)
     captured = capsys.readouterr()
     assert captured.out == ""

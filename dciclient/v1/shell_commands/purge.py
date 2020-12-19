@@ -38,10 +38,10 @@ def purge(context, args):
 
     if len(wrong_resources) > 0:
         msg = "Unknown resource have been specified: %s" % wrong_resources
-        return msg
+        return msg, None
 
     elif test_auth.status_code == 401:
-        return test_auth
+        return test_auth, None
 
     else:
         purged = {}
@@ -59,7 +59,7 @@ def purge(context, args):
                     and base.purge(context, res, **{"force": True}).status_code == 204
                 ):
                     purged[res] = "%s item(s) purged" % item_purged
-            return purged
+            return purged, None
         else:
             # If not in force mode. The various endpoints are queried for the
             # informations about the resources to be purged and displayed.
@@ -67,4 +67,4 @@ def purge(context, args):
                 resource_to_delete = base.purge(context, res, **{"force": args.force})
                 if resource_to_delete.json()["_meta"]["count"] > 0:
                     purged[res] = resource_to_delete.json()
-            return purged
+            return purged, None

@@ -238,7 +238,7 @@ def runner_factory(context):
     def invoke(arguments):
         environment = {}
         args = cli.parse_arguments(arguments, environment)
-        response = dci_runner.run(context, args)
+        response, _ = dci_runner.run(context, args)
         return response.json() if response else None
 
     def invoke_raw(arguments):

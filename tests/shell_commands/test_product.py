@@ -60,12 +60,12 @@ def test_list(runner):
 
 
 def test_fail_create_unauthorized_user_admin(runner_user_admin):
-    product = runner_user_admin.invoke_raw(["product-create", "--name", "foo"])
+    product, _ = runner_user_admin.invoke_raw(["product-create", "--name", "foo"])
     assert product.status_code == 401
 
 
 def test_fail_create_unauthorized_user(runner_user):
-    product = runner_user.invoke_raw(["product-create", "--name", "foo"])
+    product, _ = runner_user.invoke_raw(["product-create", "--name", "foo"])
     assert product.status_code == 401
 
 
@@ -132,13 +132,13 @@ def test_update_active(runner):
 def test_delete(runner):
     product = runner.invoke(["product-create", "--name", "foo"])["product"]
 
-    result = runner.invoke_raw(
+    result, _ = runner.invoke_raw(
         ["product-delete", product["id"], "--etag", product["etag"]]
     )
 
     assert result.status_code == 204
 
-    result = runner.invoke_raw(["product-show", product["id"]])
+    result, _ = runner.invoke_raw(["product-show", product["id"]])
 
     assert result.status_code == 404
 

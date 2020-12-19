@@ -18,4 +18,4 @@ from dciclient.v1.api import jobstate
 
 
 def show(context, args):
-    return jobstate.get(context, args.id)
+    return jobstate.get(context, args.id), None

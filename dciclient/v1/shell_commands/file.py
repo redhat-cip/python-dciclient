@@ -20,12 +20,12 @@ from dciclient.v1.api import file
 
 def list(context, args):
     params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
-    return job.list_files(context, id=args.job_id, **params)
+    return job.list_files(context, id=args.job_id, **params), None
 
 
 def show(context, args):
-    return file.content(context, id=args.id)
+    return file.content(context, id=args.id), None
 
 
 def delete(context, args):
-    return file.delete(context, id=args.id)
+    return file.delete(context, id=args.id), None

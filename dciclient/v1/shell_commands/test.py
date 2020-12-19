@@ -21,24 +21,24 @@ from dciclient.v1.api import test
 
 def list(context, args):
     params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
-    return test.list(context, **params)
+    return test.list(context, **params), None
 
 
 def create(context, args):
     data = validate_json(context, "data", args.data)
     state = active_string(args.state)
-    return test.create(context, name=args.name, data=data, state=state)
+    return test.create(context, name=args.name, data=data, state=state), None
 
 
 def update(context, args):
     params = {k: getattr(args, k) for k in ["id", "name", "etag", "data", "state"]}
     params["state"] = active_string(params["state"])
-    return test.update(context, **params)
+    return test.update(context, **params), None
 
 
 def delete(context, args):
-    return test.delete(context, id=args.id)
+    return test.delete(context, id=args.id), None
 
 
 def show(context, args):
-    return test.get(context, id=args.id)
+    return test.get(context, id=args.id), None

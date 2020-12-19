@@ -18,7 +18,7 @@ from __future__ import unicode_literals
 
 
 def test_show(runner, file_id):
-    result = runner.invoke_raw(["file-show", file_id])
+    result, _ = runner.invoke_raw(["file-show", file_id])
     assert "testsuite errors" in result.text
 
 
@@ -29,7 +29,7 @@ def test_list(runner, job_id):
 
 
 def test_delete(runner, file_id):
-    result = runner.invoke_raw(["file-delete", file_id])
+    result, _ = runner.invoke_raw(["file-delete", file_id])
     assert result.status_code == 204
 
 

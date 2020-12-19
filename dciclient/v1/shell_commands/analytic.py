@@ -17,16 +17,16 @@ from dciclient.v1.api import analytic
 
 
 def list(context, args):
-    return analytic.list(context, job_id=args.job_id)
+    return analytic.list(context, job_id=args.job_id), None
 
 
 def create(context, args):
     params = {k: getattr(args, k) for k in ["job_id", "name", "type", "url", "data"]}
-    return analytic.create(context, **params)
+    return analytic.create(context, **params), None
 
 
 def show(context, args):
-    return analytic.get(context, id=args.id, job_id=args.job_id)
+    return analytic.get(context, id=args.id, job_id=args.job_id), None
 
 
 def update(context, args):
@@ -34,4 +34,4 @@ def update(context, args):
         k: getattr(args, k)
         for k in ["id", "etag", "job_id", "name", "type", "url", "data"]
     }
-    return analytic.update(context, **params)
+    return analytic.update(context, **params), None

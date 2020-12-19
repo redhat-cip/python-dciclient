@@ -143,7 +143,7 @@ def test_update_active(runner, test_user, team_id):
 
 
 def test_delete(runner, test_user, team_id):
-    result = runner.invoke_raw(
+    result, _ = runner.invoke_raw(
         ["user-delete", test_user["id"], "--etag", test_user["etag"]]
     )
     assert result.status_code == 204

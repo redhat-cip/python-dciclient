@@ -24,7 +24,7 @@ from dciclient.v1.api import remoteci
 
 def list(context, args):
     params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
-    return remoteci.list(context, **params)
+    return remoteci.list(context, **params), None
 
 
 def create(context, args):
@@ -33,7 +33,7 @@ def create(context, args):
     team_id = args.team_id or identity.my_team_id(context)
     return remoteci.create(
         context, name=args.name, team_id=team_id, data=data, state=state
-    )
+    ), None
 
 
 def update(context, args):
@@ -47,51 +47,51 @@ def update(context, args):
         team_id=args.team_id,
         data=data,
         state=state,
-    )
+    ), None
 
 
 def delete(context, args):
-    return remoteci.delete(context, id=args.id, etag=args.etag)
+    return remoteci.delete(context, id=args.id, etag=args.etag), None
 
 
 def show(context, args):
-    return remoteci.get(context, id=args.id)
+    return remoteci.get(context, id=args.id), None
 
 
 def get_data(context, args):
     keys = args.keys.split(",") if args.keys else args.keys
-    return remoteci.get_data(context, id=args.id, keys=keys)
+    return remoteci.get_data(context, id=args.id, keys=keys), None
 
 
 def attach_test(context, args):
-    return remoteci.add_test(context, id=args.id, test_id=args.test_id)
+    return remoteci.add_test(context, id=args.id, test_id=args.test_id), None
 
 
 def list_test(context, args):
     params = {k: getattr(args, k) for k in ["id", "sort", "limit", "offset", "where"]}
-    return remoteci.list_tests(context, **params)
+    return remoteci.list_tests(context, **params), None
 
 
 def unattach_test(context, args):
-    return remoteci.remove_test(context, id=args.id, test_id=args.test_id)
+    return remoteci.remove_test(context, id=args.id, test_id=args.test_id), None
 
 
 def reset_api_secret(context, args):
-    return remoteci.reset_api_secret(context, id=args.id, etag=args.etag)
+    return remoteci.reset_api_secret(context, id=args.id, etag=args.etag), None
 
 
 def refresh_keys(context, args):
-    return remoteci.refresh_keys(context, id=args.id, etag=args.etag)
+    return remoteci.refresh_keys(context, id=args.id, etag=args.etag), None
 
 
 def attach_user(context, args):
-    return remoteci.add_user(context, id=args.id, user_id=args.user_id)
+    return remoteci.add_user(context, id=args.id, user_id=args.user_id), None
 
 
 def list_user(context, args):
     params = {k: getattr(args, k) for k in ["id", "sort", "limit", "offset", "where"]}
-    return remoteci.list_users(context, **params)
+    return remoteci.list_users(context, **params), None
 
 
 def unattach_user(context, args):
-    return remoteci.remove_user(context, id=args.id, user_id=args.user_id)
+    return remoteci.remove_user(context, id=args.id, user_id=args.user_id), None

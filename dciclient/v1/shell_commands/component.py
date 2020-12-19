@@ -23,7 +23,7 @@ from dciclient.v1.api import topic
 
 def list(context, args):
     params = {k: getattr(args, k) for k in ["id", "sort", "limit", "offset", "where"]}
-    return topic.list_components(context, **params)
+    return topic.list_components(context, **params), None
 
 
 def create(context, args):
@@ -46,37 +46,37 @@ def create(context, args):
     }
     params["data"] = validate_json(context, "data", params["data"])
     params["state"] = active_string(params["state"])
-    return component.create(context, **params)
+    return component.create(context, **params), None
 
 
 def delete(context, args):
-    return component.delete(context, args.id)
+    return component.delete(context, args.id), None
 
 
 def show(context, args):
-    return component.get(context, args.id)
+    return component.get(context, args.id), None
 
 
 def file_upload(context, args):
-    return component.file_upload(context, id=args.id, file_path=args.path)
+    return component.file_upload(context, id=args.id, file_path=args.path), None
 
 
 def file_show(context, args):
-    return component.file_get(context, id=args.id, file_id=args.file_id)
+    return component.file_get(context, id=args.id, file_id=args.file_id), None
 
 
 def file_download(context, args):
     params = {k: getattr(args, k) for k in ["id", "file_id", "target"]}
-    return component.file_download(context, **params)
+    return component.file_download(context, **params), None
 
 
 def file_list(context, args):
     params = {k: getattr(args, k) for k in ["id", "sort", "limit", "offset", "where"]}
-    return component.file_list(context, **params)
+    return component.file_list(context, **params), None
 
 
 def file_delete(context, args):
-    component.file_delete(context, id=args.id, file_id=args.file_id)
+    component.file_delete(context, id=args.id, file_id=args.file_id), None
 
 
 def update(context, args):
@@ -86,17 +86,17 @@ def update(context, args):
 
     return component.update(
         context, id=args.id, etag=etag, state=active_string(args.state)
-    )
+    ), None
 
 
 def attach_issue(context, args):
-    return component.attach_issue(context, args.id, args.url)
+    return component.attach_issue(context, args.id, args.url), None
 
 
 def unattach_issue(context, args):
-    return component.unattach_issue(context, args.id, args.issue_id)
+    return component.unattach_issue(context, args.id, args.issue_id), None
 
 
 def list_issues(context, args):
     params = {k: getattr(args, k) for k in ["id", "sort", "limit", "offset"]}
-    return component.list_issues(context, **params)
+    return component.list_issues(context, **params), None
