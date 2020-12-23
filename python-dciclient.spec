@@ -6,7 +6,7 @@
 
 Name:           python-dciclient
 Version:        2.0.2
-Release:        1.VERS%{?dist}
+Release:        2.VERS%{?dist}
 
 Summary:        Python client for DCI control server
 License:        ASL 2.0
@@ -28,12 +28,12 @@ BuildRequires:  python-requests >= 2.6
 BuildRequires:  python-rpm-macros
 BuildRequires:  python2-setuptools
 BuildRequires:  python2-rpm-macros
-BuildRequires:  python-dciauth
+BuildRequires:  python-dciauth >= 2.1.5
 BuildRequires:  python2-devel
 Requires:       python-prettytable
 Requires:       python-requests >= 2.6
 Requires:       python2-setuptools
-Requires:       python-dciauth
+Requires:       python-dciauth >= 2.1.5
 
 %description -n python2-dciclient
 A Python 2 implementation of the client for DCI control server.
@@ -48,11 +48,11 @@ BuildRequires:  python3-psycopg2
 BuildRequires:  python3-requests
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-rpm-macros
-BuildRequires:  python3-dciauth
+BuildRequires:  python3-dciauth >= 2.1.5
 BuildRequires:  python3-devel
 Requires:       python3-prettytable
 Requires:       python3-requests
-Requires:       python3-dciauth
+Requires:       python3-dciauth >= 2.1.5
 
 %description -n python3-dciclient
 A Python 3 implementation of the client for DCI control server.
@@ -96,6 +96,9 @@ install -d %{buildroot}%{_bindir}
 
 
 %changelog
+* Wed Dec 23 2020 François Charlier <fcharlie@rehdat.com> - 2.0.2-2
+- Make explicit dependency to dciauth >= 2.1.5 required since 2.0.2-1
+
 * Fri Dec 04 2020 Guillaume Vincent <gvincent@redhat.com> - 2.0.2-1
 - Use HMAC version 2 mechanism on python dciclient
 
