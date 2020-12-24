@@ -57,6 +57,7 @@ def create(
         "DCI-MD5": md5,
         "DCI-JOB-ID": job_id,
         "DCI-TEST-ID": test_id,
+        "Content-Type": mime
     }
     headers = utils.sanitize_kwargs(**headers)
     uri = "%s/%s" % (context.dci_cs_api, RESOURCE)
