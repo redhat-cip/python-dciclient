@@ -17,6 +17,10 @@
 from dciclient.v1.api import user
 from dciclient.v1.utils import active_string
 
+COLUMNS = ["id", "created_at", "updated_at", "etag", "name",
+           "sso_username", "fullname", "email", "password",
+           "timezone", "state"]
+
 
 def list(context, args):
     params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}

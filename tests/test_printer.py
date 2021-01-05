@@ -15,6 +15,7 @@
 # under the License.
 
 from dciclient.printer import print_response
+from dciclient.v1.shell_commands import user
 
 
 def test_printer(capsys, runner, team_id):
@@ -29,8 +30,9 @@ def test_printer(capsys, runner, team_id):
             "pass",
         ]
     )
+    result = runner.invoke_raw(["user-list"])
     print_response(
-        runner.invoke_raw(["user-list"]), format="table", verbose=True,
+        result, format="table", verbose=True, columns=user.COLUMNS
     )
     captured = capsys.readouterr()
     assert "etag" in captured.out
@@ -48,15 +50,16 @@ def test_printer_verbose(capsys, runner, team_id):
             "pass"
         ]
     )
+    result = runner.invoke_raw(["user-list"])
     print_response(
-        runner.invoke_raw(["user-list"]), format="table", verbose=False,
+        result, format="table", verbose=False, columns=user.COLUMNS
     )
     captured = capsys.readouterr()
     assert "etag" not in captured.out
 
 
 def test_printer_delete(capsys, runner, team_id):
-    user = runner.invoke(
+    _user = runner.invoke(
         [
             "user-create",
             "--name",
@@ -67,7 +70,7 @@ def test_printer_delete(capsys, runner, team_id):
             "pass"
         ]
     )["user"]
-    result = runner.invoke_raw(["user-delete", user["id"], "--etag", user["etag"]])
-    print_response(result, format="table", verbose=False)
+    result = runner.invoke_raw(["user-delete", _user["id"], "--etag", _user["etag"]])
+    print_response(result, format="table", verbose=False, columns=user.COLUMNS)
     captured = capsys.readouterr()
     assert captured.out == ""

@@ -16,6 +16,7 @@
 import os
 import sys
 from dciclient.v1.shell_commands.cli import parse_arguments
+from dciclient.v1.shell_commands import columns
 from dciclient.v1.api import context as dci_context
 from dciclient.v1.shell_commands.runner import run
 from dciclient.printer import print_response
@@ -59,4 +60,5 @@ def main():
         print("No credentials provided.")
         sys.exit(1)
     response = run(context, args)
-    print_response(response, args.format, args.verbose)
+    _columns = columns.get_columns(args)
+    print_response(response, args.format, args.verbose, _columns)
