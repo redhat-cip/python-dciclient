@@ -1,0 +1,9 @@
+Code-Review+2: Haïkel Guémar <hguemar@fedoraproject.org>
+Code-Review+2: Yassine Lamgarchal <yassine.lamgarchal@redhat.com>
+Workflow+1: Yassine Lamgarchal <yassine.lamgarchal@redhat.com>
+Verified+2: Zuul CI <zuul@softwarefactory-project.io>
+Submitted-by: Zuul CI <zuul@softwarefactory-project.io>
+Submitted-at: Fri, 08 Jan 2021 00:49:09 +0000
+Reviewed-on: https://softwarefactory-project.io/r/20452
+Project: python-dciclient
+Branch: refs/heads/master
