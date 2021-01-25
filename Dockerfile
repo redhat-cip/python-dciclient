@@ -11,7 +11,7 @@ RUN yum -y install epel-release && \
     python36 python36-devel python36-pip python34-setuptools && \
     yum clean all
 
-RUN pip install -U pip
+RUN pip install -U "pip<21.0"
 # python-tox is broken, install tox with pip instead
 RUN pip install -U tox
 
