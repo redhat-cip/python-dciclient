@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c78a9ad6_78383705",
+        "filename": "dciclient/shell.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 28
+      },
+      "writtenOn": "2021-02-08T12:49:17Z",
+      "side": 1,
+      "message": "Also add above this:\n\nlogging.basicConfig(level\u003dlogging.DEBUG)  # output DEBUG info\nlogging.getLogger().setLevel(loggin.INFO)  # We only want DEBUG for dciauth",
+      "revId": "b668dad71b3ec78447abec1daa8109aa3e39b12c",
+      "serverId": "6c1dc8ef-8b94-40e4-bd83-c2359d45ecc0",
+      "unresolved": false
+    }
+  ]
+}
