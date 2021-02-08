@@ -15,6 +15,7 @@
 # under the License.
 import os
 import sys
+import logging
 from dciclient.v1.shell_commands.cli import parse_arguments
 from dciclient.v1.api import context as dci_context
 from dciclient.v1.shell_commands.runner import run
@@ -22,6 +23,7 @@ from dciclient.printer import print_response
 
 
 def main():
+    logging.getLogger("dciauth").setLevel(logging.DEBUG)
     args = parse_arguments(sys.argv[1:], os.environ)
     dci_cs_url = args.dci_cs_url
     dci_login = args.dci_login
