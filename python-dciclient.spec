@@ -5,8 +5,8 @@
 %endif
 
 Name:           python-dciclient
-Version:        2.0.2
-Release:        3.VERS%{?dist}
+Version:        2.0.3
+Release:        1.VERS%{?dist}
 
 Summary:        Python client for DCI control server
 License:        ASL 2.0
@@ -96,6 +96,9 @@ install -d %{buildroot}%{_bindir}
 
 
 %changelog
+* Tue Feb 09 2021 Guillaume Vincent <gvincent@redhat.com> - 2.0.3-1
+- Bump the version
+
 * Tue Feb 09 2021 François Charlier <fcharlier@redhat.com> - 2.0.2-3
 - Bump python-dciauth version requirement to fix a critical issue with signatures.
 
