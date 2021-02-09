@@ -6,7 +6,7 @@
 
 Name:           python-dciclient
 Version:        2.0.2
-Release:        2.VERS%{?dist}
+Release:        3.VERS%{?dist}
 
 Summary:        Python client for DCI control server
 License:        ASL 2.0
@@ -28,12 +28,12 @@ BuildRequires:  python-requests >= 2.6
 BuildRequires:  python-rpm-macros
 BuildRequires:  python2-setuptools
 BuildRequires:  python2-rpm-macros
-BuildRequires:  python-dciauth >= 2.1.5
+BuildRequires:  python-dciauth >= 2.1.7
 BuildRequires:  python2-devel
 Requires:       python-prettytable
 Requires:       python-requests >= 2.6
 Requires:       python2-setuptools
-Requires:       python-dciauth >= 2.1.5
+Requires:       python-dciauth >= 2.1.7
 
 %description -n python2-dciclient
 A Python 2 implementation of the client for DCI control server.
@@ -48,11 +48,11 @@ BuildRequires:  python3-psycopg2
 BuildRequires:  python3-requests
 BuildRequires:  python3-setuptools
 BuildRequires:  python3-rpm-macros
-BuildRequires:  python3-dciauth >= 2.1.5
+BuildRequires:  python3-dciauth >= 2.1.7
 BuildRequires:  python3-devel
 Requires:       python3-prettytable
 Requires:       python3-requests
-Requires:       python3-dciauth >= 2.1.5
+Requires:       python3-dciauth >= 2.1.7
 
 %description -n python3-dciclient
 A Python 3 implementation of the client for DCI control server.
@@ -96,6 +96,9 @@ install -d %{buildroot}%{_bindir}
 
 
 %changelog
+* Tue Feb 09 2020 François Charlier <fcharlier@redhat.com> - 2.0.2-3
+- Bump python-dciauth version requirement to fix a critical issue with signatures.
+
 * Wed Dec 23 2020 François Charlier <fcharlie@rehdat.com> - 2.0.2-2
 - Make explicit dependency to dciauth >= 2.1.5 required since 2.0.2-1
 
