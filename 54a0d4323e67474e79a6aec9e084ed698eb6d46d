@@ -1,0 +1,9 @@
+Code-Review+2: Tony Garcia <tonyg@redhat.com>
+Code-Review+2: Jorge Gallegos <jgallego@redhat.com>
+Workflow+1: Bill Peck <bill@pecknet.com>
+Verified+2: Zuul CI <zuul@softwarefactory-project.io>
+Submitted-by: Zuul CI <zuul@softwarefactory-project.io>
+Submitted-at: Mon, 05 Apr 2021 18:51:09 +0000
+Reviewed-on: https://softwarefactory-project.io/r/c/python-dciclient/+/21540
+Project: python-dciclient
+Branch: refs/heads/master
