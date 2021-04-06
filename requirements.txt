@@ -1,4 +1,4 @@
 PrettyTable>=0.7.2, <0.8
 requests>=2.6.0, <3.0
-setuptools>=42.0, <45
+setuptools
 dciauth>= 2.1.7
