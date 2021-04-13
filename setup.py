@@ -32,11 +32,7 @@ def _get_requirements():
         requirements = f.read()
         # remove the dependencies which comes from url source because
         # it's not supported by install_requires
-        install_requires = [dep for dep in
-                            requirements.split("\n") if not dep.startswith("-e")]
-    if sys.version_info[0] == 2:
-        install_requires.append("setuptools<45.0, >=42.0")
-    return install_requires
+        return [dep for dep in requirements.split("\n") if not dep.startswith("-e")]
 
 
 def _get_readme():
