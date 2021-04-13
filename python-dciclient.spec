@@ -6,7 +6,7 @@
 
 Name:           python-dciclient
 Version:        2.0.2
-Release:        3.VERS%{?dist}
+Release:        4.VERS%{?dist}
 
 Summary:        Python client for DCI control server
 License:        ASL 2.0
@@ -32,7 +32,6 @@ BuildRequires:  python-dciauth >= 2.1.7
 BuildRequires:  python2-devel
 Requires:       python-prettytable
 Requires:       python-requests >= 2.6
-Requires:       python2-setuptools
 Requires:       python-dciauth >= 2.1.7
 
 %description -n python2-dciclient
@@ -96,6 +95,9 @@ install -d %{buildroot}%{_bindir}
 
 
 %changelog
+* Tue Apr 13 2021 Guillaume Vincent <gvincent@redhat.com> - 2.0.2-4
+- Remove setuptools
+
 * Tue Feb 09 2021 François Charlier <fcharlier@redhat.com> - 2.0.2-3
 - Bump python-dciauth version requirement to fix a critical issue with signatures.
 
