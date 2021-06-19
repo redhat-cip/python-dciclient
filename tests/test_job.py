@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 #
-# Copyright 2016 Red Hat, Inc.
+# Copyright 2016-2021 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -19,6 +19,9 @@ from dciclient.v1.api import job
 from dciclient.v1.api import topic
 
 
+URL = "https://my.url/"
+
+
 def test_job_create_as_remoteci(
     dci_context, dci_context_remoteci, components_ids, topic_id, team_user_id, job_id
 ):
@@ -30,8 +33,10 @@ def test_job_create_as_remoteci(
         team_id=team_user_id,
         components=components_ids,
         previous_job_id=job_id,
+        url=URL
     ).json()
     assert j["job"]["id"]
+    assert j["job"]["url"] == URL
     assert j["job"]["previous_job_id"] == job_id
 
 

@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 #
-# Copyright 2015-2017 Red Hat, Inc.
+# Copyright 2015-2021 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -24,18 +24,13 @@ from dciclient.v1.api.tag import add_tag_to_resource, delete_tag_from_resource
 RESOURCE = "jobs"
 
 
-def create(context, topic_id, team_id=None, components=None, comment=None,
-           previous_job_id=None, data=None):
+def create(context, topic_id, **kwargs):
+    kwargs = utils.sanitize_kwargs(**kwargs)
     job = base.create(
         context,
         RESOURCE,
         topic_id=topic_id,
-        team_id=team_id,
-        components=components,
-        comment=comment,
-        previous_job_id=previous_job_id,
-        data=data
-    )
+        **kwargs)
     if job.status_code == 201:
         context.last_job_id = job.json()["job"]["id"]
     return job
@@ -49,9 +44,10 @@ def list(context, **kwargs):
     return base.list(context, RESOURCE, **kwargs)
 
 
-def schedule(context, topic_id, components=None):
+def schedule(context, topic_id, **kwargs):
     uri = "%s/%s/schedule" % (context.dci_cs_api, RESOURCE)
-    data = {"topic_id": topic_id, "components_ids": components}
+    data = {"topic_id": topic_id}
+    data.update(kwargs)
     data = utils.sanitize_kwargs(**data)
     r = context.session.post(uri, json=data)
     if r.status_code == 201:

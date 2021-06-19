@@ -5,8 +5,8 @@
 %endif
 
 Name:           python-dciclient
-Version:        2.0.2
-Release:        4.VERS%{?dist}
+Version:        2.1.0
+Release:        1.VERS%{?dist}
 
 Summary:        Python client for DCI control server
 License:        ASL 2.0
@@ -95,6 +95,9 @@ install -d %{buildroot}%{_bindir}
 
 
 %changelog
+* Sat Jun 19 2021 Frederic Lepied <flepied@redhat.com> - 2.1.0-1
+- add optional parameters to jobs.create and jobs.schedule
+
 * Tue Apr 13 2021 Guillaume Vincent <gvincent@redhat.com> - 2.0.2-4
 - Remove setuptools
 
