@@ -15,6 +15,7 @@
 # under the License.
 import json
 import os
+import tempfile
 
 from dciclient.v1.api import file as dci_file
 from dciclient.v1.api import job
@@ -92,3 +93,52 @@ def test_nrt_file_upload_targz_file(
         job_id=job_id,
     )
     assert r.status_code == 201
+
+
+def test_nrt_file_upload_empty_file(
+    remoteci_id, remoteci_api_secret, signature_context_factory, job_id
+):
+    dci_context = signature_context_factory(
+        client_id=remoteci_id, api_secret=remoteci_api_secret
+    )
+    empty_file_fd, empty_file_path = tempfile.mkstemp()
+
+    try:
+        r = dci_file.create(
+            dci_context,
+            name="empty.txt",
+            file_path=empty_file_path,
+            mime="text/plain",
+            job_id=job_id,
+        )
+        assert r.status_code == 201
+
+        f = dci_file.get(dci_context, r.json()["file"]["id"]).json()["file"]
+        assert f["name"] == "empty.txt"
+        assert f["size"] == 0
+    except Exception as e:
+        raise e
+    finally:
+        os.close(empty_file_fd)
+        os.remove(empty_file_path)
+
+
+def test_nrt_file_upload_empty_content_string(
+    remoteci_id, remoteci_api_secret, signature_context_factory, job_id
+):
+    dci_context = signature_context_factory(
+        client_id=remoteci_id, api_secret=remoteci_api_secret
+    )
+
+    r = dci_file.create(
+        dci_context,
+        name="empty_string.txt",
+        content="",
+        mime="text/plain",
+        job_id=job_id,
+    )
+    assert r.status_code == 201
+
+    f = dci_file.get(dci_context, r.json()["file"]["id"]).json()["file"]
+    assert f["name"] == "empty_string.txt"
+    assert f["size"] == 0
