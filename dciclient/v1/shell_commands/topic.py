@@ -69,7 +69,7 @@ def update(context, args):
 
 
 def delete(context, args):
-    return topic.delete(context, args.id)
+    return topic.delete(context, args.id, args.etag)
 
 
 def show(context, args):

@@ -50,7 +50,7 @@ def create(context, args):
 
 
 def delete(context, args):
-    return component.delete(context, args.id)
+    return component.delete(context, args.id, args.etag)
 
 
 def show(context, args):
@@ -76,7 +76,7 @@ def file_list(context, args):
 
 
 def file_delete(context, args):
-    component.file_delete(context, id=args.id, file_id=args.file_id)
+    component.file_delete(context, id=args.id, file_id=args.file_id, etag=args.etag)
 
 
 def update(context, args):

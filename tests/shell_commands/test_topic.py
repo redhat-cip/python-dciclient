@@ -115,7 +115,7 @@ def test_delete(runner, product_id):
     topic = runner.invoke(
         ["topic-create", "--name", "osp", "--product-id", product_id]
     )["topic"]
-    result = runner.invoke_raw(["topic-delete", topic["id"]])
+    result = runner.invoke_raw(["topic-delete", topic["id"], "--etag", topic["etag"]])
 
     assert result.status_code == 204
 

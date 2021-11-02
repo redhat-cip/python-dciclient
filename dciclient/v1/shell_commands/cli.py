@@ -370,6 +370,7 @@ def parse_arguments(args, environment={}):
         "topic-delete", help="Delete a topic.", parents=[base_parser]
     )
     p.add_argument("id")
+    p.add_argument("--etag", required=True)
     p.set_defaults(command="topic-delete")
 
     p = subparsers.add_parser("topic-show", help="Show a topic.", parents=[base_parser])
@@ -449,6 +450,7 @@ def parse_arguments(args, environment={}):
         "component-delete", help="Delete a component.", parents=[base_parser]
     )
     p.add_argument("id")
+    p.add_argument("--etag", required=True)
     p.set_defaults(command="component-delete")
 
     p = subparsers.add_parser(
@@ -529,6 +531,7 @@ def parse_arguments(args, environment={}):
     )
     p.add_argument("id")
     p.add_argument("--file-id", required=True)
+    p.add_argument("--etag", required=True)
     p.set_defaults(command="component-file-delete")
 
     # file commands

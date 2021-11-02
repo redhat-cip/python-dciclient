@@ -126,7 +126,11 @@ def test_delete(runner, product_id):
         ]
     )["component"]
 
-    result = runner.invoke_raw(["component-delete", component["id"]])
+    result = runner.invoke_raw(
+        ["component-delete",
+         component["id"],
+         "--etag", component["etag"]]
+    )
 
     assert result.status_code == 204
 
@@ -206,7 +210,7 @@ def test_file_support(runner, tmpdir, product_id):
 
     # delete
     runner.invoke_raw(
-        ["component-file-delete", component["id"], "--file-id", new_f["id"]]
+        ["component-file-delete", component["id"], "--file-id", new_f["id"], "--etag", new_f["etag"]]  # noqa
     )
     result = runner.invoke_raw(
         ["component-file-show", component["id"], "--file-id", new_f["id"]]
@@ -273,8 +277,8 @@ def test_where_on_list(runner, product_id):
     )
 
     assert (
-        runner.invoke(
+        len(runner.invoke(
             ["component-list", "--topic-id", topic["id"], "--where", "type:bar2"]
-        )["_meta"]["count"]
+        )["components"])
         == 1
     )

@@ -80,8 +80,8 @@ def update(
     )
 
 
-def delete(context, id):
-    return base.delete(context, RESOURCE, id=id)
+def delete(context, id, etag):
+    return base.delete(context, RESOURCE, id=id, etag=etag)
 
 
 def file_upload(context, id, file_path):
@@ -104,9 +104,9 @@ def file_list(context, id, **kwargs):
     return base.list(context, RESOURCE, id=id, subresource="files", **kwargs)
 
 
-def file_delete(context, id, file_id):
+def file_delete(context, id, file_id, etag):
     return base.delete(
-        context, RESOURCE, id, subresource="files", subresource_id=file_id
+        context, RESOURCE, id, subresource="files", subresource_id=file_id, etag=etag
     )
 
 

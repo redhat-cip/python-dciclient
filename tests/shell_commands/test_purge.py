@@ -43,7 +43,7 @@ def test_purge_noop(runner, remoteci_id, product_id):
     topic_id = topics[0]["id"]
     assert len(topics) == 2
 
-    runner.invoke_raw(["topic-delete", topic_id])
+    runner.invoke_raw(["topic-delete", topic_id, "--etag", topics[0]['etag']])
     topics = runner.invoke(["topic-list"])["topics"]
     assert len(topics) == 1
 

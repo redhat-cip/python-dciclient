@@ -86,8 +86,8 @@ def update(
     )
 
 
-def delete(context, id):
-    return base.delete(context, RESOURCE, id=id)
+def delete(context, id, etag):
+    return base.delete(context, RESOURCE, id=id, etag=etag)
 
 
 def attach_team(context, id, team_id):
