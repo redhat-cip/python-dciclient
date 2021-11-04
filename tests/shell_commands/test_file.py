@@ -34,7 +34,6 @@ def test_delete(runner, file_id):
 
 
 def test_where_on_list(runner, job_id):
-    assert (
-        runner.invoke(["file-list", job_id, "--where", "size:785"])["_meta"]["count"]
-        == 1
-    )
+    files = runner.invoke(["file-list", job_id, "--where", "size:785"])['files']
+    assert len(files) == 1
+    assert files[0]['size'] == 785
