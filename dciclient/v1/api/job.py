@@ -107,22 +107,6 @@ def list_files_iter(context, id, **kwargs):
     return base.iter(context, RESOURCE, id=id, subresource="files", **kwargs)
 
 
-def list_issues(context, id, **kwargs):
-    return base.list(context, RESOURCE, id=id, subresource="issues", **kwargs)
-
-
-def attach_issue(context, id, url):
-    uri = "%s/%s/%s/issues" % (context.dci_cs_api, RESOURCE, id)
-    data = {"url": url}
-    return context.session.post(uri, json=data)
-
-
-def unattach_issue(context, id, issue_id):
-    return base.delete(
-        context, RESOURCE, id, subresource="issues", subresource_id=issue_id
-    )
-
-
 def list_jobstates(context, id, **kwargs):
     return base.list(context, RESOURCE, id=id, subresource="jobstates", **kwargs)
 

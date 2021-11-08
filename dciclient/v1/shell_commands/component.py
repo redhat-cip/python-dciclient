@@ -87,16 +87,3 @@ def update(context, args):
     return component.update(
         context, id=args.id, etag=etag, state=active_string(args.state)
     )
-
-
-def attach_issue(context, args):
-    return component.attach_issue(context, args.id, args.url)
-
-
-def unattach_issue(context, args):
-    return component.unattach_issue(context, args.id, args.issue_id)
-
-
-def list_issues(context, args):
-    params = {k: getattr(args, k) for k in ["id", "sort", "limit", "offset"]}
-    return component.list_issues(context, **params)

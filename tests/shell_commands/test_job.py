@@ -16,7 +16,6 @@
 
 from dciclient.v1.api import job
 
-import pytest
 import requests
 import requests.exceptions
 
@@ -110,53 +109,6 @@ def test_results(runner, job_id):
     result = runner.invoke(["job-results", job_id])["results"][0]
 
     assert result["filename"] == "res_junit.xml"
-
-
-@pytest.mark.skipif(not internet_cnx, reason="internet connection required")
-def test_attach_issue(runner, job_id):
-    result = runner.invoke(["job-list-issue", job_id])["_meta"]["count"]
-    assert result == 0
-
-    issue = runner.invoke(
-        [
-            "job-attach-issue",
-            job_id,
-            "--url",
-            "https://github.com/redhat-cip/dci-control-server/issues/2",
-        ]
-    )
-    # NOTE(Goneri): until we fix the consistency issue with this endpoint:
-    # https://softwarefactory-project.io/r/6863
-    if "issue" in issue:
-        issue = issue["issue"]
-    else:
-        issue["id"] = issue["issue-id"]
-    result = runner.invoke(["job-list-issue", job_id])
-    assert issue["id"] == result["issues"][0]["id"]
-
-
-@pytest.mark.skipif(not internet_cnx, reason="internet connection required")
-def test_unattach_issue(runner, job_id):
-    result = runner.invoke(["job-list-issue", job_id])["_meta"]["count"]
-    assert result == 0
-
-    runner.invoke(
-        [
-            "job-attach-issue",
-            job_id,
-            "--url",
-            "https://github.com/redhat-cip/dci-control-server/issues/2",
-        ]
-    )
-    result = runner.invoke(["job-list-issue", job_id])
-    res = result["_meta"]["count"]
-    issue_id = result["issues"][0]["id"]
-    assert res == 1
-
-    runner.invoke_raw(["job-unattach-issue", job_id, "--issue-id", issue_id])
-    result = runner.invoke(["job-list-issue", job_id])
-    count = result["_meta"]["count"]
-    assert count == 0
 
 
 def test_job_output(runner, job_id):

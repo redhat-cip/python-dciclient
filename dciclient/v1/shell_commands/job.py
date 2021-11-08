@@ -37,19 +37,6 @@ def list_results(context, args):
     return job.list_results(context, **params)
 
 
-def attach_issue(context, args):
-    return job.attach_issue(context, id=args.id, url=args.url)
-
-
-def unattach_issue(context, args):
-    return job.unattach_issue(context, id=args.id, issue_id=args.issue_id)
-
-
-def list_issues(context, args):
-    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "id", "where"]}
-    return job.list_issues(context, **params)
-
-
 def output(context, args):
     result = job.list_jobstates(context, id=args.id, sort="created_at")
     jobstates = result.json()["jobstates"]

@@ -33,7 +33,7 @@ def create(
     url=None,
     state="active",
     tags=[],
-    released_at=None
+    released_at=None,
 ):
     return base.create(
         context,
@@ -49,7 +49,7 @@ def create(
         team_id=team_id,
         state=state,
         tags=tags,
-        released_at=released_at
+        released_at=released_at,
     )
 
 
@@ -76,7 +76,7 @@ def update(
         content=content,
         state=state,
         data=data,
-        tags=tags
+        tags=tags,
     )
 
 
@@ -107,22 +107,6 @@ def file_list(context, id, **kwargs):
 def file_delete(context, id, file_id, etag):
     return base.delete(
         context, RESOURCE, id, subresource="files", subresource_id=file_id, etag=etag
-    )
-
-
-def list_issues(context, id, **kwargs):
-    return base.list(context, RESOURCE, id=id, subresource="issues", **kwargs)
-
-
-def attach_issue(context, id, url):
-    uri = "%s/%s/%s/issues" % (context.dci_cs_api, RESOURCE, id)
-    data = {"url": url}
-    return context.session.post(uri, json=data)
-
-
-def unattach_issue(context, id, issue_id):
-    return base.delete(
-        context, RESOURCE, id, subresource="issues", subresource_id=issue_id
     )
 
 
