@@ -120,7 +120,9 @@ def list_tests(context, id, **kwargs):
 
 
 def list_tags(context, id):
-    return base.list(context, RESOURCE, id=id, subresource="tags")
+    job = base.get(context, RESOURCE, id=id).json()["job"]
+    tags = job["tags"]
+    return {"tags": tags, "_meta": {"count": len(tags)}}
 
 
 def add_tag(context, id, name):
