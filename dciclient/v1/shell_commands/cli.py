@@ -582,65 +582,20 @@ def parse_arguments(args, environment={}):
     p.set_defaults(command="job-results")
 
     p = subparsers.add_parser(
-        "job-attach-issue", help="Attach an issue to a job.", parents=[base_parser]
-    )
-    p.add_argument("id")
-    p.add_argument("--url", required=True)
-    p.set_defaults(command="job-attach-issue")
-
-    p = subparsers.add_parser(
-        "job-unattach-issue", help="Unattach an issue to a job.", parents=[base_parser]
-    )
-    p.add_argument("id")
-    p.add_argument("--issue-id", required=True)
-    p.set_defaults(command="job-unattach-issue")
-
-    p = subparsers.add_parser(
-        "job-list-issue", help="List all job attached issues.", parents=[base_parser]
-    )
-    p.add_argument("id")
-    p.add_argument("--sort", default="-created_at")
-    p.add_argument("--limit", default=50)
-    p.add_argument("--offset", default=0)
-    p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.set_defaults(command="job-list-issue")
-
-    p = subparsers.add_parser(
         "job-output", help="Show the job output.", parents=[base_parser]
     )
     p.add_argument("id")
     p.set_defaults(command="job-output")
 
     p = subparsers.add_parser(
-        "job-list-test", help="List all tests attached issues.", parents=[base_parser]
+        "job-list-test", help="List all job tests.", parents=[base_parser]
     )
     p.add_argument("id")
     p.add_argument("--sort", default="-created_at")
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.set_defaults(command="job-list-issue")
-
-    p = subparsers.add_parser(
-        "job-add-tag", help="Add a tag to a job.", parents=[base_parser]
-    )
-    p.add_argument("id")
-    p.add_argument("name")
-    p.set_defaults(command="job-add-tag")
-
-    p = subparsers.add_parser(
-        "job-delete-tag", help="Drop a tag to a job.", parents=[base_parser]
-    )
-    p.add_argument("id")
-    p.add_argument("tag_id")
-    p.add_argument("tag_name")
-    p.set_defaults(command="job-delete-tag")
-
-    p = subparsers.add_parser(
-        "job-list-tags", help="List all the tags of a job.", parents=[base_parser]
-    )
-    p.add_argument("id")
-    p.set_defaults(command="job-list-tags")
+    p.set_defaults(command="job-list-test")
 
     p = subparsers.add_parser(
         "job-upload-file", help="Attach a file to a job.", parents=[base_parser]
