@@ -59,24 +59,14 @@ def get(context, id, **kwargs):
 
 def update(
     context,
-    id=None,
-    etag=None,
-    name=None,
-    content=None,
-    state=None,
-    data=None,
-    tags=None,
+    id,
+    **kwargs
 ):
     return base.update(
         context,
         RESOURCE,
         id=id,
-        etag=etag,
-        name=name,
-        content=content,
-        state=state,
-        data=data,
-        tags=tags,
+        **kwargs
     )
 
 

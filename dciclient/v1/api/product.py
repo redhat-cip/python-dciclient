@@ -40,8 +40,15 @@ def get(context, id, **kwargs):
     return base.get(context, RESOURCE, id=id, **kwargs)
 
 
-def update(context, id, **kwargs):
-    return base.update(context, RESOURCE, id=id, **kwargs)
+def update(context, id, etag, **kwargs):
+    r = base.update(
+        context,
+        RESOURCE,
+        id=id,
+        etag=etag,
+        **kwargs
+    )
+    return r
 
 
 def delete(context, id, etag):

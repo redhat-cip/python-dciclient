@@ -50,7 +50,6 @@ def update(context, args):
         for k in [
             "name",
             "component_types",
-            "label",
             "next_topic_id",
             "state",
             "export_control",

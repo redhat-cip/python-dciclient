@@ -14,6 +14,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import os
 import sys
 from mock import patch
 from pytest import raises
@@ -42,7 +43,7 @@ def test_parse_arguments_format():
     args = parse_arguments(["--format", "tsv", "user-list"])
     assert args.format == "tsv"
     args = parse_arguments(["user-list"])
-    assert args.format == "table"
+    assert args.format == os.environ.get("DCI_FORMAT", "table")
 
 
 def test_parse_arguments_dci_login():

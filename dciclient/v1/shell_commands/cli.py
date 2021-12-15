@@ -15,6 +15,8 @@
 # under the License.
 
 import argparse
+import os
+import sys
 from argparse import ArgumentParser
 from datetime import datetime
 from dciclient.version import __version__
@@ -109,7 +111,7 @@ def parse_arguments(args, environment={}):
     )
     parser.add_argument(
         "--format",
-        default="table",
+        default=os.environ.get("DCI_FORMAT", "table"),
         choices=["table", "json", "csv", "tsv"],
         help="Output format",
     )
@@ -356,7 +358,6 @@ def parse_arguments(args, environment={}):
     p.add_argument(
         "--component_types", default=None, help="Component types separated by commas."
     )
-    p.add_argument("--label")
     p.add_argument("--next-topic-id")
     _create_boolean_flags(p, "--active/--no-active", default=False, dest="state")
     _create_boolean_flags(
@@ -428,7 +429,7 @@ def parse_arguments(args, environment={}):
     p.add_argument("--team-id")
     _create_array_argument(p, "--tags", help="Comma separated list of tags")
     p.add_argument(
-        "--canonical_project_name", default=None, help="Canoncial project name."
+        "--canonical_project_name", default=None, help="Canonical project name."
     )
     p.add_argument("--title", help="Title of component")
     p.add_argument("--message", help="Component message")
@@ -444,6 +445,16 @@ def parse_arguments(args, environment={}):
     )
     p.add_argument("id")
     _create_boolean_flags(p, "--active/--no-active", default=None, dest="state")
+    p.add_argument("--name", required=False, help="Name of component")
+    p.add_argument("--type", required=False, help="Type of component")
+    _create_array_argument(p, "--tags", help="Comma separated list of tags")
+    p.add_argument(
+        "--canonical_project_name", default=None, help="Canonical project name."
+    )
+    p.add_argument("--title", help="Title of component")
+    p.add_argument("--message", help="Component message")
+    p.add_argument("--url", help="URL to look for the component")
+    p.add_argument("--data", default="{}", help="Data to pass (JSON)")
     p.set_defaults(command="component-update")
 
     p = subparsers.add_parser(
@@ -821,4 +832,9 @@ def parse_arguments(args, environment={}):
     p.set_defaults(command="purge")
 
     args = parser.parse_args(args)
+
+    if "command" not in args:
+        parser.print_help()
+        sys.exit()
+
     return args

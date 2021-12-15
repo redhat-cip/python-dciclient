@@ -115,6 +115,7 @@ def test_update_active(runner):
     )
 
     assert result["product"]["state"] == "inactive"
+    assert result["product"]["name"] == "foobar"
 
     result = runner.invoke(
         [
@@ -127,6 +128,32 @@ def test_update_active(runner):
     )
 
     assert result["product"]["state"] == "active"
+
+
+def test_update_label(runner, product_id):
+    product = runner.invoke(
+        [
+            "product-create",
+            "--name",
+            "fooproduct",
+            "--label",
+            "foo",
+        ]
+    )["product"]
+
+    result = runner.invoke(
+        [
+            "product-update",
+            product["id"],
+            "--etag",
+            product["etag"],
+            "--label",
+            "bar",
+        ]
+    )
+
+    assert result["product"]["id"] == product["id"]
+    assert result["product"]["label"] == "BAR"
 
 
 def test_delete(runner):

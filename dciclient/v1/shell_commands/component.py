@@ -80,10 +80,23 @@ def file_delete(context, args):
 
 
 def update(context, args):
+    params = {
+        k: getattr(args, k)
+        for k in [
+            "name",
+            "type",
+            "canonical_project_name",
+            "title",
+            "message",
+            "url",
+            "state",
+            "data",
+            "tags",
+        ]
+    }
+
     component_info = component.get(context, args.id)
-
-    etag = component_info.json()["component"]["etag"]
-
-    return component.update(
-        context, id=args.id, etag=etag, state=active_string(args.state)
-    )
+    params["etag"] = component_info.json()["component"]["etag"]
+    params["data"] = validate_json(context, "data", params["data"])
+    params["state"] = active_string(params["state"])
+    return component.update(context, id=args.id, **params)

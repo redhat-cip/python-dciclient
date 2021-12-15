@@ -218,6 +218,106 @@ def test_file_support(runner, tmpdir, product_id):
     assert result.status_code == 404
 
 
+def test_update(runner, product_id):
+    topic = runner.invoke(
+        ["topic-create", "--name", "osp", "--product-id", product_id]
+    )["topic"]
+
+    component = runner.invoke(
+        [
+            "component-create",
+            "--name",
+            "name",
+            "--canonical_project_name",
+            "canonical",
+            "--type",
+            "type",
+            "--tags",
+            "foo,bar",
+            "--title",
+            "title",
+            "--message",
+            "a message",
+            "--url",
+            "http://localhost/foo",
+            "--topic-id",
+            topic["id"],
+        ]
+    )["component"]
+
+    assert component["name"] == "name"
+    assert component["canonical_project_name"] == "canonical"
+    assert component["type"] == "type"
+    assert component["title"] == "title"
+    assert component["message"] == "a message"
+    assert component["url"] == "http://localhost/foo"
+    assert len(component["tags"]) == 2
+    assert component["tags"][0] == "foo"
+    assert component["tags"][1] == "bar"
+
+    result = runner.invoke(
+        [
+            "component-update",
+            "--name",
+            "newname",
+            "--canonical_project_name",
+            "newcanonical",
+            "--type",
+            "newtype",
+            "--tags",
+            "new,tag",
+            "--title",
+            "newtitle",
+            "--message",
+            "a new message",
+            "--url",
+            "http://localhost/bar",
+            component["id"],
+        ]
+    )["component"]
+
+    assert result["name"] == "newname"
+    assert result["canonical_project_name"] == "newcanonical"
+    assert result["type"] == "newtype"
+    assert result["title"] == "newtitle"
+    assert result["message"] == "a new message"
+    assert result["url"] == "http://localhost/bar"
+    assert len(result["tags"]) == 2
+    assert result["tags"][0] == "new"
+    assert result["tags"][1] == "tag"
+
+
+def test_update_with_data(runner, product_id):
+    topic = runner.invoke(
+        ["topic-create", "--name", "osp", "--product-id", product_id]
+    )["topic"]
+
+    component = runner.invoke(
+        [
+            "component-create",
+            "--name",
+            "foo",
+            "--type",
+            "bar",
+            "--topic-id",
+            topic["id"],
+        ]
+    )["component"]
+
+    assert len(component["data"]) == 0
+
+    result = runner.invoke(
+        [
+            "component-update",
+            component["id"],
+            "--data",
+            '{"foo": "bar"}',
+        ]
+    )
+
+    assert result["component"]["data"]["foo"] == "bar"
+
+
 def test_update_active(runner, product_id):
     topic = runner.invoke(
         ["topic-create", "--name", "osp", "--product-id", product_id]
