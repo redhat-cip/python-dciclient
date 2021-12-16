@@ -33,7 +33,7 @@ def test_iter(dci_context, job_id):
         )
     cpt = 0
     seen_names = []
-    for f in job.list_files_iter(dci_context, id=job_id):
+    for f in job.list_files_iter(dci_context, id=job_id, limit=200, offset=0):
         seen_names.append(f["name"])
         cpt += 1
     # job already comes with 2 files
