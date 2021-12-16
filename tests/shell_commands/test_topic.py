@@ -231,6 +231,7 @@ def test_update_with_component_types(runner, product_id):
     topic = runner.invoke(
         ["topic-create", "--name", "osp", "--product-id", product_id]
     )["topic"]
+
     result = runner.invoke(
         [
             "topic-update",
@@ -238,14 +239,44 @@ def test_update_with_component_types(runner, product_id):
             "--etag",
             topic["etag"],
             "--component_types",
-            "foo,bar",
+            "one,two",
         ]
     )
 
     assert result["topic"]["id"] == topic["id"]
-    assert len(result["topic"]["component_types"]) == 2
-    assert result["topic"]["component_types"][0] == "foo"
-    assert result["topic"]["component_types"][1] == "bar"
+    assert result["topic"]["component_types"] == ["one", "two"]
+
+    # make sure component_types stay the same
+    updated_etag = result["topic"]["etag"]
+    result = runner.invoke(
+        [
+            "topic-update",
+            topic["id"],
+            "--etag",
+            updated_etag,
+            "--data",
+            '{"foo": "bar"}',
+        ]
+    )
+
+    assert result["topic"]["id"] == topic["id"]
+    assert result["topic"]["component_types"] == ["one", "two"]
+
+    # now update component_types to something else
+    updated_etag = result["topic"]["etag"]
+    result = runner.invoke(
+        [
+            "topic-update",
+            topic["id"],
+            "--etag",
+            updated_etag,
+            "--component_types",
+            "three,four,five",
+        ]
+    )
+
+    assert result["topic"]["id"] == topic["id"]
+    assert result["topic"]["component_types"] == ["three", "four", "five"]
 
 
 def test_update_with_data(runner, product_id):
