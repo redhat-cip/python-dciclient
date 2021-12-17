@@ -53,6 +53,12 @@ def create(
     )
 
 
+def get_or_create(context, **kwargs):
+    return base.get_or_create(
+        context, "topics", id=kwargs["topic_id"], subresource="components", **kwargs
+    )
+
+
 def get(context, id, **kwargs):
     return base.get(context, RESOURCE, id=id, **kwargs)
 

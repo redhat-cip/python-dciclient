@@ -45,6 +45,10 @@ def create(
     )
 
 
+def get_or_create(context, **kwargs):
+    return base.get_or_create(context, RESOURCE, **kwargs)
+
+
 def list(context, **kwargs):
     return base.list(context, RESOURCE, **kwargs)
 

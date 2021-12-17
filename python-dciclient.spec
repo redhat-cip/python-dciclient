@@ -5,7 +5,7 @@
 %endif
 
 Name:           python-dciclient
-Version:        2.1.0
+Version:        2.2.0
 Release:        1.VERS%{?dist}
 
 Summary:        Python client for DCI control server
@@ -95,6 +95,9 @@ install -d %{buildroot}%{_bindir}
 
 
 %changelog
+* Tue Dec 21 2021 Guillaume Vincent <gvincent@redhat.com> - 2.2.0-1
+- Add get_or_create base method
+
 * Sat Jun 19 2021 Frederic Lepied <flepied@redhat.com> - 2.1.0-1
 - add optional parameters to jobs.create and jobs.schedule
 

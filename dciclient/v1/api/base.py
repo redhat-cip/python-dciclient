@@ -27,6 +27,25 @@ def create(context, resource, **kwargs):
     return r
 
 
+def get_or_create(context, resource, defaults, **kwargs):
+    """Get or Create a resource with defaults"""
+    data = utils.sanitize_kwargs(**kwargs)
+    id = data.pop("id", None)
+    subresource = data.pop("subresource", None)
+    if subresource:
+        uri = "%s/%s/%s/%s" % (context.dci_cs_api, resource, id, subresource)
+    else:
+        uri = "%s/%s" % (context.dci_cs_api, resource)
+    params = {"where": ",".join(["%s:%s" % (k, v) for k, v in data.items()])}
+    r = context.session.get(uri, timeout=HTTP_TIMEOUT, params=params)
+    resource = subresource if subresource else resource
+    items = r.json()[resource]
+    if items:
+        return get(context, resource, id=items[0]["id"], **data)
+    data = dict(data, **defaults)
+    return create(context, resource, **data)
+
+
 def list(context, resource, **kwargs):
     """List all resources"""
     data = utils.sanitize_kwargs(**kwargs)

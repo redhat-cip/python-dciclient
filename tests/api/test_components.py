@@ -14,7 +14,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from dciclient.v1.api import component
+from dciclient.v1.api import component as api_component
+from dciclient.v1.api import topic as api_topic
 
 
 def test_success_download_component_file_returns_http_response(
@@ -25,55 +26,101 @@ def test_success_download_component_file_returns_http_response(
     tmp_file = tmpdir.mkdir("data").join("content")
     tmp_file.write("DISTRIBUTED-CI")
 
-    component.file_upload(dci_context, component_id, tmp_file.strpath)
+    api_component.file_upload(dci_context, component_id, tmp_file.strpath)
 
-    file_id = component.file_list(dci_context, component_id).json()["component_files"][
-        0
-    ]["id"]
+    file_id = api_component.file_list(dci_context, component_id).json()[
+        "component_files"
+    ][0]["id"]
 
-    res = component.file_download(dci_context, component_id, file_id, tmp_file.strpath)
+    res = api_component.file_download(
+        dci_context, component_id, file_id, tmp_file.strpath
+    )
 
     assert res is None
 
 
 def test_add_tags_with_an_update(dci_context, component_id):
-    r = component.get(dci_context, component_id)
+    r = api_component.get(dci_context, component_id)
     data = r.json()["component"]
     assert r.status_code == 200
     assert data["tags"] == []
-    r = component.update(
+    r = api_component.update(
         dci_context, component_id, etag=data["etag"], tags=["t1", "t2"]
     )
     assert r.status_code == 200
     assert r.json()["component"]["tags"] == ["t1", "t2"]
     etag = r.json()["component"]["etag"]
-    r = component.update(dci_context, component_id, etag=etag)
+    r = api_component.update(dci_context, component_id, etag=etag)
     assert r.status_code == 200
     assert r.json()["component"]["tags"] == ["t1", "t2"]
 
 
 def test_add_tag(dci_context, component_id):
-    r = component.get(dci_context, component_id)
+    r = api_component.get(dci_context, component_id)
     assert r.status_code == 200
     assert r.json()["component"]["tags"] == []
-    r = component.add_tag(dci_context, component_id, "tag 1")
+    r = api_component.add_tag(dci_context, component_id, "tag 1")
     assert r.status_code == 200
     assert r.json()["component"]["tags"] == ["tag 1"]
-    r = component.add_tag(dci_context, component_id, "tag 2")
+    r = api_component.add_tag(dci_context, component_id, "tag 2")
     assert r.status_code == 200
     assert r.json()["component"]["tags"] == ["tag 1", "tag 2"]
 
 
 def test_delete_tags(dci_context, component_id):
-    r = component.add_tag(dci_context, component_id, "tag 1")
-    r = component.add_tag(dci_context, component_id, "tag 2")
+    r = api_component.add_tag(dci_context, component_id, "tag 1")
+    r = api_component.add_tag(dci_context, component_id, "tag 2")
     assert r.json()["component"]["tags"] == ["tag 1", "tag 2"]
-    r = component.delete_tag(dci_context, component_id, "tag 1")
+    r = api_component.delete_tag(dci_context, component_id, "tag 1")
     assert r.status_code == 200
     assert r.json()["component"]["tags"] == ["tag 2"]
-    r = component.delete_tag(dci_context, component_id, "tag 2")
+    r = api_component.delete_tag(dci_context, component_id, "tag 2")
     assert r.status_code == 200
     assert r.json()["component"]["tags"] == []
-    r = component.delete_tag(dci_context, component_id, "tag 2")
+    r = api_component.delete_tag(dci_context, component_id, "tag 2")
     assert r.status_code == 200
     assert r.json()["component"]["tags"] == []
+
+
+def test_get_or_create_component(dci_context, topic_id):
+    nb_components = len(
+        api_topic.list_components(dci_context, topic_id).json()["components"]
+    )
+    component = {
+        "name": "component1",
+        "type": "component_type",
+        "data": {"dir": "/tmp"},
+        "topic_id": topic_id,
+    }
+    component = api_component.create(dci_context, **component).json()["component"]
+    nb_components += 1
+
+    r = api_component.get_or_create(
+        dci_context,
+        name="component1",
+        topic_id=topic_id,
+        type="component_type",
+        defaults={"canonical_project_name": "canonical component1"},
+    )
+    assert r.status_code == 200
+    existing_component = r.json()["component"]
+    assert existing_component["id"] == component["id"]
+    assert existing_component["canonical_project_name"] is None
+
+    r = api_component.get_or_create(
+        dci_context,
+        name="component2",
+        topic_id=topic_id,
+        type="component_type",
+        defaults={"canonical_project_name": "canonical component2"},
+    )
+    nb_components += 1
+    assert r.status_code == 201
+    new_component = r.json()["component"]
+    assert new_component["id"] != component["id"]
+    assert new_component["canonical_project_name"] == "canonical component2"
+
+    assert (
+        len(api_topic.list_components(dci_context, topic_id).json()["components"])
+        == nb_components
+    )
