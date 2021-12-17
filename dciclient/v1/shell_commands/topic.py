@@ -35,11 +35,10 @@ def create(context, args):
             "data",
         ]
     }
-    params["component_types"] = (
-        params["component_types"].split(",")
-        if params["component_types"] is not None
-        else []
-    )
+
+    if params["component_types"] is not None:
+        params["component_types"] = params["component_types"].split(",")
+
     params["state"] = active_string(params["state"])
     return topic.create(context, **params)
 
@@ -57,11 +56,10 @@ def update(context, args):
             "data",
         ]
     }
-    params["component_types"] = (
-        params["component_types"].split(",")
-        if params["component_types"] is not None
-        else []
-    )
+
+    if params["component_types"] is not None:
+        params["component_types"] = params["component_types"].split(",")
+
     params["state"] = active_string(params["state"])
 
     return topic.update(context, args.id, args.etag, **params)
