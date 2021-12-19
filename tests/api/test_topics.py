@@ -28,21 +28,23 @@ def test_get_or_create_topic(dci_context, product_id):
     topic = api_topic.create(dci_context, **kwargs).json()["topic"]
     nb_topics += 1
 
-    r = api_topic.get_or_create(
+    r, created = api_topic.get_or_create(
         dci_context,
         name="topic1",
         defaults={"product_id": product_id, "export_control": True},
     )
+    assert created is False
     assert r.status_code == 200
     existing_topic = r.json()["topic"]
     assert existing_topic["id"] == topic["id"]
     assert existing_topic["export_control"] is False
 
-    r = api_topic.get_or_create(
+    r, created = api_topic.get_or_create(
         dci_context,
         name="topic2",
         defaults={"product_id": product_id, "export_control": True},
     )
+    assert created
     nb_topics += 1
     assert r.status_code == 201
     new_topic = r.json()["topic"]

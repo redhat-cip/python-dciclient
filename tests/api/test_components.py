@@ -95,7 +95,7 @@ def test_get_or_create_component(dci_context, topic_id):
     component = api_component.create(dci_context, **component).json()["component"]
     nb_components += 1
 
-    r = api_component.get_or_create(
+    r, created = api_component.get_or_create(
         dci_context,
         name="component1",
         topic_id=topic_id,
@@ -103,17 +103,19 @@ def test_get_or_create_component(dci_context, topic_id):
         defaults={"canonical_project_name": "canonical component1"},
     )
     assert r.status_code == 200
+    assert created is False
     existing_component = r.json()["component"]
     assert existing_component["id"] == component["id"]
     assert existing_component["canonical_project_name"] is None
 
-    r = api_component.get_or_create(
+    r, created = api_component.get_or_create(
         dci_context,
         name="component2",
         topic_id=topic_id,
         type="component_type",
         defaults={"canonical_project_name": "canonical component2"},
     )
+    assert created
     nb_components += 1
     assert r.status_code == 201
     new_component = r.json()["component"]

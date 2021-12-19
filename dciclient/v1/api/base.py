@@ -41,9 +41,9 @@ def get_or_create(context, resource, defaults, **kwargs):
     resource = subresource if subresource else resource
     items = r.json()[resource]
     if items:
-        return get(context, resource, id=items[0]["id"], **data)
+        return get(context, resource, id=items[0]["id"], **data), False
     data = dict(data, **defaults)
-    return create(context, resource, **data)
+    return create(context, resource, **data), True
 
 
 def list(context, resource, **kwargs):
