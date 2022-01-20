@@ -5,7 +5,7 @@
 %endif
 
 Name:           python-dciclient
-Version:        2.2.0
+Version:        2.2.1
 Release:        1.VERS%{?dist}
 
 Summary:        Python client for DCI control server
@@ -95,6 +95,9 @@ install -d %{buildroot}%{_bindir}
 
 
 %changelog
+* Thu Jan 20 2022 Guillaume Vincent <gvincent@redhat.com> - 2.2.1-1
+- Refactor printers
+
 * Tue Dec 21 2021 Guillaume Vincent <gvincent@redhat.com> - 2.2.0-1
 - Add get_or_create base method
 
