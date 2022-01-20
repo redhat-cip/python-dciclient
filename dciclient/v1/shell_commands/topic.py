@@ -17,6 +17,8 @@
 from dciclient.v1.api import topic
 from dciclient.v1.utils import active_string
 
+COLUMNS = ["id", "name", "state", "export_control", "product_id", "component_types"]
+
 
 def list(context, args):
     params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}

@@ -15,6 +15,7 @@
 # under the License.
 
 from dciclient.v1.shell_commands import user
+from dciclient.v1.shell_commands import topic
 
 
 command_columns = {
@@ -23,6 +24,11 @@ command_columns = {
     "user-show": user.COLUMNS,
     "user-update": user.COLUMNS,
     "user-delete": user.COLUMNS,
+    "topic-list": topic.COLUMNS,
+    "topic-create": topic.COLUMNS,
+    "topic-show": topic.COLUMNS,
+    "topic-update": topic.COLUMNS,
+    "topic-delete": topic.COLUMNS,
 }
 
 
