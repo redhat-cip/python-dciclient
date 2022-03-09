@@ -63,19 +63,6 @@ def get_data(context, args):
     return remoteci.get_data(context, id=args.id, keys=keys)
 
 
-def attach_test(context, args):
-    return remoteci.add_test(context, id=args.id, test_id=args.test_id)
-
-
-def list_test(context, args):
-    params = {k: getattr(args, k) for k in ["id", "sort", "limit", "offset", "where"]}
-    return remoteci.list_tests(context, **params)
-
-
-def unattach_test(context, args):
-    return remoteci.remove_test(context, id=args.id, test_id=args.test_id)
-
-
 def reset_api_secret(context, args):
     return remoteci.reset_api_secret(context, id=args.id, etag=args.etag)
 

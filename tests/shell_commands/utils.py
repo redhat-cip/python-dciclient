@@ -75,7 +75,6 @@ def generate_componenttype(client):
 def generate_job(client, topic_id):
     componenttype = generate_componenttype(client)
 
-    client.post("/tests", {"name": "my_test"})
     component = client.post(
         "/components",
         {

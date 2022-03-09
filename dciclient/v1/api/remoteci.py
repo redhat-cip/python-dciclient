@@ -57,21 +57,6 @@ def delete(context, id, etag):
     return base.delete(context, RESOURCE, id=id, etag=etag)
 
 
-def add_test(context, id, test_id):
-    uri = "%s/%s/%s/tests" % (context.dci_cs_api, RESOURCE, id)
-    return context.session.post(uri, json={"test_id": test_id})
-
-
-def list_tests(context, id, **kwargs):
-    return base.list(context, RESOURCE, id=id, subresource="tests", **kwargs)
-
-
-def remove_test(context, id, test_id):
-    return base.delete(
-        context, RESOURCE, id, subresource="tests", subresource_id=test_id
-    )
-
-
 def reset_api_secret(context, id, etag):
     return base.update(context, RESOURCE, id="%s/api_secret" % id, etag=etag)
 

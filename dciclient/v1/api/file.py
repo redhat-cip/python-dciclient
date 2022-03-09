@@ -32,7 +32,6 @@ def create(
     jobstate_id=None,
     md5=None,
     job_id=None,
-    test_id=None,
 ):
     """Method to create a file on the Control-Server
 
@@ -56,7 +55,6 @@ def create(
         "DCI-JOBSTATE-ID": jobstate_id,
         "DCI-MD5": md5,
         "DCI-JOB-ID": job_id,
-        "DCI-TEST-ID": test_id,
         "Content-Type": mime
     }
     headers = utils.sanitize_kwargs(**headers)
@@ -85,7 +83,6 @@ def create_with_stream(
     jobstate_id=None,
     md5=None,
     job_id=None,
-    test_id=None,
 ):
     return create(
         context,
@@ -95,7 +92,6 @@ def create_with_stream(
         jobstate_id=jobstate_id,
         md5=md5,
         job_id=job_id,
-        test_id=test_id,
     )
 
 

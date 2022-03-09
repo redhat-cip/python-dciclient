@@ -21,7 +21,6 @@ def purge(context, args):
     resources = [
         "components",
         "topics",
-        "tests",
         "teams",
         "feeders",
         "remotecis",

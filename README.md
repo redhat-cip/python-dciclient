@@ -56,7 +56,6 @@ Run `dcictl --help` command to see the list of the available commands
 
 ```
 Commands:
-  component-attach-issue       Attach an issue to a component.
   component-create             Create a component.
   component-delete             Delete a component.
   component-file-delete        Delete a component file.
@@ -65,24 +64,18 @@ Commands:
   component-file-show          Show a component file.
   component-file-upload        Attach a file to a component.
   component-list               List all components.
-  component-list-issue         List all component attached issues.
   component-show               Show a component.
   component-status             Show an overview of the last jobs associated...
-  component-unattach-issue     Unattach an issue from a component.
   component-update             Update a component.
   file-delete                  Delete a file.
   file-list                    List all files.
   file-show                    Show a file.
-  job-attach-issue             Attach an issue to a job.
   job-delete                   Delete a job.
   job-list                     List all jobs.
-  job-list-issue               List all job attached issues.
-  job-list-test                List all tests attached to a job.
   job-output                   Show the job output.
   job-recheck                  Recheck a job.
   job-results                  List all job results.
   job-show                     Show a job.
-  job-unattach-issue           Unattach an issue from a job.
   jobdefinition-annotate       Annotate a jobdefinition.
   jobdefinition-attach-test    Attach a test to a jobdefinition.
   jobdefinition-create         Create a jobdefinition.
@@ -96,26 +89,19 @@ Commands:
   jobstate-list                List all jobstates.
   jobstate-show                Show a jobstate.
   purge                        Purge soft-deleted resources.
-  remoteci-attach-test         Attach a test to a remoteci.
   remoteci-create              Create a remoteci.
   remoteci-delete              Delete a remoteci.
   remoteci-get-data            Retrieve data field from a remoteci.
   remoteci-list                List all remotecis.
-  remoteci-list-test           List tests attached to a remoteci.
   remoteci-refresh-keys        Refresh a remoteci key pair.
   remoteci-reset-api-secret    Reset a remoteci api secret.
   remoteci-show                Show a remoteci.
-  remoteci-unattach-test       Unattach a test to a remoteci.
   remoteci-update              Update a remoteci.
   team-create                  Create a team.
   team-delete                  Delete a team.
   team-list                    List all teams.
   team-show                    Show a team.
   team-update                  Update a team.
-  test-create                  Create a test.
-  test-delete                  Delete a test.
-  test-list                    List all tests.
-  test-show                    Show a test.
   topic-attach-team            Attach a team to a topic.
   topic-create                 Create a topic.
   topic-delete                 Delete a topic.

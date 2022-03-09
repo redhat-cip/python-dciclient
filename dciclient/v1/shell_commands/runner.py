@@ -22,7 +22,6 @@ from dciclient.v1.shell_commands import topic
 from dciclient.v1.shell_commands import component
 from dciclient.v1.shell_commands import file
 from dciclient.v1.shell_commands import job
-from dciclient.v1.shell_commands import test
 from dciclient.v1.shell_commands import remoteci
 from dciclient.v1.shell_commands import purge
 
@@ -79,26 +78,17 @@ command_function = {
     "job-delete": job.delete,
     "job-results": job.list_results,
     "job-output": job.output,
-    "job-list-test": job.list_tests,
     "job-upload-file": job.file_upload,
     "job-download-file": job.file_download,
     "job-show-file": job.file_show,
     "job-list-file": job.file_list,
     "job-delete-file": job.file_delete,
-    "test-list": test.list,
-    "test-create": test.create,
-    "test-update": test.update,
-    "test-delete": test.delete,
-    "test-show": test.show,
     "remoteci-list": remoteci.list,
     "remoteci-create": remoteci.create,
     "remoteci-update": remoteci.update,
     "remoteci-delete": remoteci.delete,
     "remoteci-show": remoteci.show,
     "remoteci-get-data": remoteci.get_data,
-    "remoteci-attach-test": remoteci.attach_test,
-    "remoteci-unattach-test": remoteci.unattach_test,
-    "remoteci-list-test": remoteci.list_test,
     "remoteci-attach-user": remoteci.attach_user,
     "remoteci-unattach-user": remoteci.unattach_user,
     "remoteci-list-user": remoteci.list_user,

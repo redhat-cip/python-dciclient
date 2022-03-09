@@ -436,8 +436,9 @@ def parse_arguments(args, environment={}):
     p.add_argument("--url", help="URL to look for the component")
     _create_boolean_flags(p, "--active/--no-active", default=True, dest="state")
     p.add_argument("--data", default="{}", help="Data to pass (JSON)")
-    p.add_argument('--released-at', default=None, type=_date_isoformat,
-                   help="The release date")
+    p.add_argument(
+        "--released-at", default=None, type=_date_isoformat, help="The release date"
+    )
     p.set_defaults(command="component-create")
 
     p = subparsers.add_parser(
@@ -469,35 +470,6 @@ def parse_arguments(args, environment={}):
     )
     p.add_argument("id")
     p.set_defaults(command="component-show")
-
-    p = subparsers.add_parser(
-        "component-attach-issue",
-        help="Attach an issue to a component.",
-        parents=[base_parser],
-    )
-    p.add_argument("id")
-    p.add_argument("--url", required=True)
-    p.set_defaults(command="component-attach-issue")
-
-    p = subparsers.add_parser(
-        "component-unattach-issue",
-        help="Unattach an issue to a component.",
-        parents=[base_parser],
-    )
-    p.add_argument("id")
-    p.add_argument("--issue-id", required=True)
-    p.set_defaults(command="component-unattach-issue")
-
-    p = subparsers.add_parser(
-        "component-list-issue",
-        help="List all component attached issues.",
-        parents=[base_parser],
-    )
-    p.add_argument("id")
-    p.add_argument("--sort", default="-created_at")
-    p.add_argument("--limit", default=50)
-    p.add_argument("--offset", default=0)
-    p.set_defaults(command="component-list-issue")
 
     p = subparsers.add_parser(
         "component-file-upload",
@@ -599,23 +571,12 @@ def parse_arguments(args, environment={}):
     p.set_defaults(command="job-output")
 
     p = subparsers.add_parser(
-        "job-list-test", help="List all job tests.", parents=[base_parser]
-    )
-    p.add_argument("id")
-    p.add_argument("--sort", default="-created_at")
-    p.add_argument("--limit", default=50)
-    p.add_argument("--offset", default=0)
-    p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.set_defaults(command="job-list-test")
-
-    p = subparsers.add_parser(
         "job-upload-file", help="Attach a file to a job.", parents=[base_parser]
     )
     p.add_argument("job_id")
     p.add_argument("--name", required=True)
     p.add_argument("--path", required=True, dest="file_path")
     p.add_argument("--jobstate-id")
-    p.add_argument("--test-id")
     p.add_argument("--mime")
     p.set_defaults(command="job-upload-file")
 
@@ -650,44 +611,6 @@ def parse_arguments(args, environment={}):
     p.add_argument("id")
     p.add_argument("--file-id", required=True)
     p.set_defaults(command="job-delete-file")
-
-    # test commands
-    p = subparsers.add_parser(
-        "test-list", help="List all tests.", parents=[base_parser]
-    )
-    p.add_argument("--sort", default="-created_at")
-    p.add_argument("--limit", default=50)
-    p.add_argument("--offset", default=0)
-    p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.set_defaults(command="test-list")
-
-    p = subparsers.add_parser(
-        "test-create", help="Create a test.", parents=[base_parser]
-    )
-    p.add_argument("--name")
-    p.add_argument("--data", default="{}")
-    _create_boolean_flags(p, "--active/--no-active", default=True, dest="state")
-    p.set_defaults(command="test-create")
-
-    p = subparsers.add_parser(
-        "test-update", help="Update a test.", parents=[base_parser]
-    )
-    p.add_argument("id")
-    p.add_argument("--etag", required=True)
-    p.add_argument("--name")
-    p.add_argument("--data", default="{}")
-    _create_boolean_flags(p, "--active/--no-active", default=None, dest="state")
-    p.set_defaults(command="test-update")
-
-    p = subparsers.add_parser(
-        "test-delete", help="Delete a test.", parents=[base_parser]
-    )
-    p.add_argument("id")
-    p.set_defaults(command="test-delete")
-
-    p = subparsers.add_parser("test-show", help="Show a test.", parents=[base_parser])
-    p.add_argument("id")
-    p.set_defaults(command="test-show")
 
     # remoteci commands
     p = subparsers.add_parser(
@@ -740,36 +663,6 @@ def parse_arguments(args, environment={}):
     p.add_argument("id")
     p.add_argument("--keys", default=None)
     p.set_defaults(command="remoteci-get-data")
-
-    p = subparsers.add_parser(
-        "remoteci-attach-test",
-        help="Attach a test to a remoteci.",
-        parents=[base_parser],
-    )
-    p.add_argument("id")
-    p.add_argument("--test-id", required=True)
-    p.set_defaults(command="remoteci-attach-test")
-
-    p = subparsers.add_parser(
-        "remoteci-unattach-test",
-        help="Unattach a test to a remoteci.",
-        parents=[base_parser],
-    )
-    p.add_argument("id")
-    p.add_argument("--test-id", required=True)
-    p.set_defaults(command="remoteci-unattach-test")
-
-    p = subparsers.add_parser(
-        "remoteci-list-test",
-        help="List tests attached to a remoteci.",
-        parents=[base_parser],
-    )
-    p.add_argument("id")
-    p.add_argument("--sort", default="-created_at")
-    p.add_argument("--limit", default=50)
-    p.add_argument("--offset", default=0)
-    p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.set_defaults(command="remoteci-list-test")
 
     p = subparsers.add_parser(
         "remoteci-reset-api-secret",

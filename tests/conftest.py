@@ -32,7 +32,6 @@ from dciclient.v1.api import file as api_file
 from dciclient.v1.api import topic as api_topic
 from dciclient.v1.api import job as api_job
 from dciclient.v1.api import jobstate as api_jobstate
-from dciclient.v1.api import test as api_test
 from dciclient.v1.api import base as api_base
 from dciclient.v1.shell_commands import runner as dci_runner
 from dciclient.v1.shell_commands import cli
@@ -319,18 +318,6 @@ def topic_id(dci_context, product_id):
 
 
 @pytest.fixture
-def test_id(dci_context, team_id):
-    kwargs = {"name": "test_name", "team_id": team_id}
-    return api_test.create(dci_context, **kwargs).json()["test"]["id"]
-
-
-@pytest.fixture
-def test_user_id(dci_context):
-    kwargs = {"name": "test_user_name"}
-    return api_test.create(dci_context, **kwargs).json()["test"]["id"]
-
-
-@pytest.fixture
 def remoteci_id(dci_context, team_user_id):
     kwargs = {
         "name": "remoteci",
@@ -472,12 +459,6 @@ def test_user(runner):
             "pass",
         ]
     )["user"]
-
-
-@pytest.fixture
-def team_test(dci_context, team_id):
-    test = api_test.create(dci_context, "sometest", team_id=team_id).json()
-    return test["test"]
 
 
 @pytest.fixture

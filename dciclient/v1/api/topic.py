@@ -109,21 +109,6 @@ def list_components(context, id, **kwargs):
     return base.list(context, RESOURCE, id=id, subresource="components", **kwargs)
 
 
-def list_tests(context, id, **kwargs):
-    return base.list(context, RESOURCE, id=id, subresource="tests", **kwargs)
-
-
-def add_test(context, id, test_id):
-    uri = "%s/%s/%s/tests" % (context.dci_cs_api, RESOURCE, id)
-    return context.session.post(uri, json={"test_id": test_id})
-
-
-def remove_test(context, id, test_id):
-    return base.delete(
-        context, RESOURCE, id, subresource="tests", subresource_id=test_id
-    )
-
-
 def get_jobs_from_components(context, id, component_id, **kwargs):
     uri = "%s/%s/%s/components/%s/jobs" % (
         context.dci_cs_api,

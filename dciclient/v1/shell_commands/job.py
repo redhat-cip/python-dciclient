@@ -59,7 +59,7 @@ def list_tests(context, args):
 def file_upload(context, args):
     params = {
         k: getattr(args, k)
-        for k in ["job_id", "name", "file_path", "jobstate_id", "test_id", "mime"]
+        for k in ["job_id", "name", "file_path", "jobstate_id", "mime"]
     }
     return dci_file.create_with_stream(context, **params)
 
