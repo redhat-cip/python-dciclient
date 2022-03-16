@@ -116,6 +116,30 @@ Commands:
   user-update                  Update a user.
 ```
 
+## dci-vault
+
+If you want to store secrets in your YAML configuration files
+(settings or inventories), you can use the `dci-vault` command to do
+so. The various agents will then decrypt the secrets
+transparently. For example:
+
+```ShellSession
+$ source dcirc.sh
+$ echo -n 42 | dci-vault encrypt_string --stdin-name answer
+Reading plaintext input from stdin. (ctrl-d to end input)
+answer: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          36373332616633313866333234303166616237613332316534393834663934663463353433363464
+          6363626133323036383939633566383139373636633533390a316363393437653663363538343730
+          65333862633131353030353137636236663036656264393638353464343138623664323731613331
+          6466636637393865380a336365633465633037623935633866366562373732356635343361353334
+          3732
+Encryption successful
+```
+
+`dci-vault` is a thin layer on top of `ansible-vault` so all the
+sub-commands of `ansible-vault` are available.
+
 ## License
 
 Apache 2.0
