@@ -52,6 +52,7 @@ command_function = {
     "feeder-delete": feeder.delete,
     "feeder-reset-api-secret": feeder.reset_api_secret,
     "jobstate-show": jobstate.show,
+    "jobstate-create": jobstate.create,
     "topic-list": topic.list,
     "topic-create": topic.create,
     "topic-show": topic.show,

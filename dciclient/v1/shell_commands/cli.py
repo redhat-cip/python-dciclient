@@ -409,6 +409,14 @@ def parse_arguments(args, environment={}):
     p.add_argument("id")
     p.set_defaults(command="jobstate-show")
 
+    p = subparsers.add_parser(
+        "jobstate-create", help="Create a jobstate.", parents=[base_parser]
+    )
+    p.add_argument("--job-id", required=True)
+    p.add_argument("--status", required=True)
+    p.add_argument("--comment", default='')
+    p.set_defaults(command="jobstate-create")
+
     # component commands
     p = subparsers.add_parser(
         "component-list", help="List all components.", parents=[base_parser]
