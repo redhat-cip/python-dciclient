@@ -5,7 +5,8 @@
 %endif
 
 Name:           python-dciclient
-Version:        2.2.1
+# keep in sync with dciclient/version.py
+Version:        2.3.0
 Release:        1.VERS%{?dist}
 
 Summary:        Python client for DCI control server
@@ -69,7 +70,8 @@ A Python 3 implementation of the client for DCI control server.
 %endif
 
 %install
-install -d %{buildroot}%{_bindir}
+install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-dciclient
+
 %if 0%{?with_python2}
 %py2_install
 %endif
@@ -83,6 +85,8 @@ install -d %{buildroot}%{_bindir}
 %license LICENSE
 %{python2_sitelib}/*
 %{_bindir}/dcictl
+%{_bindir}/dci-vault
+%{_bindir}/dci-vault-client
 %endif
 
 %if 0%{?with_python3}
@@ -91,10 +95,15 @@ install -d %{buildroot}%{_bindir}
 %license LICENSE
 %{python3_sitelib}/*
 %{_bindir}/dcictl
+%{_bindir}/dci-vault
+%{_bindir}/dci-vault-client
 %endif
 
 
 %changelog
+* Thu Mar 17 2022 Frederic Lepied <flepied@redhat.com> - 2.3.0-1
+- add dci-vault and dci-vault-client
+
 * Thu Jan 20 2022 Guillaume Vincent <gvincent@redhat.com> - 2.2.1-1
 - Refactor printers
 
@@ -149,7 +158,7 @@ install -d %{buildroot}%{_bindir}
 * Wed Jan 15 2020 Guillaume Vincent <gvincent@redhat.com> - 0.7.0-1
 - Add methods to tag components
 
-* Tue Oct 24 2019 Guillaume Vincent <gvincent@redhat.com> - 0.5.3-1
+* Thu Oct 24 2019 Guillaume Vincent <gvincent@redhat.com> - 0.5.3-1
 - Release new version
 
 * Mon Oct 21 2019 Yassine Lamgarchal <yassine.lamgarchal@redhat.com> - 0.5.2-1

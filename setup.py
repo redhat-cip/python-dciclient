@@ -51,7 +51,7 @@ setuptools.setup(
     long_description=_get_readme(),
     long_description_content_type="text/markdown",
     install_requires=_get_requirements(),
-    url="https://github.com/redhat-cip/dci-control-server",
+    url="https://github.com/redhat-cip/python-dciclient",
     license="Apache v2.0",
     classifiers=[
         "Environment :: Console",
@@ -60,8 +60,11 @@ setuptools.setup(
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: POSIX :: Linux",
         "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.6",
         "Topic :: System :: Distributed Computing",
     ],
-    entry_points={"console_scripts": ["dcictl = dciclient.shell:main"]},
+    entry_points={"console_scripts": ["dcictl = dciclient.shell:main",
+                                      "dci-vault = dciclient.vault:main",
+                                      "dci-vault-client = dciclient.vault_client:main",
+                                      ]},
 )
