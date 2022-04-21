@@ -591,9 +591,9 @@ def parse_arguments(args, environment={}):
     p = subparsers.add_parser(
         "job-download-file", help="Retrieve a job file.", parents=[base_parser]
     )
-    p.add_argument("id")
+    p.add_argument("id", help="The job id.")
     p.add_argument("--file-id", required=True)
-    p.add_argument("--target", required=True)
+    p.add_argument("--target", required=True, help="Destination file path.")
     p.set_defaults(command="job-download-file")
 
     p = subparsers.add_parser(

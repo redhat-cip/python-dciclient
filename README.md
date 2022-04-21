@@ -8,7 +8,7 @@ The team behind the project offers repositories for Red Hat/CentOS:
 
 - `yum -y install https://packages.distributed-ci.io/dci-release.el7.noarch.rpm`
 
-Then simply run `yum install python-dciclient`.
+Then simply run `yum install python2-dciclient` for Python 2 or `yum install python3-dciclient` for Python 3.
 
 As mentioned above, the package provides two things:
 
