@@ -20,7 +20,7 @@ import requests.models
 import requests.utils
 
 from dci import auth
-from dci.db import models
+from dci.db import models2
 
 
 class FlaskHTTPAdapter(requests.adapters.HTTPAdapter):
@@ -102,85 +102,76 @@ def generate_job(client, topic_id):
     return job
 
 
-def provision(db_conn):
-    def db_insert(model_item, return_pk=True, **kwargs):
-        query = model_item.insert().values(**kwargs)
-        if return_pk:
-            return db_conn.execute(query).inserted_primary_key[0]
-        else:
-            db_conn.execute(query)
-
-    # Create teams
-    team_admin_id = db_insert(models.TEAMS, name="admin")
-    db_insert(models.TEAMS, name="Red Hat")
-    db_insert(models.TEAMS, name="EPM")
-    team_user_id = db_insert(models.TEAMS, name="user")
-
-    # Create users
-    user_pw_hash = auth.hash_password("user")
-    u_id = db_insert(
-        models.USERS,
-        name="user",
-        sso_username="user",
-        password=user_pw_hash,
-        fullname="User",
-        email="user@example.org"
-    )
-
-    db_insert(
-        models.JOIN_USERS_TEAMS, return_pk=False, user_id=u_id, team_id=team_user_id
-    )
-
-    user_no_team_pw_hash = auth.hash_password("user_no_team")
-    u_id = db_insert(
-        models.USERS,
-        name="user_no_team",
-        sso_username="user_no_team",
-        password=user_no_team_pw_hash,
-        fullname="User No Team",
-        email="user_no_team@example.org"
-    )
-
-    db_insert(models.JOIN_USERS_TEAMS, return_pk=False, user_id=u_id, team_id=None)
-
-    product_owner_pw_hash = auth.hash_password("product_owner")
-    u_id = db_insert(
-        models.USERS,
-        name="product_owner",
-        sso_username="product_owner",
-        password=product_owner_pw_hash,
-        fullname="Product Owner",
-        email="product_ownern@example.org",
-    )
-
-    db_insert(
-        models.JOIN_USERS_TEAMS, return_pk=False, user_id=u_id
-    )
-
-    admin_pw_hash = auth.hash_password("admin")
-    u_id = db_insert(
-        models.USERS,
+def provision(session):
+    # Create admin
+    admin_team = models2.Team(name="admin")
+    admin_user = models2.User(
         name="admin",
         sso_username="admin",
-        password=admin_pw_hash,
+        password=auth.hash_password("admin"),
         fullname="Admin",
         email="admin@example.org",
     )
+    admin_user.team.append(admin_team)
+    session.add(admin_user)
 
-    db_insert(
-        models.JOIN_USERS_TEAMS, return_pk=False, user_id=u_id, team_id=team_admin_id
+    # Create user
+    user_team = models2.Team(name="user")
+    user = models2.User(
+        name="user",
+        sso_username="user",
+        password=auth.hash_password("user"),
+        fullname="User",
+        email="user@example.org",
     )
+    user.team.append(user_team)
+    session.add(user)
+
+    # Create user no team
+    user_no_team = models2.User(
+        name="user_no_team",
+        sso_username="user_no_team",
+        password=auth.hash_password("user_no_team"),
+        fullname="User No Team",
+        email="user_no_team@example.org",
+    )
+    session.add(user_no_team)
+
+    # Create product_owner
+    user_no_team = models2.User(
+        name="product_owner",
+        sso_username="product_owner",
+        password=auth.hash_password("product_owner"),
+        fullname="Product Owner",
+        email="product_owner@example.org",
+    )
+    session.add(user_no_team)
+
+    # Create EPM team
+    session.add(models2.Team(name="EPM"))
+
+    # Create Red Hat team
+    red_hat = models2.Team(name="Red Hat")
+    session.add(red_hat)
+
+    # Create Red Hat employee
+    rh_employee = models2.User(
+        name="rh_employee",
+        sso_username="rh_employee",
+        password=auth.hash_password("rh_employee"),
+        fullname="Employee at Red Hat",
+        email="rh_employee@redhat.com",
+    )
+    rh_employee.team.append(red_hat)
+    session.add(rh_employee)
 
     # Create a product
-    p_id = db_insert(
-        models.PRODUCTS,
-        return_pk=True,
+    product = models2.Product(
         name="dci_product",
         label="dci_product",
         description="My Awesome product",
     )
+    user_team.products.append(product)
+    session.add(user_team)
 
-    # associate the team user to the product
-    db_insert(
-        models.JOIN_PRODUCTS_TEAMS, product_id=p_id, team_id=team_user_id
-    )
+    session.commit()
