@@ -19,6 +19,7 @@ import sqlalchemy
 import sqlalchemy_utils.functions
 import os
 import passlib.apps as passlib_apps
+from sqlalchemy.orm import sessionmaker
 
 import dci
 import dci.app
@@ -102,14 +103,14 @@ def engine(request):
     request.addfinalizer(del_db)
     sqlalchemy_utils.functions.create_database(db_uri)
 
-    dci.db.models.metadata.create_all(engine)
+    dci.db.models2.Base.metadata.create_all(engine)
     return engine
 
 
 @pytest.fixture
-def db_clean(request, engine):
+def empty_db(request, engine):
     def fin():
-        for table in reversed(dci.db.models.metadata.sorted_tables):
+        for table in reversed(dci.db.models2.Base.metadata.sorted_tables):
             engine.execute(table.delete())
 
     request.addfinalizer(fin)
@@ -136,9 +137,13 @@ def memoize_password_hash():
 
 
 @pytest.fixture
-def db_provisioning(db_clean, engine):
-    with engine.begin() as conn:
-        utils.provision(conn)
+def session(engine):
+    return sessionmaker(bind=engine)()
+
+
+@pytest.fixture
+def db_provisioning(empty_db, session):
+    utils.provision(session)
 
 
 @pytest.fixture
