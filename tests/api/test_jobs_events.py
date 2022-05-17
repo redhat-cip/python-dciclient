@@ -19,7 +19,7 @@ from dciclient.v1.api import jobstate
 
 
 @mock.patch("dci.api.v1.notifications.dispatcher")
-def test_jobs_events_create(mocked_disp, dci_context, job_id):
+def disable_jobs_events_create(mocked_disp, dci_context, job_id):
     js = jobstate.create(dci_context, "success", "lol", job_id)
     assert js.status_code == 201
     all_je = jobs_events.list(dci_context, 0)
@@ -29,7 +29,7 @@ def test_jobs_events_create(mocked_disp, dci_context, job_id):
 
 
 @mock.patch("dci.api.v1.notifications.dispatcher")
-def test_jobs_events_delete_from_sequence(mocked_disp, dci_context, job_id):
+def disable_jobs_events_delete_from_sequence(mocked_disp, dci_context, job_id):
     js = jobstate.create(dci_context, "success", "lol", job_id)
     assert js.status_code == 201
     all_je = jobs_events.list(dci_context, 0)
