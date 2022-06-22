@@ -23,6 +23,7 @@ from dciclient.v1.shell_commands import component
 from dciclient.v1.shell_commands import file
 from dciclient.v1.shell_commands import job
 from dciclient.v1.shell_commands import remoteci
+from dciclient.v1.shell_commands import pipeline
 from dciclient.v1.shell_commands import purge
 
 
@@ -95,6 +96,12 @@ command_function = {
     "remoteci-list-user": remoteci.list_user,
     "remoteci-reset-api-secret": remoteci.reset_api_secret,
     "remoteci-refresh-keys": remoteci.refresh_keys,
+    "pipeline-create": pipeline.create,
+    "pipeline-show": pipeline.show,
+    "pipeline-list": pipeline.list,
+    "pipeline-delete": pipeline.delete,
+    "pipeline-update": pipeline.update,
+    "pipeline-show-jobs": pipeline.get_jobs,
     "purge": purge.purge,
 }
 

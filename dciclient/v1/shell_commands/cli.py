@@ -732,6 +732,60 @@ def parse_arguments(args, environment={}):
     )
     p.set_defaults(command="purge")
 
+    # pipeline commands
+    p = subparsers.add_parser(
+        "pipeline-create",
+        help="Create a new pipeline.",
+        parents=[base_parser],
+    )
+    p.add_argument("--name", required=True)
+    p.add_argument("--team-id", required=True)
+    p.set_defaults(command="pipeline-create")
+
+    p = subparsers.add_parser(
+        "pipeline-show",
+        help="Show a pipeline.",
+        parents=[base_parser],
+    )
+    p.add_argument("id")
+    p.set_defaults(command="pipeline-show")
+
+    p = subparsers.add_parser(
+        "pipeline-list", help="List all pipelines.", parents=[base_parser]
+    )
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.set_defaults(command="pipeline-list")
+
+    p = subparsers.add_parser(
+        "pipeline-update", help="Update a pipeline.", parents=[base_parser]
+    )
+    p.add_argument("id")
+    p.add_argument("--etag", required=True)
+    _create_boolean_flags(p, "--active/--no-active", default=None, dest="state")
+    p.add_argument("--name", required=False, help="Name of the pipeline.")
+    p.set_defaults(command="pipeline-update")
+
+    p = subparsers.add_parser(
+        "pipeline-delete", help="Delete a pipeline.", parents=[base_parser]
+    )
+    p.add_argument("id")
+    p.add_argument("--etag", required=True)
+    p.set_defaults(command="pipeline-delete")
+
+    p = subparsers.add_parser(
+        "pipeline-show-jobs",
+        help="Show jobs of a pipeline.",
+        parents=[base_parser],
+    )
+    p.add_argument("id")
+    p.add_argument("--sort", default="-created_at")
+    p.add_argument("--limit", default=50)
+    p.add_argument("--offset", default=0)
+    p.set_defaults(command="pipeline-show-jobs")
+
     args = parser.parse_args(args)
 
     if "command" not in args:
