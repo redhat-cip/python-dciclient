@@ -17,7 +17,6 @@
 import pytest
 import sqlalchemy
 import sqlalchemy_utils.functions
-import os
 import passlib.apps as passlib_apps
 from sqlalchemy.orm import sessionmaker
 
@@ -39,57 +38,8 @@ from dciclient.v1.shell_commands import cli
 from tests.shell_commands import utils
 
 
-class Mocked_store_engine(object):
-    files = {}
-
-    def __init__(self, conf):
-        self.container = conf
-
-    def delete(self, filename):
-        del self.files[filename]
-
-    def get(self, filename):
-        fd = open("/tmp/swift/" + filename, "r")
-        return [None, fd]
-
-    # TODO(Goneri): should be dropped once
-    # I9804796987e05417dcc20a1099b4a26db4f9f1f2 is merged
-    def get_object(self, filename):
-        _, fd = self.get(filename)
-        return fd.read()
-
-    def head(self, filename):
-        return self.files[filename]
-
-    def upload(self, filename, iterable, pseudo_folder=None, create_container=True):
-        file_path = "/tmp/swift/" + filename
-        if not os.path.isdir(os.path.dirname(file_path)):
-            os.makedirs(os.path.dirname(file_path))
-        with open(file_path, "wb") as fd:
-            if hasattr(iterable, "read"):
-                fd.write(iterable.read())
-            else:
-                fd.write(iterable)
-        self.files[filename] = {
-            "etag": "boby",
-            "content-type": "application/octet-stream",
-            "content-length": os.stat(file_path).st_size,
-        }
-
-    def build_file_path(self, root, middle, file_id):
-        root = str(root)
-        middle = str(middle)
-        file_id = str(file_id)
-        return "%s/%s/%s" % (root, middle, file_id)
-
-
 @pytest.fixture(scope="session")
 def engine(request):
-    def mocked_get_store(conf):
-        store = Mocked_store_engine(conf)
-        return store
-
-    dci.dci_config.get_store = mocked_get_store
     conf = dci.dci_config.generate_conf()
     db_uri = conf["SQLALCHEMY_DATABASE_URI"]
 
