@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 #
-# Copyright 2017 Red Hat, Inc.
+# Copyright 2017-2022 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -23,7 +23,13 @@ def get(context):
 
 
 def my_team_id(context):
-    """Asks the control-server for the team_id of the currently
-    authenticated resource.
+    """Get team id of the current user.
+
+    If it's a remoteci there is only one team id possible.
+    If it's a regular user, it might belongs to multiple teams, this
+    function will return one randomly.
     """
-    return get(context).json()["identity"]["team_id"]
+    res = get(context)
+    res.raise_for_status()
+    res = res.json()
+    return next(iter(res["identity"]["teams"].keys()))
