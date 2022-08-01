@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 #
-# Copyright 2015-2016 Red Hat, Inc.
+# Copyright 2015-2022 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -23,6 +23,7 @@ from sqlalchemy.orm import sessionmaker
 import dci
 import dci.app
 import dci.dci_config
+from dciclient import create_component as dci_create_component
 from dciclient.v1.api import context as api_context
 from dciclient.v1.api import team as api_team
 from dciclient.v1.api import product as api_product
@@ -195,6 +196,12 @@ def runner_factory(context):
         response = dci_runner.run(context, args)
         return response.json() if response else None
 
+    def invoke_create_component(arguments):
+        environment = {}
+        args = dci_create_component.parse_arguments(arguments, environment)
+        response = dci_create_component.run(context, args)
+        return response.json() if response else None
+
     def invoke_raw(arguments):
         environment = {}
         args = cli.parse_arguments(arguments, environment)
@@ -206,6 +213,7 @@ def runner_factory(context):
     runner = Runner()
     runner.invoke = invoke
     runner.invoke_raw = invoke_raw
+    runner.invoke_create_component = invoke_create_component
     return runner
 
 
@@ -255,6 +263,12 @@ def team_user_id(dci_context):
 
 
 @pytest.fixture
+def team_user_name(dci_context):
+    user = api_team.list(dci_context, where="name:user")
+    return user.json()["teams"][0]["name"]
+
+
+@pytest.fixture
 def product_id(dci_context, team_id):
     return api_product.list(
         dci_context,
@@ -270,6 +284,17 @@ def topic_id(dci_context, product_id):
         "export_control": False,
     }
     return api_topic.create(dci_context, **kwargs).json()["topic"]["id"]
+
+
+@pytest.fixture
+def topic(dci_context, product_id):
+    kwargs = {
+        "name": "bar_topic",
+        "component_types": ["type_1", "type_2"],
+        "product_id": product_id,
+        "export_control": False,
+    }
+    return api_topic.create(dci_context, **kwargs).json()["topic"]["name"]
 
 
 @pytest.fixture

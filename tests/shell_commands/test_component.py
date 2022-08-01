@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 #
-# Copyright 2015-2016 Red Hat, Inc.
+# Copyright 2015-2022 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -382,3 +382,25 @@ def test_where_on_list(runner, product_id):
         )["components"])
         == 1
     )
+
+
+def test_create_component(runner, topic, test_user, team_user_name, team_user_id):
+    component = runner.invoke_create_component(["--url",
+                                                "https://company.com/product/",
+                                                "--tags",
+                                                "tag1,tag2",
+                                                '--data={"toto": false}',
+                                                "--team",
+                                                team_user_name,
+                                                topic,
+                                                "product",
+                                                "1.0",
+                                                "ga"
+                                                ])["component"]
+    assert component["tags"] == ["tag1", "tag2", "build:ga"]
+    assert component["type"] == "product"
+    assert component["name"] == "1.0"
+    assert component["canonical_project_name"] == "Product 1.0"
+    assert component["url"] == "https://company.com/product/"
+    assert component["data"] == {"toto": False}
+    assert component["team_id"] == team_user_id

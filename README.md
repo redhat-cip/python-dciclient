@@ -140,7 +140,6 @@ Encryption successful
 `dci-vault` is a thin layer on top of `ansible-vault` so all the
 sub-commands of `ansible-vault` are available.
 
-
 ## dci-rhel-latest-kernel-version
 
 The dci-rhel-latest-kernel-version is a utility command to easily get the
@@ -187,6 +186,16 @@ $ dci-rhel-latest-kernel-version --topic RHEL-9.2
 5.14.0-160.el9
 ```
 
+## dci-create-component
+
+to create a component, you can use the `dci-create-component`
+utility. For example, to create the `my-product` version `1.0`
+component on the `OCP-4.11` topic, use it like that:
+
+```ShellSession
+$ source dcirc.sh
+$ dci-create-component OCP-4.11 my-product 1.0 ga
+```
 
 ## License
 

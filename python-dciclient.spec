@@ -6,8 +6,8 @@
 
 Name:           python-dciclient
 # keep in sync with dciclient/version.py
-Version:        2.3.0
-Release:        2.VERS%{?dist}
+Version:        2.4.0
+Release:        1.VERS%{?dist}
 
 Summary:        Python client for DCI control server
 License:        ASL 2.0
@@ -88,6 +88,7 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-dciclient
 %{_bindir}/dci-vault
 %{_bindir}/dci-vault-client
 %{_bindir}/dci-rhel-latest-kernel-version
+%{_bindir}/dci-create-component
 %endif
 
 %if 0%{?with_python3}
@@ -99,10 +100,14 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-dciclient
 %{_bindir}/dci-vault
 %{_bindir}/dci-vault-client
 %{_bindir}/dci-rhel-latest-kernel-version
+%{_bindir}/dci-create-component
 %endif
 
 
 %changelog
+* Sun Sep  4 2022 Frederic Lepied <flepied@redhat.com> 2.4.0-1
+- add dci-create-component
+
 * Wed Aug 31 2022 Yassine Lamgarchal <yassine.lamgarchal@redhat.com> - 2.3.0-3
 - Add dci-rhel-latest-kernel-version
 

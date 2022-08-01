@@ -71,7 +71,7 @@ def parse_arguments(args, environment={}):
     parser.add_argument(
         "--dci-client-id",
         default=environment.get("DCI_CLIENT_ID", None),
-        help="DCI CLIENt ID or 'DCI_CLIENT_ID' environment variable.",
+        help="DCI CLIENT ID or 'DCI_CLIENT_ID' environment variable.",
     )
     parser.add_argument(
         "--dci-api-secret",
