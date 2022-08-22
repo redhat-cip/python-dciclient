@@ -7,7 +7,7 @@
 Name:           python-dciclient
 # keep in sync with dciclient/version.py
 Version:        2.3.0
-Release:        1.VERS%{?dist}
+Release:        2.VERS%{?dist}
 
 Summary:        Python client for DCI control server
 License:        ASL 2.0
@@ -101,6 +101,9 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-dciclient
 
 
 %changelog
+* Mon Aug 22 2022 Bill Peck <bpeck@redhat.com> - 2.3.0-2
+- Rebuild for RHEL-9
+
 * Thu Mar 17 2022 Frederic Lepied <flepied@redhat.com> - 2.3.0-1
 - add dci-vault and dci-vault-client
 
