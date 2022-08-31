@@ -87,6 +87,7 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-dciclient
 %{_bindir}/dcictl
 %{_bindir}/dci-vault
 %{_bindir}/dci-vault-client
+%{_bindir}/dci-rhel-latest-kernel-version
 %endif
 
 %if 0%{?with_python3}
@@ -97,10 +98,14 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-dciclient
 %{_bindir}/dcictl
 %{_bindir}/dci-vault
 %{_bindir}/dci-vault-client
+%{_bindir}/dci-rhel-latest-kernel-version
 %endif
 
 
 %changelog
+* Wed Aug 31 2022 Yassine Lamgarchal <yassine.lamgarchal@redhat.com> - 2.3.0-3
+- Add dci-rhel-latest-kernel-version
+
 * Mon Aug 22 2022 Bill Peck <bpeck@redhat.com> - 2.3.0-2
 - Rebuild for RHEL-9
 

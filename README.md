@@ -140,6 +140,54 @@ Encryption successful
 `dci-vault` is a thin layer on top of `ansible-vault` so all the
 sub-commands of `ansible-vault` are available.
 
+
+## dci-rhel-latest-kernel-version
+
+The dci-rhel-latest-kernel-version is a utility command to easily get the
+latest kernel available for the RHEL product.
+
+```ShellSession
+$ source dcirc.sh
+$ dci-rhel-latest-kernel-version --topic RHEL-not-existing
+topic RHEL-not-existing not found
+
+- available topics:
+RHEL-9.2
+RHEL-9.1
+RHEL-8.7
+RHEL-8.6
+RHEL-8.5
+RHEL-9.0
+RHEL-8.4
+RHEL-8.0
+RHEL-8.1
+RHEL-7.6
+RHEL-7.7
+RHEL-8.3
+RHEL-8.2
+RHEL-7.8
+RHEL-7.9
+RHEL-7-nightly
+RHEL-7-milestone
+$ dci-rhel-latest-kernel-version --topic-list
+available topics:
+RHEL-9.2
+RHEL-9.1
+RHEL-9.0
+RHEL-8.7
+RHEL-8.6
+RHEL-8.5
+RHEL-8.4
+RHEL-8.3
+RHEL-8.2
+RHEL-8.1
+RHEL-8.0
+RHEL-7.9
+$ dci-rhel-latest-kernel-version --topic RHEL-9.2
+5.14.0-160.el9
+```
+
+
 ## License
 
 Apache 2.0

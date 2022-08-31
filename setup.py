@@ -66,5 +66,6 @@ setuptools.setup(
     entry_points={"console_scripts": ["dcictl = dciclient.shell:main",
                                       "dci-vault = dciclient.vault:main",
                                       "dci-vault-client = dciclient.vault_client:main",
+                                      "dci-rhel-latest-kernel-version = dciclient.rhel_kernel:main" # noqa
                                       ]},
 )
