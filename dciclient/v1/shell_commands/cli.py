@@ -564,6 +564,21 @@ def parse_arguments(args, environment={}):
     p.set_defaults(command="job-delete")
 
     p = subparsers.add_parser(
+        "job-update", help="Update a job.", parents=[base_parser]
+    )
+    p.add_argument("id")
+    _create_boolean_flags(p, "--active/--no-active", default=None, dest="state")
+    p.add_argument("--name", required=False, help="Name of the job")
+    p.add_argument("--comment", required=False, help="Comment of the job")
+    _create_array_argument(p, "--tags", help="Comma separated list of tags")
+    p.add_argument("--status", default=None, help="Status of the job.")
+    p.add_argument("--status_reason", default=None, help="Status reason of the job.")
+    p.add_argument("--configuration", help="Configuration of the job.")
+    p.add_argument("--message", help="Component message")
+    p.add_argument("--url", help="URL to look for the component")
+    p.set_defaults(command="job-update")
+
+    p = subparsers.add_parser(
         "job-results", help="List all job results.", parents=[base_parser]
     )
     p.add_argument("id")

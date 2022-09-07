@@ -16,6 +16,7 @@
 
 from dciclient.v1.api import file as dci_file
 from dciclient.v1.api import job
+from dciclient.v1.utils import active_string
 
 
 def list(context, args):
@@ -30,6 +31,27 @@ def show(context, args):
 
 def delete(context, args):
     return job.delete(context, id=args.id, etag=args.etag)
+
+
+def update(context, args):
+    params = {
+        k: getattr(args, k)
+        for k in [
+            "comment",
+            "status",
+            "state",
+            "tags",
+            "status_reason",
+            "configuration",
+            "name",
+            "url",
+        ]
+    }
+
+    job_info = job.get(context, args.id)
+    params["etag"] = job_info.json()["job"]["etag"]
+    params["state"] = active_string(params["state"])
+    return job.update(context, id=args.id, **params)
 
 
 def list_results(context, args):

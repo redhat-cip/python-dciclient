@@ -29,7 +29,12 @@ else:
 
 
 def test_list(
-    runner, dci_context, dci_context_remoteci, team_user_id, remoteci_id, product_id,
+    runner,
+    dci_context,
+    dci_context_remoteci,
+    team_user_id,
+    remoteci_id,
+    product_id,
 ):
     topic = runner.invoke(
         [
@@ -103,6 +108,17 @@ def test_delete(runner, job_id):
     result = runner.invoke_raw(["job-delete", job_id, "--etag", l_job_etag])
 
     assert result.status_code == 204
+
+
+def test_update(runner, job_id):
+    l_job = runner.invoke(["job-update", job_id])
+    result = runner.invoke_raw(
+        ["job-update", job_id, "--status_reason", "new-status-reason"]
+    )
+    assert result.status_code == 200
+
+    l_job = runner.invoke(["job-show", job_id])
+    assert l_job["job"]["status_reason"] == "new-status-reason"
 
 
 def test_results(runner, job_id):
