@@ -194,7 +194,7 @@ component on the `OCP-4.11` topic, use it like that:
 
 ```ShellSession
 $ source dcirc.sh
-$ dci-create-component OCP-4.11 my-product 1.0 ga
+$ dci-create-component OCP-4.11 "My Company Product" 1.0 ga
 ```
 
 ## License

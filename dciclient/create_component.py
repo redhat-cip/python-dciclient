@@ -161,7 +161,10 @@ def run(context, args):
     args.title = None
     args.message = None
     args.state = True
-    args.canonical_project_name = "%s %s" % (args.type.capitalize(), args.name)
+    args.type = "-".join([p.lower() for p in args.type.split(" ")])
+    args.canonical_project_name = "%s %s" % (" ".join([p.capitalize()
+                                                       for p in args.type.split("-")]),
+                                             args.name)
     args.tags += ["build:" + args.release_tag]
     args.command = "component-create"
 

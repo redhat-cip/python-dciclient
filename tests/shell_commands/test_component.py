@@ -393,14 +393,14 @@ def test_create_component(runner, topic, test_user, team_user_name, team_user_id
                                                 "--team",
                                                 team_user_name,
                                                 topic,
-                                                "product",
+                                                "My Company Product",
                                                 "1.0",
                                                 "ga"
                                                 ])["component"]
     assert component["tags"] == ["tag1", "tag2", "build:ga"]
-    assert component["type"] == "product"
+    assert component["type"] == "my-company-product"
     assert component["name"] == "1.0"
-    assert component["canonical_project_name"] == "Product 1.0"
+    assert component["canonical_project_name"] == "My Company Product 1.0"
     assert component["url"] == "https://company.com/product/"
     assert component["data"] == {"toto": False}
     assert component["team_id"] == team_user_id
