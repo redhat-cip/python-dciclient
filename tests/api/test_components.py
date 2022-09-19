@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2017 Red Hat, Inc
+# Copyright (C) 2017-2022 Red Hat, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -39,47 +39,42 @@ def test_success_download_component_file_returns_http_response(
     assert res is None
 
 
-def test_add_tags_with_an_update(dci_context, component_id):
-    r = api_component.get(dci_context, component_id)
-    data = r.json()["component"]
-    assert r.status_code == 200
-    assert data["tags"] == []
+def test_add_tags_with_an_update(dci_context, component):
     r = api_component.update(
-        dci_context, component_id, etag=data["etag"], tags=["t1", "t2"]
+        dci_context, component["id"], etag=component["etag"], tags=["t1", "t2"]
     )
     assert r.status_code == 200
-    assert r.json()["component"]["tags"] == ["t1", "t2"]
+    assert "t1" in r.json()["component"]["tags"]
+    assert "t2" in r.json()["component"]["tags"]
     etag = r.json()["component"]["etag"]
-    r = api_component.update(dci_context, component_id, etag=etag)
+    r = api_component.update(dci_context, component["id"], etag=etag)
     assert r.status_code == 200
-    assert r.json()["component"]["tags"] == ["t1", "t2"]
+    assert "t1" in r.json()["component"]["tags"]
+    assert "t2" in r.json()["component"]["tags"]
 
 
-def test_add_tag(dci_context, component_id):
-    r = api_component.get(dci_context, component_id)
+def test_add_tag(dci_context, component):
+    r = api_component.add_tag(dci_context, component["id"], "tag 1")
     assert r.status_code == 200
-    assert r.json()["component"]["tags"] == []
-    r = api_component.add_tag(dci_context, component_id, "tag 1")
+    assert "tag 1" in r.json()["component"]["tags"]
+    r = api_component.add_tag(dci_context, component["id"], "tag 2")
     assert r.status_code == 200
-    assert r.json()["component"]["tags"] == ["tag 1"]
-    r = api_component.add_tag(dci_context, component_id, "tag 2")
-    assert r.status_code == 200
-    assert r.json()["component"]["tags"] == ["tag 1", "tag 2"]
+    assert "tag 2" in r.json()["component"]["tags"]
 
 
 def test_delete_tags(dci_context, component_id):
     r = api_component.add_tag(dci_context, component_id, "tag 1")
     r = api_component.add_tag(dci_context, component_id, "tag 2")
-    assert r.json()["component"]["tags"] == ["tag 1", "tag 2"]
+    assert "tag 1" in r.json()["component"]["tags"]
+    assert "tag 2" in r.json()["component"]["tags"]
     r = api_component.delete_tag(dci_context, component_id, "tag 1")
     assert r.status_code == 200
-    assert r.json()["component"]["tags"] == ["tag 2"]
+    assert "tag 1" not in r.json()["component"]["tags"]
     r = api_component.delete_tag(dci_context, component_id, "tag 2")
     assert r.status_code == 200
-    assert r.json()["component"]["tags"] == []
+    assert "tag 2" not in r.json()["component"]["tags"]
     r = api_component.delete_tag(dci_context, component_id, "tag 2")
     assert r.status_code == 200
-    assert r.json()["component"]["tags"] == []
 
 
 def test_get_or_create_component(dci_context, topic_id):

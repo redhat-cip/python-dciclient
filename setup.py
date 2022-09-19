@@ -68,6 +68,8 @@ setuptools.setup(
                                       "dci-vault-client = dciclient.vault_client:main",
                                       "dci-create-component = "
                                       "dciclient.create_component:main",
+                                      "dci-find-latest-component = "
+                                      "dciclient.find_latest_component:main",
                                       "dci-rhel-latest-kernel-version = "
                                       "dciclient.rhel_kernel:main",
                                       ]},

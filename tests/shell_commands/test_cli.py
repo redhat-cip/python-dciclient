@@ -18,7 +18,8 @@ import os
 import sys
 from mock import patch
 from pytest import raises
-from dciclient.v1.shell_commands.cli import parse_arguments, _default_dci_cs_url
+from dciclient.v1.shell_commands.cli import parse_arguments
+from dciclient.v1.shell_commands.context import _default_dci_cs_url
 from dciclient.version import __version__
 
 
@@ -222,8 +223,8 @@ def test_verbose():
 
     args = parse_arguments(
         [
-            "user-create",
             "--verbose",
+            "user-create",
             "--name",
             "toto",
             "--password",
@@ -236,8 +237,8 @@ def test_verbose():
 
     args = parse_arguments(
         [
-            "user-create",
             "--long",
+            "user-create",
             "--name",
             "toto",
             "--password",

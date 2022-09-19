@@ -94,6 +94,13 @@ def print_response(response, format, verbose, columns):
         if response.status_code == 204:
             return
         result_json = response.json()
+        print_result(result_json, format, verbose, columns)
+    except Exception:
+        print(response)
+
+
+def print_result(result_json, format, verbose, columns):
+    try:
         skip_columns = [] if verbose else ["etag", "created_at", "updated_at", "data"]
         if format == "csv":
             _print_csv(result_json, columns, skip_columns)
@@ -104,4 +111,4 @@ def print_response(response, format, verbose, columns):
         if format == "table":
             _print_prettytable(result_json, columns, skip_columns)
     except Exception:
-        print(response)
+        print(result_json)

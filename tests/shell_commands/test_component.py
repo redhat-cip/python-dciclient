@@ -404,3 +404,10 @@ def test_create_component(runner, topic, test_user, team_user_name, team_user_id
     assert component["url"] == "https://company.com/product/"
     assert component["data"] == {"toto": False}
     assert component["team_id"] == team_user_id
+
+
+def test_find_latest_component(runner, product, component):
+    comp = runner.invoke_find_latest_component(["--tags", ",".join(component["tags"]),
+                                                product["name"], component["type"]])
+    assert comp["id"] == component["id"]
+    assert comp["type"] == component["type"]

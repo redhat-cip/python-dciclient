@@ -17,9 +17,9 @@ import os
 import sys
 from argparse import ArgumentParser
 
-from dciclient.v1.api import context as dci_context
 from dciclient.v1.api import topic
 from dciclient.v1.api import product
+from dciclient.v1.shell_commands import context as dci_context
 
 
 _DEFAULT_DCI_CS_URL = "http:://127.0.0.1:5000"
@@ -27,21 +27,7 @@ _DEFAULT_DCI_CS_URL = "http:://127.0.0.1:5000"
 
 def parse_arguments(args, environment={}):
     parser = ArgumentParser()
-    parser.add_argument(
-        "--dci-client-id",
-        default=environment.get("DCI_CLIENT_ID", None),
-        help="DCI CLIENt ID or 'DCI_CLIENT_ID' environment variable.",
-    )
-    parser.add_argument(
-        "--dci-api-secret",
-        default=environment.get("DCI_API_SECRET", None),
-        help="DCI API secret or 'DCI_API_SECRET' environment variable.",
-    )
-    parser.add_argument(
-        "--dci-cs-url",
-        default=environment.get("DCI_CS_URL", _DEFAULT_DCI_CS_URL),
-        help="DCI control server url, default to '%s'." % _DEFAULT_DCI_CS_URL,
-    )
+    dci_context.parse_arguments(parser, args, environment)
     parser.add_argument(
         "--topic",
         dest="topic_name",
@@ -85,19 +71,11 @@ def get_topic_id_from_name(context, name):
 def main():
     args = parse_arguments(sys.argv[1:], os.environ)
 
-    if args.dci_api_secret is None:
-        sys.stderr.write("No DCI_API_SECRET set. Aborting.\n")
-        sys.exit(1)
+    context = dci_context.build_context(args)
 
-    if args.dci_client_id is None:
-        sys.stderr.write("No DCI_CLIENT_ID set. Aborting.\n")
+    if not context:
+        print("No DCI credentials provided.")
         sys.exit(1)
-
-    context = dci_context.build_signature_context(
-        dci_cs_url=args.dci_cs_url,
-        dci_client_id=args.dci_client_id,
-        dci_api_secret=args.dci_api_secret,
-    )
 
     if args.topic_list:
         print_available_topics(context)

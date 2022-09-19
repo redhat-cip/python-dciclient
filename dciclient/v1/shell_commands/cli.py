@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 #
-# Copyright Red Hat, Inc.
+# Copyright 2020-2022 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -15,14 +15,10 @@
 # under the License.
 
 import argparse
-import os
 import sys
 from argparse import ArgumentParser
 from datetime import datetime
-from dciclient.version import __version__
-
-_default_dci_cs_url = "http://127.0.0.1:5000"
-_default_sso_url = "http://127.0.0.1:8180"
+from dciclient.v1.shell_commands import context as dci_context
 
 
 def _create_boolean_flags(parser, flags, default, dest=None):
@@ -52,69 +48,10 @@ def _date_isoformat(v):
 
 def parse_arguments(args, environment={}):
     base_parser = ArgumentParser(add_help=False)
-    base_parser.add_argument("--verbose", "--long", default=False, action="store_true")
 
     parser = ArgumentParser(prog="dcictl")
-    parser.add_argument(
-        "--version", action="version", version="%(prog)s " + __version__
-    )
-    parser.add_argument(
-        "--dci-login",
-        default=environment.get("DCI_LOGIN", None),
-        help="DCI login or 'DCI_LOGIN' environment variable.",
-    )
-    parser.add_argument(
-        "--dci-password",
-        default=environment.get("DCI_PASSWORD", None),
-        help="DCI password or 'DCI_PASSWORD' environment variable.",
-    )
-    parser.add_argument(
-        "--dci-client-id",
-        default=environment.get("DCI_CLIENT_ID", None),
-        help="DCI CLIENT ID or 'DCI_CLIENT_ID' environment variable.",
-    )
-    parser.add_argument(
-        "--dci-api-secret",
-        default=environment.get("DCI_API_SECRET", None),
-        help="DCI API secret or 'DCI_API_SECRET' environment variable.",
-    )
-    parser.add_argument(
-        "--dci-cs-url",
-        default=environment.get("DCI_CS_URL", _default_dci_cs_url),
-        help="DCI control server url, default to '%s'." % _default_dci_cs_url,
-    )
-    parser.add_argument(
-        "--sso-url",
-        default=environment.get("SSO_URL", _default_sso_url),
-        help="SSO url, default to '%s'." % _default_sso_url,
-    )
-    parser.add_argument(
-        "--sso-username",
-        default=environment.get("SSO_USERNAME"),
-        help="SSO username or 'SSO_USERNAME' environment variable.",
-    )
-    parser.add_argument(
-        "--sso-password",
-        default=environment.get("SSO_PASSWORD"),
-        help="SSO password or 'SSO_PASSWORD' environment variable.",
-    )
-    parser.add_argument(
-        "--sso-token",
-        default=environment.get("SSO_TOKEN"),
-        help="SSO token or 'SSO_TOKEN' environment variable.",
-    )
-    parser.add_argument(
-        "--refresh-sso-token",
-        default=False,
-        action="store_true",
-        help="Refresh the token",
-    )
-    parser.add_argument(
-        "--format",
-        default=os.environ.get("DCI_FORMAT", "table"),
-        choices=["table", "json", "csv", "tsv"],
-        help="Output format",
-    )
+
+    dci_context.parse_arguments(parser, args, environment)
 
     subparsers = parser.add_subparsers()
     # user commands

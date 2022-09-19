@@ -19,11 +19,9 @@ import sys
 import copy
 
 from argparse import ArgumentParser
-from dciclient.version import __version__
 from dciclient.v1.shell_commands.cli import _create_array_argument
 from dciclient.v1.shell_commands.cli import _date_isoformat
-from dciclient.v1.shell_commands.cli import _default_dci_cs_url
-from dciclient.v1.api import context as dci_context
+from dciclient.v1.shell_commands import context as dci_context
 from dciclient.v1.shell_commands import component
 from dciclient.v1.shell_commands import topic
 from dciclient.v1.shell_commands import team
@@ -35,27 +33,11 @@ def parse_arguments(args, environment={}):
     p = ArgumentParser(
         prog="dci-create-component",
         description=(
-            "Tool to create components using a Remote CI "
-            "(https://docs.distributed-ci.io/#remote-ci)"
+            "Tool to create a component for DCI "
+            "(https://docs.distributed-ci.io/)"
         ),
     )
-    p.add_argument("--verbose", "--long", default=False, action="store_true")
-    p.add_argument("--version", action="version", version="%(prog)s " + __version__)
-    p.add_argument(
-        "--dci-client-id",
-        default=environment.get("DCI_CLIENT_ID", None),
-        help="DCI CLIENT ID or 'DCI_CLIENT_ID' environment variable.",
-    )
-    p.add_argument(
-        "--dci-api-secret",
-        default=environment.get("DCI_API_SECRET", None),
-        help="DCI API secret or 'DCI_API_SECRET' environment variable.",
-    )
-    p.add_argument(
-        "--dci-cs-url",
-        default=environment.get("DCI_CS_URL", _default_dci_cs_url),
-        help="DCI control server url, default to '%s'." % _default_dci_cs_url,
-    )
+    dci_context.parse_arguments(p, args, environment)
     _create_array_argument(p, "--tags", help="Comma separated list of tags")
     p.add_argument(
         "--released-at",
@@ -96,13 +78,6 @@ def parse_arguments(args, environment={}):
         help="Release type of the component",
         type=str,
         choices=["dev", "candidate", "ga"],
-    )
-
-    p.add_argument(
-        "--format",
-        default=os.environ.get("DCI_FORMAT", "table"),
-        choices=["table", "json", "csv", "tsv"],
-        help="Output format",
     )
     args = p.parse_args(args)
 
@@ -174,18 +149,10 @@ def run(context, args):
 def main():
     args = parse_arguments(sys.argv[1:], os.environ)
 
-    dci_cs_url = args.dci_cs_url
-    dci_client_id = args.dci_client_id
-    dci_api_secret = args.dci_api_secret
-    context = None
-    if dci_client_id is not None and dci_api_secret is not None:
-        context = dci_context.build_signature_context(
-            dci_cs_url=dci_cs_url,
-            dci_client_id=dci_client_id,
-            dci_api_secret=dci_api_secret,
-        )
+    context = dci_context.build_context(args)
+
     if not context:
-        print("No Remote CI credentials provided.")
+        print("No DCI credentials provided.")
         sys.exit(1)
 
     response = run(context, args)
