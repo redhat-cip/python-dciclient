@@ -216,6 +216,45 @@ $ source dcirc.sh
 $ dci-find-latest-component --topic OCP-4.11 --tags build:ga OpenShift ocp
 ```
 
+## dci-diff-jobs
+
+`dci-diff-jobs` allows to compare the components of 2 jobs:
+
+```ShellSession
+$ source dcirc.sh
+$ dci-diff-jobs --job_id_1 9e3f3a4f-74c5-4bce-9c45-450b27006bed --job_id_2 b55fb5d6-3f01-44ce-9034-26a53e086137
++-----------------------+--------------------------------------+--------------------------------------+
+|       component       | 9e3f3a4f-74c5-4bce-9c45-450b27006bed | b55fb5d6-3f01-44ce-9034-26a53e086137 |
++-----------------------+--------------------------------------+--------------------------------------+
+|          ocp          |                4.9.50                |                4.8.52                |
+| redhat-operator-index |                 v4.9                 |                 v4.8                 |
++-----------------------+--------------------------------------+--------------------------------------+
+```
+
+or their tags:
+
+```ShellSession
+$ source dcirc.sh
+$ dci-diff-jobs --tags --job_id_1 9e3f3a4f-74c5-4bce-9c45-450b27006bed --job_id_2 b55fb5d6-3f01-44ce-9034-26a53e086137
++--------------------------------------+--------------------------------------+
+| 9e3f3a4f-74c5-4bce-9c45-450b27006bed | b55fb5d6-3f01-44ce-9034-26a53e086137 |
++--------------------------------------+--------------------------------------+
+|       pipeline-id:8nodes.8225        |              Not found               |
+|          inventory:cluster6          |              Not found               |
+|         pipeline:install-4.9         |              Not found               |
+|           cluster:cluster6           |              Not found               |
+|              Not found               |       pipeline-id:8nodes.8239        |
+|              Not found               |          inventory:cluster4          |
+|              Not found               |         pipeline:install-4.8         |
+|              Not found               |           cluster:cluster4           |
++--------------------------------------+--------------------------------------+
+```
+
+If the `--job_id_1` is not specified, the last job in success status is searched.
+
+If the `--job_id_2` is not specified, a job is searched with the same
+name, remoteci, topic, configuration and url than the job 1.
+
 ## License
 
 Apache 2.0

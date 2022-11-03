@@ -72,5 +72,6 @@ setuptools.setup(
                                       "dciclient.find_latest_component:main",
                                       "dci-rhel-latest-kernel-version = "
                                       "dciclient.rhel_kernel:main",
+                                      "dci-diff-jobs = dciclient.diff_jobs:main",
                                       ]},
 )

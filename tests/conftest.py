@@ -24,6 +24,7 @@ import dci
 import dci.app
 import dci.dci_config
 from dciclient import create_component as dci_create_component
+from dciclient import diff_jobs as dci_diff_jobs
 from dciclient import find_latest_component as dci_find_latest_component
 from dciclient.v1.api import context as api_context
 from dciclient.v1.api import team as api_team
@@ -209,6 +210,11 @@ def runner_factory(context):
         response = dci_find_latest_component.run(context, args)
         return response
 
+    def invoke_diff_jobs(arguments):
+        environment = {}
+        args = dci_diff_jobs.parse_arguments(arguments, environment)
+        return dci_diff_jobs.run(context, args)
+
     def invoke_raw(arguments):
         environment = {}
         args = cli.parse_arguments(arguments, environment)
@@ -222,6 +228,7 @@ def runner_factory(context):
     runner.invoke_raw = invoke_raw
     runner.invoke_create_component = invoke_create_component
     runner.invoke_find_latest_component = invoke_find_latest_component
+    runner.invoke_diff_jobs = invoke_diff_jobs
     return runner
 
 

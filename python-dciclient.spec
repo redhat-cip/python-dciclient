@@ -6,7 +6,7 @@
 
 Name:           python-dciclient
 # keep in sync with dciclient/version.py
-Version:        2.5.0
+Version:        2.6.0
 Release:        1.VERS%{?dist}
 
 Summary:        Python client for DCI control server
@@ -90,6 +90,7 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-dciclient
 %{_bindir}/dci-rhel-latest-kernel-version
 %{_bindir}/dci-create-component
 %{_bindir}/dci-find-latest-component
+%{_bindir}/dci-diff-jobs
 %endif
 
 %if 0%{?with_python3}
@@ -103,10 +104,14 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-dciclient
 %{_bindir}/dci-rhel-latest-kernel-version
 %{_bindir}/dci-create-component
 %{_bindir}/dci-find-latest-component
+%{_bindir}/dci-diff-jobs
 %endif
 
 
 %changelog
+* Thu Nov  3 2022 Frederic Lepied <flepied@redhat.com> 2.6.0-1
+- add dci-diff-jobs
+
 * Mon Sep 19 2022 Frederic Lepied <flepied@redhat.com> 2.5.0-1
 - add dci-find-latest-component
 
