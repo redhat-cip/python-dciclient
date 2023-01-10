@@ -1,28 +1,29 @@
 %if 0%{?rhel} && 0%{?rhel} < 8
-%global with_python2 1
-%else
-%global with_python3 1
+%global is_EL7 1
 %endif
+%global srcname dciclient
+%global summary Python client for DCI control server for the remote CIs
 
-Name:           python-dciclient
+
+Name:           python-%{srcname}
 # keep in sync with dciclient/version.py
-Version:        2.6.0
+Version:        3.0.0
 Release:        1.VERS%{?dist}
+Summary:        %{summary}
 
-Summary:        Python client for DCI control server
 License:        ASL 2.0
-URL:            https://github.com/redhat-cip/python-dciclient
+URL:            https://github.com/redhat-cip/python-%{srcname}
+Source0:        %{srcname}-%{version}.tar.gz
 
-Source0:        dciclient-%{version}.tar.gz
 BuildArch:      noarch
 
 %description
-Python client for DCI control server for the remote CIs.
+%{summary}
 
-%if 0%{?with_python2}
-%package -n python2-dciclient
-Summary:        Python client for DCI control server
-%{?python_provide:%python_provide python2-dciclient}
+%if 0%{?is_EL7}
+%package -n python2-%{srcname}
+Summary: %{summary}
+%{?python_provide:%python_provide python2-%{srcname}}
 BuildRequires:  python-prettytable
 BuildRequires:  python-psycopg2
 BuildRequires:  python-requests >= 2.6
@@ -35,14 +36,13 @@ Requires:       python-prettytable
 Requires:       python-requests >= 2.6
 Requires:       python-dciauth >= 2.1.7
 
-%description -n python2-dciclient
-A Python 2 implementation of the client for DCI control server.
+%description -n python2-%{srcname}
+%{summary}
 %endif
 
-%if 0%{?with_python3}
-%package -n python3-dciclient
-Summary:        Python client for DCI control server
-%{?python_provide:%python_provide python3-dciclient}
+%package -n python3-%{srcname}
+Summary: %{summary}
+%{?python_provide:%python_provide python3-%{srcname}}
 BuildRequires:  python3-prettytable
 BuildRequires:  python3-psycopg2
 BuildRequires:  python3-requests
@@ -54,33 +54,26 @@ Requires:       python3-prettytable
 Requires:       python3-requests
 Requires:       python3-dciauth >= 2.1.7
 
-%description -n python3-dciclient
-A Python 3 implementation of the client for DCI control server.
-%endif
+%description -n python3-%{srcname}
+%{summary}
 
 %prep
-%autosetup -n dciclient-%{version}
+%autosetup -n %{srcname}-%{version}
 
 %build
-%if 0%{?with_python2}
+%if 0%{?is_EL7}
 %py2_build
 %endif
-%if 0%{?with_python3}
 %py3_build
-%endif
 
 %install
-install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-dciclient
+install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-%{srcname}
 
-%if 0%{?with_python2}
-%py2_install
-%endif
-%if 0%{?with_python3}
 %py3_install
-%endif
+%if 0%{?is_EL7}
+%py2_install
 
-%if 0%{?with_python2}
-%files -n python2-dciclient
+%files -n python2-%{srcname}
 %doc README.md
 %license LICENSE
 %{python2_sitelib}/*
@@ -93,8 +86,7 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-dciclient
 %{_bindir}/dci-diff-jobs
 %endif
 
-%if 0%{?with_python3}
-%files -n python3-dciclient
+%files -n python3-%{srcname}
 %doc README.md
 %license LICENSE
 %{python3_sitelib}/*
@@ -105,10 +97,12 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-dciclient
 %{_bindir}/dci-create-component
 %{_bindir}/dci-find-latest-component
 %{_bindir}/dci-diff-jobs
-%endif
 
 
 %changelog
+* Tue Jan 10 2023 Guillaume Vincent <gvincent@redhat.com> 3.0.0-1
+- Build also python3-dciclient on EL7
+
 * Thu Nov  3 2022 Frederic Lepied <flepied@redhat.com> 2.6.0-1
 - add dci-diff-jobs
 
