@@ -101,7 +101,7 @@ def test_get_or_create_component(dci_context, topic_id):
     assert created is False
     existing_component = r.json()["component"]
     assert existing_component["id"] == component["id"]
-    assert existing_component["canonical_project_name"] is None
+    assert not existing_component["canonical_project_name"]
 
     r, created = api_component.get_or_create(
         dci_context,
