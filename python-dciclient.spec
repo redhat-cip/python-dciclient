@@ -51,7 +51,11 @@ BuildRequires:  python3-rpm-macros
 BuildRequires:  python3-dciauth >= 2.1.7
 BuildRequires:  python3-devel
 Requires:       python3-prettytable
+%if 0%{?is_EL7}
+Requires:       python36-requests
+%else
 Requires:       python3-requests
+%endif
 Requires:       python3-dciauth >= 2.1.7
 
 %description -n python3-%{srcname}
