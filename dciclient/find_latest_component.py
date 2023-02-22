@@ -84,6 +84,7 @@ def get_product_id(context, args):
     a.limit = 1
     a.offset = 0
     a.where = "name:" + a.product
+    a.query = ""
 
     response = product.list(context, a)
     try:
@@ -106,6 +107,7 @@ def get_topic_id(context, args):
     a.sort = "-created_at"
     a.limit = 1
     a.offset = 0
+    a.query = ""
 
     response = topic.list(context, a)
     try:
@@ -129,6 +131,7 @@ def get_topic_ids(context, args):
     a.sort = "-created_at"
     a.limit = 50
     a.offset = 0
+    a.query = ""
 
     response = topic.list(context, a)
     try:
@@ -155,6 +158,7 @@ def lookup_latest_component(context, args):
     a.limit = 1
     a.offset = 0
     a.id = a.topic_id
+    a.query = ""
 
     response = component.list(context, a)
     try:

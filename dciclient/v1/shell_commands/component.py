@@ -22,7 +22,7 @@ from dciclient.v1.api import topic
 
 
 def list(context, args):
-    params = {k: getattr(args, k) for k in ["id", "sort", "limit", "offset", "where"]}
+    params = {k: getattr(args, k) for k in ["id", "sort", "limit", "offset", "where", "query"]}
     return topic.list_components(context, **params)
 
 

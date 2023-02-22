@@ -370,3 +370,9 @@ def test_where_on_list(runner, product_id):
     runner.invoke(["topic-create", "--name", "osp1", "--product-id", product_id])
     runner.invoke(["topic-create", "--name", "osp2", "--product-id", product_id])
     assert runner.invoke(["topic-list", "--where", "name:osp1"])["_meta"]["count"]
+
+
+def test_query_on_list(runner, product_id):
+    runner.invoke(["topic-create", "--name", "osp1", "--product-id", product_id])
+    runner.invoke(["topic-create", "--name", "osp2", "--product-id", product_id])
+    assert runner.invoke(["topic-list", "--query", "and(eq(name,osp1),eq(product_id,%s))" % product_id])["_meta"]["count"]

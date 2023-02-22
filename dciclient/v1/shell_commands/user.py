@@ -23,7 +23,7 @@ COLUMNS = ["id", "created_at", "updated_at", "etag", "name",
 
 
 def list(context, args):
-    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
+    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where", "query"]}
     return user.list(context, **params)
 
 

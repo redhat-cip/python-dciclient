@@ -18,7 +18,7 @@ from dciclient.v1.api import product
 
 
 def list(context, args):
-    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
+    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where", "query"]}
     return product.list(context, **params)
 
 

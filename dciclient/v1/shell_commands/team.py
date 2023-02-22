@@ -19,7 +19,7 @@ from dciclient.v1.api import team
 
 
 def list(context, args):
-    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
+    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where", "query"]}
     return team.list(context, **params)
 
 

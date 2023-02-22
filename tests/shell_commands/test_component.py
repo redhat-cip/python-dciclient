@@ -383,6 +383,13 @@ def test_where_on_list(runner, product_id):
         == 1
     )
 
+    assert (
+        len(runner.invoke(
+            ["component-list", "--topic-id", topic["id"], "--query", "eq(type,bar2)"]
+        )["components"])
+        == 1
+    )
+
 
 def test_create_component(runner, topic, test_user, team_user_name, team_user_id):
     component = runner.invoke_create_component(["--url",
