@@ -28,8 +28,6 @@ def create(
     team_id=None,
     canonical_project_name=None,
     data={},
-    title=None,
-    message=None,
     url=None,
     state="active",
     tags=[],
@@ -42,8 +40,6 @@ def create(
         type=type,
         canonical_project_name=canonical_project_name,
         data=data,
-        title=title,
-        message=message,
         url=url,
         topic_id=topic_id,
         team_id=team_id,
@@ -51,6 +47,10 @@ def create(
         tags=tags,
         released_at=released_at,
     )
+
+
+def create_v2(context, **kwargs):
+    return base.create(context, RESOURCE, **kwargs)
 
 
 def get_or_create(context, **kwargs):

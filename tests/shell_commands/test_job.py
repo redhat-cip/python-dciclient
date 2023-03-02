@@ -55,7 +55,6 @@ def test_list(
     runner.invoke(
         [
             "component-create",
-            "--name",
             "foo",
             "--type",
             "type_1",

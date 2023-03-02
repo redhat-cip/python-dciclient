@@ -29,7 +29,6 @@ def test_list(runner, product_id):
     runner.invoke(
         [
             "component-create",
-            "--name",
             "foo",
             "--type",
             "bar",
@@ -40,7 +39,6 @@ def test_list(runner, product_id):
     runner.invoke(
         [
             "component-create",
-            "--name",
             "bar",
             "--type",
             "bar2",
@@ -65,7 +63,6 @@ def test_create(runner, product_id):
     component_id = runner.invoke(
         [
             "component-create",
-            "--name",
             "foo",
             "--type",
             "foobar",
@@ -74,16 +71,11 @@ def test_create(runner, product_id):
             "--tags",
             "tag1,tag2",
             "--released-at",
-            "2020-08-29T10:33:57.914078"
+            "2020-08-29T10:33:57.914078",
         ]
     )["component"]["id"]
 
-    component = runner.invoke(
-        [
-            "component-show",
-            component_id
-        ]
-    )["component"]
+    component = runner.invoke(["component-show", component_id])["component"]
 
     assert component["name"] == "foo"
     assert component["tags"] == ["tag1", "tag2"]
@@ -98,7 +90,6 @@ def test_create_inactive(runner, product_id):
     component = runner.invoke(
         [
             "component-create",
-            "--name",
             "foo",
             "--type",
             "foobar",
@@ -117,7 +108,6 @@ def test_delete(runner, product_id):
     component = runner.invoke(
         [
             "component-create",
-            "--name",
             "foo",
             "--type",
             "bar",
@@ -127,9 +117,7 @@ def test_delete(runner, product_id):
     )["component"]
 
     result = runner.invoke_raw(
-        ["component-delete",
-         component["id"],
-         "--etag", component["etag"]]
+        ["component-delete", component["id"], "--etag", component["etag"]]
     )
 
     assert result.status_code == 204
@@ -144,7 +132,6 @@ def test_show(runner, product_id):
     component = runner.invoke(
         [
             "component-create",
-            "--name",
             "foo",
             "--type",
             "bar",
@@ -169,7 +156,6 @@ def test_file_support(runner, tmpdir, product_id):
     component = runner.invoke(
         [
             "component-create",
-            "--name",
             "foo",
             "--type",
             "foobar",
@@ -210,7 +196,14 @@ def test_file_support(runner, tmpdir, product_id):
 
     # delete
     runner.invoke_raw(
-        ["component-file-delete", component["id"], "--file-id", new_f["id"], "--etag", new_f["etag"]]  # noqa
+        [
+            "component-file-delete",
+            component["id"],
+            "--file-id",
+            new_f["id"],
+            "--etag",
+            new_f["etag"],
+        ]
     )
     result = runner.invoke_raw(
         ["component-file-show", component["id"], "--file-id", new_f["id"]]
@@ -226,30 +219,23 @@ def test_update(runner, product_id):
     component = runner.invoke(
         [
             "component-create",
-            "--name",
             "name",
-            "--canonical_project_name",
-            "canonical",
             "--type",
             "type",
             "--tags",
             "foo,bar",
-            "--title",
-            "title",
-            "--message",
-            "a message",
             "--url",
             "http://localhost/foo",
             "--topic-id",
             topic["id"],
+            "--version",
+            "v1.2.3",
         ]
     )["component"]
 
-    assert component["name"] == "name"
-    assert component["canonical_project_name"] == "canonical"
+    assert component["display_name"] == "name"
+    assert component["version"] == "v1.2.3"
     assert component["type"] == "type"
-    assert component["title"] == "title"
-    assert component["message"] == "a message"
     assert component["url"] == "http://localhost/foo"
     assert len(component["tags"]) == 2
     assert component["tags"][0] == "foo"
@@ -258,29 +244,23 @@ def test_update(runner, product_id):
     result = runner.invoke(
         [
             "component-update",
-            "--name",
+            component["id"],
+            "--display-name",
             "newname",
-            "--canonical_project_name",
-            "newcanonical",
             "--type",
             "newtype",
             "--tags",
             "new,tag",
-            "--title",
-            "newtitle",
-            "--message",
-            "a new message",
             "--url",
             "http://localhost/bar",
-            component["id"],
+            "--version",
+            "v2.0.0",
         ]
     )["component"]
 
-    assert result["name"] == "newname"
-    assert result["canonical_project_name"] == "newcanonical"
+    assert result["display_name"] == "newname"
+    assert result["version"] == "v2.0.0"
     assert result["type"] == "newtype"
-    assert result["title"] == "newtitle"
-    assert result["message"] == "a new message"
     assert result["url"] == "http://localhost/bar"
     assert len(result["tags"]) == 2
     assert result["tags"][0] == "new"
@@ -295,7 +275,6 @@ def test_update_with_data(runner, product_id):
     component = runner.invoke(
         [
             "component-create",
-            "--name",
             "foo",
             "--type",
             "bar",
@@ -326,7 +305,6 @@ def test_update_active(runner, product_id):
     component = runner.invoke(
         [
             "component-create",
-            "--name",
             "foo",
             "--type",
             "bar",
@@ -356,7 +334,6 @@ def test_where_on_list(runner, product_id):
     runner.invoke(
         [
             "component-create",
-            "--name",
             "foo",
             "--type",
             "bar",
@@ -367,7 +344,6 @@ def test_where_on_list(runner, product_id):
     runner.invoke(
         [
             "component-create",
-            "--name",
             "bar",
             "--type",
             "bar2",
@@ -377,44 +353,58 @@ def test_where_on_list(runner, product_id):
     )
 
     assert (
-        len(runner.invoke(
-            ["component-list", "--topic-id", topic["id"], "--where", "type:bar2"]
-        )["components"])
+        len(
+            runner.invoke(
+                ["component-list", "--topic-id", topic["id"], "--where", "type:bar2"]
+            )["components"]
+        )
         == 1
     )
 
     assert (
-        len(runner.invoke(
-            ["component-list", "--topic-id", topic["id"], "--query", "eq(type,bar2)"]
-        )["components"])
+        len(
+            runner.invoke(
+                [
+                    "component-list",
+                    "--topic-id",
+                    topic["id"],
+                    "--query",
+                    "eq(type,bar2)",
+                ]
+            )["components"]
+        )
         == 1
     )
 
 
-def test_create_component(runner, topic, test_user, team_user_name, team_user_id):
-    component = runner.invoke_create_component(["--url",
-                                                "https://company.com/product/",
-                                                "--tags",
-                                                "tag1,tag2",
-                                                '--data={"toto": false}',
-                                                "--team",
-                                                team_user_name,
-                                                topic,
-                                                "My Company Product",
-                                                "1.0",
-                                                "ga"
-                                                ])["component"]
+def test_create_component(runner, topic, team_user_name, team_user_id):
+    component = runner.invoke_create_component(
+        [
+            "--url",
+            "https://company.com/product/",
+            "--tags",
+            "tag1,tag2",
+            '--data={"toto": false}',
+            "--team",
+            team_user_name,
+            topic,
+            "My Company Product",
+            "v1.0",
+            "ga",
+        ]
+    )["component"]
     assert component["tags"] == ["tag1", "tag2", "build:ga"]
     assert component["type"] == "my-company-product"
-    assert component["name"] == "1.0"
-    assert component["canonical_project_name"] == "My Company Product 1.0"
+    assert component["display_name"] == "My Company Product v1.0"
+    assert component["version"] == "v1.0"
     assert component["url"] == "https://company.com/product/"
     assert component["data"] == {"toto": False}
     assert component["team_id"] == team_user_id
 
 
 def test_find_latest_component(runner, product, component):
-    comp = runner.invoke_find_latest_component(["--tags", ",".join(component["tags"]),
-                                                product["name"], component["type"]])
+    comp = runner.invoke_find_latest_component(
+        ["--tags", ",".join(component["tags"]), product["name"], component["type"]]
+    )
     assert comp["id"] == component["id"]
     assert comp["type"] == component["type"]

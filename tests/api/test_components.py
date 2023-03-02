@@ -82,42 +82,75 @@ def test_get_or_create_component(dci_context, topic_id):
         api_topic.list_components(dci_context, topic_id).json()["components"]
     )
     component = {
-        "name": "component1",
+        "display_name": "display_component1",
         "type": "component_type",
         "data": {"dir": "/tmp"},
         "topic_id": topic_id,
+        "version": "1.2.3",
     }
-    component = api_component.create(dci_context, **component).json()["component"]
+    component = api_component.create_v2(dci_context, **component).json()["component"]
     nb_components += 1
 
     r, created = api_component.get_or_create(
         dci_context,
-        name="component1",
+        display_name="display_component1",
         topic_id=topic_id,
         type="component_type",
-        defaults={"canonical_project_name": "canonical component1"},
+        defaults={"version": "1.2.3"},
     )
     assert r.status_code == 200
     assert created is False
     existing_component = r.json()["component"]
     assert existing_component["id"] == component["id"]
-    assert not existing_component["canonical_project_name"]
+    assert existing_component["display_name"] == "display_component1"
+    assert existing_component["version"] == "1.2.3"
 
     r, created = api_component.get_or_create(
         dci_context,
-        name="component2",
+        display_name="display_component2",
         topic_id=topic_id,
         type="component_type",
-        defaults={"canonical_project_name": "canonical component2"},
+        defaults={"version": "2.3.4"},
     )
+    assert r.status_code == 201
     assert created
     nb_components += 1
-    assert r.status_code == 201
     new_component = r.json()["component"]
     assert new_component["id"] != component["id"]
-    assert new_component["canonical_project_name"] == "canonical component2"
+    assert new_component["display_name"] == "display_component2"
+    assert new_component["version"] == "2.3.4"
+
+    r, created = api_component.get_or_create(
+        dci_context,
+        display_name="display_component2",
+        topic_id=topic_id,
+        type="component_type",
+        defaults={"version": "2.3.4"},
+    )
+    assert not created
+    assert r.json()["component"]["display_name"] == "display_component2"
 
     assert (
         len(api_topic.list_components(dci_context, topic_id).json()["components"])
         == nb_components
     )
+
+
+def test_create_component_v2(dci_context, topic_id):
+    component = {
+        "display_name": "component1",
+        "type": "component_type",
+        "data": {"dir": "/tmp"},
+        "version": "v1.2.3",
+        "topic_id": topic_id,
+    }
+    component = api_component.create_v2(dci_context, **component).json()["component"]
+    assert component["type"] == "component_type"
+    assert component["state"] == "active"
+    assert component["url"] == ""
+    assert component["data"] == {"dir": "/tmp"}
+    assert component["version"] == "v1.2.3"
+    assert component["uid"] == ""
+    assert component["topic_id"] == topic_id
+    assert component["tags"] == []
+    assert component["display_name"] == "component1"

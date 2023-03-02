@@ -13,7 +13,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from dciclient.version import __version__
 from dciclient.v1.api.context import (build_dci_context,
                                       build_signature_context,
                                       build_sso_context)
@@ -23,10 +22,7 @@ _default_dci_cs_url = "http://127.0.0.1:5000"
 _default_sso_url = "http://127.0.0.1:8180"
 
 
-def parse_arguments(parser, args, environment={}):
-    parser.add_argument(
-        "--version", action="version", version="%(prog)s " + __version__
-    )
+def parse_auth_arguments(parser, environment={}):
     parser.add_argument(
         "--dci-login",
         default=environment.get("DCI_LOGIN", None),

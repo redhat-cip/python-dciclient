@@ -15,7 +15,6 @@
 # under the License.
 
 import os
-import sys
 from mock import patch
 from pytest import raises
 from dciclient.v1.shell_commands.cli import parse_arguments
@@ -23,16 +22,19 @@ from dciclient.v1.shell_commands.context import _default_dci_cs_url
 from dciclient.version import __version__
 
 
+def test_parse_arguments_version(capsys):
+    try:
+        parse_arguments(["--version"])
+    except SystemExit:
+        captured = capsys.readouterr()
+        assert captured.out == "dcictl {}\n".format(__version__)
+
+
 @patch("sys.exit")
-def test_parse_arguments_version(exit_function, capsys):
-    parse_arguments(["--version", "user-list"])
+def test_parse_no_command_print_help(exit_function, capsys):
+    parse_arguments([])
     captured = capsys.readouterr()
-    # Note(hguemar): argparse behaviour here changed on py3k
-    if sys.version_info > (3, 0):
-        captured = captured.out
-    else:
-        captured = captured.err
-    assert captured == "dcictl {}\n".format(__version__)
+    assert "usage: dcictl" in captured.out
     assert exit_function.called
 
 
@@ -254,7 +256,6 @@ def test_csv():
     args = parse_arguments(
         [
             "component-create",
-            "--name",
             "RHEL-8",
             "--type",
             "compose",
@@ -268,7 +269,6 @@ def test_csv():
     args = parse_arguments(
         [
             "component-create",
-            "--name",
             "RHEL-8",
             "--type",
             "compose",
@@ -282,7 +282,6 @@ def test_csv():
     args = parse_arguments(
         [
             "component-create",
-            "--name",
             "RHEL-8",
             "--type",
             "compose",

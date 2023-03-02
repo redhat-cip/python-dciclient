@@ -188,13 +188,12 @@ $ dci-rhel-latest-kernel-version --topic RHEL-9.2
 
 ## dci-create-component
 
-to create a component, you can use the `dci-create-component`
-utility. For example, to create the `my-product` version `1.0`
-component on the `OCP-4.11` topic, use it like that:
+To create a component, you can use the `dci-create-component`
+utility. For example, to create the `ga` component called `My product` with version `1.0` on the `OCP-4.11` topic, use it like that:
 
 ```ShellSession
 $ source dcirc.sh
-$ dci-create-component OCP-4.11 "My Company Product" 1.0 ga
+$ dci-create-component OCP-4.11 "My Product" 1.0 ga
 ```
 
 ## dci-find-latest-component

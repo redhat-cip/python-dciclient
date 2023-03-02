@@ -27,23 +27,22 @@ from dciclient.v1.shell_commands import product
 from dciclient.printer import print_result
 
 
-COLUMNS = ["canonical_project_name",
-           "created_at",
-           "data",
-           "etag",
-           "id",
-           "message",
-           "name",
-           "released_at",
-           "state",
-           "tags",
-           "team_id",
-           "title",
-           "topic_id",
-           "type",
-           "updated_at",
-           "url",
-           ]
+COLUMNS = [
+    "display_name",
+    "created_at",
+    "data",
+    "etag",
+    "id",
+    "released_at",
+    "state",
+    "tags",
+    "team_id",
+    "topic_id",
+    "type",
+    "updated_at",
+    "url",
+    "version"
+]
 
 
 def parse_arguments(args, environment={}):
@@ -54,7 +53,7 @@ def parse_arguments(args, environment={}):
             "(https://docs.distributed-ci.io/)"
         ),
     )
-    dci_context.parse_arguments(p, args, environment)
+    dci_context.parse_auth_arguments(p, environment)
     _create_array_argument(p, "--tags", help="Comma separated list of tags")
     p.add_argument(
         "--topic",

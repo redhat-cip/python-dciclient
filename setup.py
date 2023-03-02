@@ -63,15 +63,15 @@ setuptools.setup(
         "Programming Language :: Python :: 3.6",
         "Topic :: System :: Distributed Computing",
     ],
-    entry_points={"console_scripts": ["dcictl = dciclient.shell:main",
-                                      "dci-vault = dciclient.vault:main",
-                                      "dci-vault-client = dciclient.vault_client:main",
-                                      "dci-create-component = "
-                                      "dciclient.create_component:main",
-                                      "dci-find-latest-component = "
-                                      "dciclient.find_latest_component:main",
-                                      "dci-rhel-latest-kernel-version = "
-                                      "dciclient.rhel_kernel:main",
-                                      "dci-diff-jobs = dciclient.diff_jobs:main",
-                                      ]},
+    entry_points={
+        "console_scripts": [
+            "dcictl = dciclient.shell:main",
+            "dci-vault = dciclient.vault:main",
+            "dci-vault-client = dciclient.vault_client:main",
+            "dci-create-component = dciclient.create_component:main",
+            "dci-find-latest-component = dciclient.find_latest_component:main",
+            "dci-rhel-latest-kernel-version = dciclient.rhel_kernel:main",
+            "dci-diff-jobs = dciclient.diff_jobs:main",
+        ]
+    },
 )

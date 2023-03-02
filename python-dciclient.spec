@@ -7,7 +7,7 @@
 
 Name:           python-%{srcname}
 # keep in sync with dciclient/version.py
-Version:        3.0.0
+Version:        3.1.0
 Release:        1.VERS%{?dist}
 Summary:        %{summary}
 
@@ -104,16 +104,21 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-%{srcname}
 
 
 %changelog
+* Tue Apr 04 2023 Yassine Lamgarchal <yassine.lamgarchal@redhat.com> 3.1.0-1
+- Removed title and message on component commands
+- Added display_name and version on component commands
+- Add a new create_v2 on component api
+
 * Tue Jan 10 2023 Guillaume Vincent <gvincent@redhat.com> 3.0.0-1
 - Build also python3-dciclient on EL7
 
-* Thu Nov  3 2022 Frederic Lepied <flepied@redhat.com> 2.6.0-1
+* Thu Nov 03 2022 Frederic Lepied <flepied@redhat.com> 2.6.0-1
 - add dci-diff-jobs
 
 * Mon Sep 19 2022 Frederic Lepied <flepied@redhat.com> 2.5.0-1
 - add dci-find-latest-component
 
-* Sun Sep  4 2022 Frederic Lepied <flepied@redhat.com> 2.4.0-1
+* Sun Sep 04 2022 Frederic Lepied <flepied@redhat.com> 2.4.0-1
 - add dci-create-component
 
 * Wed Aug 31 2022 Yassine Lamgarchal <yassine.lamgarchal@redhat.com> - 2.3.0-3

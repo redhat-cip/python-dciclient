@@ -61,7 +61,6 @@ def test_list_jobs_pipeline(runner, team_user_id, product_id, dci_context_remote
     runner.invoke(
         [
             "component-create",
-            "--name",
             "foo",
             "--type",
             "type_1",

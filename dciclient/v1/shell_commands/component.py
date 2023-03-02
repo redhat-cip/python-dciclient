@@ -30,11 +30,9 @@ def create(context, args):
     params = {
         k: getattr(args, k)
         for k in [
-            "name",
+            "display_name",
+            "version",
             "type",
-            "canonical_project_name",
-            "title",
-            "message",
             "url",
             "team_id",
             "topic_id",
@@ -46,7 +44,7 @@ def create(context, args):
     }
     params["data"] = validate_json(context, "data", params["data"])
     params["state"] = active_string(params["state"])
-    return component.create(context, **params)
+    return component.create_v2(context, **params)
 
 
 def delete(context, args):
@@ -83,15 +81,13 @@ def update(context, args):
     params = {
         k: getattr(args, k)
         for k in [
-            "name",
+            "display_name",
             "type",
-            "canonical_project_name",
-            "title",
-            "message",
             "url",
             "state",
             "data",
             "tags",
+            "version"
         ]
     }
 

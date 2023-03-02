@@ -133,7 +133,7 @@ def parse_arguments(args, environment={}):
             "(https://docs.distributed-ci.io/)"
         ),
     )
-    dci_context.parse_arguments(p, args, environment)
+    dci_context.parse_auth_arguments(p, environment)
     p.add_argument(
         "--tags",
         default=False,
