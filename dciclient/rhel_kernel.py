@@ -20,28 +20,30 @@ from argparse import ArgumentParser
 from dciclient.v1.api import topic
 from dciclient.v1.api import product
 from dciclient.v1.shell_commands import context as dci_context
+from dciclient.v1.shell_commands.cli import _create_array_argument
 
 
 _DEFAULT_DCI_CS_URL = "http:://127.0.0.1:5000"
 
 
 def parse_arguments(args, environment={}):
-    parser = ArgumentParser()
-    dci_context.parse_arguments(parser, args, environment)
-    parser.add_argument(
+    p = ArgumentParser()
+    dci_context.parse_arguments(p, args, environment)
+    p.add_argument(
         "--topic",
         dest="topic_name",
         help="topic name",
     )
+    _create_array_argument(p, "--tags", help="Comma separated list of tags")
 
-    parser.add_argument(
+    p.add_argument(
         "--topic-list",
         default=False,
         action="store_true",
         help="list the available topics",
     )
 
-    return parser.parse_args(args)
+    return p.parse_args(args)
 
 
 def get_available_topics(context):
@@ -82,13 +84,17 @@ def main():
         sys.exit(0)
 
     topic_id = get_topic_id_from_name(context, args.topic_name)
+    tags = ""
+    if args.tags and len(args.tags) > 0:
+        tags = ",tags:" + ",tags:".join(args.tags)
+
     latest_component = topic.list_components(
         context,
         topic_id,
         sort="-created_at",
         limit=1,
         offset=0,
-        where="type:compose,state:active",
+        where="type:compose,state:active" + tags
     ).json()
 
     if not latest_component["components"]:
