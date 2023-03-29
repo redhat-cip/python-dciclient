@@ -37,3 +37,9 @@ def test_where_on_list(runner, job_id):
     files = runner.invoke(["file-list", job_id, "--where", "size:785"])['files']
     assert len(files) == 1
     assert files[0]['size'] == 785
+
+
+def test_query_on_list(runner, job_id):
+    files = runner.invoke(["file-list", job_id, "--query", "eq(size,785)"])['files']
+    assert len(files) == 1
+    assert files[0]['size'] == 785

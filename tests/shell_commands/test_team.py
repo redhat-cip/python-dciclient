@@ -135,3 +135,11 @@ def test_where_on_list(runner):
     assert (
         runner.invoke(["team-list", "--where", "name:foobar42"])["_meta"]["count"] == 1
     )
+
+
+def test_query_on_list(runner):
+    runner.invoke(["team-create", "--name", "foobar42"])
+
+    assert (
+        runner.invoke(["team-list", "--query", "eq(name,foobar42)"])["_meta"]["count"] == 1
+    )

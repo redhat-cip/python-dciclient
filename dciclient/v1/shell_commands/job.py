@@ -20,7 +20,7 @@ from dciclient.v1.utils import active_string
 
 
 def list(context, args):
-    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
+    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where", "query"]}
     params["embed"] = "topic,remoteci,team"
     return job.list(context, **params)
 
@@ -74,7 +74,7 @@ def output(context, args):
 
 
 def list_tests(context, args):
-    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "id", "where"]}
+    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "id", "where", "query"]}
     return job.list_tests(context, **params)
 
 
@@ -96,7 +96,7 @@ def file_show(context, args):
 
 
 def file_list(context, args):
-    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "id", "where"]}
+    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "id", "where", "query"]}
     return job.list_files(context, **params)
 
 

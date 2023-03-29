@@ -19,7 +19,7 @@ from dciclient.v1.api import file
 
 
 def list(context, args):
-    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
+    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where", "query"]}
     return job.list_files(context, id=args.job_id, **params)
 
 
