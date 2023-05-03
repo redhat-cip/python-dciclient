@@ -86,6 +86,8 @@ command_function = {
     "job-list-file": job.file_list,
     "job-delete-file": job.file_delete,
     "job-update": job.update,
+    "job-add-key-value": job.add_kv,
+    "job-delete-key-value": job.delete_kv,
     "remoteci-list": remoteci.list,
     "remoteci-create": remoteci.create,
     "remoteci-update": remoteci.update,
