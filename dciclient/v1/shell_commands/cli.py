@@ -584,6 +584,21 @@ def parse_arguments(args, environment={}):
     p.add_argument("--file-id", required=True)
     p.set_defaults(command="job-delete-file")
 
+    p = subparsers.add_parser(
+        "job-add-key-value", help="Job add key/value.", parents=[base_parser]
+    )
+    p.add_argument("id")
+    p.add_argument("key", type=str)
+    p.add_argument("value", type=float)
+    p.set_defaults(command="job-add-key-value")
+
+    p = subparsers.add_parser(
+        "job-delete-key-value", help="Job add key/value.", parents=[base_parser]
+    )
+    p.add_argument("id")
+    p.add_argument("key")
+    p.set_defaults(command="job-delete-key-value")
+
     # remoteci commands
     p = subparsers.add_parser(
         "remoteci-list", help="List all remotecis.", parents=[base_parser]
