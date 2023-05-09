@@ -76,9 +76,6 @@ def test_list(
     l_job = runner.invoke(["job-list", "--where", "remoteci_id:" + remoteci_id])
     assert len(l_job["jobs"]) == 1
 
-    l_job = runner.invoke(["job-list", "--query", "eq(remoteci_id,%s)" % remoteci_id])
-    assert len(l_job["jobs"]) == 1
-
 
 def test_list_as_remoteci(job, remoteci_id, runner_remoteci):
     l_job = runner_remoteci.invoke(["job-list"])
@@ -91,11 +88,6 @@ def test_list_as_remoteci(job, remoteci_id, runner_remoteci):
 
     l_job = runner_remoteci.invoke(
         ["job-list", "--where", "remoteci_id:" + remoteci_id]
-    )
-    assert len(l_job["jobs"]) == 1
-
-    l_job = runner_remoteci.invoke(
-        ["job-list", "--query", "eq(remoteci_id,%s)" % remoteci_id]
     )
     assert len(l_job["jobs"]) == 1
 

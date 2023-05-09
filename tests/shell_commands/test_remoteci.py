@@ -189,14 +189,6 @@ def test_where_on_list(runner, team_id):
     )
 
 
-def test_query_on_list(runner, team_id):
-    runner.invoke(["remoteci-create", "--name", "bar1", "--team-id", team_id])
-    runner.invoke(["remoteci-create", "--name", "bar2", "--team-id", team_id])
-    assert (
-        runner.invoke(["remoteci-list", "--query", "eq(name,bar1)"])["_meta"]["count"] == 1
-    )
-
-
 def test_refresh_remoteci_keys(runner, remoteci_id):
     with mock.patch("requests.sessions.Session.put") as post_mock:
         post_mock.return_value = '{"key": "XXX", "cert": "XXX" }'

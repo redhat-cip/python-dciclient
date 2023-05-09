@@ -92,7 +92,6 @@ def get_team_id(context, args):
     a.limit = 1
     a.offset = 0
     a.where = None if a.team is None else "name:" + a.team
-    a.query = None
 
     response = team.list(context, a)
     try:
@@ -115,7 +114,6 @@ def get_topic_id(context, args):
     a.sort = "-created_at"
     a.limit = 50
     a.offset = 0
-    a.query = None
 
     response = topic.list(context, a)
     try:
