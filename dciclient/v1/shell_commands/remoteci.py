@@ -14,7 +14,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from dciclient.v1.utils import active_string
+from dciclient.v1.utils import active_string, get_search_params
 from dciclient.v1.utils import validate_json
 
 
@@ -23,7 +23,7 @@ from dciclient.v1.api import remoteci
 
 
 def list(context, args):
-    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
+    params = get_search_params(args)
     return remoteci.list(context, **params)
 
 

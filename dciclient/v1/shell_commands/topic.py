@@ -15,13 +15,13 @@
 # under the License.
 
 from dciclient.v1.api import topic
-from dciclient.v1.utils import active_string
+from dciclient.v1.utils import active_string, get_search_params
 
 COLUMNS = ["id", "name", "state", "export_control", "product_id", "component_types"]
 
 
 def list(context, args):
-    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
+    params = get_search_params(args)
     return topic.list(context, **params)
 
 
@@ -84,5 +84,5 @@ def unattach_team(context, args):
 
 
 def list_team(context, args):
-    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
+    params = get_search_params(args)
     return topic.list_teams(context, args.id, **params)

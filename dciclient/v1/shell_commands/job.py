@@ -16,11 +16,11 @@
 
 from dciclient.v1.api import file as dci_file
 from dciclient.v1.api import job
-from dciclient.v1.utils import active_string
+from dciclient.v1.utils import active_string, get_search_params
 
 
 def list(context, args):
-    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
+    params = get_search_params(args)
     params["embed"] = "topic,remoteci,team"
     return job.list(context, **params)
 
@@ -74,7 +74,8 @@ def output(context, args):
 
 
 def list_tests(context, args):
-    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "id", "where"]}
+    params = get_search_params(args)
+    params["id"] = args.id
     return job.list_tests(context, **params)
 
 
@@ -96,7 +97,8 @@ def file_show(context, args):
 
 
 def file_list(context, args):
-    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "id", "where"]}
+    params = get_search_params(args)
+    params["id"] = args.id
     return job.list_files(context, **params)
 
 

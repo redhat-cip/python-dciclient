@@ -16,10 +16,11 @@
 
 from dciclient.v1.api import job
 from dciclient.v1.api import file
+from dciclient.v1.utils import get_search_params
 
 
 def list(context, args):
-    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
+    params = get_search_params(args)
     return job.list_files(context, id=args.job_id, **params)
 
 

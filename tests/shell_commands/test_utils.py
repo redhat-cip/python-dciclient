@@ -14,12 +14,45 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from argparse import Namespace
 from dciclient.v1 import utils
 
 
-class TestUtils(object):
-    def test_flatten(self):
-        s = {"jim": 123, "a": {"b": {"c": {"d": "bob"}}}, "rob": 34}
-        r = utils.flatten(s)
-        r.sort()
-        assert r == ["a.b.c.d=bob", "jim=123", "rob=34"]
+def test_flatten():
+    s = {"jim": 123, "a": {"b": {"c": {"d": "bob"}}}, "rob": 34}
+    r = utils.flatten(s)
+    r.sort()
+    assert r == ["a.b.c.d=bob", "jim=123", "rob=34"]
+
+
+def test_get_search_params():
+    assert utils.get_search_params(
+        Namespace(
+            **{
+                "sort": "-created_at",
+                "limit": 1,
+                "offset": 0,
+                "where": "name:OpenShift",
+                "query": "",
+            }
+        )
+    ) == {
+        "sort": "-created_at",
+        "limit": 1,
+        "offset": 0,
+        "where": "name:OpenShift",
+    }
+    assert utils.get_search_params(
+        Namespace(
+            **{
+                "sort": "",
+                "limit": 100,
+                "offset": 0,
+                "where": None,
+                "query": None,
+            }
+        )
+    ) == {
+        "limit": 100,
+        "offset": 0,
+    }

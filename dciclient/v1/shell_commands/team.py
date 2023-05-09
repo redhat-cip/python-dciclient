@@ -14,12 +14,12 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from dciclient.v1.utils import active_string
+from dciclient.v1.utils import active_string, get_search_params
 from dciclient.v1.api import team
 
 
 def list(context, args):
-    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
+    params = get_search_params(args)
     return team.list(context, **params)
 
 

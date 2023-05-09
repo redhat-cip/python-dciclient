@@ -19,7 +19,9 @@ import requests
 from dciauth.request import AuthRequest
 from dciauth.signature import Signature
 from dciclient.v1.api import job
+from dciclient.v1.shell_commands import job as shell_job
 import tests.shell_commands.utils as utils
+from argparse import Namespace
 
 
 def make_blank_session(server):
@@ -38,7 +40,9 @@ def test_get_job_with_no_auth_fails(server, job_id):
 def test_get_job_with_signature_succeeds(
     server, job_id, remoteci_id, remoteci_api_secret
 ):
-    request = AuthRequest(endpoint="/api/v1/jobs/%s" % job_id,)
+    request = AuthRequest(
+        endpoint="/api/v1/jobs/%s" % job_id,
+    )
     headers = Signature(request).generate_headers(
         client_type="remoteci", client_id=remoteci_id, secret=remoteci_api_secret
     )
@@ -83,4 +87,28 @@ def test_server_url_with_trailing_slash(
     )
 
     r = job.get(dci_context, job_id)
+    assert r.status_code == 200
+
+
+def test_nrt_empty_params_are_removed_from_query(
+    remoteci_id, remoteci_api_secret, signature_context_factory
+):
+    dci_context = signature_context_factory(
+        client_id=remoteci_id,
+        api_secret=remoteci_api_secret,
+        url="http://localhost/",
+    )
+
+    r = shell_job.list(
+        dci_context,
+        Namespace(
+            **{
+                "sort": "-created_at",
+                "limit": 1,
+                "offset": 0,
+                "where": "name:OpenShift",
+                "query": "",
+            }
+        ),
+    )
     assert r.status_code == 200

@@ -15,6 +15,7 @@
 # under the License.
 
 from dciclient.v1.api import pipeline
+from dciclient.v1.utils import get_search_params
 
 
 RESOURCE = "pipelines"
@@ -31,7 +32,7 @@ def show(context, args):
 
 
 def list(context, args):
-    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
+    params = get_search_params(args)
     return pipeline.list(context, **params)
 
 

@@ -57,3 +57,11 @@ def validate_json(ctx, param, value):
 
 def active_string(value):
     return {None: None, True: "active", False: "inactive"}[value]
+
+
+def get_search_params(args):
+    filtered_params = {}
+    for k in ["sort", "limit", "offset", "where", "query"]:
+        if k in args and getattr(args, k) not in [None, ""]:
+            filtered_params[k] = getattr(args, k)
+    return filtered_params

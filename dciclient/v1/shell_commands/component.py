@@ -14,15 +14,15 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from dciclient.v1.utils import active_string
-from dciclient.v1.utils import validate_json
+from dciclient.v1.utils import active_string, validate_json, get_search_params
 
 from dciclient.v1.api import component
 from dciclient.v1.api import topic
 
 
 def list(context, args):
-    params = {k: getattr(args, k) for k in ["id", "sort", "limit", "offset", "where"]}
+    params = get_search_params(args)
+    params["id"] = args.id
     return topic.list_components(context, **params)
 
 
@@ -41,7 +41,7 @@ def create(context, args):
             "state",
             "data",
             "tags",
-            "released_at"
+            "released_at",
         ]
     }
     params["data"] = validate_json(context, "data", params["data"])

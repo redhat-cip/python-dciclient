@@ -62,6 +62,7 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="user-list")
 
     p = subparsers.add_parser(
@@ -107,6 +108,7 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="team-list")
 
     p = subparsers.add_parser(
@@ -147,6 +149,7 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="product-list")
 
     p = subparsers.add_parser(
@@ -207,6 +210,7 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="product-list-teams")
 
     # feeder commands
@@ -217,6 +221,7 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="feeder-list")
 
     p = subparsers.add_parser(
@@ -269,6 +274,7 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="topic-list")
 
     p = subparsers.add_parser(
@@ -337,6 +343,7 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="topic-list-team")
 
     # jobstate commands
@@ -363,6 +370,7 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="component-list")
 
     p = subparsers.add_parser(
@@ -452,6 +460,7 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="component-file-list")
 
     p = subparsers.add_parser(
@@ -471,6 +480,7 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="file-list")
 
     p = subparsers.add_parser("file-show", help="Show a file.", parents=[base_parser])
@@ -489,6 +499,7 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=10)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="job-list")
 
     p = subparsers.add_parser("job-show", help="Show a job.", parents=[base_parser])
@@ -563,6 +574,7 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="job-list-file")
 
     p = subparsers.add_parser(
@@ -580,6 +592,7 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="remoteci-list")
 
     p = subparsers.add_parser(
@@ -670,6 +683,7 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="remoteci-list-user")
 
     # purge commands
@@ -709,6 +723,7 @@ def parse_arguments(args, environment={}):
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
     p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="pipeline-list")
 
     p = subparsers.add_parser(
