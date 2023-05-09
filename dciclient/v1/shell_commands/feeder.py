@@ -19,7 +19,7 @@ from dciclient.v1.utils import active_string
 
 
 def list(context, args):
-    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where", "query"]}
+    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
     return feeder.list(context, **params)
 
 

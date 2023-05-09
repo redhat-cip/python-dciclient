@@ -23,7 +23,7 @@ from dciclient.v1.api import remoteci
 
 
 def list(context, args):
-    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where", "query"]}
+    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
     return remoteci.list(context, **params)
 
 

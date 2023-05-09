@@ -31,7 +31,7 @@ def show(context, args):
 
 
 def list(context, args):
-    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where", "query"]}
+    params = {k: getattr(args, k) for k in ["sort", "limit", "offset", "where"]}
     return pipeline.list(context, **params)
 
 
