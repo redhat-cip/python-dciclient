@@ -66,7 +66,7 @@ def get_topic_id_from_name(context, name):
     if not topic_list["topics"]:
         print("topic %s not found\n" % name)
         print_available_topics(context)
-        sys.exit(1)
+        return 1
     return topic_list["topics"][0]["id"]
 
 
@@ -77,16 +77,16 @@ def main():
 
     if not context:
         print("No DCI credentials provided.")
-        sys.exit(1)
+        return 1
 
     if args.topic_list:
         print_available_topics(context)
-        sys.exit(0)
+        return 0
 
     topic_id = get_topic_id_from_name(context, args.topic_name)
     tags = ""
     if args.tags and len(args.tags) > 0:
-        tags = ",tags:" + ",tags:".join(args.tags)
+        tags = ",contains(tags," + "),contains(tags,".join(args.tags) + ")"
 
     latest_component = topic.list_components(
         context,
@@ -94,12 +94,18 @@ def main():
         sort="-created_at",
         limit=1,
         offset=0,
-        where="type:compose,state:active" + tags
-    ).json()
+        query="and(eq(state,active)" + tags +
+              ",or(eq(type,compose),eq(type,compose-noinstall)))"
+    )
 
+    if latest_component.status_code != 200:
+        print(latest_component.json()["message"])
+        return 1
+
+    latest_component = latest_component.json()
     if not latest_component["components"]:
         print("no components found")
-        sys.exit(1)
+        return 1
     latest_component = latest_component["components"][0]
     kernel_found = False
     for tag in latest_component["tags"]:
@@ -112,8 +118,8 @@ def main():
         print(
             "no kernel information found in the component %s" % latest_component["id"]
         )
-        sys.exit(1)
+        return 1
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
