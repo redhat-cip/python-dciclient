@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 #
-# Copyright 2015-2021 Red Hat, Inc.
+# Copyright 2015-2023 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -86,6 +86,14 @@ def add_component(context, job_id, component_id):
     uri = "%s/%s/%s/components" % (context.dci_cs_api, RESOURCE, job_id)
     data = {'id': component_id}
     return context.session.post(uri, json=data)
+
+
+def remove_component(context, job_id, component_id):
+    uri = "%s/%s/%s/components/%s" % (context.dci_cs_api,
+                                      RESOURCE,
+                                      job_id,
+                                      component_id)
+    return context.session.delete(uri)
 
 
 def get_components(context, id):

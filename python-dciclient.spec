@@ -7,7 +7,7 @@
 
 Name:           python-%{srcname}
 # keep in sync with dciclient/version.py
-Version:        3.1.0
+Version:        3.2.0
 Release:        1.VERS%{?dist}
 Summary:        %{summary}
 
@@ -104,6 +104,9 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-%{srcname}
 
 
 %changelog
+* Sun Jun  4 2023 Frederic Lepied <flepied@redhat.com> 3.2.0-1
+- add delete_component api
+
 * Tue Apr 04 2023 Yassine Lamgarchal <yassine.lamgarchal@redhat.com> 3.1.0-1
 - Removed title and message on component commands
 - Added display_name and version on component commands
