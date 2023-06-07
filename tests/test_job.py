@@ -65,3 +65,26 @@ def test_job_upgraded(dci_context, job_id, topic_id, product_id):
     r = job.upgrade(dci_context, job_id=job_id)
     assert r.status_code == 201
     assert r.json()["job"]["previous_job_id"] == job_id
+
+
+def test_job_keys_values(
+    dci_context, dci_context_remoteci, components_ids, topic_id, team_user_id
+):
+    topic.attach_team(dci_context, topic_id, team_user_id)
+
+    j = job.create(
+        dci_context_remoteci,
+        topic_id=topic_id,
+        team_id=team_user_id,
+        components=components_ids,
+        url=URL
+    ).json()
+    job_id = j["job"]["id"]
+
+    job.add_kv(dci_context, job_id, "key_1", 123.123)
+    j = job.get(dci_context, job_id).json()["job"]
+    assert j["keys_values"][0]["key"] == "key_1"
+    assert j["keys_values"][0]["value"] == 123.123
+    job.delete_kv(dci_context, job_id, "key_1")
+    j = job.get(dci_context, job_id).json()["job"]
+    assert j["keys_values"] == []
