@@ -103,11 +103,3 @@ def file_list(context, args):
 def file_delete(context, args):
     dci_file.delete(context, id=args.file_id)
     return dci_file.delete(context, id=args.file_id)
-
-
-def add_kv(context, args):
-    return job.add_kv(context, args.id, args.key, args.value)
-
-
-def delete_kv(context, args):
-    return job.delete_kv(context, args.id, args.key)

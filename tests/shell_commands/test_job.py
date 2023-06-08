@@ -244,13 +244,3 @@ def test_diff_jobs(runner, job_id):
 def test_diff_jobs_invalid_parameter(runner, job_id):
     with pytest.raises(requests.models.JSONDecodeError):
         runner.invoke_diff_jobs(["--job_id_1", "toto"])
-
-
-def test_job_key_value(runner, job_id):
-    runner.invoke(["job-add-key-value", job_id, "key_1", "123.123"])
-    j = runner.invoke(["job-show", job_id])["job"]
-    assert j["keys_values"][0]["key"] == "key_1"
-    assert j["keys_values"][0]["value"] == 123.123
-
-    runner.invoke(["job-delete-key-value", job_id, "key_1"])
-    j = runner.invoke(["job-show", job_id])["job"]
