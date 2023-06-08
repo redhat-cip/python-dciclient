@@ -129,17 +129,3 @@ def add_tag(context, id, name):
 
 def delete_tag(context, id, name):
     return delete_tag_from_resource(context, RESOURCE, id, name)
-
-
-def add_kv(context, id, key, value):
-    kwargs = {"key": key, "value": value}
-    data = utils.sanitize_kwargs(**kwargs)
-    uri = "%s/%s/%s/kv" % (context.dci_cs_api, RESOURCE, id)
-    return context.session.post(uri, timeout=base.HTTP_TIMEOUT, json=data)
-
-
-def delete_kv(context, id, key):
-    kwargs = {"key": key}
-    data = utils.sanitize_kwargs(**kwargs)
-    uri = "%s/%s/%s/kv" % (context.dci_cs_api, RESOURCE, id)
-    return context.session.delete(uri, timeout=base.HTTP_TIMEOUT, json=data)

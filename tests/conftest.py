@@ -196,8 +196,6 @@ def runner_factory(context):
         environment = {}
         args = cli.parse_arguments(arguments, environment)
         response = dci_runner.run(context, args)
-        if response.status_code == 204:
-            return None
         return response.json() if response else None
 
     def invoke_create_component(arguments):
