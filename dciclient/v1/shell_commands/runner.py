@@ -96,7 +96,6 @@ command_function = {
     "remoteci-unattach-user": remoteci.unattach_user,
     "remoteci-list-user": remoteci.list_user,
     "remoteci-reset-api-secret": remoteci.reset_api_secret,
-    "remoteci-refresh-keys": remoteci.refresh_keys,
     "pipeline-create": pipeline.create,
     "pipeline-show": pipeline.show,
     "pipeline-list": pipeline.list,

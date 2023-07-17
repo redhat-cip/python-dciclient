@@ -649,15 +649,6 @@ def parse_arguments(args, environment={}):
     p.set_defaults(command="remoteci-reset-api-secret")
 
     p = subparsers.add_parser(
-        "remoteci-refresh-keys",
-        help="Refresh a remoteci key pair.",
-        parents=[base_parser],
-    )
-    p.add_argument("id")
-    p.add_argument("--etag", required=True)
-    p.set_defaults(command="remoteci-refresh-keys")
-
-    p = subparsers.add_parser(
         "remoteci-attach-user",
         help="Attach a user to a remoteci.",
         parents=[base_parser],

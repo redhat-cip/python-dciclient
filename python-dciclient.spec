@@ -7,7 +7,7 @@
 
 Name:           python-%{srcname}
 # keep in sync with dciclient/version.py
-Version:        3.2.0
+Version:        3.3.0
 Release:        1.VERS%{?dist}
 Summary:        %{summary}
 
@@ -104,6 +104,9 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-%{srcname}
 
 
 %changelog
+* Mon Jul 17 2023 François Charlier <fcharlie@redhat.com> 3.3.0-1
+- deprecate remoteci keys
+
 * Sun Jun  4 2023 Frederic Lepied <flepied@redhat.com> 3.2.0-1
 - add delete_component api
 

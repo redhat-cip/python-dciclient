@@ -93,7 +93,6 @@ Commands:
   remoteci-delete              Delete a remoteci.
   remoteci-get-data            Retrieve data field from a remoteci.
   remoteci-list                List all remotecis.
-  remoteci-refresh-keys        Refresh a remoteci key pair.
   remoteci-reset-api-secret    Reset a remoteci api secret.
   remoteci-show                Show a remoteci.
   remoteci-update              Update a remoteci.

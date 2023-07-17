@@ -67,10 +67,6 @@ def reset_api_secret(context, args):
     return remoteci.reset_api_secret(context, id=args.id, etag=args.etag)
 
 
-def refresh_keys(context, args):
-    return remoteci.refresh_keys(context, id=args.id, etag=args.etag)
-
-
 def attach_user(context, args):
     return remoteci.add_user(context, id=args.id, user_id=args.user_id)
 
