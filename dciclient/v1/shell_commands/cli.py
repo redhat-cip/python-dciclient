@@ -48,7 +48,7 @@ def _date_isoformat(v):
 
 
 def print_version_compatible_py27(args):
-    if args == ['--version']:
+    if args == ["--version"]:
         print("dcictl %s" % __version__)
         sys.exit()
 
@@ -125,6 +125,12 @@ def parse_arguments(args, environment={}):
     )
     p.add_argument("--name", required=True)
     p.add_argument("--country")
+    _create_boolean_flags(
+        p,
+        "--pre-release-access/--no-pre-release-access",
+        default=False,
+        dest="has_pre_release_access",
+    )
     _create_boolean_flags(p, "--active/--no-active", default=True, dest="state")
     p.set_defaults(command="team-create")
 
@@ -137,6 +143,12 @@ def parse_arguments(args, environment={}):
     p.add_argument("--country")
     _create_boolean_flags(p, "--active/--no-active", default=None, dest="state")
     _create_boolean_flags(p, "--external/--no-external", default=None, dest="external")
+    _create_boolean_flags(
+        p,
+        "--pre-release-access/--no-pre-release-access",
+        default=None,
+        dest="has_pre_release_access",
+    )
     p.set_defaults(command="team-update")
 
     p = subparsers.add_parser(
@@ -367,7 +379,7 @@ def parse_arguments(args, environment={}):
     )
     p.add_argument("--job-id", required=True)
     p.add_argument("--status", required=True)
-    p.add_argument("--comment", default='')
+    p.add_argument("--comment", default="")
     p.set_defaults(command="jobstate-create")
 
     # component commands
@@ -514,9 +526,7 @@ def parse_arguments(args, environment={}):
     p.add_argument("--etag", required=True)
     p.set_defaults(command="job-delete")
 
-    p = subparsers.add_parser(
-        "job-update", help="Update a job.", parents=[base_parser]
-    )
+    p = subparsers.add_parser("job-update", help="Update a job.", parents=[base_parser])
     p.add_argument("id")
     _create_boolean_flags(p, "--active/--no-active", default=None, dest="state")
     p.add_argument("--name", required=False, help="Name of the job")

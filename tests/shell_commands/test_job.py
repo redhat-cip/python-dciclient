@@ -44,7 +44,7 @@ def test_list(
             "osp",
             "--component_types",
             "type_1",
-            "--no-export-control",
+            "--export-control",
             "--product-id",
             product_id,
         ]

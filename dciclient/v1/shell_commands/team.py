@@ -24,7 +24,10 @@ def list(context, args):
 
 
 def create(context, args):
-    params = {k: getattr(args, k) for k in ["name", "country", "state"]}
+    params = {
+        k: getattr(args, k)
+        for k in ["name", "country", "state", "has_pre_release_access"]
+    }
     params["state"] = active_string(params["state"])
     return team.create(context, **params)
 
@@ -32,7 +35,15 @@ def create(context, args):
 def update(context, args):
     params = {
         k: getattr(args, k)
-        for k in ["id", "name", "country", "state", "etag", "external"]
+        for k in [
+            "id",
+            "name",
+            "country",
+            "state",
+            "etag",
+            "external",
+            "has_pre_release_access",
+        ]
     }
     params["state"] = active_string(params["state"])
     return team.update(context, **params)

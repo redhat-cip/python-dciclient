@@ -303,7 +303,7 @@ def topic_id(dci_context, product_id):
         "name": "foo_topic",
         "component_types": ["type_1", "type_2"],
         "product_id": product_id,
-        "export_control": False,
+        "export_control": True,
     }
     return api_topic.create(dci_context, **kwargs).json()["topic"]["id"]
 

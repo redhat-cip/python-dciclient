@@ -42,6 +42,21 @@ def test_create_inactive(runner):
     assert team["state"] == "inactive"
 
 
+def test_create_has_pre_release_access(runner):
+    foo = runner.invoke(["team-create", "--name", "foo", "--pre-release-access"])[
+        "team"
+    ]
+    assert foo["has_pre_release_access"]
+
+    bar = runner.invoke(["team-create", "--name", "bar"])["team"]
+    assert bar["has_pre_release_access"] is False
+
+    baz = runner.invoke(["team-create", "--name", "baz", "--no-pre-release-access"])[
+        "team"
+    ]
+    assert baz["has_pre_release_access"] is False
+
+
 def test_create_fail_unauthorized_user_admin(runner_user_admin):
     team = runner_user_admin.invoke_raw(["team-create", "--name", "foo"])
     assert team.status_code == 401
@@ -103,6 +118,39 @@ def test_update_active(runner):
     )
 
     assert result["team"]["state"] == "active"
+
+
+def test_update_pre_release_access(runner):
+    team = runner.invoke(["team-create", "--name", "foo"])["team"]
+    assert team["has_pre_release_access"] is False
+
+    team_updated = runner.invoke(
+        ["team-update", team["id"], "--etag", team["etag"], "--pre-release-access"]
+    )["team"]
+    assert team_updated["has_pre_release_access"]
+
+    team_updated = runner.invoke(
+        [
+            "team-update",
+            team_updated["id"],
+            "--etag",
+            team_updated["etag"],
+            "--no-pre-release-access",
+        ]
+    )["team"]
+    assert team_updated["has_pre_release_access"] is False
+
+
+def test_update_does_not_change_pre_release_access(runner):
+    team = runner.invoke(["team-create", "--name", "foo", "--pre-release-access"])[
+        "team"
+    ]
+    assert team["has_pre_release_access"]
+
+    team_updated = runner.invoke(
+        ["team-update", team["id"], "--etag", team["etag"], "--name", "test"]
+    )["team"]
+    assert team_updated["has_pre_release_access"]
 
 
 def test_update_team_external(runner):

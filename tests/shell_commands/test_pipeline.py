@@ -50,7 +50,7 @@ def test_list_jobs_pipeline(runner, team_user_id, product_id, dci_context_remote
             "osp",
             "--component_types",
             "type_1",
-            "--no-export-control",
+            "--export-control",
             "--product-id",
             product_id,
         ]
