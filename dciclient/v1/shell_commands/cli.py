@@ -342,31 +342,6 @@ def parse_arguments(args, environment={}):
     p.add_argument("id")
     p.set_defaults(command="topic-show")
 
-    p = subparsers.add_parser(
-        "topic-attach-team", help="Attach a team to a topic.", parents=[base_parser]
-    )
-    p.add_argument("id")
-    p.add_argument("--team-id")
-    p.set_defaults(command="topic-attach-team")
-
-    p = subparsers.add_parser(
-        "topic-unattach-team", help="Unattach a team to a topic.", parents=[base_parser]
-    )
-    p.add_argument("id")
-    p.add_argument("--team-id")
-    p.set_defaults(command="topic-unattach-team")
-
-    p = subparsers.add_parser(
-        "topic-list-team", help="List teams attached to a topic.", parents=[base_parser]
-    )
-    p.add_argument("id")
-    p.add_argument("--sort", default="-created_at")
-    p.add_argument("--limit", default=50)
-    p.add_argument("--offset", default=0)
-    p.add_argument("--where", help="Optional filter criteria", required=False)
-    p.add_argument("--query", help="Query language dsl", required=False)
-    p.set_defaults(command="topic-list-team")
-
     # jobstate commands
     p = subparsers.add_parser(
         "jobstate-show", help="Show a jobstate.", parents=[base_parser]

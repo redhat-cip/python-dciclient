@@ -73,16 +73,3 @@ def delete(context, args):
 
 def show(context, args):
     return topic.get(context, args.id)
-
-
-def attach_team(context, args):
-    return topic.attach_team(context, args.id, args.team_id)
-
-
-def unattach_team(context, args):
-    return topic.unattach_team(context, args.id, args.team_id)
-
-
-def list_team(context, args):
-    params = get_search_params(args)
-    return topic.list_teams(context, args.id, **params)

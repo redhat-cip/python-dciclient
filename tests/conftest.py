@@ -287,9 +287,9 @@ def team_user_name(dci_context):
 
 @pytest.fixture
 def product_id(dci_context, team_id):
-    return api_product.list(
-        dci_context,
-        where="name:dci_product").json()["products"][0]['id']
+    return api_product.list(dci_context, where="name:dci_product").json()["products"][
+        0
+    ]["id"]
 
 
 @pytest.fixture
@@ -376,7 +376,6 @@ def components_ids(dci_context, topic_id):
 
 @pytest.fixture
 def job_factory(
-    dci_context,
     dci_context_remoteci,
     team_user_id,
     remoteci_id,
@@ -426,7 +425,6 @@ def job_factory(
               name="test_cors_headers" time="0.574683904648"/>
     </testsuite>"""
 
-    api_topic.attach_team(dci_context, topic_id, team_user_id)
     return create
 
 

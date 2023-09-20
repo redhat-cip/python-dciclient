@@ -90,21 +90,6 @@ def delete(context, id, etag):
     return base.delete(context, RESOURCE, id=id, etag=etag)
 
 
-def attach_team(context, id, team_id):
-    uri = "%s/%s/%s/teams" % (context.dci_cs_api, RESOURCE, id)
-    return context.session.post(uri, json={"team_id": team_id})
-
-
-def unattach_team(context, id, team_id):
-    return base.delete(
-        context, RESOURCE, id, subresource="teams", subresource_id=team_id
-    )
-
-
-def list_teams(context, id, **kwargs):
-    return base.list(context, RESOURCE, id=id, subresource="teams", **kwargs)
-
-
 def list_components(context, id, **kwargs):
     return base.list(context, RESOURCE, id=id, subresource="components", **kwargs)
 

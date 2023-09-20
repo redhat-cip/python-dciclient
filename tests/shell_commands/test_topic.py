@@ -129,69 +129,6 @@ def test_show(runner, product_id):
     assert topic["name"] == "osp"
 
 
-def test_attach_team(runner, product_id):
-    team = runner.invoke(["team-create", "--name", "foo"])["team"]
-    assert team["name"] == "foo"
-
-    topic = runner.invoke(
-        ["topic-create", "--name", "osp", "--product-id", product_id]
-    )["topic"]
-    assert topic["name"] == "osp"
-
-    topic_team = runner.invoke(
-        ["topic-attach-team", topic["id"], "--team-id", team["id"]]
-    )
-    assert topic_team["team_id"] == team["id"]
-    assert topic_team["topic_id"] == topic["id"]
-
-
-def test_list_team(runner, product_id):
-    team = runner.invoke(["team-create", "--name", "foo"])["team"]
-    assert team["name"] == "foo"
-
-    topic = runner.invoke(
-        ["topic-create", "--name", "osp", "--product-id", product_id]
-    )["topic"]
-    assert topic["name"] == "osp"
-
-    topic_team = runner.invoke(
-        ["topic-attach-team", topic["id"], "--team-id", team["id"]]
-    )
-    assert topic_team["team_id"] == team["id"]
-    assert topic_team["topic_id"] == topic["id"]
-
-    result = runner.invoke(["topic-list-team", topic["id"]])["teams"]
-    assert len(result) == 1
-    assert result[0]["name"] == "foo"
-
-
-def test_unattach_team(runner, product_id):
-    team = runner.invoke(["team-create", "--name", "foo"])["team"]
-    assert team["name"] == "foo"
-
-    topic = runner.invoke(
-        ["topic-create", "--name", "osp", "--product-id", product_id]
-    )["topic"]
-    assert topic["name"] == "osp"
-
-    topic_team = runner.invoke(
-        ["topic-attach-team", topic["id"], "--team-id", team["id"]]
-    )
-    assert topic_team["team_id"] == team["id"]
-    assert topic_team["topic_id"] == topic["id"]
-
-    result = runner.invoke(["topic-list-team", topic["id"]])["teams"]
-    assert len(result) == 1
-    assert result[0]["name"] == "foo"
-
-    topic_team = runner.invoke_raw(
-        ["topic-unattach-team", topic["id"], "--team-id", team["id"]]
-    )
-
-    teams = runner.invoke(["topic-list-team", topic["id"]])["teams"]
-    assert len(teams) == 0
-
-
 def test_update_active(runner, product_id):
     topic = runner.invoke(
         ["topic-create", "--name", "osp", "--product-id", product_id]

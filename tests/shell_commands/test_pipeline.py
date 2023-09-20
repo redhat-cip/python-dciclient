@@ -56,8 +56,6 @@ def test_list_jobs_pipeline(runner, team_user_id, product_id, dci_context_remote
         ]
     )["topic"]
 
-    runner.invoke(["topic-attach-team", topic["id"], "--team-id", team_user_id])
-
     runner.invoke(
         [
             "component-create",

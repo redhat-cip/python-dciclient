@@ -33,7 +33,6 @@ def test_list(
     runner,
     dci_context,
     dci_context_remoteci,
-    team_user_id,
     remoteci_id,
     product_id,
 ):
@@ -49,8 +48,6 @@ def test_list(
             product_id,
         ]
     )["topic"]
-
-    runner.invoke(["topic-attach-team", topic["id"], "--team-id", team_user_id])
 
     runner.invoke(
         [

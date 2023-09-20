@@ -101,13 +101,10 @@ Commands:
   team-list                    List all teams.
   team-show                    Show a team.
   team-update                  Update a team.
-  topic-attach-team            Attach a team to a topic.
   topic-create                 Create a topic.
   topic-delete                 Delete a topic.
   topic-list                   List all topics.
-  topic-list-team              List teams attached to a topic.
   topic-show                   Show a topic.
-  topic-unattach-team          Unattach a team from a topic.
   user-create                  Create a user.
   user-delete                  Delete a user.
   user-list                    List all users.

@@ -21,10 +21,6 @@ def test_list(runner, product_id):
     topic = runner.invoke(
         ["topic-create", "--name", "osp", "--product-id", product_id]
     )["topic"]
-    teams = runner.invoke(["team-list"])["teams"]
-    team_id = teams[0]["id"]
-
-    runner.invoke(["topic-attach-team", topic["id"], "--team-id", team_id])
 
     runner.invoke(
         [
@@ -326,10 +322,6 @@ def test_where_on_list(runner, product_id):
     topic = runner.invoke(
         ["topic-create", "--name", "osp", "--product-id", product_id]
     )["topic"]
-    teams = runner.invoke(["team-list"])["teams"]
-    team_id = teams[0]["id"]
-
-    runner.invoke(["topic-attach-team", topic["id"], "--team-id", team_id])
 
     runner.invoke(
         [

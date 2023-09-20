@@ -7,7 +7,7 @@
 
 Name:           python-%{srcname}
 # keep in sync with dciclient/version.py
-Version:        3.3.0
+Version:        3.4.0
 Release:        1.VERS%{?dist}
 Summary:        %{summary}
 
@@ -104,6 +104,9 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-%{srcname}
 
 
 %changelog
+* Wed Sep 20 2023 Guillaume Vincent <gvincent@redhat.com> 3.4.0-1
+- Remove team topic associations on topic module
+
 * Mon Jul 17 2023 François Charlier <fcharlie@redhat.com> 3.3.0-1
 - deprecate remoteci keys
 

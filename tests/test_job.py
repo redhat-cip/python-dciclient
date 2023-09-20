@@ -23,17 +23,15 @@ URL = "https://my.url/"
 
 
 def test_job_create_as_remoteci(
-    dci_context, dci_context_remoteci, components_ids, topic_id, team_user_id, job_id
+    dci_context_remoteci, components_ids, topic_id, team_user_id, job_id
 ):
-    topic.attach_team(dci_context, topic_id, team_user_id)
-
     j = job.create(
         dci_context_remoteci,
         topic_id=topic_id,
         team_id=team_user_id,
         components=components_ids,
         previous_job_id=job_id,
-        url=URL
+        url=URL,
     ).json()
     assert j["job"]["id"]
     assert j["job"]["url"] == URL
@@ -70,14 +68,12 @@ def test_job_upgraded(dci_context, job_id, topic_id, product_id):
 def test_job_keys_values(
     dci_context, dci_context_remoteci, components_ids, topic_id, team_user_id
 ):
-    topic.attach_team(dci_context, topic_id, team_user_id)
-
     j = job.create(
         dci_context_remoteci,
         topic_id=topic_id,
         team_id=team_user_id,
         components=components_ids,
-        url=URL
+        url=URL,
     ).json()
     job_id = j["job"]["id"]
 
