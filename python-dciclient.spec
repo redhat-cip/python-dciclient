@@ -7,7 +7,7 @@
 
 Name:           python-%{srcname}
 # keep in sync with dciclient/version.py
-Version:        3.4.0
+Version:        3.4.1
 Release:        1.VERS%{?dist}
 Summary:        %{summary}
 
@@ -104,6 +104,9 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-%{srcname}
 
 
 %changelog
+* Fri Sep 29 2023 Jorge A Gallegos <jgallego@redhat.com> - 3.4.1-1
+- Fix shell printer for empty response from file download
+
 * Wed Sep 20 2023 Guillaume Vincent <gvincent@redhat.com> 3.4.0-1
 - Remove team topic associations on topic module
 

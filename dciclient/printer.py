@@ -48,8 +48,17 @@ def _find_headers_from_data(data):
 def _sort_headers(headers):
     """Ensure the column order is always the same."""
     headers = set(headers)
-    default_order = ["id", "name", "component", "tag", "etag", "created_at",
-                     "updated_at", "state", "data"]
+    default_order = [
+        "id",
+        "name",
+        "component",
+        "tag",
+        "etag",
+        "created_at",
+        "updated_at",
+        "state",
+        "data",
+    ]
     sorted_headers = []
     for i in default_order:
         if i not in headers:
@@ -107,13 +116,14 @@ def _print_prettytable(data, headers=None, skip_columns=[]):
 
 
 def print_response(response, format, verbose, columns):
-    try:
-        if response.status_code == 204:
-            return
-        result_json = response.json()
-        print_result(result_json, format, verbose, columns)
-    except Exception:
-        print(response.text)
+    if response:
+        try:
+            if response.status_code == 204:
+                return
+            result_json = response.json()
+            print_result(result_json, format, verbose, columns)
+        except Exception:
+            print(response.text)
 
 
 def print_result(result_json, format, verbose, columns):
