@@ -14,11 +14,17 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from dciclient.v1.shell_commands import product
 from dciclient.v1.shell_commands import user
 from dciclient.v1.shell_commands import topic
 
 
 command_columns = {
+    "product-list": product.COLUMNS,
+    "product-create": product.COLUMNS,
+    "product-show": product.COLUMNS,
+    "product-update": product.COLUMNS,
+    "product-delete": product.COLUMNS,
     "user-list": user.COLUMNS,
     "user-create": user.COLUMNS,
     "user-show": user.COLUMNS,

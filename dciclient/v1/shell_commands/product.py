@@ -16,6 +16,8 @@
 from dciclient.v1.utils import active_string, get_search_params
 from dciclient.v1.api import product
 
+COLUMNS = ["id", "name", "description", "state"]
+
 
 def list(context, args):
     params = get_search_params(args)
