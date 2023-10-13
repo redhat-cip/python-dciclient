@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 #
-# Copyright 2022 Red Hat, Inc.
+# Copyright 2022-2023 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -19,10 +19,12 @@ import sys
 import copy
 
 from argparse import ArgumentParser
+
+from dciclient.v1.api import component
+from dciclient.v1.utils import active_string, validate_json
 from dciclient.v1.shell_commands.cli import _create_array_argument
 from dciclient.v1.shell_commands.cli import _date_isoformat
 from dciclient.v1.shell_commands import context as dci_context
-from dciclient.v1.shell_commands import component
 from dciclient.v1.shell_commands import topic
 from dciclient.v1.shell_commands import team
 from dciclient.v1.shell_commands import columns
@@ -33,8 +35,7 @@ def parse_arguments(args, environment={}):
     p = ArgumentParser(
         prog="dci-create-component",
         description=(
-            "Tool to create a component for DCI "
-            "(https://docs.distributed-ci.io/)"
+            "Tool to create a component for DCI " "(https://docs.distributed-ci.io/)"
         ),
     )
     dci_context.parse_auth_arguments(p, environment)
@@ -141,7 +142,24 @@ def run(context, args):
     args.display_name = "%s %s" % (capitalized_name, args.version)
     args.command = "component-create"
 
-    return component.create(context, args)
+    params = {
+        k: getattr(args, k)
+        for k in [
+            "display_name",
+            "version",
+            "type",
+            "team_id",
+            "topic_id",
+            "state",
+            "released_at",
+        ]
+    }
+    data = validate_json(context, "data", args.data)
+    params["defaults"] = {"data": data, "url": args.url, "tags": args.tags}
+    params["state"] = active_string(params["state"])
+    c, _ = component.get_or_create(context, **params)
+
+    return c
 
 
 def main():
