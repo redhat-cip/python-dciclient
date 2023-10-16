@@ -116,7 +116,7 @@ def _print_prettytable(data, headers=None, skip_columns=[]):
 
 
 def print_response(response, format, verbose, columns):
-    if response:
+    if response is not None:
         try:
             if response.status_code == 204:
                 return
