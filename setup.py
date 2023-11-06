@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2015-2022 Red Hat, Inc
+# Copyright (C) 2015-2023 Red Hat, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -19,7 +19,20 @@ import codecs
 import os
 import setuptools
 
-from dciclient import version
+# dcibuild can be loaded only when doing the sdist sub-command because
+# dci-packaging is extracted at the same level. When doing the other
+# sub-commands like build, we extract the version from version.py.
+try:
+    from dcibuild import sdist, get_version
+
+    sdist.dci_mod = "dciclient"
+except:
+    from setuptools.command.sdist import sdist
+
+    def get_version():
+        from dciclient import version
+
+        return version.__version__
 
 
 def _get_requirements():
@@ -43,7 +56,7 @@ def _get_readme():
 
 setuptools.setup(
     name="dciclient",
-    version=version.__version__,
+    version=get_version(),
     packages=setuptools.find_packages(exclude=["tests", "tests.*"]),
     author="Distributed CI team",
     author_email="distributed-ci@redhat.com",
@@ -73,5 +86,8 @@ setuptools.setup(
             "dci-rhel-latest-kernel-version = dciclient.rhel_kernel:main",
             "dci-diff-jobs = dciclient.diff_jobs:main",
         ]
+    },
+    cmdclass={
+        "sdist": sdist,
     },
 )
