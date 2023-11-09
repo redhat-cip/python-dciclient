@@ -6,14 +6,13 @@
 
 
 Name:           python-%{srcname}
-# keep in sync with dciclient/version.py
-Version:        3.4.2
+Version:        3.4.3
 Release:        1.VERS%{?dist}
 Summary:        %{summary}
 
 License:        ASL 2.0
 URL:            https://github.com/redhat-cip/python-%{srcname}
-Source0:        %{srcname}-%{version}.tar.gz
+Source0:        %{srcname}-%{version}.postDATE.tar.gz
 
 BuildArch:      noarch
 
@@ -62,7 +61,7 @@ Requires:       python3-dciauth >= 2.1.7
 %{summary}
 
 %prep
-%autosetup -n %{srcname}-%{version}
+%autosetup -n %{srcname}-%{version}.postDATE
 
 %build
 %if 0%{?is_EL7}
@@ -104,6 +103,9 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-%{srcname}
 
 
 %changelog
+* Tue Nov  7 2023 Frederic Lepied <flepied@redhat.com> 3.4.3-1
+- use the new build process compatible with PEP-0440
+
 * Mon Oct 16 2023 Jorge A Gallegos <jgallego@redhat.com> - 3.4.2-1
 - Shell printer needs to check vs None
 
