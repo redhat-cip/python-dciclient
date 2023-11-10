@@ -27,7 +27,7 @@ try:
 
     sdist.dci_mod = "dciclient"
 except:
-    from setuptools.command.sdist import sdist
+    sdist = None
 
     def get_version():
         from dciclient import version
