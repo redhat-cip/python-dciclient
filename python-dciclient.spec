@@ -6,7 +6,7 @@
 
 
 Name:           python-%{srcname}
-Version:        3.4.3
+Version:        3.4.4
 Release:        1.VERS%{?dist}
 Summary:        %{summary}
 
@@ -27,13 +27,14 @@ BuildRequires:  python-prettytable
 BuildRequires:  python-psycopg2
 BuildRequires:  python-requests >= 2.6
 BuildRequires:  python-rpm-macros
-BuildRequires:  python2-setuptools
+BuildRequires:  python-setuptools
 BuildRequires:  python2-rpm-macros
 BuildRequires:  python-dciauth >= 2.1.7
 BuildRequires:  python2-devel
 Requires:       python-prettytable
 Requires:       python-requests >= 2.6
 Requires:       python-dciauth >= 2.1.7
+Requires:       python-setuptools
 
 %description -n python2-%{srcname}
 %{summary}
@@ -56,6 +57,7 @@ Requires:       python36-requests
 Requires:       python3-requests
 %endif
 Requires:       python3-dciauth >= 2.1.7
+Requires:       python3-setuptools
 
 %description -n python3-%{srcname}
 %{summary}
@@ -103,6 +105,9 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-%{srcname}
 
 
 %changelog
+* Wed Dec  6 2023 Frederic Lepied <flepied@redhat.com> 3.4.4-1
+- fix missing dependency on python-setuptools
+
 * Tue Nov  7 2023 Frederic Lepied <flepied@redhat.com> 3.4.3-1
 - use the new build process compatible with PEP-0440
 
