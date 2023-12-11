@@ -14,15 +14,17 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import contextlib
 import pytest
 import sqlalchemy
 import sqlalchemy_utils.functions
-import passlib.apps as passlib_apps
 from sqlalchemy.orm import sessionmaker
 
 import dci
 import dci.app
 import dci.dci_config
+from dci import auth
+from dci.db import models2
 from dciclient import create_component as dci_create_component
 from dciclient import diff_jobs as dci_diff_jobs
 from dciclient import find_latest_component as dci_find_latest_component
@@ -39,11 +41,13 @@ from dciclient.v1.api import base as api_base
 from dciclient.v1.shell_commands import runner as dci_runner
 from dciclient.v1.shell_commands import cli
 from tests.shell_commands import utils
+from passlib.apps import custom_app_context as pwd_context
+
+conf = dci.dci_config.CONFIG
 
 
 @pytest.fixture(scope="session")
 def engine(request):
-    conf = dci.dci_config.generate_conf()
     db_uri = conf["SQLALCHEMY_DATABASE_URI"]
 
     engine = sqlalchemy.create_engine(db_uri)
@@ -62,11 +66,13 @@ def engine(request):
 
 @pytest.fixture
 def empty_db(request, engine):
-    def fin():
-        for table in reversed(dci.db.models2.Base.metadata.sorted_tables):
-            engine.execute(table.delete())
-
-    request.addfinalizer(fin)
+    with contextlib.closing(engine.connect()) as con:
+        meta = models2.Base.metadata
+        trans = con.begin()
+        for table in reversed(meta.sorted_tables):
+            con.execute(table.delete())
+        trans.commit()
+    return True
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -84,9 +90,9 @@ def memoize_password_hash():
 
         return helper
 
-    pwd_context = passlib_apps.custom_app_context
     pwd_context.verify = memoize(pwd_context.verify)
     pwd_context.encrypt = memoize(pwd_context.encrypt)
+    auth.hash_password = memoize(auth.hash_password)
 
 
 @pytest.fixture
@@ -101,7 +107,7 @@ def db_provisioning(empty_db, session):
 
 @pytest.fixture
 def server(db_provisioning, engine):
-    app = dci.app.create_app(dci.dci_config.generate_conf())
+    app = dci.app.create_app(conf)
     app.testing = True
     app.engine = engine
     return app
