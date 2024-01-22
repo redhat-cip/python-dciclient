@@ -41,7 +41,7 @@ def test_job_create_as_remoteci(
 def test_job_put(dci_context, job_id):
     new_comment = "foo"
     j = job.get(dci_context, job_id).json()["job"]
-    assert j["comment"] is None
+    assert not j["comment"]
     job.update(dci_context, id=job_id, etag=j["etag"], comment=new_comment)
     r = job.get(dci_context, job_id)
     j = r.json()["job"]
