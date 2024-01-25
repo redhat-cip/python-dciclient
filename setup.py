@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2015-2023 Red Hat, Inc
+# Copyright (C) 2015-2024 Red Hat, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -82,6 +82,7 @@ setuptools.setup(
             "dci-vault = dciclient.vault:main",
             "dci-vault-client = dciclient.vault_client:main",
             "dci-create-component = dciclient.create_component:main",
+            "dci-create-job = dciclient.create_job:main",
             "dci-find-latest-component = dciclient.find_latest_component:main",
             "dci-rhel-latest-kernel-version = dciclient.rhel_kernel:main",
             "dci-diff-jobs = dciclient.diff_jobs:main",

@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 #
-# Copyright 2015-2022 Red Hat, Inc.
+# Copyright 2015-2024 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -26,6 +26,7 @@ import dci.dci_config
 from dci import auth
 from dci.db import models2
 from dciclient import create_component as dci_create_component
+from dciclient import create_job as dci_create_job
 from dciclient import diff_jobs as dci_diff_jobs
 from dciclient import find_latest_component as dci_find_latest_component
 from dciclient.v1.api import context as api_context
@@ -212,6 +213,12 @@ def runner_factory(context):
         response = dci_create_component.run(context, args)
         return response.json() if response else None
 
+    def invoke_create_job(arguments):
+        environment = {}
+        args = dci_create_job.parse_arguments(arguments, environment)
+        response = dci_create_job.run(context, args)
+        return response.json() if response else None
+
     def invoke_find_latest_component(arguments):
         environment = {}
         args = dci_find_latest_component.parse_arguments(arguments, environment)
@@ -235,6 +242,7 @@ def runner_factory(context):
     runner.invoke = invoke
     runner.invoke_raw = invoke_raw
     runner.invoke_create_component = invoke_create_component
+    runner.invoke_create_job = invoke_create_job
     runner.invoke_find_latest_component = invoke_find_latest_component
     runner.invoke_diff_jobs = invoke_diff_jobs
     return runner
@@ -315,14 +323,8 @@ def topic_id(dci_context, product_id):
 
 
 @pytest.fixture
-def topic(dci_context, product_id):
-    kwargs = {
-        "name": "bar_topic",
-        "component_types": ["type_1", "type_2"],
-        "product_id": product_id,
-        "export_control": False,
-    }
-    return api_topic.create(dci_context, **kwargs).json()["topic"]["name"]
+def topic(dci_context, topic_id):
+    return api_topic.get(dci_context, topic_id).json()["topic"]["name"]
 
 
 @pytest.fixture

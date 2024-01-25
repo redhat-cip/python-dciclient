@@ -6,7 +6,7 @@
 
 
 Name:           python-%{srcname}
-Version:        3.4.4
+Version:        3.5.0
 Release:        1.VERS%{?dist}
 Summary:        %{summary}
 
@@ -87,6 +87,7 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-%{srcname}
 %{_bindir}/dci-vault-client
 %{_bindir}/dci-rhel-latest-kernel-version
 %{_bindir}/dci-create-component
+%{_bindir}/dci-create-job
 %{_bindir}/dci-find-latest-component
 %{_bindir}/dci-diff-jobs
 %endif
@@ -100,11 +101,15 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-%{srcname}
 %{_bindir}/dci-vault-client
 %{_bindir}/dci-rhel-latest-kernel-version
 %{_bindir}/dci-create-component
+%{_bindir}/dci-create-job
 %{_bindir}/dci-find-latest-component
 %{_bindir}/dci-diff-jobs
 
 
 %changelog
+* Thu Jan 25 2024 Frederic Lepied <flepied@redhat.com> 3.5.0-1.VERS.fc38
+- add the dci-create-job utility
+
 * Wed Dec  6 2023 Frederic Lepied <flepied@redhat.com> 3.4.4-1
 - fix missing dependency on python-setuptools
 

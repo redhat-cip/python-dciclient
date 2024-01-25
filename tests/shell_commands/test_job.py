@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 #
-# Copyright 2015-2022 Red Hat, Inc.
+# Copyright 2015-2024 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -250,3 +250,33 @@ def test_job_key_value(runner, job_id):
 
     runner.invoke(["job-delete-key-value", job_id, "key_1"])
     j = runner.invoke(["job-show", job_id])["job"]
+
+
+def test_create_job(runner_remoteci, topic, topic_id, job_id, component, remoteci_id):
+    url = "https://company.com/ci/job/42"
+    job = runner_remoteci.invoke_create_job(
+        [
+            "--url", url,
+            "--tag", "tag1",
+            "--tag", "tag2",
+            "--topic", topic,
+            "--name", "my-job",
+            "--comment", "comment",
+            "--comp", component["name"],
+            "--remoteci", "remoteci",
+            "--key-value", "key=42",
+            "--data", '{"jenkins_url": "https://jenkins.corp.com/job/name/42"}',
+            "--previous-job-id", job_id,
+        ]
+    )["job"]
+    assert job["tags"] == ["tag1", "tag2"]
+    assert job["url"] == url
+    assert job["comment"] == "comment"
+    assert job["name"] == "my-job"
+    assert job["keys_values"][0]["key"] == "key"
+    assert job["keys_values"][0]["value"] == 42.0
+    assert job["components"][0]["id"] == component["id"]
+    assert job["topic_id"] == topic_id
+    assert job["remoteci_id"] == remoteci_id
+    assert job["data"]["jenkins_url"] == "https://jenkins.corp.com/job/name/42"
+    assert job["previous_job_id"] == job_id

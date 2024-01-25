@@ -250,6 +250,15 @@ If the `--job_id_1` is not specified, the last job in success status is searched
 If the `--job_id_2` is not specified, a job is searched with the same
 name, remoteci, topic, configuration and url than the job 1.
 
+## dci-create-job
+
+To create a job without running a DCI agent, you can use the `dci-create-job` utility. It is useful if you want to associate a CI job that is not a DCI job.
+
+```ShellSession
+$ source dcirc.sh
+$ dci-create-job --topic OCP-4.14 --remoteci my-remoteci --name jenkins-job --comment "my comment"  --comp 'OpenShift 4.14.10' --tag my-tag --key-value key=42 --data '{"jenkins_url": "https://jenkins.corp.com/job/name/42"}'
+```
+
 ## License
 
 Apache 2.0
