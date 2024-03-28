@@ -169,7 +169,12 @@ def parse_arguments(args, environment={}):
     p.add_argument("--sort", default="-created_at")
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
-    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument(
+        "--where",
+        help="Optional filter criteria",
+        default="state:active",
+        required=False,
+    )
     p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="product-list")
 
@@ -294,7 +299,12 @@ def parse_arguments(args, environment={}):
     p.add_argument("--sort", default="-created_at")
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
-    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument(
+        "--where",
+        help="Optional filter criteria",
+        default="state:active",
+        required=False,
+    )
     p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="topic-list")
 
@@ -365,7 +375,12 @@ def parse_arguments(args, environment={}):
     p.add_argument("--sort", default="-created_at")
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
-    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument(
+        "--where",
+        help="Optional filter criteria",
+        default="state:active",
+        required=False,
+    )
     p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="component-list")
 
@@ -449,7 +464,12 @@ def parse_arguments(args, environment={}):
     p.add_argument("--sort", default="-created_at")
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
-    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument(
+        "--where",
+        help="Optional filter criteria",
+        default="state:active",
+        required=False,
+    )
     p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="component-file-list")
 
@@ -469,7 +489,12 @@ def parse_arguments(args, environment={}):
     p.add_argument("--sort", default="-created_at")
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
-    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument(
+        "--where",
+        help="Optional filter criteria",
+        default="state:active",
+        required=False,
+    )
     p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="file-list")
 
@@ -488,7 +513,12 @@ def parse_arguments(args, environment={}):
     p.add_argument("--sort", default="-created_at")
     p.add_argument("--limit", default=10)
     p.add_argument("--offset", default=0)
-    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument(
+        "--where",
+        help="Optional filter criteria",
+        default="state:active",
+        required=False,
+    )
     p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="job-list")
 
@@ -593,7 +623,12 @@ def parse_arguments(args, environment={}):
     p.add_argument("--sort", default="-created_at")
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
-    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument(
+        "--where",
+        help="Optional filter criteria",
+        default="state:active",
+        required=False,
+    )
     p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="remoteci-list")
 
@@ -715,7 +750,12 @@ def parse_arguments(args, environment={}):
     p.add_argument("--sort", default="-created_at")
     p.add_argument("--limit", default=50)
     p.add_argument("--offset", default=0)
-    p.add_argument("--where", help="Optional filter criteria", required=False)
+    p.add_argument(
+        "--where",
+        help="Optional filter criteria",
+        default="state:active",
+        required=False,
+    )
     p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="pipeline-list")
 

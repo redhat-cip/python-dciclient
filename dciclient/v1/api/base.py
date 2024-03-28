@@ -51,6 +51,9 @@ def list(context, resource, **kwargs):
     data = utils.sanitize_kwargs(**kwargs)
     id = data.pop("id", None)
     subresource = data.pop("subresource", None)
+    # Note: Control Server gives precedence to "query" over "where"
+    if all(k in data for k in ["where", "query"]):
+        del data["where"]
 
     if subresource:
         uri = "%s/%s/%s/%s" % (context.dci_cs_api, resource, id, subresource)
