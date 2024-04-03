@@ -92,19 +92,10 @@ def file_download(context, args):
     dci_file.download(context, **params)
 
 
-def file_show(context, args):
-    return dci_file.get(context, id=args.file_id)
-
-
 def file_list(context, args):
     params = get_search_params(args)
     params["id"] = args.id
     return job.list_files(context, **params)
-
-
-def file_delete(context, args):
-    dci_file.delete(context, id=args.file_id)
-    return dci_file.delete(context, id=args.file_id)
 
 
 def add_kv(context, args):

@@ -18,7 +18,12 @@ from __future__ import unicode_literals
 
 
 def test_show(runner, file_id):
-    result = runner.invoke_raw(["file-show", file_id])
+    file = runner.invoke(["file-show", file_id])["file"]
+    assert file["id"] == file_id
+
+
+def test_content(runner, file_id):
+    result = runner.invoke_raw(["file-content", file_id])
     assert "testsuite errors" in result.text
 
 

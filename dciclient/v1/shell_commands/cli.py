@@ -503,6 +503,12 @@ def parse_arguments(args, environment={}):
     p.set_defaults(command="file-show")
 
     p = subparsers.add_parser(
+        "file-content", help="Show content of a file.", parents=[base_parser]
+    )
+    p.add_argument("id")
+    p.set_defaults(command="file-content")
+
+    p = subparsers.add_parser(
         "file-delete", help="Delete a file.", parents=[base_parser]
     )
     p.add_argument("id")
@@ -577,13 +583,6 @@ def parse_arguments(args, environment={}):
     p.set_defaults(command="job-download-file")
 
     p = subparsers.add_parser(
-        "job-show-file", help="Show a job file.", parents=[base_parser]
-    )
-    p.add_argument("id")
-    p.add_argument("--file-id", required=True)
-    p.set_defaults(command="job-show-file")
-
-    p = subparsers.add_parser(
         "job-list-file", help="List files attached to a job.", parents=[base_parser]
     )
     p.add_argument("id")
@@ -593,13 +592,6 @@ def parse_arguments(args, environment={}):
     p.add_argument("--where", help="Optional filter criteria", required=False)
     p.add_argument("--query", help="Query language dsl", required=False)
     p.set_defaults(command="job-list-file")
-
-    p = subparsers.add_parser(
-        "job-delete-file", help="Delete a job file.", parents=[base_parser]
-    )
-    p.add_argument("id")
-    p.add_argument("--file-id", required=True)
-    p.set_defaults(command="job-delete-file")
 
     p = subparsers.add_parser(
         "job-add-key-value", help="Job add key/value.", parents=[base_parser]

@@ -6,7 +6,7 @@
 
 
 Name:           python-%{srcname}
-Version:        3.5.0
+Version:        4.0.0
 Release:        1.VERS%{?dist}
 Summary:        %{summary}
 
@@ -107,14 +107,20 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-%{srcname}
 
 
 %changelog
+* Wed Apr 03 2024 Guillaume Vincent <gvincent@redhat.com> 4.0.0-1
+- Replace file-show with file-content
+- Update file-show to return file API content
+- Remove job-show-file in favor of file-show
+- Remove job-delete-file in favor of file-delete
+
 * Thu Jan 25 2024 Frederic Lepied <flepied@redhat.com> 3.5.0-1.VERS.fc38
 - add the dci-create-job utility
 
-* Wed Dec  6 2023 Frederic Lepied <flepied@redhat.com> 3.4.4-1
-- fix missing dependency on python-setuptools
+* Wed Dec 06 2023 Frederic Lepied <flepied@redhat.com> 3.4.4-1
+- Fix missing dependency on python-setuptools
 
-* Tue Nov  7 2023 Frederic Lepied <flepied@redhat.com> 3.4.3-1
-- use the new build process compatible with PEP-0440
+* Tue Nov 07 2023 Frederic Lepied <flepied@redhat.com> 3.4.3-1
+- Use the new build process compatible with PEP-0440
 
 * Mon Oct 16 2023 Jorge A Gallegos <jgallego@redhat.com> - 3.4.2-1
 - Shell printer needs to check vs None
@@ -128,7 +134,7 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-%{srcname}
 * Mon Jul 17 2023 François Charlier <fcharlie@redhat.com> 3.3.0-1
 - deprecate remoteci keys
 
-* Sun Jun  4 2023 Frederic Lepied <flepied@redhat.com> 3.2.0-1
+* Sun Jun 04 2023 Frederic Lepied <flepied@redhat.com> 3.2.0-1
 - add delete_component api
 
 * Tue Apr 04 2023 Yassine Lamgarchal <yassine.lamgarchal@redhat.com> 3.1.0-1

@@ -25,6 +25,10 @@ def list(context, args):
 
 
 def show(context, args):
+    return file.get(context, id=args.id)
+
+
+def content(context, args):
     return file.content(context, id=args.id)
 
 

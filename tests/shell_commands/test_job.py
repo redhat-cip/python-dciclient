@@ -158,7 +158,7 @@ def test_file_support(runner, tmpdir, job_id):
     assert new_f["size"] == 7
 
     # show
-    new_f = runner.invoke(["job-show-file", job_id, "--file-id", new_f["id"]])["file"]
+    new_f = runner.invoke(["file-show", new_f["id"]])["file"]
     assert new_f["size"] == 7
     assert new_f["mime"] == "application/octet-stream"
 
@@ -181,8 +181,8 @@ def test_file_support(runner, tmpdir, job_id):
     assert my_list[0]["size"] == 7
 
     # delete
-    runner.invoke_raw(["job-delete-file", job_id, "--file-id", new_f["id"]])
-    result = runner.invoke_raw(["job-show-file", job_id, "--file-id", new_f["id"]])
+    runner.invoke_raw(["file-delete", new_f["id"]])
+    result = runner.invoke_raw(["file-show", new_f["id"]])
     assert result.status_code == 404
 
 
@@ -201,9 +201,7 @@ def test_file_support_as_remoteci(runner_remoteci, tmpdir, job_id):
     assert new_f["size"] == len(content)
 
     # show
-    new_f = runner_remoteci.invoke(["job-show-file", job_id, "--file-id", new_f["id"]])[
-        "file"
-    ]
+    new_f = runner_remoteci.invoke(["file-show", new_f["id"]])["file"]
     assert new_f["size"] == len(content)
 
     # download
@@ -225,10 +223,8 @@ def test_file_support_as_remoteci(runner_remoteci, tmpdir, job_id):
     assert my_list[0]["size"] == len(content)
 
     # delete
-    runner_remoteci.invoke_raw(["job-delete-file", job_id, "--file-id", new_f["id"]])
-    result = runner_remoteci.invoke_raw(
-        ["job-show-file", job_id, "--file-id", new_f["id"]]
-    )
+    runner_remoteci.invoke_raw(["file-delete", new_f["id"]])
+    result = runner_remoteci.invoke_raw(["file-show", new_f["id"]])
     assert result.status_code == 404
 
 
