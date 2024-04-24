@@ -16,8 +16,7 @@
 
 import requests
 
-from dciauth.request import AuthRequest
-from dciauth.signature import Signature
+from dciauth.v2.headers import generate_headers
 from dciclient.v1.api import job
 from dciclient.v1.shell_commands import job as shell_job
 import tests.shell_commands.utils as utils
@@ -40,12 +39,15 @@ def test_get_job_with_no_auth_fails(server, job_id):
 def test_get_job_with_signature_succeeds(
     server, job_id, remoteci_id, remoteci_api_secret
 ):
-    request = AuthRequest(
-        endpoint="/api/v1/jobs/%s" % job_id,
-    )
-    headers = Signature(request).generate_headers(
-        client_type="remoteci", client_id=remoteci_id, secret=remoteci_api_secret
-    )
+    request = {
+        "endpoint": "/api/v1/jobs/%s" % job_id,
+        "host": "localhost",
+    }
+    credential = {
+        "access_key": "remoteci/%s" % remoteci_id,
+        "secret_key": remoteci_api_secret,
+    }
+    headers = generate_headers(request, credential)
     s = make_blank_session(server)
     r = s.get("http://localhost/api/v1/jobs/%s" % job_id, headers=headers)
     assert r.status_code == 200
