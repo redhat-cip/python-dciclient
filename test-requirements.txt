@@ -2,3 +2,4 @@ pytest
 -e ../dci-control-server
 mock
 boto3
+ansible==2.9.27
