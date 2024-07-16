@@ -1,12 +1,8 @@
-%if 0%{?rhel} && 0%{?rhel} < 8
-%global is_EL7 1
-%endif
 %global srcname dciclient
 %global summary Python client for DCI control server for the remote CIs
 
-
 Name:           python-%{srcname}
-Version:        4.0.0
+Version:        4.0.1
 Release:        1.VERS%{?dist}
 Summary:        %{summary}
 
@@ -19,27 +15,6 @@ BuildArch:      noarch
 %description
 %{summary}
 
-%if 0%{?is_EL7}
-%package -n python2-%{srcname}
-Summary: %{summary}
-%{?python_provide:%python_provide python2-%{srcname}}
-BuildRequires:  python-prettytable
-BuildRequires:  python-psycopg2
-BuildRequires:  python-requests >= 2.6
-BuildRequires:  python-rpm-macros
-BuildRequires:  python-setuptools
-BuildRequires:  python2-rpm-macros
-BuildRequires:  python-dciauth >= 2.1.7
-BuildRequires:  python2-devel
-Requires:       python-prettytable
-Requires:       python-requests >= 2.6
-Requires:       python-dciauth >= 2.1.7
-Requires:       python-setuptools
-
-%description -n python2-%{srcname}
-%{summary}
-%endif
-
 %package -n python3-%{srcname}
 Summary: %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
@@ -51,11 +26,7 @@ BuildRequires:  python3-rpm-macros
 BuildRequires:  python3-dciauth >= 2.1.7
 BuildRequires:  python3-devel
 Requires:       python3-prettytable
-%if 0%{?is_EL7}
-Requires:       python36-requests
-%else
 Requires:       python3-requests
-%endif
 Requires:       python3-dciauth >= 2.1.7
 Requires:       python3-setuptools
 
@@ -66,31 +37,12 @@ Requires:       python3-setuptools
 %autosetup -n %{srcname}-%{version}.postDATE
 
 %build
-%if 0%{?is_EL7}
-%py2_build
-%endif
 %py3_build
 
 %install
 install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-%{srcname}
 
 %py3_install
-%if 0%{?is_EL7}
-%py2_install
-
-%files -n python2-%{srcname}
-%doc README.md
-%license LICENSE
-%{python2_sitelib}/*
-%{_bindir}/dcictl
-%{_bindir}/dci-vault
-%{_bindir}/dci-vault-client
-%{_bindir}/dci-rhel-latest-kernel-version
-%{_bindir}/dci-create-component
-%{_bindir}/dci-create-job
-%{_bindir}/dci-find-latest-component
-%{_bindir}/dci-diff-jobs
-%endif
 
 %files -n python3-%{srcname}
 %doc README.md
@@ -107,6 +59,9 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-%{srcname}
 
 
 %changelog
+* Tue Jul 16 2024 Guillaume Vincent <gvincent@redhat.com> 4.0.1-1
+- Drop python 2
+
 * Wed Apr 03 2024 Guillaume Vincent <gvincent@redhat.com> 4.0.0-1
 - Replace file-show with file-content
 - Update file-show to return file API content
