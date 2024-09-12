@@ -23,7 +23,7 @@ except ImportError:
 import requests
 from requests.adapters import HTTPAdapter
 from requests.auth import AuthBase
-from requests.packages.urllib3.util.retry import Retry
+from urllib3.util.retry import Retry
 
 from dciauth.v2.headers import generate_headers
 from dciclient import version
@@ -32,7 +32,7 @@ from dciclient import version
 class DciContextBase(object):
     API_VERSION = "api/v1"
 
-    def __init__(self, dci_cs_url, max_retries=0, user_agent=None):
+    def __init__(self, dci_cs_url, max_retries=10, user_agent=None):
         self.session = self._build_http_session(user_agent, max_retries)
         self.dci_cs_api = "%s/%s" % (dci_cs_url, DciContext.API_VERSION)
         self.last_job_id = None
@@ -45,7 +45,12 @@ class DciContextBase(object):
             user_agent = "python-dciclient_%s" % version.__version__
         session.headers["User-Agent"] = user_agent
         session.headers["Client-Version"] = "python-dciclient_%s" % version.__version__
-        retries = Retry(total=max_retries, backoff_factor=0.1)
+        retries = Retry(
+            total=max_retries,
+            backoff_factor=0.2,
+            status_forcelist=(413, 429, 500, 502, 503, 504),
+            raise_on_status=False,
+        )
         session.mount("http://", HTTPAdapter(max_retries=retries))
         session.mount("https://", HTTPAdapter(max_retries=retries))
 
@@ -53,7 +58,7 @@ class DciContextBase(object):
 
 
 class DciContext(DciContextBase):
-    def __init__(self, dci_cs_url, login, password, max_retries=0, user_agent=None):
+    def __init__(self, dci_cs_url, login, password, max_retries=10, user_agent=None):
         super(DciContext, self).__init__(
             dci_cs_url.rstrip("/"), max_retries, user_agent
         )
@@ -62,7 +67,7 @@ class DciContext(DciContextBase):
 
 
 def build_dci_context(
-    dci_cs_url=None, dci_login=None, dci_password=None, user_agent=None, max_retries=80
+    dci_cs_url=None, dci_login=None, dci_password=None, user_agent=None, max_retries=10
 ):
     dci_cs_url = dci_cs_url or os.environ.get("DCI_CS_URL", "")
     dci_login = dci_login or os.environ.get("DCI_LOGIN", "")
@@ -126,7 +131,7 @@ class DciSignatureAuth(AuthBase):
 
 class DciSignatureContext(DciContextBase):
     def __init__(
-        self, dci_cs_url, client_id, api_secret, max_retries=0, user_agent=None
+        self, dci_cs_url, client_id, api_secret, max_retries=10, user_agent=None
     ):
         super(DciSignatureContext, self).__init__(
             dci_cs_url.rstrip("/"), max_retries, user_agent
@@ -139,7 +144,7 @@ def build_signature_context(
     dci_client_id=None,
     dci_api_secret=None,
     user_agent=None,
-    max_retries=80,
+    max_retries=10,
 ):
     dci_cs_url = dci_cs_url or os.environ.get("DCI_CS_URL", "")
     dci_client_id = dci_client_id or os.environ.get("DCI_CLIENT_ID", "")
@@ -161,7 +166,7 @@ def build_signature_context(
 
 
 class SsoContext(DciContextBase):
-    def __init__(self, dci_cs_url, token, max_retries=0, user_agent=None):
+    def __init__(self, dci_cs_url, token, max_retries=10, user_agent=None):
         super(SsoContext, self).__init__(
             dci_cs_url.rstrip("/"), max_retries, user_agent
         )
@@ -174,7 +179,7 @@ def build_sso_context(
     username,
     password,
     token,
-    max_retries=0,
+    max_retries=10,
     user_agent=None,
     refresh=False,
 ):

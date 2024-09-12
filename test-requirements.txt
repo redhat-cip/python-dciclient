@@ -3,3 +3,4 @@ pytest
 mock
 boto3
 ansible==2.9.27
+responses
