@@ -778,6 +778,15 @@ def parse_arguments(args, environment={}):
     p.add_argument("--offset", default=0)
     p.set_defaults(command="pipeline-show-jobs")
 
+    p = subparsers.add_parser(
+        "download-pull-secret",
+        help="Download pull secret associated with a topic.",
+        parents=[base_parser],
+    )
+    p.add_argument("--topic", required=True)
+    p.add_argument("--destination", required=True)
+    p.set_defaults(command="download-pull-secret")
+
     args = parser.parse_args(args)
 
     if "command" not in args:

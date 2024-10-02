@@ -285,3 +285,18 @@ def test_csv():
         ]
     )
     assert args.tags == []
+
+
+def test_parse_download_authfile():
+    args = parse_arguments(
+        [
+            "download-pull-secret",
+            "--topic",
+            "RHEL-10.0",
+            "--destination",
+            "/tmp/auth.json",
+        ]
+    )
+    assert args.command == "download-pull-secret"
+    assert args.topic == "RHEL-10.0"
+    assert args.destination == "/tmp/auth.json"

@@ -14,6 +14,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import json
+import sys
 from dciclient.v1.api import topic
 from dciclient.v1.utils import active_string, get_search_params
 
@@ -73,3 +75,19 @@ def delete(context, args):
 
 def show(context, args):
     return topic.get(context, args.id)
+
+
+def download_pull_secret(context, args):
+    topic_name = args.topic
+    get_topics = topic.list(context, where=f"name:{topic_name}")
+    topics = get_topics.json()["topics"]
+    if len(topics) == 0:
+        print(f"Topic {topic_name} does not exist.")
+        sys.exit(1)
+    topic_data = topics[0]["data"]
+    if "pull_secret" not in topic_data:
+        print(f"Topic {topic_name} doesn't have a pull secret.")
+        sys.exit(1)
+    with open(args.destination, "w") as f:
+        pull_secret = topic_data["pull_secret"]
+        json.dump(pull_secret, f)

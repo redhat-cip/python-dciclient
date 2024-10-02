@@ -59,6 +59,7 @@ command_function = {
     "topic-show": topic.show,
     "topic-update": topic.update,
     "topic-delete": topic.delete,
+    "download-pull-secret": topic.download_pull_secret,
     "component-list": component.list,
     "component-create": component.create,
     "component-show": component.show,

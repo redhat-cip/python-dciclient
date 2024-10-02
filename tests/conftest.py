@@ -480,3 +480,19 @@ def feeder(dci_context, team_id):
     kwargs = {"name": "feeder", "team_id": team_id, "state": "active"}
     feeder = api_base.create(dci_context, "feeders", **kwargs).json()
     return feeder["feeder"]
+
+
+@pytest.fixture
+def rhel10_topic(dci_context, product_id):
+    kwargs = {
+        "name": "RHEL-10.0",
+        "component_types": ["container"],
+        "product_id": product_id,
+        "export_control": True,
+        "data": {
+            "pull_secret": {
+                "auths": {"registry.distributed-ci.io": {"auth": "ZGNpOmRjaQ=="}}
+            }
+        },
+    }
+    return api_topic.create(dci_context, **kwargs).json()["topic"]
