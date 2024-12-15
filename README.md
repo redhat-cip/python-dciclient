@@ -4,6 +4,7 @@ The `python-dciclient` project provides both the python bindings and a CLI to th
 
 ## Installation
 
+### On RHEL/CentOS/Rocky
 The team behind the project offers repositories for Red Hat/CentOS:
 
 - `yum -y install https://packages.distributed-ci.io/dci-release.el7.noarch.rpm`
@@ -14,6 +15,16 @@ As mentioned above, the package provides two things:
 
 - The CLI: a `dcictl` command is provided. For more details `dcictl --help`.
 - The API: a python module one can use to interact with a control server (`dciclient.v1.api.*`)
+
+### (experimental) On MacOS directly from github:
+
+1. Create a `venv`, run: `$ python3 -m venv myvenv`
+    - alternatively you may use other tools: `virtualenv`, `pipenv`, etc.
+1. Activate `myvenv`: `$ source myvenv/bin/activate`
+1. Install the package: `(myvenv) $ pip install git+https://github.com/redhat-cip/python-dciclient.git@master`
+    - if you want to install from a different git reference, it can be a branch, a tag, or a specific commit hash.
+1. test 
+
 
 ## Credentials
 
