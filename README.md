@@ -16,13 +16,13 @@ As mentioned above, the package provides two things:
 - The CLI: a `dcictl` command is provided. For more details `dcictl --help`.
 - The API: a python module one can use to interact with a control server (`dciclient.v1.api.*`)
 
-### (experimental) On MacOS directly from github:
+### (experimental) On MacOS/other platforms directly from github:
 
 1. Create a `venv`, run: `$ python3 -m venv myvenv`
     - alternatively you may use other tools: `virtualenv`, `pipenv`, etc.
 1. Activate `myvenv`: `$ source myvenv/bin/activate`
-1. Install the package: `(myvenv) $ pip install git+https://github.com/redhat-cip/python-dciclient.git@3.1.0`
-    - if you want to install from a different git reference, it can be a branch, a tag, or a specific commit hash.
+1. Install the package: `(myvenv) $ pip install dciclient`
+    - installing directly from git is currently not supported out-of-the-box.
 1. test 
 
 
