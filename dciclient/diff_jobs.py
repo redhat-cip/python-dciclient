@@ -36,14 +36,14 @@ def get_component_info(comp):
         return (comp["type"], comp["name"])
 
 
-def build_where_clause(job_info):
-    where = []
+def build_query_clause(job_info):
+    query = []
     for key in ("name", "remoteci_id", "topic_id", "configuration", "url"):
         if job_info[key]:
-            where.append("%s:%s" % (key, job_info[key]))
+            query.append("eq" + "(%s,%s)" % (key, job_info[key]))
         else:
-            where.append("%s:" % key)
-    return ",".join(where)
+            query.append("null" + "(%s)" % key)
+    return ",".join(query)
 
 
 def get_jobs(context, args):
@@ -51,7 +51,7 @@ def get_jobs(context, args):
         sys.stderr.write("No job_id_1 provided, getting latest job: ")
         sys.stderr.flush()
         jobs = dci_job.list(context,
-                            where="status:success",
+                            query="eq(status:success)",
                             limit=1,
                             offset=0).json()["jobs"]
         job_1 = jobs[0]
@@ -61,13 +61,13 @@ def get_jobs(context, args):
         job_1 = dci_job.get(context, args.job_id_1).json()["job"]
 
     if args.job_id_2 is None:
-        where = build_where_clause(job_1)
-        sys.stderr.write("No job_id_2 provided, getting another job using %s: " % where)
+        query = build_query_clause(job_1)
+        sys.stderr.write("No job_id_2 provided, getting another job using %s: " % query)
         sys.stderr.flush()
         jobs = dci_job.list(context,
                             limit=2,
                             offset=0,
-                            where=where,
+                            query=query,
                             sort="-created_at").json()["jobs"]
         if len(jobs) != 2:
             raise DiffJobsError("no other job")
