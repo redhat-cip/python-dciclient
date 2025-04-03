@@ -78,7 +78,7 @@ def parse_arguments(args, environment={}):
         "release_tag",
         help="Release type of the component",
         type=str,
-        choices=["dev", "candidate", "ga"],
+        choices=["nightly", "dev", "candidate", "ga"],
     )
     args = p.parse_args(args)
 
