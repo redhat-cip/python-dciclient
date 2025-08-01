@@ -16,6 +16,7 @@
 
 from dciclient.v1.api import job
 
+import mock
 import pytest
 import requests
 import requests.exceptions
@@ -276,3 +277,13 @@ def test_create_job(runner_remoteci, topic, topic_id, job_id, component, remotec
     assert job["remoteci_id"] == remoteci_id
     assert job["data"]["jenkins_url"] == "https://jenkins.corp.com/job/name/42"
     assert job["previous_job_id"] == job_id
+
+
+@mock.patch("dci.api.v1.analytics.requests")
+def test_job_search(mock_requests, runner_remoteci):
+    res_mock = mock.MagicMock()
+    mock_requests.get.return_value = res_mock
+    res_mock.json.return_value = {"hits": "jobs"}
+    res_mock.status_code = 200
+    jobs = runner_remoteci.invoke_raw(["job-search", "--query=(name='lol')"])
+    assert jobs.json() == {"hits": "jobs"}

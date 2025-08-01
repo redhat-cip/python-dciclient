@@ -42,6 +42,41 @@ def list(context, **kwargs):
     return base.list(context, RESOURCE, **kwargs)
 
 
+def search(context, **kwargs):
+    """
+    The search function is used to do more sophisticated research using a
+    query language dsl.
+
+    examples:
+
+    - search jobs by name
+    search(context, query="(name='openshift-vanilla)")
+
+    - search jobs by topic name
+    search(context, query="(topic.name='OCP-4.19')")
+
+    - search jobs from a given team
+    search(context, query="(team.name='telco-ci')")
+
+    - search jobs by name and from a given team
+    search(context, query="((name='openshift-vanilla') and (team.name='telco-ci')) or (name='titi')")
+
+    - search jobs by components
+    search(context, query="((components.type='ocp') and (components.version='4.19.0')) and ((components.type='storage') and (components.name='my-storage'))")
+
+    - search jobs with regular expression using operator =~
+    search(context, query="(componens.version=~'4.19.*')")
+
+    - search jobs by tags
+    search(context, query="(tags in ['tag1', 'tag2']) or (tags not_in ['tag3', 'tag4'])")
+
+    The available comparison operators are "=", "!=", "<=", "<", ">=", ">", "=~".
+    """
+    uri = "%s/analytics/jobs" % context.dci_cs_api
+    r = context.session.post(uri, params=kwargs)
+    return r
+
+
 def schedule(context, topic_id, **kwargs):
     uri = "%s/%s/schedule" % (context.dci_cs_api, RESOURCE)
     data = {"topic_id": topic_id}

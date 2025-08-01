@@ -65,3 +65,11 @@ def get_search_params(args):
         if k in args and getattr(args, k) not in [None, ""]:
             filtered_params[k] = getattr(args, k)
     return filtered_params
+
+
+def get_es_search_params(args):
+    filtered_params = {}
+    for k in ["sort", "limit", "offset", "query"]:
+        if k in args and getattr(args, k) not in [None, ""]:
+            filtered_params[k] = getattr(args, k)
+    return filtered_params

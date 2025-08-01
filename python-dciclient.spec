@@ -2,7 +2,7 @@
 %global summary Python client for DCI control server for the remote CIs
 
 Name:           python-%{srcname}
-Version:        4.0.2
+Version:        4.1.0
 Release:        1.VERS%{?dist}
 Summary:        %{summary}
 
@@ -59,6 +59,9 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-%{srcname}
 
 
 %changelog
+* Tue Sep 09 2025 Yassine Lamgarchal <ylamgarc@redhat.com> 4.1.0-1
+- add job-search to the cli
+
 * Mon Sep 01 2025 François Charlier <fcharlie@redhat.com> 4.0.2-1
 - Update python3-requests requirement to >=2.20.0, <3.0
 
