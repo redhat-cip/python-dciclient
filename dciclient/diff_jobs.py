@@ -169,7 +169,7 @@ def main(argv=sys.argv, environ=os.environ):
 
     try:
         response = run(context, args)
-    except requests.models.JSONDecodeError:
+    except requests.exceptions.JSONDecodeError:
         sys.stderr.write("Invalid parameters.\n")
         return 1
     except Exception as ex:

@@ -234,7 +234,7 @@ def test_diff_jobs(runner, job_id):
 
 
 def test_diff_jobs_invalid_parameter(runner, job_id):
-    with pytest.raises(requests.models.JSONDecodeError):
+    with pytest.raises(requests.exceptions.JSONDecodeError):
         runner.invoke_diff_jobs(["--job_id_1", "toto"])
 
 
