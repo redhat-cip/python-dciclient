@@ -16,7 +16,6 @@
 
 from argparse import ArgumentParser
 import os
-import requests
 import sys
 
 from dciclient.v1.api import job as dci_job
@@ -169,9 +168,6 @@ def main(argv=sys.argv, environ=os.environ):
 
     try:
         response = run(context, args)
-    except requests.exceptions.JSONDecodeError:
-        sys.stderr.write("Invalid parameters.\n")
-        return 1
     except Exception as ex:
         sys.stderr.write("Unable to perform request: %s.\n" % ex)
         return 1

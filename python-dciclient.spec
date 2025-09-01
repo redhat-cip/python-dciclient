@@ -2,7 +2,7 @@
 %global summary Python client for DCI control server for the remote CIs
 
 Name:           python-%{srcname}
-Version:        4.0.1
+Version:        4.0.2
 Release:        1.VERS%{?dist}
 Summary:        %{summary}
 
@@ -59,6 +59,9 @@ install -d %{buildroot}%{_bindir} %{buildroot}%{_datadir}/python-%{srcname}
 
 
 %changelog
+* Mon Sep 01 2025 François Charlier <fcharlie@redhat.com> 4.0.2-1
+- Update python3-requests requirement to >=2.20.0, <3.0
+
 * Tue Jul 16 2024 Guillaume Vincent <gvincent@redhat.com> 4.0.1-1
 - Drop python 2
 
