@@ -83,6 +83,7 @@ command_function = {
     "job-download-file": job.file_download,
     "job-list-file": job.file_list,
     "job-update": job.update,
+    "job-search": job.search,
     "job-add-key-value": job.add_kv,
     "job-delete-key-value": job.delete_kv,
     "remoteci-list": remoteci.list,

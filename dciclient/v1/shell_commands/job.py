@@ -16,13 +16,18 @@
 
 from dciclient.v1.api import file as dci_file
 from dciclient.v1.api import job
-from dciclient.v1.utils import active_string, get_search_params
+from dciclient.v1.utils import active_string, get_search_params, get_es_search_params
 
 
 def list(context, args):
     params = get_search_params(args)
     params["embed"] = "topic,remoteci,team"
     return job.list(context, **params)
+
+
+def search(context, args):
+    params = get_es_search_params(args)
+    return job.search(context, **params)
 
 
 def show(context, args):
