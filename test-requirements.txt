@@ -4,5 +4,4 @@ mock
 boto3
 ansible==2.9.27
 responses
-kombu==4.6.6  # python3-kombu-4.6.6-3.el8.src.rpm epel
-
+kombu==5.1.0
